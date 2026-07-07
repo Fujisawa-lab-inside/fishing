@@ -9,6 +9,13 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - スマホ版 v4.6.1: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
+## 釣行判断カード
+
+- `prime_window_patch.js` を追加しました。
+- 今から24時間内を30分刻みで走査し、本命90分・次点90分・避ける時間を表示します。
+- 本命カードの `この時間に合わせる` を押すと、時間スライダーを該当時間の中央へ移動します。
+- 評価理由は最大3項目に絞り、全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
 ## v4.6.1 の修正点
 
 - 現地ゲート入力で8門すべて全閉の場合、遠賀川本流ゲート流を0として扱います。

@@ -22,16 +22,15 @@
   function lng(i){return bounds.west+(bounds.east-bounds.west)*i/(nx-1)}
   function ijOf(ll){return {i:clamp(Math.round((ll.lng-bounds.west)/(bounds.east-bounds.west)*(nx-1)),0,nx-1),j:clamp(Math.round((ll.lat-bounds.south)/(bounds.north-bounds.south)*(ny-1)),0,ny-1)}}
   function meterDelta(a,b){let la=(a.lat+b.lat)*.5*R;return{x:(b.lng-a.lng)*111320*Math.cos(la),y:(b.lat-a.lat)*111320}}
-  function dist(a,b){let d=meterDelta(a,b);return Math.hypot(d.x,d.y)}
   function inPoly(ll){let x=ll.lng,y=ll.lat,ok=false;for(let i=0,j=WATER.length-1;i<WATER.length;j=i++){let xi=WATER[i][1],yi=WATER[i][0],xj=WATER[j][1],yj=WATER[j][0];if((yi>y)!=(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)ok=!ok}return ok}
-  function isWater(ll){try{if(typeof isWaterPoint==='function')return !!isWaterPoint(ll.lat,ll.lng);}catch(_){ }try{if(typeof isWater==='function')return !!isWater(ll.lat,ll.lng);}catch(_){ }return inPoly(ll)}
+  function waterAt(ll){try{if(typeof window.isWaterPoint==='function')return !!window.isWaterPoint(ll.lat,ll.lng);}catch(_){ }try{if(typeof window.isWater==='function')return !!window.isWater(ll.lat,ll.lng);}catch(_){ }return inPoly(ll)}
   function currentDate(){try{if(typeof state!=='undefined'&&state.timeline&&state.timeline[state.currentIndex])return new Date(state.timeline[state.currentIndex].date);}catch(_){ }let d=new Date();d.setMinutes(0,0,0);return d}
   function tide(d=currentDate()){let h=+d/36e5;return Math.sin((h%12.42)/12.42*2*Math.PI)}
   function tideSlope(d=currentDate()){return(tide(new Date(+d+36e5))-tide(new Date(+d-36e5)))/2}
   function closedGate(){try{if(window.ONGA_CLOSED_GATE_FLOW_MODEL&&typeof window.ONGA_CLOSED_GATE_FLOW_MODEL.isClosedMainGate==='function')return !!window.ONGA_CLOSED_GATE_FLOW_MODEL.isClosedMainGate({entry:{date:currentDate()}});}catch(_){ }return false}
   function openGateIndices(){try{if(typeof gateObservationForDate==='function'){let o=gateObservationForDate(currentDate());if(o&&o.active)return (o.openNos||[]).map(x=>x-1).filter(x=>x>=0&&x<8);}}catch(_){ }return [0,1,2,3,4,5,6,7]}
   function addAt(ll,q,spread=1){let p=ijOf(ll);for(let dj=-spread;dj<=spread;dj++)for(let di=-spread;di<=spread;di++){let i=p.i+di,j=p.j+dj;if(i<0||i>=nx||j<0||j>=ny)continue;let k=idx(i,j);if(!water[k])continue;let w=1/(1+di*di+dj*dj);src[k]+=q*w}}
-  function buildMask(){for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){let k=idx(i,j);water[k]=isWater({lat:lat(j),lng:lng(i)})?1:0;phi[k]=nextPhi[k]=src[k]=u[k]=v[k]=0}}
+  function buildMask(){for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){let k=idx(i,j);water[k]=waterAt({lat:lat(j),lng:lng(i)})?1:0;phi[k]=nextPhi[k]=src[k]=u[k]=v[k]=0}}
   function buildSources(){src.fill(0);let sl=tideSlope(),closed=closedGate(),rain=.12;try{if(typeof state!=='undefined'&&Number.isFinite(state.rainIndex))rain=state.rainIndex}catch(_){ }
     addAt(P.fishway,.70+rain*.35,1);addAt(P.nishi,.50+rain*.85,2);addAt(P.magari,.45+rain*.75,2);
     if(!closed){let ids=openGateIndices();let q=(.85+rain*.70)/(ids.length||1);for(const gi of ids)addAt(GATES[gi]||GATES[0],q,1)}
@@ -39,7 +38,7 @@
     else{addAt(P.confluence,.50+Math.abs(sl)*.9,2);addAt(P.ashiya,-.95-Math.abs(sl)*1.2,3)}
     if(closed){for(const g of GATES)addAt(g,-.06,1)}
   }
-  function solve(iter=enabled?70:20){buildSources();for(let t=0;t<iter;t++){for(let j=1;j<ny-1;j++)for(let i=1;i<nx-1;i++){let k=idx(i,j);if(!water[k]){nextPhi[k]=0;continue}let sum=0,c=0;let ks=[idx(i-1,j),idx(i+1,j),idx(i,j-1),idx(i,j+1)];for(const kk of ks){if(water[kk]){sum+=phi[kk];c++}}nextPhi[k]=c?sum/c+src[k]*0.045:phi[k]}let tmp=phi;phi.set(nextPhi);nextPhi.set(tmp)}
+  function solve(iter=enabled?70:20){buildSources();for(let t=0;t<iter;t++){for(let j=1;j<ny-1;j++)for(let i=1;i<nx-1;i++){let k=idx(i,j);if(!water[k]){nextPhi[k]=0;continue}let sum=0,c=0;let ks=[idx(i-1,j),idx(i+1,j),idx(i,j-1),idx(i,j+1)];for(const kk of ks){if(water[kk]){sum+=phi[kk];c++}}nextPhi[k]=c?sum/c+src[k]*0.045:phi[k]}phi.set(nextPhi)}
     for(let j=1;j<ny-1;j++)for(let i=1;i<nx-1;i++){let k=idx(i,j);if(!water[k]){u[k]=v[k]=0;continue}let e=water[idx(i+1,j)]?phi[idx(i+1,j)]:phi[k],w=water[idx(i-1,j)]?phi[idx(i-1,j)]:phi[k],nn=water[idx(i,j+1)]?phi[idx(i,j+1)]:phi[k],s=water[idx(i,j-1)]?phi[idx(i,j-1)]:phi[k];u[k]=clamp(-(e-w)/(2*dx)*110,-2,2);v[k]=clamp(-(nn-s)/(2*dy)*110,-2,2)}
     lastKey=stateKey();lastSolve=performance.now();}
   function stateKey(){return `${closedGate()?1:0}:${openGateIndices().join(',')}:${Math.round(tideSlope()*100)}`}

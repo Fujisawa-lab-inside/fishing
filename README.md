@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.7
+# 遠賀川河口シミュレータ v4.6.8
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,8 +6,8 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.7: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.7: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.8: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.8: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
 ## 釣行判断カード
@@ -16,6 +16,16 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 今から24時間内を30分刻みで走査し，本命90分・次点90分・避ける時間を表示します。
 - 本命カードの `この時間に合わせる` を押すと，時間スライダーを該当時間の中央へ移動します。
 - 評価理由は最大3項目に絞り，全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
+## v4.6.8 の修正点
+
+- `onga_boundary_editor_patch.js` を追加しました。
+- マップ上で水面・陸地境界を直接クリックして修正できる境界編集GUIを追加しました。
+- 緑=閉じた陸地境界、黄=橋、赤=河口堰として描けます。
+- 編集データはブラウザのlocalStorageに保存できます。
+- 編集データを計算に適用できます。
+- GeoJSONとして出力・読込できます。
+- 編集中の境界はマップ上に重ねて表示されます。
 
 ## v4.6.7 の修正点
 

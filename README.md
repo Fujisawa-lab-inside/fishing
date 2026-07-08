@@ -1,29 +1,13 @@
-# 遠賀川河口シミュレータ v4.7.1
+# 遠賀川河口シミュレータ v4.6.1
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
 ## 公開URL
 
 - 選択画面: `index.html`
-- 流れ場・シーバス定位予測ビューア: `flow_holding_view.html`
-- PC版: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.1: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.1: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
-
-## v4.7.1 の修正点
-
-- `flow_holding_view.html` の描画処理を安定化しました。
-- 初回表示時に流速ベクトル，待機定位点，捕食定位点，推奨トレース線が必ず再計算されるようにしました。
-- 実行時エラーが出た場合は，地図面にエラー内容を表示するようにしました。
-- 選択画面のキャッシュキーを `flowhold2` に更新しました。
-
-## v4.7 の追加点
-
-- `flow_holding_view.html` を追加しました。
-- 遠賀川本流，多自然魚道，西川，曲川の簡易流れ場を合成します。
-- 流速差，渦度，合流境界，低流速待機域から，シーバスの待機定位点，捕食定位点，推奨トレース線を表示します。
-- `holding_position_patch.js` を追加し，既存PC版・スマホ版のサイドバーにも定位予測カードを表示します。
-- ロッド判断は表示しません。
 
 ## 釣行判断カード
 

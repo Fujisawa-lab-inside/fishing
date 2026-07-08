@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.5
+# 遠賀川河口シミュレータ v4.6.6
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,8 +6,8 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.5: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.5: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.6: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.6: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
 ## 釣行判断カード
@@ -16,6 +16,15 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 今から24時間内を30分刻みで走査し，本命90分・次点90分・避ける時間を表示します。
 - 本命カードの `この時間に合わせる` を押すと，時間スライダーを該当時間の中央へ移動します。
 - 評価理由は最大3項目に絞り，全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
+## v4.6.6 の修正点
+
+- `onga_approved_water_flow_patch.js` を追加しました。
+- 承認済み水面マスクの全域に水流計算を展開します。
+- 河口堰の北側・南側は、河口堰の開閉に応じた境界として扱います。
+- 西川は画面外から遠賀川本流との合流までの流れとして扱います。
+- 曲川は画面外から遠賀川本流との合流までの流れとして扱います。
+- 釣り座は承認済み緑線境界上に固定します。
 
 ## v4.6.5 の修正点
 

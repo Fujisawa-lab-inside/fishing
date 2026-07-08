@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.7
+# 遠賀川河口シミュレータ v4.7.1
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -9,6 +9,13 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - PC版: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
 - スマホ版: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.7.1 の修正点
+
+- `flow_holding_view.html` の描画処理を安定化しました。
+- 初回表示時に流速ベクトル，待機定位点，捕食定位点，推奨トレース線が必ず再計算されるようにしました。
+- 実行時エラーが出た場合は，地図面にエラー内容を表示するようにしました。
+- 選択画面のキャッシュキーを `flowhold2` に更新しました。
 
 ## v4.7 の追加点
 

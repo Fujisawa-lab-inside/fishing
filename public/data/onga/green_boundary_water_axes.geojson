@@ -1,0 +1,69 @@
+{
+  "type": "FeatureCollection",
+  "name": "onga_green_boundary_water_axes_v4_6_3",
+  "description": "提供画像の緑線から読み取った西川・遠賀川本流・曲川・合流後下流の水面計算軸。runtime patch applies width_m / seed_width_m as water corridors.",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "downstream",
+        "name": "合流後の遠賀川下流",
+        "kind": "main",
+        "enabled": true,
+        "source": "user_green_water_land_boundary_annotation",
+        "width_m": 420,
+        "seed_width_m": 520,
+        "role": "water_axis_for_green_boundary_mask"
+      },
+      "geometry": {"type":"LineString","coordinates":[[130.6740269,33.8931871],[130.6710228,33.894612],[130.667375,33.8964822],[130.6639418,33.8969274],[130.660294,33.8984413],[130.6577191,33.9010238],[130.6538567,33.9034281]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nishi",
+        "name": "西川",
+        "kind": "west",
+        "enabled": true,
+        "source": "user_green_water_land_boundary_annotation",
+        "width_m": 150,
+        "seed_width_m": 230,
+        "role": "water_axis_for_green_boundary_mask"
+      },
+      "geometry": {"type":"LineString","coordinates":[[130.6703791,33.883212],[130.6699499,33.8855278],[130.6701645,33.8874872],[130.6703791,33.8890903],[130.6709155,33.8906934],[130.671452,33.8917622],[130.6727394,33.8926528],[130.6740269,33.8931871]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "onga_up",
+        "name": "遠賀川本流",
+        "kind": "center",
+        "enabled": true,
+        "source": "user_green_water_land_boundary_annotation",
+        "width_m": 235,
+        "seed_width_m": 340,
+        "role": "water_axis_for_green_boundary_mask"
+      },
+      "geometry": {"type":"LineString","coordinates":[[130.6734904,33.883212],[130.6734904,33.8853497],[130.6740269,33.88722],[130.6750998,33.8890013],[130.6749925,33.8905153],[130.6745633,33.8916731],[130.6742415,33.8926528],[130.6740269,33.8931871]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "magari",
+        "name": "曲川",
+        "kind": "east",
+        "enabled": true,
+        "source": "user_green_water_land_boundary_annotation",
+        "width_m": 180,
+        "seed_width_m": 280,
+        "role": "water_axis_for_green_boundary_mask"
+      },
+      "geometry": {"type":"LineString","coordinates":[[130.6914076,33.8838355],[130.6892618,33.8858841],[130.6873306,33.8881997],[130.6853994,33.8905153],[130.684112,33.8926528],[130.6817516,33.8944339],[130.678533,33.8960369],[130.6763872,33.8966603]]}
+    }
+  ],
+  "metadata": {
+    "source_url": "https://maps.gsi.go.jp/#16/33.892724/130.674220/&base=std&ls=std%7Cseamlessphoto&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f1",
+    "source_image": "user annotated GSI screenshot with green water/land boundary",
+    "coordinate_order": "[longitude, latitude]",
+    "runtime": "onga_green_boundary_water_patch.js"
+  }
+}

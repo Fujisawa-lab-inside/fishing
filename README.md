@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.2
+# 遠賀川河口シミュレータ v4.6.3
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,8 +6,8 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.3: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.3: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
 ## 釣行判断カード
@@ -16,6 +16,13 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 今から24時間内を30分刻みで走査し，本命90分・次点90分・避ける時間を表示します。
 - 本命カードの `この時間に合わせる` を押すと，時間スライダーを該当時間の中央へ移動します。
 - 評価理由は最大3項目に絞り，全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
+## v4.6.3 の修正点
+
+- `onga_green_boundary_water_patch.js` を追加しました。
+- 過去の水面領域を、提供画像の緑線を基準にした水面/陸上境界モデルへ置き換えました。
+- 西川，遠賀川本流，曲川の上流（南側）領域も水面計算に含めます。
+- `public/data/onga/green_boundary_water_axes.geojson` を追加し、水面計算軸と幅設定を記録しました。
 
 ## v4.6.2 の修正点
 

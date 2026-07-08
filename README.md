@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.4
+# 遠賀川河口シミュレータ v4.6.5
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,8 +6,8 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.4: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.4: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.5: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.5: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
 ## 釣行判断カード
@@ -16,6 +16,13 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 今から24時間内を30分刻みで走査し，本命90分・次点90分・避ける時間を表示します。
 - 本命カードの `この時間に合わせる` を押すと，時間スライダーを該当時間の中央へ移動します。
 - 評価理由は最大3項目に絞り，全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
+## v4.6.5 の修正点
+
+- `onga_approved_green_recognition_patch.js` を追加しました。
+- 確認済みの認識画像に基づき、水面・陸地境界の緑線をマップ上に表示します。
+- 釣り座を承認済みの緑線境界上に固定します。
+- 河口堰，橋，魚道の釣り座除外と、河口堰/橋を跨ぐキャスト禁止は継続します。
 
 ## v4.6.4 の修正点
 

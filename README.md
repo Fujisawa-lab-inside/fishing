@@ -4,6 +4,7 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 ## 公開URL
 
+- Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
 - PC版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
 - スマホ版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
@@ -22,6 +23,7 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 遠賀川河口堰，橋，魚道を釣り座候補から除外します。
 - 河口堰または橋を跨ぐキャスト・ルアー軌道を無効化します。
 - `public/data/onga/no_stand_areas.geojson` と `public/data/onga/no_lure_crossing_lines.geojson` を追加しました。
+- GitHub Pagesへ静的サイトとしてデプロイするワークフローを追加しました。
 
 ## v4.6.1 の修正点
 

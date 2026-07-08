@@ -1,12 +1,12 @@
-# 遠賀川河口シミュレータ v4.6.1
+# 遠賀川河口シミュレータ v4.6.2
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
 ## 公開URL
 
 - 選択画面: `index.html`
-- PC版 v4.6.1: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.1: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.2: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
 
 ## 釣行判断カード
@@ -15,6 +15,13 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 今から24時間内を30分刻みで走査し，本命90分・次点90分・避ける時間を表示します。
 - 本命カードの `この時間に合わせる` を押すと，時間スライダーを該当時間の中央へ移動します。
 - 評価理由は最大3項目に絞り，全閉・潮の動き・夜間・潮汐流などを短く表示します。
+
+## v4.6.2 の修正点
+
+- `onga_spatial_safety_patch.js` を追加しました。
+- 遠賀川河口堰，橋，魚道を釣り座候補から除外します。
+- 河口堰または橋を跨ぐキャスト・ルアー軌道を無効化します。
+- `public/data/onga/no_stand_areas.geojson` と `public/data/onga/no_lure_crossing_lines.geojson` を追加しました。
 
 ## v4.6.1 の修正点
 

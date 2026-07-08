@@ -1,0 +1,12 @@
+{
+  "type": "FeatureCollection",
+  "name": "onga_no_stand_areas_v4_6_2",
+  "description": "釣り座候補から除外する河口堰・橋・魚道。LineString/Point は buffer_m を付けて面として扱う。",
+  "features": [
+    {"type":"Feature","properties":{"id":"onga_kakouzeki_barrage_no_stand_buffer","name":"遠賀川河口堰・釣り座除外バッファ","kind":"barrage","enabled":true,"no_stand":true,"buffer_m":24,"reason":"この上から釣りはできない。河口堰を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6746400,33.8894929],[130.6781117,33.8897854]]}},
+    {"type":"Feature","properties":{"id":"onga_left_bridge_no_stand_buffer","name":"左岸側の橋・釣り座除外バッファ","kind":"bridge","enabled":true,"no_stand":true,"buffer_m":10,"reason":"この上から釣りはできない。橋を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6669177,33.8951109],[130.6683850,33.8962809]]}},
+    {"type":"Feature","properties":{"id":"onga_right_channel_bridge_no_stand_buffer","name":"右岸側水路の橋・釣り座除外バッファ","kind":"bridge","enabled":true,"no_stand":true,"buffer_m":10,"reason":"この上から釣りはできない。橋を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6784988,33.8919257],[130.6790658,33.8920960]]}},
+    {"type":"Feature","properties":{"id":"onga_fishway_no_stand_buffer","name":"魚道・釣り座除外バッファ","kind":"fishway","enabled":true,"no_stand":true,"buffer_m":8,"reason":"魚道上は釣り座候補から除外する。"},"geometry":{"type":"Point","coordinates":[130.6745243,33.8894929]}}
+  ],
+  "metadata": {"source_url":"https://maps.gsi.go.jp/#16/33.892724/130.674220/&base=std&ls=std%7Cseamlessphoto&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f1","source":"user_annotated_gsi_screenshot","coordinate_order":"[longitude, latitude]","runtime":"onga_spatial_safety_patch.js applies the buffer_m values."}
+}

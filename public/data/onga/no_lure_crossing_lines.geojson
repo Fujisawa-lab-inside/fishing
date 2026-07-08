@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "name": "onga_no_lure_crossing_lines_v4_6_2",
+  "description": "遠賀川河口堰と橋を跨ぐキャスト・ルアー軌道を無効化する線。",
+  "features": [
+    {"type":"Feature","properties":{"id":"onga_kakouzeki_barrage","name":"遠賀川河口堰","kind":"barrage","enabled":true,"no_cast_across":true,"no_lure_crossing":true,"buffer_m":4,"reason":"この上から釣りはできない。河口堰を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6746400,33.8894929],[130.6781117,33.8897854]]}},
+    {"type":"Feature","properties":{"id":"onga_left_bridge","name":"左岸側の橋","kind":"bridge","enabled":true,"no_cast_across":true,"no_lure_crossing":true,"buffer_m":4,"reason":"この上から釣りはできない。橋を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6669177,33.8951109],[130.6683850,33.8962809]]}},
+    {"type":"Feature","properties":{"id":"onga_right_channel_bridge","name":"右岸側水路の橋","kind":"bridge","enabled":true,"no_cast_across":true,"no_lure_crossing":true,"buffer_m":4,"reason":"この上から釣りはできない。橋を跨いでルアーを投げられない。"},"geometry":{"type":"LineString","coordinates":[[130.6784988,33.8919257],[130.6790658,33.8920960]]}}
+  ],
+  "metadata": {"source_url":"https://maps.gsi.go.jp/#16/33.892724/130.674220/&base=std&ls=std%7Cseamlessphoto&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f1","source":"user_annotated_gsi_screenshot","coordinate_order":"[longitude, latitude]"}
+}

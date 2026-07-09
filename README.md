@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.7.6
+# 遠賀川河口シミュレータ v4.7.7
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,20 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.7.6: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.7.6: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.7.7: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.7.7: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.7.7 の修正点
+
+- `onga_pointcloud_water_region_v477.js` を追加しました。
+- スコア計算用の水面評価点群から水面領域を生成します。
+- 評価点群から生成した水面領域の外縁を、通常表示で青点線として描画します。
+- `water_polygon` 外縁は補助扱いとし、主表示は評価点群外縁へ移行します。
+- ホットスポットの水面ターゲットは、これまで通り評価点を使います。
+- 釣り座候補は、評価点群外縁のサンプルを優先します。
+- 橋・河口堰・画面端・開境界に近い外縁サンプルは釣り座候補から除外します。
+- legacy_shoreline は通常表示から外し、評価点群外縁とGeoJSON水面判定を優先します。
 
 ## v4.7.6 の修正点
 
@@ -17,15 +28,6 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - `water_polygon` 外縁は通常表示で青点線として描画します。
 - 既存の座標ベースshorelineとlegacy_shorelineは通常表示から外し、`debugGeometry=1` の確認表示に下げました。
 - 水面判定と青点は、引き続き `water_polygon` / `land_polygon` を優先します。
-
-## v4.7.5 の修正点
-
-- `onga_legacy_shoreline_v475.js` を追加しました。
-- 過去画像由来の緑線を、`legacy_shoreline` 相当の補助境界として統合します。
-- 現在の座標ベース shoreline と重なる場所では、座標ベース shoreline を優先します。
-- legacy_shoreline は通常表示で薄い緑の点線として表示します。
-- 釣り座候補としては、座標ベース shoreline が近くにない場合だけ legacy_shoreline を補助的に使います。
-- 水面判定と青点は、引き続き water_polygon / land_polygon を優先します。legacy_shoreline は水面ポリゴンとしては使いません。
 
 ## 注意
 

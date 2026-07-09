@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.7.1
+# 遠賀川河口シミュレータ v4.7.2
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,17 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.7.1: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.7.1: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.7.2: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.7.2: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.7.2 の修正点
+
+- `onga_geometry_authority_v472.js` を追加しました。
+- v4.7.1で残っていた旧水面モデル由来の青点・ホットスポット生成を抑制しました。
+- 座標GeoJSONで定義した水面ポリゴン周辺では、GeoJSON内だけを水面として扱います。
+- ホットスポットの水面ターゲットは、座標GeoJSONの `water_polygon` 内に限定します。
+- `onga_approved_water_flow_patch.js` をv4.7.2ラッパーから外しました。
 
 ## v4.7.1 の修正点
 

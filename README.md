@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.7.7
+# 遠賀川河口シミュレータ v4.7.8
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,18 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.7.7: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.7.7: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.7.8: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.7.8: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.7.8 の修正点
+
+- 評価点群から作る水面領域を連結成分へ分割します。
+- 主要水域または高信頼 `water_polygon` に接続しない孤立水面候補を除外します。
+- 陸地内で孤立して見える誤認識水面を、主要水域外として除外しやすくしました。
+- 除外後の主要水域外縁だけを青点線で表示します。
+- 釣り座候補も、除外後の主要水域外縁サンプルを優先します。
+- `state.photoSampleStatus` に孤立除外セル数を表示します。
 
 ## v4.7.7 の修正点
 
@@ -20,14 +29,6 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 釣り座候補は、評価点群外縁のサンプルを優先します。
 - 橋・河口堰・画面端・開境界に近い外縁サンプルは釣り座候補から除外します。
 - legacy_shoreline は通常表示から外し、評価点群外縁とGeoJSON水面判定を優先します。
-
-## v4.7.6 の修正点
-
-- 表示用のshorelineを、荒い個別shorelineではなく `water_polygon` の外縁へ切り替えました。
-- 釣り座候補も `water_polygon` 外縁サンプルを優先します。
-- `water_polygon` 外縁は通常表示で青点線として描画します。
-- 既存の座標ベースshorelineとlegacy_shorelineは通常表示から外し、`debugGeometry=1` の確認表示に下げました。
-- 水面判定と青点は、引き続き `water_polygon` / `land_polygon` を優先します。
 
 ## 注意
 

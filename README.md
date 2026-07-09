@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.8
+# 遠賀川河口シミュレータ v4.6.9
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,16 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.8: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.8: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.6.9: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.6.9: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.6.9 の修正点
+
+- `onga_barrage_alignment_v469.js` を追加しました。
+- 認識上の赤線両端を、河口堰1番・8番ゲート座標へ合わせる座標補正を追加しました。
+- 水面マスクと緑線境界釣り座に同じ補正変換を適用します。
+- 河口堰1〜8門の既存実測座標を補正基準として使います。
 
 ## v4.6.8 の修正点
 

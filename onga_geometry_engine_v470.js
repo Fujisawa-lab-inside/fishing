@@ -1,234 +1,40 @@
-// v4.7.0 coordinate-based Onga geometry engine
+// v4.7.3 coordinate-based Onga geometry engine
 (function(){
   'use strict';
-  if (window.__ONGA_GEOMETRY_ENGINE_V470__) return;
-  window.__ONGA_GEOMETRY_ENGINE_V470__ = true;
-
-  const VERSION = 'onga-geometry-engine-v4.7.0';
-  const GEOJSON_URL = 'public/data/onga/onga_geometry.geojson?v=geometry470';
-  const toRad = d => d * Math.PI / 180;
-  const clampLocal = typeof clamp === 'function' ? clamp : ((v,a,b)=>Math.max(a,Math.min(b,v)));
-  const gaussianLocal = typeof gaussian === 'function' ? gaussian : ((x,mu,sigma)=>Math.exp(-0.5*Math.pow((x-mu)/sigma,2)));
-  const ref = {lat:33.892724, lng:130.674220};
-  const cosRef = Math.cos(toRad(ref.lat));
-
-  const previous = {
-    waterMask: typeof calibratedWaterMaskValueAt === 'function' ? calibratedWaterMaskValueAt : null,
-    knownWater: typeof isKnownWater === 'function' ? isKnownWater : null,
-    hydro: typeof nearestHydroCorridor === 'function' ? nearestHydroCorridor : null,
-    findStand: typeof findLandCastPositionForWater === 'function' ? findLandCastPositionForWater : null,
-    makeHotspots: typeof makeShoreCastingHotspots === 'function' ? makeShoreCastingHotspots : null,
-    renderAll: typeof renderAll === 'function' ? renderAll : null,
-    bindUI: typeof bindUI === 'function' ? bindUI : null,
-    updateWaterStatus: typeof updateWaterStatus === 'function' ? updateWaterStatus : null
-  };
-
-  const engine = {
-    ready:false,
-    geojson:null,
-    waterPolygons:[],
-    landPolygons:[],
-    shorelines:[],
-    noCrossLines:[],
-    noStandLines:[],
-    flowAxes:[],
-    shorelineSamples:[]
-  };
-
-  function xy(lat,lng){ return {x:(lng-ref.lng)*111320*cosRef, y:(lat-ref.lat)*110540}; }
-  function hav(a,b,c,d){
-    if (typeof haversine === 'function') return haversine(a,b,c,d);
-    const p1=toRad(a), p2=toRad(c), d1=toRad(c-a), d2=toRad(d-b);
-    const x=Math.sin(d1/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin(d2/2)**2;
-    return 12742000*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
-  }
-  function pointInRing(lat,lng,ring){
-    let inside=false;
-    for(let i=0,j=ring.length-1;i<ring.length;j=i++){
-      const yi=ring[i][1], xi=ring[i][0], yj=ring[j][1], xj=ring[j][0];
-      if(((yi>lat)!==(yj>lat)) && (lng < (xj-xi)*(lat-yi)/(yj-yi || 1e-12)+xi)) inside=!inside;
-    }
-    return inside;
-  }
-  function pointInPolygon(lat,lng,poly){
-    const rings = poly.geometry.coordinates || [];
-    if(!rings.length || !pointInRing(lat,lng,rings[0])) return false;
-    for(let i=1;i<rings.length;i++) if(pointInRing(lat,lng,rings[i])) return false;
-    return true;
-  }
-  function distPointToSegmentM(lat,lng,a,b){
-    const p=xy(lat,lng), A=xy(a[1],a[0]), B=xy(b[1],b[0]);
-    const vx=B.x-A.x, vy=B.y-A.y, wx=p.x-A.x, wy=p.y-A.y;
-    const t=clampLocal((wx*vx+wy*vy)/(vx*vx+vy*vy || 1),0,1);
-    const q={x:A.x+vx*t,y:A.y+vy*t};
-    return Math.hypot(p.x-q.x,p.y-q.y);
-  }
-  function orient(a,b,c){ return (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x); }
-  function onSeg(a,b,c){ return Math.min(a.x,b.x)-1e-9<=c.x&&c.x<=Math.max(a.x,b.x)+1e-9&&Math.min(a.y,b.y)-1e-9<=c.y&&c.y<=Math.max(a.y,b.y)+1e-9; }
-  function segIntersects(a,b,c,d){
-    const A=xy(a[1],a[0]), B=xy(b[1],b[0]), C=xy(c[1],c[0]), D=xy(d[1],d[0]);
-    const o1=orient(A,B,C), o2=orient(A,B,D), o3=orient(C,D,A), o4=orient(C,D,B);
-    return ((o1>0&&o2<0||o1<0&&o2>0)&&(o3>0&&o4<0||o3<0&&o4>0)) ||
-      (Math.abs(o1)<1e-9&&onSeg(A,B,C)) || (Math.abs(o2)<1e-9&&onSeg(A,B,D)) ||
-      (Math.abs(o3)<1e-9&&onSeg(C,D,A)) || (Math.abs(o4)<1e-9&&onSeg(C,D,B));
-  }
-  function lineCrossesFeature(aLat,aLng,bLat,bLng,lineFeature){
-    const line = lineFeature.geometry.coordinates || [];
-    for(let i=0;i<line.length-1;i++) if(segIntersects([aLng,aLat],[bLng,bLat],line[i],line[i+1])) return true;
-    return false;
-  }
-  function noStandAt(lat,lng){
-    for(const f of engine.noStandLines){
-      const buf = Number(f.properties?.buffer_m || (f.properties?.kind === 'barrage_line' ? 18 : 10));
-      const line=f.geometry.coordinates || [];
-      for(let i=0;i<line.length-1;i++) if(distPointToSegmentM(lat,lng,line[i],line[i+1]) <= buf) return true;
-    }
-    return !!(window.ONGA_SPATIAL_SAFETY?.noStandAt?.(lat,lng));
-  }
-  function castBlocked(aLat,aLng,bLat,bLng){
-    for(const f of engine.noCrossLines) if(lineCrossesFeature(aLat,aLng,bLat,bLng,f)) return true;
-    return !!(window.ONGA_SPATIAL_SAFETY?.castBlock?.(aLat,aLng,bLat,bLng));
-  }
-  function geometryWaterState(lat,lng){
-    for(const f of engine.landPolygons) if(pointInPolygon(lat,lng,f)) return false;
-    for(const f of engine.waterPolygons) if(pointInPolygon(lat,lng,f)) return true;
-    return null;
-  }
-  function isWater(lat,lng){
-    const state = geometryWaterState(lat,lng);
-    if(state === true) return 1;
-    if(state === false) return 0;
-    return previous.waterMask ? previous.waterMask(lat,lng) : 0;
-  }
-  function sampleLineFeature(feature, spacingM=6){
-    const line = feature.geometry.coordinates || [];
-    const out=[];
-    for(let i=0;i<line.length-1;i++){
-      const a=line[i], b=line[i+1], d=hav(a[1],a[0],b[1],b[0]);
-      const steps=Math.max(1,Math.ceil(d/spacingM));
-      for(let k=0;k<=steps;k++){
-        const t=k/steps;
-        out.push({lat:a[1]+(b[1]-a[1])*t, lng:a[0]+(b[0]-a[0])*t, feature});
-      }
-    }
-    return out;
-  }
-  function rebuildSamples(){
-    engine.shorelineSamples=[];
-    for(const f of engine.shorelines) engine.shorelineSamples.push(...sampleLineFeature(f));
-  }
-  function nearestOnLineAxis(lat,lng,feature){
-    const line=feature.geometry.coordinates || [];
-    let best=null, total=0, segs=[];
-    const pts=line.map(c=>({lng:c[0],lat:c[1],...xy(c[1],c[0])}));
-    for(let i=0;i<pts.length-1;i++){
-      const dx=pts[i+1].x-pts[i].x, dy=pts[i+1].y-pts[i].y, len=Math.hypot(dx,dy)||1;
-      segs.push({i,start:total,dx,dy,len}); total+=len;
-    }
-    const p=xy(lat,lng);
-    for(const s of segs){
-      const A=pts[s.i], u=clampLocal(((p.x-A.x)*s.dx+(p.y-A.y)*s.dy)/(s.len*s.len||1),0,1);
-      const cx=A.x+s.dx*u, cy=A.y+s.dy*u, vx=p.x-cx, vy=p.y-cy;
-      const dist=Math.hypot(vx,vy), nx=-s.dy/s.len, ny=s.dx/s.len;
-      const progress=(s.start+u*s.len)/Math.max(1,total);
-      if(!best||dist<best.distanceM) best={feature,progress,distanceM:dist,signedM:vx*nx+vy*ny,tx:s.dx/s.len,ty:s.dy/s.len,nx,ny};
-    }
-    return best;
-  }
-  function mpp(lat){ return typeof metersPerPixelAt==='function' && typeof MODEL_ZOOM!=='undefined' ? metersPerPixelAt(lat,MODEL_ZOOM) : 156543.03392804097*Math.cos(toRad(lat))/Math.pow(2,18); }
-  function hydro(lat,lng){
-    if(isWater(lat,lng)<=0) return null;
-    let best=null;
-    for(const f of engine.flowAxes){ const n=nearestOnLineAxis(lat,lng,f); if(n && (!best||n.distanceM<best.distanceM)) best=n; }
-    if(best){
-      const px=mpp(lat), widthM=Number(best.feature.properties?.width_m || 160), seedM=Number(best.feature.properties?.seed_width_m || widthM*1.5);
-      return {kind:best.feature.properties?.id || 'geometry_flow', label:best.feature.properties?.name || '座標流軸', s:best.progress, tributaryProgress:best.progress, signedDistancePx:best.signedM/px, distancePx:best.distanceM/px, widthPx:widthM/px, maxDistPx:seedM/px, corridor:clampLocal(1-best.distanceM/Math.max(1,seedM),.15,1), seed:clampLocal(1-best.distanceM/Math.max(1,widthM*.45),0,1), tx:best.tx, ty:best.ty, nx:best.nx, ny:best.ny, geometryEngine:VERSION};
-    }
-    return previous.hydro ? previous.hydro(lat,lng) : null;
-  }
-  function nearestGeometryStand(target){
-    if(!target || !Number.isFinite(target.lat) || !Number.isFinite(target.lng)) return null;
-    const maxM=(typeof CAST_MODEL!=='undefined' && CAST_MODEL.maxM) ? CAST_MODEL.maxM : 100;
-    let best=null;
-    for(const s of engine.shorelineSamples){
-      if(noStandAt(s.lat,s.lng)) continue;
-      const d=hav(s.lat,s.lng,target.lat,target.lng);
-      if(d<2 || d>maxM || castBlocked(s.lat,s.lng,target.lat,target.lng)) continue;
-      const preferred=gaussianLocal(d,34,30);
-      const score=(target.score||0)*(.70+.30*preferred);
-      if(!best||score>best.score) best={lat:s.lat,lng:s.lng,distanceM:d,bearing:0,landConfidence:1,bankQuality:1,score,onGeometryShoreline:true,shorelineId:s.feature.properties?.id};
-    }
-    return best || (previous.findStand ? previous.findStand(target) : null);
-  }
-  function makeHotspots(cands,n=8){
-    const sorted=[...(cands||[])].filter(p=>p&&Number.isFinite(p.score)&&p.score>.35).sort((a,b)=>b.score-a.score);
-    const raw=[];
-    for(let i=0;i<Math.min(sorted.length,1300);i++){
-      const t=sorted[i], s=nearestGeometryStand(t);
-      if(!s || !s.onGeometryShoreline) continue;
-      raw.push({...t,lat:s.lat,lng:s.lng,targetLat:t.lat,targetLng:t.lng,targetScore:t.score,castDistanceM:s.distanceM,landConfidence:1,bankQuality:1,onLand:true,onGeometryShoreline:true,shorelineId:s.shorelineId,score:clampLocal(s.score,0,1),structureName:`座標境界釣り座：${t.structureName||t.hydroLabel||'水面標的'}`,reason:`座標ベースshoreline上に配置 / ${Math.round(s.distanceM)}m先の水面標的 / ${t.reason||''}`});
-    }
-    raw.sort((a,b)=>b.score-a.score);
-    const chosen=[], bankSep=(typeof CAST_MODEL!=='undefined'&&CAST_MODEL.bankSepM)||85, targetSep=(typeof CAST_MODEL!=='undefined'&&CAST_MODEL.targetSepM)||90;
-    for(const c of raw){
-      let ok=true;
-      for(const h of chosen){ if(hav(c.lat,c.lng,h.lat,h.lng)<bankSep || hav(c.targetLat,c.targetLng,h.targetLat,h.targetLng)<targetSep){ ok=false; break; } }
-      if(ok) chosen.push(c);
-      if(chosen.length>=n) break;
-    }
-    if(chosen.length<n && previous.makeHotspots){
-      for(const h of previous.makeHotspots(cands,n)){ if(chosen.length>=n) break; if(!chosen.some(c=>hav(c.lat,c.lng,h.lat,h.lng)<bankSep)) chosen.push(h); }
-    }
-    return chosen.map((h,i)=>({...h,rank:i+1,score100:Math.round((h.score||0)*100),targetScore100:Math.round((h.targetScore||h.score||0)*100)}));
-  }
-  function drawFeatureLine(ctx, feature, color, width=2){
-    const line=feature.geometry.coordinates || [];
-    if(!line.length || typeof latLngToCanvas!=='function') return;
-    ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=width; ctx.beginPath();
-    line.forEach((c,i)=>{ const p=latLngToCanvas(c[1],c[0]); if(i) ctx.lineTo(p.x,p.y); else ctx.moveTo(p.x,p.y); });
-    ctx.stroke(); ctx.restore();
-  }
-  function drawFeaturePolygon(ctx, feature, stroke, fill){
-    const ring=feature.geometry.coordinates?.[0] || [];
-    if(!ring.length || typeof latLngToCanvas!=='function') return;
-    ctx.save(); ctx.fillStyle=fill; ctx.strokeStyle=stroke; ctx.lineWidth=2; ctx.beginPath();
-    ring.forEach((c,i)=>{ const p=latLngToCanvas(c[1],c[0]); if(i) ctx.lineTo(p.x,p.y); else ctx.moveTo(p.x,p.y); });
-    ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
-  }
-  function drawOverlay(ctx){
-    if(!engine.ready || !ctx) return;
-    for(const f of engine.waterPolygons) drawFeaturePolygon(ctx,f,'rgba(80,180,255,.75)','rgba(50,150,255,.16)');
-    for(const f of engine.landPolygons) drawFeaturePolygon(ctx,f,'rgba(0,255,120,.82)','rgba(0,0,0,.22)');
-    for(const f of engine.shorelines) drawFeatureLine(ctx,f,'rgba(0,255,120,.92)',3);
-    for(const f of engine.flowAxes) drawFeatureLine(ctx,f,'rgba(80,220,255,.70)',2);
-    for(const f of engine.noCrossLines) drawFeatureLine(ctx,f,(f.properties?.kind==='barrage_line')?'rgba(255,60,60,.95)':'rgba(255,220,40,.95)',4);
-  }
-  function install(){
-    calibratedWaterMaskValueAt = isWater;
-    if(typeof isKnownWater === 'function') isKnownWater = (lat,lng)=>isWater(lat,lng)>.5;
-    if(typeof nearestHydroCorridor === 'function') nearestHydroCorridor = hydro;
-    if(typeof findLandCastPositionForWater === 'function') findLandCastPositionForWater = nearestGeometryStand;
-    if(typeof makeShoreCastingHotspots === 'function') makeShoreCastingHotspots = makeHotspots;
-    if(previous.renderAll) renderAll=function(){ const r=previous.renderAll.apply(this,arguments); try{ drawOverlay(state.ctx); }catch(e){} return r; };
-    if(previous.updateWaterStatus) updateWaterStatus=function(){ const r=previous.updateWaterStatus.apply(this,arguments), el=document.getElementById('waterStatus'); if(el&&!el.textContent.includes('座標地形')) el.textContent+=' / v4.7: 座標地形GeoJSON'; return r; };
-    if(previous.bindUI) bindUI=function(){ const r=previous.bindUI.apply(this,arguments); const h1=document.querySelector('h1'); if(h1) h1.textContent='遠賀川河口 Hotspot v4.7'; const sub=document.querySelector('.sub'); if(sub) sub.textContent='座標ベースの水面・陸地境界GeoJSONを、表示・流況計算・釣り座生成へ共通適用します。'; return r; };
-    window.ONGA_GEOMETRY_ENGINE={version:VERSION,engine,isWater,hydro,nearestGeometryStand,castBlocked,noStandAt};
-    try{ state.waterSampleCache?.clear?.(); state.fluidCache?.clear?.(); state.fluidBaseCache?.clear?.(); state.validationCache?.clear?.(); if(state.timeline?.length && typeof computeAndRender==='function') setTimeout(()=>computeAndRender(true),0); else if(typeof renderAll==='function') renderAll(); }catch(e){}
-  }
-  function loadGeo(){
-    fetch(GEOJSON_URL,{cache:'no-store'}).then(r=>r.json()).then(data=>{
-      engine.geojson=data;
-      for(const f of data.features || []){
-        const kind=f.properties?.kind;
-        if(kind==='water_polygon') engine.waterPolygons.push(f);
-        else if(kind==='land_polygon') engine.landPolygons.push(f);
-        else if(kind==='shoreline' && f.properties?.stand_candidate) engine.shorelines.push(f);
-        else if(kind==='flow_axis') engine.flowAxes.push(f);
-        if(f.properties?.no_cross) engine.noCrossLines.push(f);
-        if(f.properties?.no_stand) engine.noStandLines.push(f);
-      }
-      rebuildSamples(); engine.ready=true; install(); console.info('[onga-geometry]', VERSION, data.name);
-    }).catch(e=>console.warn('[onga-geometry] failed to load', e));
-  }
-  loadGeo();
+  if (window.__ONGA_GEOMETRY_ENGINE_V473__) return;
+  window.__ONGA_GEOMETRY_ENGINE_V473__ = true;
+  const VERSION='onga-geometry-engine-v4.7.3';
+  const GEOJSON_URL='public/data/onga/onga_geometry.geojson?v=geometry473';
+  const DEBUG_GEOMETRY = /(?:\?|&)debugGeometry=1(?:&|$)/.test(location.search) || localStorage.getItem('onga_debug_geometry')==='1';
+  const toRad=d=>d*Math.PI/180;
+  const clampLocal=typeof clamp==='function'?clamp:((v,a,b)=>Math.max(a,Math.min(b,v)));
+  const gaussianLocal=typeof gaussian==='function'?gaussian:((x,mu,sigma)=>Math.exp(-0.5*Math.pow((x-mu)/sigma,2)));
+  const ref={lat:33.892724,lng:130.674220};
+  const cosRef=Math.cos(toRad(ref.lat));
+  const previous={waterMask:typeof calibratedWaterMaskValueAt==='function'?calibratedWaterMaskValueAt:null,hydro:typeof nearestHydroCorridor==='function'?nearestHydroCorridor:null,findStand:typeof findLandCastPositionForWater==='function'?findLandCastPositionForWater:null,makeHotspots:typeof makeShoreCastingHotspots==='function'?makeShoreCastingHotspots:null,renderAll:typeof renderAll==='function'?renderAll:null,bindUI:typeof bindUI==='function'?bindUI:null,updateWaterStatus:typeof updateWaterStatus==='function'?updateWaterStatus:null};
+  const engine={ready:false,geojson:null,waterPolygons:[],landPolygons:[],shorelines:[],noCrossLines:[],noStandLines:[],flowAxes:[],shorelineSamples:[]};
+  function xy(lat,lng){return{x:(lng-ref.lng)*111320*cosRef,y:(lat-ref.lat)*110540};}
+  function hav(a,b,c,d){if(typeof haversine==='function')return haversine(a,b,c,d);const p1=toRad(a),p2=toRad(c),d1=toRad(c-a),d2=toRad(d-b),x=Math.sin(d1/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(d2/2)**2;return 12742000*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
+  function pointInRing(lat,lng,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const yi=ring[i][1],xi=ring[i][0],yj=ring[j][1],xj=ring[j][0];if(((yi>lat)!==(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi||1e-12)+xi))inside=!inside;}return inside;}
+  function pointInPolygon(lat,lng,feature){const rings=feature.geometry?.coordinates||[];if(!rings.length||!pointInRing(lat,lng,rings[0]))return false;for(let i=1;i<rings.length;i++)if(pointInRing(lat,lng,rings[i]))return false;return true;}
+  function distPointToSegmentM(lat,lng,a,b){const p=xy(lat,lng),A=xy(a[1],a[0]),B=xy(b[1],b[0]);const vx=B.x-A.x,vy=B.y-A.y,wx=p.x-A.x,wy=p.y-A.y,t=clampLocal((wx*vx+wy*vy)/(vx*vx+vy*vy||1),0,1);return Math.hypot(p.x-(A.x+vx*t),p.y-(A.y+vy*t));}
+  function orient(a,b,c){return(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);}function onSeg(a,b,c){return Math.min(a.x,b.x)-1e-9<=c.x&&c.x<=Math.max(a.x,b.x)+1e-9&&Math.min(a.y,b.y)-1e-9<=c.y&&c.y<=Math.max(a.y,b.y)+1e-9;}
+  function segIntersects(a,b,c,d){const A=xy(a[1],a[0]),B=xy(b[1],b[0]),C=xy(c[1],c[0]),D=xy(d[1],d[0]);const o1=orient(A,B,C),o2=orient(A,B,D),o3=orient(C,D,A),o4=orient(C,D,B);return((o1>0&&o2<0||o1<0&&o2>0)&&(o3>0&&o4<0||o3<0&&o4>0))||(Math.abs(o1)<1e-9&&onSeg(A,B,C))||(Math.abs(o2)<1e-9&&onSeg(A,B,D))||(Math.abs(o3)<1e-9&&onSeg(C,D,A))||(Math.abs(o4)<1e-9&&onSeg(C,D,B));}
+  function lineCrossesFeature(aLat,aLng,bLat,bLng,f){const line=f.geometry?.coordinates||[];for(let i=0;i<line.length-1;i++)if(segIntersects([aLng,aLat],[bLng,bLat],line[i],line[i+1]))return true;return false;}
+  function noStandAt(lat,lng){for(const f of engine.noStandLines){const buf=Number(f.properties?.buffer_m||(f.properties?.kind==='barrage_line'?18:10));const line=f.geometry?.coordinates||[];for(let i=0;i<line.length-1;i++)if(distPointToSegmentM(lat,lng,line[i],line[i+1])<=buf)return true;}return !!window.ONGA_SPATIAL_SAFETY?.noStandAt?.(lat,lng);}
+  function castBlocked(aLat,aLng,bLat,bLng){for(const f of engine.noCrossLines)if(lineCrossesFeature(aLat,aLng,bLat,bLng,f))return true;return !!window.ONGA_SPATIAL_SAFETY?.castBlock?.(aLat,aLng,bLat,bLng);}
+  function geometryWaterState(lat,lng){for(const f of engine.landPolygons)if(pointInPolygon(lat,lng,f))return false;for(const f of engine.waterPolygons)if(pointInPolygon(lat,lng,f))return true;return null;}
+  function isWater(lat,lng){const s=geometryWaterState(lat,lng);if(s===true)return 1;if(s===false)return 0;return previous.waterMask?previous.waterMask(lat,lng):0;}
+  function sampleLineFeature(feature,spacingM=6){const line=feature.geometry?.coordinates||[],out=[];for(let i=0;i<line.length-1;i++){const a=line[i],b=line[i+1],d=hav(a[1],a[0],b[1],b[0]),steps=Math.max(1,Math.ceil(d/spacingM));for(let k=0;k<=steps;k++){const t=k/steps;out.push({lat:a[1]+(b[1]-a[1])*t,lng:a[0]+(b[0]-a[0])*t,feature});}}return out;}
+  function rebuildSamples(){engine.shorelineSamples=[];for(const f of engine.shorelines)engine.shorelineSamples.push(...sampleLineFeature(f));}
+  function nearestOnLineAxis(lat,lng,feature){const line=feature.geometry?.coordinates||[];let best=null,total=0,segs=[];const pts=line.map(c=>({lng:c[0],lat:c[1],...xy(c[1],c[0])}));for(let i=0;i<pts.length-1;i++){const dx=pts[i+1].x-pts[i].x,dy=pts[i+1].y-pts[i].y,len=Math.hypot(dx,dy)||1;segs.push({i,start:total,dx,dy,len});total+=len;}const p=xy(lat,lng);for(const s of segs){const A=pts[s.i],u=clampLocal(((p.x-A.x)*s.dx+(p.y-A.y)*s.dy)/(s.len*s.len||1),0,1),cx=A.x+s.dx*u,cy=A.y+s.dy*u,vx=p.x-cx,vy=p.y-cy,dist=Math.hypot(vx,vy),nx=-s.dy/s.len,ny=s.dx/s.len,progress=(s.start+u*s.len)/Math.max(1,total);if(!best||dist<best.distanceM)best={feature,progress,distanceM:dist,signedM:vx*nx+vy*ny,tx:s.dx/s.len,ty:s.dy/s.len,nx,ny};}return best;}
+  function mpp(lat){return typeof metersPerPixelAt==='function'&&typeof MODEL_ZOOM!=='undefined'?metersPerPixelAt(lat,MODEL_ZOOM):156543.03392804097*Math.cos(toRad(lat))/Math.pow(2,18);}
+  function hydro(lat,lng){if(isWater(lat,lng)<=0)return null;let best=null;for(const f of engine.flowAxes){const n=nearestOnLineAxis(lat,lng,f);if(n&&(!best||n.distanceM<best.distanceM))best=n;}if(best){const px=mpp(lat),widthM=Number(best.feature.properties?.width_m||160),seedM=Number(best.feature.properties?.seed_width_m||widthM*1.5);return{kind:best.feature.properties?.id||'geometry_flow',label:best.feature.properties?.name||'座標流軸',s:best.progress,tributaryProgress:best.progress,signedDistancePx:best.signedM/px,distancePx:best.distanceM/px,widthPx:widthM/px,maxDistPx:seedM/px,corridor:clampLocal(1-best.distanceM/Math.max(1,seedM),.15,1),seed:clampLocal(1-best.distanceM/Math.max(1,widthM*.45),0,1),tx:best.tx,ty:best.ty,nx:best.nx,ny:best.ny,geometryEngine:VERSION};}return previous.hydro?previous.hydro(lat,lng):null;}
+  function nearestGeometryStand(target){if(!target||!Number.isFinite(target.lat)||!Number.isFinite(target.lng))return null;const maxM=(typeof CAST_MODEL!=='undefined'&&CAST_MODEL.maxM)||100;let best=null;for(const s of engine.shorelineSamples){if(noStandAt(s.lat,s.lng))continue;const d=hav(s.lat,s.lng,target.lat,target.lng);if(d<2||d>maxM||castBlocked(s.lat,s.lng,target.lat,target.lng))continue;const score=(target.score||0)*(.70+.30*gaussianLocal(d,34,30));if(!best||score>best.score)best={lat:s.lat,lng:s.lng,distanceM:d,bearing:0,landConfidence:1,bankQuality:1,score,onGeometryShoreline:true,shorelineId:s.feature.properties?.id};}return best||(previous.findStand?previous.findStand(target):null);}
+  function drawFeatureLine(ctx,f,color,width=2){if(!DEBUG_GEOMETRY)return;const line=f.geometry?.coordinates||[];if(!line.length||typeof latLngToCanvas!=='function')return;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();line.forEach((c,i)=>{const p=latLngToCanvas(c[1],c[0]);if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});ctx.stroke();ctx.restore();}
+  function drawFeaturePolygon(ctx,f,stroke,fill){if(!DEBUG_GEOMETRY)return;const ring=f.geometry?.coordinates?.[0]||[];if(!ring.length||typeof latLngToCanvas!=='function')return;ctx.save();ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.beginPath();ring.forEach((c,i)=>{const p=latLngToCanvas(c[1],c[0]);if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();}
+  function drawOverlay(ctx){if(!DEBUG_GEOMETRY||!engine.ready||!ctx)return;for(const f of engine.waterPolygons)drawFeaturePolygon(ctx,f,'rgba(80,180,255,.75)','rgba(50,150,255,.16)');for(const f of engine.landPolygons)drawFeaturePolygon(ctx,f,'rgba(0,255,120,.82)','rgba(0,0,0,.22)');for(const f of engine.shorelines)drawFeatureLine(ctx,f,'rgba(0,255,120,.92)',3);for(const f of engine.flowAxes)drawFeatureLine(ctx,f,'rgba(80,220,255,.70)',2);for(const f of engine.noCrossLines)drawFeatureLine(ctx,f,(f.properties?.kind==='barrage_line')?'rgba(255,60,60,.95)':'rgba(255,220,40,.95)',4);}
+  function makeHotspots(cands,n=8){return previous.makeHotspots?previous.makeHotspots(cands,n):[];}
+  function install(){calibratedWaterMaskValueAt=isWater;if(typeof isKnownWater==='function')isKnownWater=(lat,lng)=>isWater(lat,lng)>.5;if(typeof nearestHydroCorridor==='function')nearestHydroCorridor=hydro;if(typeof findLandCastPositionForWater==='function')findLandCastPositionForWater=nearestGeometryStand;if(typeof makeShoreCastingHotspots==='function')makeShoreCastingHotspots=makeHotspots;if(previous.renderAll)renderAll=function(){const r=previous.renderAll.apply(this,arguments);try{drawOverlay(state.ctx);}catch(e){}return r;};if(previous.updateWaterStatus)updateWaterStatus=function(){const r=previous.updateWaterStatus.apply(this,arguments),el=document.getElementById('waterStatus');if(el&&!el.textContent.includes('座標地形'))el.textContent+=' / v4.7.3: 座標地形GeoJSON';return r;};if(previous.bindUI)bindUI=function(){const r=previous.bindUI.apply(this,arguments);const h1=document.querySelector('h1');if(h1)h1.textContent='遠賀川河口 Hotspot v4.7.3';return r;};window.ONGA_GEOMETRY_ENGINE={version:VERSION,engine,isWater,hydro,nearestGeometryStand,castBlocked,noStandAt,debugGeometry:DEBUG_GEOMETRY,geometryWaterState};try{state.waterSampleCache?.clear?.();state.fluidCache?.clear?.();state.fluidBaseCache?.clear?.();state.validationCache?.clear?.();if(state.timeline?.length&&typeof computeAndRender==='function')setTimeout(()=>computeAndRender(true),0);else if(typeof renderAll==='function')renderAll();}catch(e){} }
+  fetch(GEOJSON_URL,{cache:'no-store'}).then(r=>r.json()).then(data=>{engine.geojson=data;for(const f of data.features||[]){const kind=f.properties?.kind;if(kind==='water_polygon')engine.waterPolygons.push(f);else if(kind==='land_polygon')engine.landPolygons.push(f);else if(kind==='shoreline'&&f.properties?.stand_candidate)engine.shorelines.push(f);else if(kind==='flow_axis')engine.flowAxes.push(f);if(f.properties?.no_cross)engine.noCrossLines.push(f);if(f.properties?.no_stand)engine.noStandLines.push(f);}rebuildSamples();engine.ready=true;install();console.info('[onga-geometry]',VERSION,data.name);}).catch(e=>console.warn('[onga-geometry] failed to load',e));
 })();

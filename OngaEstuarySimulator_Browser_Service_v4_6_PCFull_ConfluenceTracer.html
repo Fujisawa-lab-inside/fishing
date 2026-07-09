@@ -1,15 +1,16 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.6.9 PC Full</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.6.9 河口堰1-8補正 + 高解像度水面境界を読込中...</div><script>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.7 PC Full</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.7 座標ベース地形エンジン + 高解像度水面境界を読込中...</div><script>
 (async()=>{
-  const [html,closedPatch,safetyPatch,greenStandPatch,approvedPatch,waterFlowPatch,barragePatch]=await Promise.all([
+  const [html,closedPatch,safetyPatch,greenStandPatch,approvedPatch,waterFlowPatch,barragePatch,geometryPatch]=await Promise.all([
     fetch('pc_full.html?exact=v46',{cache:'no-store'}).then(r=>r.text()),
     fetch('closed_gate_patch.js?v=closedflow1',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_spatial_safety_patch.js?v=onga-safety2',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_green_boundary_stands_patch.js?v=green-stands1',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_approved_green_recognition_patch.js?v=approved-green1',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_approved_water_flow_patch.js?v=approved-flow2',{cache:'no-store'}).then(r=>r.text()),
-    fetch('onga_barrage_alignment_v469.js?v=barrage-align1',{cache:'no-store'}).then(r=>r.text())
+    fetch('onga_barrage_alignment_v469.js?v=barrage-align1',{cache:'no-store'}).then(r=>r.text()),
+    fetch('onga_geometry_engine_v470.js?v=geometry470',{cache:'no-store'}).then(r=>r.text())
   ]);
-  const tags='<scr'+'ipt>'+closedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+safetyPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+waterFlowPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+greenStandPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+approvedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+barragePatch+'\n<\/scr'+'ipt>';
+  const tags='<scr'+'ipt>'+closedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+safetyPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+waterFlowPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+greenStandPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+approvedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+barragePatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+geometryPatch+'\n<\/scr'+'ipt>';
   document.open();
   document.write(html.replace('</body>',tags+'</body>'));
   document.close();

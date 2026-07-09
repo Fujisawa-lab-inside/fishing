@@ -1,9 +1,9 @@
-// v4.7.7 point-cloud water region and hotspot patch
+// v4.7.8 point-cloud water region and hotspot patch
 (function(){
   'use strict';
-  if(window.__ONGA_POINTCLOUD_WATER_V477__) return;
-  window.__ONGA_POINTCLOUD_WATER_V477__ = true;
-  const VERSION='onga-pointcloud-water-v4.7.7';
+  if(window.__ONGA_POINTCLOUD_WATER_V478__) return;
+  window.__ONGA_POINTCLOUD_WATER_V478__ = true;
+  const VERSION='onga-pointcloud-water-v4.7.8';
   const CELL_M=18;
   const SAMPLE_M=7;
   const toRad=d=>d*Math.PI/180;
@@ -14,6 +14,8 @@
   function xy(lat,lng){return{x:(lng-ref.lng)*111320*cosRef,y:(lat-ref.lat)*110540};}
   function ll(x,y){return{lat:ref.lat+y/110540,lng:ref.lng+x/(111320*cosRef)};}
   function hav(a,b,c,d){if(typeof haversine==='function')return haversine(a,b,c,d);const p1=toRad(a),p2=toRad(c),d1=toRad(c-a),d2=toRad(d-b),x=Math.sin(d1/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(d2/2)**2;return 12742000*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
+  function pointInRing(lat,lng,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const yi=ring[i][1],xi=ring[i][0],yj=ring[j][1],xj=ring[j][0];if(((yi>lat)!==(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi||1e-12)+xi))inside=!inside;}return inside;}
+  function pointInPolygon(lat,lng,f){const rings=f?.geometry?.coordinates||[];if(!rings.length||!pointInRing(lat,lng,rings[0]))return false;for(let i=1;i<rings.length;i++)if(pointInRing(lat,lng,rings[i]))return false;return true;}
   function noStand(lat,lng){return !!(window.ONGA_SPATIAL_SAFETY&&window.ONGA_SPATIAL_SAFETY.noStandAt&&window.ONGA_SPATIAL_SAFETY.noStandAt(lat,lng));}
   function castBlocked(a,b,c,d){return !!(window.ONGA_SPATIAL_SAFETY&&window.ONGA_SPATIAL_SAFETY.castBlock&&window.ONGA_SPATIAL_SAFETY.castBlock(a,b,c,d));}
   function nearMapEdge(lat,lng){
@@ -21,6 +23,59 @@
     if(!b) return false;
     const mLat=.00022, mLng=.00032;
     return lat<b.south+mLat||lat>b.north-mLat||lng<b.west+mLng||lng>b.east-mLng;
+  }
+  function hitsGeoWater(lat,lng){
+    const api=window.ONGA_GEOMETRY_ENGINE;
+    const polys=api?.engine?.waterPolygons||[];
+    for(const f of polys) if(pointInPolygon(lat,lng,f)) return true;
+    return false;
+  }
+  function labelConnectedWater(closed,w,h,minX,minY,points){
+    const idx=(x,y)=>y*w+x;
+    const labels=new Int32Array(w*h); labels.fill(-1);
+    const stats=[];
+    let label=0;
+    const qx=[], qy=[];
+    for(let sy=0;sy<h;sy++)for(let sx=0;sx<w;sx++){
+      const start=idx(sx,sy);
+      if(!closed[start]||labels[start]>=0) continue;
+      let head=0; qx.length=0; qy.length=0; qx.push(sx); qy.push(sy); labels[start]=label;
+      const st={label,cells:0,pointCount:0,touchesGridEdge:false,touchesMapEdge:false,hitsGeoWater:false,maxScore:0};
+      while(head<qx.length){
+        const x=qx[head],y=qy[head++], id=idx(x,y);
+        st.cells++;
+        if(x===0||y===0||x===w-1||y===h-1) st.touchesGridEdge=true;
+        if((st.cells&15)===1){const p=ll(minX+(x+.5)*CELL_M,minY+(y+.5)*CELL_M);if(nearMapEdge(p.lat,p.lng))st.touchesMapEdge=true;if(hitsGeoWater(p.lat,p.lng))st.hitsGeoWater=true;}
+        for(const [nx,ny] of [[x+1,y],[x-1,y],[x,y+1],[x,y-1]]){
+          if(nx<0||ny<0||nx>=w||ny>=h) continue;
+          const ni=idx(nx,ny);
+          if(!closed[ni]||labels[ni]>=0) continue;
+          labels[ni]=label; qx.push(nx); qy.push(ny);
+        }
+      }
+      stats.push(st); label++;
+    }
+    for(const p of points){
+      const ix=Math.floor((p.x-minX)/CELL_M),iy=Math.floor((p.y-minY)/CELL_M);
+      if(ix<0||iy<0||ix>=w||iy>=h) continue;
+      const l=labels[idx(ix,iy)];
+      if(l>=0&&stats[l]){stats[l].pointCount++;stats[l].maxScore=Math.max(stats[l].maxScore,p.score||0);}
+    }
+    const sorted=[...stats].sort((a,b)=>b.cells-a.cells);
+    const largest=sorted[0]?.cells||0, totalPoints=points.length;
+    const keep=new Set();
+    for(let rank=0;rank<sorted.length;rank++){
+      const st=sorted[rank];
+      const majorBySize=st.cells>=Math.max(55,largest*.16);
+      const majorByPoints=st.pointCount>=Math.max(45,totalPoints*.045);
+      if(st.hitsGeoWater||st.touchesMapEdge||majorBySize||majorByPoints) keep.add(st.label);
+    }
+    const filtered=closed.slice();
+    let removed=0;
+    for(let i=0;i<filtered.length;i++){
+      if(filtered[i]&&!keep.has(labels[i])){filtered[i]=0;removed++;}
+    }
+    return {filtered,labels,stats,kept:[...keep],removedCells:removed};
   }
   function buildRegion(points){
     const pts=(points||[]).filter(p=>p&&Number.isFinite(p.lat)&&Number.isFinite(p.lng)&&Number.isFinite(p.score)&&p.score>.035);
@@ -40,7 +95,6 @@
         if(x>=0&&y>=0&&x<w&&y<h) occ[idx(x,y)]=1;
       }
     }
-    // Close very small holes/gaps so the contour follows the evaluated water body rather than individual dots.
     const closed=occ.slice();
     for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
       if(occ[idx(x,y)]) continue;
@@ -48,7 +102,9 @@
       for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++) if(dx||dy) n+=occ[idx(x+dx,y+dy)];
       if(n>=5) closed[idx(x,y)]=1;
     }
-    function occupied(x,y){return x>=0&&y>=0&&x<w&&y<h&&closed[idx(x,y)];}
+    const connectivity=labelConnectedWater(closed,w,h,minX,minY,m);
+    const waterCells=connectivity.filtered;
+    function occupied(x,y){return x>=0&&y>=0&&x<w&&y<h&&waterCells[idx(x,y)];}
     function v(ix,iy){return ll(minX+ix*CELL_M,minY+iy*CELL_M);}
     const segments=[];
     function add(a,b,open){segments.push({a,b,open});}
@@ -68,7 +124,7 @@
         standSamples.push({lat,lng,segment:s});
       }
     }
-    return {version:VERSION,cellM:CELL_M,segments,standSamples,count:pts.length,bounds:{minX,minY,maxX,maxY,w,h}};
+    return {version:VERSION,cellM:CELL_M,segments,standSamples,count:pts.length,bounds:{minX,minY,maxX,maxY,w,h},connectivity};
   }
   function nearestStand(target,region){
     if(!target||!region) return null;
@@ -88,7 +144,7 @@
     const raw=[];
     for(const t of targets.slice(0,1600)){
       const s=nearestStand(t,region); if(!s) continue;
-      raw.push({...t,lat:s.lat,lng:s.lng,targetLat:t.lat,targetLng:t.lng,targetScore:t.score,castDistanceM:s.distanceM,landConfidence:1,bankQuality:1,onLand:true,onPointCloudEdge:true,score:clampLocal(s.score||t.score,0,1),structureName:`点群外縁釣り座：${t.structureName||t.hydroLabel||'水面標的'}`,reason:`評価点群の水面外縁 / ${Math.round(s.distanceM||0)}m先 / ${t.reason||''}`});
+      raw.push({...t,lat:s.lat,lng:s.lng,targetLat:t.lat,targetLng:t.lng,targetScore:t.score,castDistanceM:s.distanceM,landConfidence:1,bankQuality:1,onLand:true,onPointCloudEdge:true,score:clampLocal(s.score||t.score,0,1),structureName:`点群外縁釣り座：${t.structureName||t.hydroLabel||'水面標的'}`,reason:`主要水域に接続した評価点群外縁 / ${Math.round(s.distanceM||0)}m先 / ${t.reason||''}`});
     }
     raw.sort((a,b)=>b.score-a.score);
     const chosen=[],bankSep=(typeof CAST_MODEL!=='undefined'&&CAST_MODEL.bankSepM)||85,targetSep=(typeof CAST_MODEL!=='undefined'&&CAST_MODEL.targetSepM)||90;
@@ -130,7 +186,7 @@
         model.pointCloudWaterRegion=region;
         model.hotspots=computeHotspots(model.points,region,8,model.hotspots||[]);
         state.pointCloudWaterRegion=region;
-        state.photoSampleStatus=(state.photoSampleStatus||'水面評価')+` / 評価点群外縁${region.segments.length}線分`;
+        state.photoSampleStatus=(state.photoSampleStatus||'水面評価')+` / 主要水域外縁${region.segments.length}線分・孤立除外${region.connectivity?.removedCells||0}セル`;
         if(typeof updateWaterStatus==='function') updateWaterStatus();
       }
     }catch(e){console.warn('[pointcloud water] build failed',e);}
@@ -138,5 +194,5 @@
   };
   const prevRender=typeof renderAll==='function'?renderAll:null;
   if(prevRender) renderAll=function(){const r=prevRender.apply(this,arguments);try{drawRegion(state.ctx,state.pointCloudWaterRegion);}catch(e){}return r;};
-  window.ONGA_POINTCLOUD_WATER={version:VERSION,buildRegion,computeHotspots,drawRegion};
+  window.ONGA_POINTCLOUD_WATER={version:VERSION,buildRegion,computeHotspots,drawRegion,labelConnectedWater};
 })();

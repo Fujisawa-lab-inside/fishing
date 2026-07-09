@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.6.9
+# 遠賀川河口シミュレータ v4.7
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,19 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.6.9: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.6.9: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.7: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.7: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.7 の修正点
+
+- `public/data/onga/onga_geometry.geojson` を追加しました。
+- `onga_geometry_engine_v470.js` を追加しました。
+- ユーザー提供の緯度経度を正とする座標ベース地形データを読み込みます。
+- 曲川橋南側の水面ポリゴン、東岸/西岸shoreline、流軸を水面判定・水流計算・釣り座生成へ共通適用します。
+- 曲川・遠賀川本流合流部の突き出た陸地を land_polygon として扱います。
+- 曲川橋・西川橋・河口堰1〜8基準線を no-stand / no-cross 制約として扱います。
+- 既存の水面マスクは、座標ベースGeoJSONで明示されていない範囲のフォールバックとしてのみ使います。
 
 ## v4.6.9 の修正点
 
@@ -25,14 +35,6 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 - 編集データはブラウザのlocalStorageに保存できます。
 - 編集データを計算に適用できます。
 - GeoJSONとして出力・読込できます。
-
-## v4.6.7 の修正点
-
-- 計算用の水面・陸地境界を高解像度の承認済み水面マスクへ差し替えました。
-- 河口堰の北側・南側は、河口堰の開閉に応じた境界として扱います。
-- 西川は画面外から遠賀川本流との合流までの流れとして扱います。
-- 曲川は画面外から遠賀川本流との合流までの流れとして扱います。
-- 釣り座は承認済み緑線境界上に固定します。
 
 ## 注意
 

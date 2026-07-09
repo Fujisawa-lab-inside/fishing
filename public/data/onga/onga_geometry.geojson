@@ -1,0 +1,92 @@
+{
+  "type": "FeatureCollection",
+  "name": "onga_geometry_v4_7_candidate",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "kind": "water_polygon",
+        "name": "曲川橋南側水面",
+        "id": "magari_south_water",
+        "source": "user_provided_coordinates"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [130.68011111, 33.89163889],
+            [130.68030556, 33.89091667],
+            [130.68069444, 33.89033333],
+            [130.68122222, 33.88975],
+            [130.68191667, 33.88902778],
+            [130.68205556, 33.88805556],
+            [130.68152778, 33.88866667],
+            [130.68080556, 33.88944444],
+            [130.68016667, 33.89016667],
+            [130.67961111, 33.89105556],
+            [130.68011111, 33.89163889]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"shoreline","name":"曲川橋南側・東岸","id":"magari_south_east_bank","stand_candidate":true},
+      "geometry": {"type":"LineString","coordinates":[[130.68011111,33.89163889],[130.68030556,33.89091667],[130.68069444,33.89033333],[130.68122222,33.88975],[130.68191667,33.88902778]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"shoreline","name":"曲川橋南側・西岸","id":"magari_south_west_bank","stand_candidate":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67961111,33.89105556],[130.68016667,33.89016667],[130.68080556,33.88944444],[130.68152778,33.88866667],[130.68205556,33.88805556]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"flow_axis","name":"曲川橋南側流軸","id":"magari_south_flow_axis","flow":"upstream_to_confluence"},
+      "geometry": {"type":"LineString","coordinates":[[130.67986111,33.89134723],[130.68023612,33.89054167],[130.68075,33.88988888],[130.681375,33.88920833],[130.68198612,33.88854167]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"land_polygon","name":"曲川・遠賀川本流合流部の突き出た陸地","id":"magari_confluence_peninsula","source":"user_provided_coordinates"},
+      "geometry": {"type":"Polygon","coordinates":[[[130.67519444,33.89491667],[130.677,33.89444444],[130.67855556,33.89325],[130.67966667,33.89058333],[130.67927778,33.89122222],[130.67786111,33.89355556],[130.67597222,33.89469444],[130.67519444,33.89491667]]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"shoreline","name":"合流部突き出し陸地・曲川側","id":"peninsula_magari_side","stand_candidate":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67519444,33.89491667],[130.677,33.89444444],[130.67855556,33.89325],[130.67966667,33.89058333]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"shoreline","name":"合流部突き出し陸地・本流側","id":"peninsula_main_side","stand_candidate":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67519444,33.89491667],[130.67597222,33.89469444],[130.67786111,33.89355556],[130.67927778,33.89122222]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"bridge_line","name":"曲川橋","id":"magari_bridge","no_stand":true,"no_cross":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67936111,33.89175],[130.68002778,33.89191667]]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"kind":"bridge_line","name":"西川の橋","id":"nishi_bridge","no_stand":true,"no_cross":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67261111,33.89077778],[130.67355556,33.89027778]]}
+    },
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰1番ゲート中心","id":"barrage_gate_1","gate_no":1},"geometry":{"type":"Point","coordinates":[130.67497222,33.88886111]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰2番ゲート中心","id":"barrage_gate_2","gate_no":2},"geometry":{"type":"Point","coordinates":[130.67552778,33.88891667]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰3番ゲート中心","id":"barrage_gate_3","gate_no":3},"geometry":{"type":"Point","coordinates":[130.67608333,33.88897222]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰4番ゲート中心","id":"barrage_gate_4","gate_no":4},"geometry":{"type":"Point","coordinates":[130.67661111,33.88902778]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰5番ゲート中心","id":"barrage_gate_5","gate_no":5},"geometry":{"type":"Point","coordinates":[130.67713889,33.88908333]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰6番ゲート中心","id":"barrage_gate_6","gate_no":6},"geometry":{"type":"Point","coordinates":[130.67772222,33.88911111]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰7番ゲート中心","id":"barrage_gate_7","gate_no":7},"geometry":{"type":"Point","coordinates":[130.67825,33.88916667]}},
+    {"type":"Feature","properties":{"kind":"gate_center","name":"遠賀川河口堰8番ゲート中心","id":"barrage_gate_8","gate_no":8},"geometry":{"type":"Point","coordinates":[130.67875,33.88922222]}},
+    {"type":"Feature","properties":{"kind":"fishway_center","name":"魚道中心","id":"fishway_center"},"geometry":{"type":"Point","coordinates":[130.6745243,33.8894929]}},
+    {
+      "type": "Feature",
+      "properties": {"kind":"barrage_line","name":"遠賀川河口堰1-8基準線","id":"barrage_gate_1_8_line","no_stand":true,"no_cross":true},
+      "geometry": {"type":"LineString","coordinates":[[130.67497222,33.88886111],[130.67875,33.88922222]]}
+    }
+  ],
+  "metadata": {
+    "coordinate_order": "[longitude, latitude]",
+    "source": "user_provided_coordinates_and_existing_repo_gate_fishway",
+    "notes": "Magari south water polygon uses east bank north-to-south and west bank south-to-north. Peninsula polygon uses user-provided point order."
+  }
+}

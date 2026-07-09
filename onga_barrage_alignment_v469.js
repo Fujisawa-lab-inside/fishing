@@ -20,5 +20,10 @@
   const ca=Math.cos(angle), sa=Math.sin(angle);
   function rawToAligned(lat,lng){ const p=xy({lat,lng}), x=p.x-s0.x, y=p.y-s0.y; return ll({x:t0.x+scale*(ca*x-sa*y), y:t0.y+scale*(sa*x+ca*y)}); }
   function alignedToRaw(lat,lng){ const p=xy({lat,lng}), x=p.x-t0.x, y=p.y-t0.y; return ll({x:s0.x+(ca*x+sa*y)/scale, y:s0.y+(-sa*x+ca*y)/scale}); }
+  const oldMask = typeof calibratedWaterMaskValueAt === 'function' ? calibratedWaterMaskValueAt : null;
+  const oldHydro = typeof nearestHydroCorridor === 'function' ? nearestHydroCorridor : null;
+  if (oldMask) calibratedWaterMaskValueAt = function(lat,lng){ const p=alignedToRaw(lat,lng); return oldMask(p.lat,p.lng); };
+  if (typeof isKnownWater === 'function') isKnownWater = function(lat,lng){ return calibratedWaterMaskValueAt(lat,lng) > .5; };
+  if (oldHydro) nearestHydroCorridor = function(lat,lng){ const p=alignedToRaw(lat,lng); const h=oldHydro(p.lat,p.lng); return h ? {...h, barrageAligned:VERSION} : h; };
   window.ONGA_BARRAGE_ALIGNMENT = {version:VERSION, source:{west:SRC_W,east:SRC_E}, target:{west:TGT_W,east:TGT_E}, scale, angleDeg:angle*180/Math.PI, rawToAligned, alignedToRaw};
 })();

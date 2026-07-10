@@ -1,4 +1,4 @@
-# 遠賀川河口シミュレータ v4.7.8
+# 遠賀川河口シミュレータ v4.8.0
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
@@ -6,9 +6,19 @@ GitHub Pagesで動作するブラウザ版シミュレータです。
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`
 - 選択画面: `index.html`
-- PC版 v4.7.8: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
-- スマホ版 v4.7.8: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
+- PC版 v4.8.0: `OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html`
+- スマホ版 v4.8.0: `OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html`
 - 元の自己完結HTML: `pc_full.html`, `mobile_lite.html`
+
+## v4.8.0 の修正点
+
+- `onga_unified_water_domain_v480.js` を追加しました。
+- ユーザー指定画像の青塗り領域だけを、唯一の正解水面として扱います。
+- 3つの橋中央と2つの合流部地形先端、計5点の実測座標で青塗り水面マスクを地理参照します。
+- 水面判定、ヒートマップ生成、流体計算セル、釣り座境界線を同じ統一水面マスクから生成します。
+- 黄色線の橋は水面上の構造物として扱い、橋下で水面を分断しません。
+- 赤線の河口堰は陸地ではなく水理境界として扱い、人工的な陸地ギャップを作りません。
+- 釣り座候補は統一水面マスクの水面・陸地境界線上だけから抽出します。
 
 ## v4.7.8 の修正点
 

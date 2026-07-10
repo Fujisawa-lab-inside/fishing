@@ -1,15 +1,16 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.8.0 PC Full</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.8.0 統一水面マスク（青塗り正解水面）を読み込み中...</div><script>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.8.0 PC Full</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.8.0 承認済み統一水面・境界・流体格子を読み込み中...</div><script>
 (async()=>{
-  const [html,closedPatch,safetyPatch,geometryPatch,authorityPatch,pointCloudPatch,unifiedWaterPatch]=await Promise.all([
+  const [html,closedPatch,safetyPatch,geometryPatch,authorityPatch,pointCloudPatch,unifiedWaterPatch,unifiedBoundaryPatch]=await Promise.all([
     fetch('pc_full.html?exact=v46',{cache:'no-store'}).then(r=>r.text()),
     fetch('closed_gate_patch.js?v=closedflow1',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_spatial_safety_patch.js?v=onga-safety2',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_geometry_engine_v470.js?v=geometry478',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_geometry_authority_v472.js?v=geometry478',{cache:'no-store'}).then(r=>r.text()),
     fetch('onga_pointcloud_water_region_v477.js?v=pointcloud478',{cache:'no-store'}).then(r=>r.text()),
-    fetch('onga_unified_water_domain_v480.js?v=unified480_5cp',{cache:'no-store'}).then(r=>r.text())
+    fetch('onga_unified_water_domain_v480.js?v=unified480_final',{cache:'no-store'}).then(r=>r.text()),
+    fetch('onga_unified_boundary_v480.js?v=boundary480_final',{cache:'no-store'}).then(r=>r.text())
   ]);
-  const tags='<scr'+'ipt>'+closedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+safetyPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+geometryPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+authorityPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+pointCloudPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+unifiedWaterPatch+'\n<\/scr'+'ipt>';
+  const tags='<scr'+'ipt>'+closedPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+safetyPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+geometryPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+authorityPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+pointCloudPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+unifiedWaterPatch+'\n<\/scr'+'ipt>'+'<scr'+'ipt>'+unifiedBoundaryPatch+'\n<\/scr'+'ipt>';
   document.open();
   document.write(html.replace('</body>',tags+'</body>'));
   document.close();

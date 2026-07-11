@@ -11,9 +11,11 @@ for (const file of files) {
     "params.get('stage13')==='1'",
     'if(stage13Enabled)',
     'optional assets failed; continuing legacy simulation',
-    "fetchText('onga_stage13_runtime.js?v=stage13c')",
-    "fetchText('onga_stage13_bridge.js?v=stage13c')",
-    "fetchText('onga_stage13_bootstrap.js?v=stage13c')",
+    "fetchText('onga_stage13_runtime.js?v=stage13d')",
+    "fetchText('onga_stage13_fluid_domain_patch.js?v=stage13d')",
+    "fetchText('onga_stage13_bridge.js?v=stage13d')",
+    "fetchText('onga_stage13_bootstrap.js?v=stage13d')",
+    'script(runtime)+script(fluidDomainPatch)+script(bridge)+script(bootstrap)',
   ];
   for (const token of required) {
     if (!html.includes(token)) {

@@ -7,6 +7,8 @@ on:
       - 'data/onga_water_rows_r2_*.json'
       - 'tools/validate_stage13_data.mjs'
       - 'tools/validate_stage13_wrappers.mjs'
+      - 'tools/audit_stage13_entrypoints.mjs'
+      - 'tools/smoke_stage13_browser.mjs'
       - 'onga_stage13_*.js'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
@@ -34,3 +36,5 @@ jobs:
           node --check onga_stage13_bootstrap.js
       - name: Validate opt-in wrapper fallback
         run: node tools/validate_stage13_wrappers.mjs
+      - name: Audit legacy heatmap and fluid entrypoints
+        run: node tools/audit_stage13_entrypoints.mjs

@@ -1,0 +1,111 @@
+{
+  "schema": "onga-physical-input-v1",
+  "status": "input_contract_ready_values_pending",
+  "time": {
+    "timezone": "Asia/Tokyo",
+    "format": "ISO-8601",
+    "strictlyIncreasing": true
+  },
+  "units": {
+    "waterLevel": "m",
+    "discharge": "m3/s",
+    "openingFraction": "1"
+  },
+  "selectedModes": {
+    "fishway": {
+      "mode": "fixed_discharge",
+      "Q_m3_per_s": null
+    },
+    "boundaries": {
+      "M": {
+        "mode": "water_level_time_series",
+        "series": null
+      },
+      "N": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      },
+      "O": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      },
+      "G": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      }
+    },
+    "barrage": {
+      "mode": "uniform_opening",
+      "openingFraction": null,
+      "gateCount": 8,
+      "futureGatewiseReady": true,
+      "gateEdgeCounts": {
+        "1": 9,
+        "2": 7,
+        "3": 9,
+        "4": 8,
+        "5": 8,
+        "6": 8,
+        "7": 7,
+        "8": 12
+      }
+    }
+  },
+  "requiredInputs": {
+    "M": {
+      "mode": "water_level_time_series",
+      "fields": ["timestamp", "water_level_m"],
+      "minimumSamples": 2
+    },
+    "N": {
+      "mode": "normal_discharge",
+      "fields": ["timestamp", "discharge_m3_s"],
+      "minimumSamples": 1
+    },
+    "O": {
+      "mode": "normal_discharge",
+      "fields": ["timestamp", "discharge_m3_s"],
+      "minimumSamples": 1
+    },
+    "G": {
+      "mode": "normal_discharge",
+      "fields": ["timestamp", "discharge_m3_s"],
+      "minimumSamples": 1
+    },
+    "fishway": {
+      "mode": "fixed_discharge",
+      "fields": ["discharge_m3_s"],
+      "minimumSamples": 1
+    },
+    "barrage": {
+      "mode": "uniform_opening",
+      "fields": ["opening_fraction"],
+      "range": [0.0, 1.0]
+    }
+  },
+  "signConventions": {
+    "boundaryDischarge": "outward_positive",
+    "fishway": "positive_upstream_to_downstream",
+    "barrageOpening": "0_closed_1_fully_open"
+  },
+  "qualityRules": {
+    "rejectNaN": true,
+    "rejectInfinity": true,
+    "allowNegativeBoundaryDischarge": true,
+    "allowTidalFlowReversal": true,
+    "fishwayDischargeNonnegative": true
+  },
+  "deferredAlternatives": {
+    "fishway": ["fixed_discharge", "time_series_discharge", "head_difference_relation", "disabled"],
+    "M": ["water_level_time_series", "normal_discharge", "radiation", "coupled_external_series"],
+    "NOG": ["normal_discharge", "water_level", "time_series_discharge", "estimated_discharge"],
+    "barrage": ["uniform_opening", "eight_gate_individual_opening", "measured_gate_time_series"]
+  },
+  "solverConnection": {
+    "enabled": false,
+    "reason": "Physical values not approved or acquired."
+  }
+}

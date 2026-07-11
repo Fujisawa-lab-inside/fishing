@@ -1,0 +1,74 @@
+{
+  "schema": "onga-recommended-physical-model-v1",
+  "status": "recommended_modes_selected_physical_values_pending",
+  "selectedModes": {
+    "fishway": {
+      "mode": "fixed_discharge",
+      "Q_m3_per_s": null
+    },
+    "boundaries": {
+      "M": {
+        "mode": "water_level_time_series",
+        "series": null
+      },
+      "N": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      },
+      "O": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      },
+      "G": {
+        "mode": "normal_discharge",
+        "Q_m3_per_s": null,
+        "series": null
+      }
+    },
+    "barrage": {
+      "mode": "uniform_opening",
+      "openingFraction": null,
+      "gateCount": 8,
+      "futureGatewiseReady": true,
+      "gateEdgeCounts": {
+        "1": 9,
+        "2": 7,
+        "3": 9,
+        "4": 8,
+        "5": 8,
+        "6": 8,
+        "7": 7,
+        "8": 12
+      }
+    }
+  },
+  "deferredAlternatives": {
+    "fishway": [
+      "fixed_discharge",
+      "time_series_discharge",
+      "head_difference_relation",
+      "disabled"
+    ],
+    "M": [
+      "water_level_time_series",
+      "normal_discharge",
+      "radiation",
+      "coupled_external_series"
+    ],
+    "NOG": [
+      "normal_discharge",
+      "water_level",
+      "time_series_discharge",
+      "estimated_discharge"
+    ],
+    "barrage": [
+      "uniform_opening",
+      "eight_gate_individual_opening",
+      "measured_gate_time_series"
+    ]
+  },
+  "physicalValuesAssigned": false,
+  "githubChanged": true
+}

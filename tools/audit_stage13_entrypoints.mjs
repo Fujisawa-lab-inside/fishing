@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 
 const files = ['pc_full.html', 'mobile_lite.html'];
+const outputPath = process.argv[2] ?? 'stage13-entrypoint-audit.json';
 const entrypoints = [
   'calibratedWaterMaskValueAt',
   'isKnownWater',
@@ -126,4 +127,6 @@ for (const file of files) {
   }
 }
 
+await fs.writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+console.log(`Wrote ${outputPath}`);
 console.log(JSON.stringify(report, null, 2));

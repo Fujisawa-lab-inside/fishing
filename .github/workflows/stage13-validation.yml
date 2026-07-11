@@ -34,6 +34,7 @@ jobs:
           node --check onga_stage13_runtime.js
           node --check onga_stage13_bridge.js
           node --check onga_stage13_bootstrap.js
+          node --check tools/smoke_stage13_browser.mjs
       - name: Validate opt-in wrapper fallback
         run: node tools/validate_stage13_wrappers.mjs
       - name: Audit legacy heatmap and fluid entrypoints
@@ -43,3 +44,19 @@ jobs:
         with:
           name: stage13-entrypoint-audit
           path: stage13-entrypoint-audit.json
+      - name: Set up Chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - name: Run PC and mobile browser smoke tests
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
+        run: node tools/smoke_stage13_browser.mjs
+      - name: Upload browser smoke diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage13-browser-smoke
+          path: stage13-browser-smoke
+          if-no-files-found: warn

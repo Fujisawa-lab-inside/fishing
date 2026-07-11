@@ -143,16 +143,34 @@
     if (!grid?.water || !grid?.latArr || !grid?.lngArr) {
       throw new Error('[onga-stage13-bridge] fluid grid lacks water/lat/lng arrays');
     }
+    const bounds = window.GSI?.bounds;
+    const canReconstructCentres = bounds
+      && [bounds.north, bounds.south, bounds.west, bounds.east].every(Number.isFinite)
+      && Number.isInteger(grid.nx)
+      && Number.isInteger(grid.ny);
     let difference = 0;
+    let float32Difference = 0;
     for (let index = 0; index < grid.water.length; index += 1) {
-      const expected = authority.water.containsLatLng(grid.latArr[index], grid.lngArr[index]);
+      const i = index % grid.nx;
+      const j = Math.floor(index / grid.nx);
+      const lat = canReconstructCentres
+        ? bounds.north - (bounds.north - bounds.south) * (j + 0.5) / grid.ny
+        : grid.latArr[index];
+      const lng = canReconstructCentres
+        ? bounds.west + (bounds.east - bounds.west) * (i + 0.5) / grid.nx
+        : grid.lngArr[index];
+      const expected = authority.water.containsLatLng(lat, lng);
       const actual = grid.water[index] === 1;
       if (expected !== actual) difference += 1;
+      const floatExpected = authority.water.containsLatLng(grid.latArr[index], grid.lngArr[index]);
+      if (floatExpected !== actual) float32Difference += 1;
     }
     audit.fluidCellsChecked = grid.water.length;
     audit.fluidDomainDifferenceCells = difference;
+    audit.fluidFloat32DiagnosticDifference = float32Difference;
     setDataset('ongaStage13FluidCells', grid.water.length);
     setDataset('ongaStage13FluidDomainDifference', difference);
+    setDataset('ongaStage13FluidFloat32Difference', float32Difference);
     if (difference !== 0) {
       throw new Error(`[onga-stage13-bridge] fluid domain difference: ${difference}`);
     }

@@ -32,6 +32,7 @@ jobs:
       - name: Syntax-check Stage 13 scripts
         run: |
           node --check onga_stage13_runtime.js
+          node --check onga_stage13_fluid_domain_patch.js
           node --check onga_stage13_bridge.js
           node --check onga_stage13_bootstrap.js
           node --check tools/smoke_stage13_browser.mjs

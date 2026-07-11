@@ -181,6 +181,8 @@
       && Number.isInteger(grid.nx)
       && Number.isInteger(grid.ny);
     let difference = 0;
+    let falseNegative = 0;
+    let falsePositive = 0;
     let float32Difference = 0;
     const mismatchDetails = [];
     for (let index = 0; index < grid.water.length; index += 1) {
@@ -196,6 +198,8 @@
       const actual = grid.water[index] === 1;
       if (expected !== actual) {
         difference += 1;
+        if (expected) falseNegative += 1;
+        else falsePositive += 1;
         if (mismatchDetails.length < 20) {
           mismatchDetails.push({ index, i, j, lat, lng, expected, actual });
         }
@@ -206,10 +210,28 @@
     audit.fluidCellsChecked = grid.water.length;
     audit.fluidDomainDifferenceCells = difference;
     audit.fluidFloat32DiagnosticDifference = float32Difference;
+    audit.fluidFalseNegative = falseNegative;
+    audit.fluidFalsePositive = falsePositive;
+    audit.fluidExactCentres = Boolean(canReconstructCentres);
     audit.fluidMismatchDetails = mismatchDetails;
     setDataset('ongaStage13FluidCells', grid.water.length);
     setDataset('ongaStage13FluidDomainDifference', difference);
+    setDataset('ongaStage13FluidFalseNegative', falseNegative);
+    setDataset('ongaStage13FluidFalsePositive', falsePositive);
+    setDataset('ongaStage13FluidExactCentres', Boolean(canReconstructCentres));
     setDataset('ongaStage13FluidFloat32Difference', float32Difference);
+    setDataset(
+      'ongaStage13FluidMismatchDetails',
+      mismatchDetails.map(item => [
+        item.index,
+        item.i,
+        item.j,
+        item.expected ? 1 : 0,
+        item.actual ? 1 : 0,
+        item.lat.toFixed(8),
+        item.lng.toFixed(8),
+      ].join(':')).join(','),
+    );
     if (difference !== 0) {
       throw new Error(`[onga-stage13-bridge] fluid domain difference: ${difference}`);
     }

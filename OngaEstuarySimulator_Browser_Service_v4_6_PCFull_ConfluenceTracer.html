@@ -20,9 +20,9 @@
   if(stage13Enabled){
     try{
       const [runtime,bridge,bootstrap]=await Promise.all([
-        fetchText('onga_stage13_runtime.js?v=stage13b'),
-        fetchText('onga_stage13_bridge.js?v=stage13b'),
-        fetchText('onga_stage13_bootstrap.js?v=stage13b')
+        fetchText('onga_stage13_runtime.js?v=stage13c'),
+        fetchText('onga_stage13_bridge.js?v=stage13c'),
+        fetchText('onga_stage13_bootstrap.js?v=stage13c')
       ]);
       tags+=script(runtime)+script(bridge)+script(bootstrap);
     }catch(error){

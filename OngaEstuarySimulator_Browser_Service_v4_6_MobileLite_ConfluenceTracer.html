@@ -1,1 +1,39 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.7.8 Mobile Lite</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script defer src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.7.8 主要水域連結フィルタ付き評価点群外縁を生成中...</div><script>(async()=>{const [html,closedPatch,safetyPatch,geometryPatch,authorityPatch,pointCloudPatch,stage13Runtime,stage13Bridge,stage13Bootstrap]=await Promise.all([fetch('mobile_lite.html?exact=v46',{cache:'no-store'}).then(r=>r.text()),fetch('closed_gate_patch.js?v=closedflow1',{cache:'no-store'}).then(r=>r.text()),fetch('onga_spatial_safety_patch.js?v=onga-safety2',{cache:'no-store'}).then(r=>r.text()),fetch('onga_geometry_engine_v470.js?v=geometry478',{cache:'no-store'}).then(r=>r.text()),fetch('onga_geometry_authority_v472.js?v=geometry478',{cache:'no-store'}).then(r=>r.text()),fetch('onga_pointcloud_water_region_v477.js?v=pointcloud478',{cache:'no-store'}).then(r=>r.text()),fetch('onga_stage13_runtime.js?v=stage13a',{cache:'no-store'}).then(r=>r.text()),fetch('onga_stage13_bridge.js?v=stage13a',{cache:'no-store'}).then(r=>r.text()),fetch('onga_stage13_bootstrap.js?v=stage13a',{cache:'no-store'}).then(r=>r.text())]);const script=text=>'<scr'+'ipt>'+text+'\n<\/scr'+'ipt>';const tags=script(closedPatch)+script(safetyPatch)+script(geometryPatch)+script(authorityPatch)+script(pointCloudPatch)+script(stage13Runtime)+script(stage13Bridge)+script(stage13Bootstrap);document.open();document.write(html.replace('</body>',tags+'</body>'));document.close();})().catch(e=>{document.body.innerHTML='<pre style="white-space:pre-wrap;padding:16px">読込に失敗しました: '+String(e)+'</pre>';});</script></body></html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>遠賀川河口シーバス・ホットスポット v4.7.8 Mobile Lite</title><style>html,body{margin:0;height:100%;background:#07111d;color:#eef;font-family:-apple-system,BlinkMacSystemFont,sans-serif}.loading{display:grid;place-items:center;height:100%;padding:24px;text-align:center}</style><script defer src="prime_window_patch.js?v=prime1"></script></head><body><div class="loading">v4.7.8 主要水域連結フィルタ付き評価点群外縁を生成中...</div><script>
+(async()=>{
+  const fetchText=async url=>{
+    const response=await fetch(url,{cache:'no-store'});
+    if(!response.ok) throw new Error(url+' '+response.status+' '+response.statusText);
+    return response.text();
+  };
+  const params=new URLSearchParams(location.search);
+  const stage13Enabled=params.get('stage13')==='1';
+  const [html,closedPatch,safetyPatch,geometryPatch,authorityPatch,pointCloudPatch]=await Promise.all([
+    fetchText('mobile_lite.html?exact=v46'),
+    fetchText('closed_gate_patch.js?v=closedflow1'),
+    fetchText('onga_spatial_safety_patch.js?v=onga-safety2'),
+    fetchText('onga_geometry_engine_v470.js?v=geometry478'),
+    fetchText('onga_geometry_authority_v472.js?v=geometry478'),
+    fetchText('onga_pointcloud_water_region_v477.js?v=pointcloud478')
+  ]);
+  const script=text=>'<scr'+'ipt>'+text+'\n<\/scr'+'ipt>';
+  let tags=script(closedPatch)+script(safetyPatch)+script(geometryPatch)+script(authorityPatch)+script(pointCloudPatch);
+  if(stage13Enabled){
+    try{
+      const [runtime,bridge,bootstrap]=await Promise.all([
+        fetchText('onga_stage13_runtime.js?v=stage13b'),
+        fetchText('onga_stage13_bridge.js?v=stage13b'),
+        fetchText('onga_stage13_bootstrap.js?v=stage13b')
+      ]);
+      tags+=script(runtime)+script(bridge)+script(bootstrap);
+    }catch(error){
+      console.error('[onga-stage13] optional assets failed; continuing legacy simulation',error);
+      tags+=script("document.documentElement.dataset.ongaStage13='asset-error';window.__ONGA_STAGE13_ERROR__="+JSON.stringify(String(error))+";");
+    }
+  }
+  document.open();
+  document.write(html.replace('</body>',tags+'</body>'));
+  document.close();
+})().catch(error=>{
+  document.body.innerHTML='<pre style="white-space:pre-wrap;padding:16px">読込に失敗しました: '+String(error)+'</pre>';
+});
+</script></body></html>

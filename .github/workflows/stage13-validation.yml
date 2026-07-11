@@ -1,0 +1,31 @@
+name: Stage 13 validation
+
+on:
+  pull_request:
+    paths:
+      - 'data/onga_unified_water_manifest_r2.json'
+      - 'data/onga_water_rows_r2_*.json'
+      - 'tools/validate_stage13_data.mjs'
+      - 'onga_stage13_*.js'
+      - 'config/onga_*_v1.json'
+      - '.github/workflows/stage13-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-authoritative-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate authoritative water domain
+        run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r2.json
+      - name: Syntax-check Stage 13 scripts
+        run: |
+          node --check onga_stage13_runtime.js
+          node --check onga_stage13_bridge.js
+          node --check onga_stage13_bootstrap.js

@@ -37,4 +37,9 @@ jobs:
       - name: Validate opt-in wrapper fallback
         run: node tools/validate_stage13_wrappers.mjs
       - name: Audit legacy heatmap and fluid entrypoints
-        run: node tools/audit_stage13_entrypoints.mjs
+        run: node tools/audit_stage13_entrypoints.mjs stage13-entrypoint-audit.json
+      - name: Upload entrypoint audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage13-entrypoint-audit
+          path: stage13-entrypoint-audit.json

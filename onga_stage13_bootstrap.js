@@ -1,8 +1,8 @@
 (() => {
   'use strict';
 
-  if (window.__ONGA_STAGE13_BOOTSTRAP_V2__) return;
-  window.__ONGA_STAGE13_BOOTSTRAP_V2__ = true;
+  if (window.__ONGA_STAGE13_BOOTSTRAP_V3__) return;
+  window.__ONGA_STAGE13_BOOTSTRAP_V3__ = true;
 
   const params = new URLSearchParams(location.search);
   const enabled = params.get('stage13') === '1';
@@ -21,11 +21,15 @@
       if (!window.OngaStage13?.load) {
         throw new Error('onga_stage13_runtime.js is not loaded');
       }
+      if (!window.OngaStage13FluidDomainPatch?.install) {
+        throw new Error('onga_stage13_fluid_domain_patch.js is not loaded');
+      }
       if (!window.OngaStage13Bridge?.install) {
         throw new Error('onga_stage13_bridge.js is not loaded');
       }
 
       const authority = await window.OngaStage13.load();
+      const fluidDomainPatch = window.OngaStage13FluidDomainPatch.install(authority);
       const bridge = window.OngaStage13Bridge.install();
       setDataset('ongaStage13PixelCount', authority.water.pixelCount);
       setDataset('ongaStage13Georef', 'ready');
@@ -35,7 +39,7 @@
       );
       await bridge.refresh();
       setDataset('ongaStage13', 'ready');
-      return { enabled: true, installed: true, authority, bridge };
+      return { enabled: true, installed: true, authority, fluidDomainPatch, bridge };
     } catch (error) {
       setDataset('ongaStage13', 'error');
       window.__ONGA_STAGE13_ERROR__ = error;

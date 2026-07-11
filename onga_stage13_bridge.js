@@ -47,6 +47,24 @@
     if (audit.currentContext in audit.calls) audit.calls[audit.currentContext] += 1;
   }
 
+  function legacyState() {
+    try {
+      if (typeof state !== 'undefined') return state;
+    } catch (_) {
+      // Ignore missing global lexical binding.
+    }
+    return window.state;
+  }
+
+  function legacyGsi() {
+    try {
+      if (typeof GSI !== 'undefined') return GSI;
+    } catch (_) {
+      // Ignore missing global lexical binding.
+    }
+    return window.GSI;
+  }
+
   function installWaterPredicate(authority) {
     const containsImagePixel = authority.water.containsImagePixel;
     const containsLatLng = authority.water.containsLatLng;
@@ -61,17 +79,27 @@
       return containsLatLng(lat, lng);
     };
 
-    if (typeof window.calibratedWaterMaskValueAt === 'function') {
-      window.calibratedWaterMaskValueAt = (lat, lng) => (
-        window.ongaUnifiedWaterAtLatLng(lat, lng) ? 1 : 0
-      );
+    const calibratedReplacement = (lat, lng) => (
+      window.ongaUnifiedWaterAtLatLng(lat, lng) ? 1 : 0
+    );
+    if (typeof calibratedWaterMaskValueAt === 'function') {
+      calibratedWaterMaskValueAt = calibratedReplacement;
+      window.calibratedWaterMaskValueAt = calibratedReplacement;
+      audit.patches.calibratedWaterMaskValueAt = true;
+    } else if (typeof window.calibratedWaterMaskValueAt === 'function') {
+      window.calibratedWaterMaskValueAt = calibratedReplacement;
       audit.patches.calibratedWaterMaskValueAt = true;
     } else {
       audit.patches.calibratedWaterMaskValueAt = false;
     }
 
-    if (typeof window.isKnownWater === 'function') {
-      window.isKnownWater = (lat, lng) => window.ongaUnifiedWaterAtLatLng(lat, lng);
+    const knownReplacement = (lat, lng) => window.ongaUnifiedWaterAtLatLng(lat, lng);
+    if (typeof isKnownWater === 'function') {
+      isKnownWater = knownReplacement;
+      window.isKnownWater = knownReplacement;
+      audit.patches.isKnownWater = true;
+    } else if (typeof window.isKnownWater === 'function') {
+      window.isKnownWater = knownReplacement;
       audit.patches.isKnownWater = true;
     } else {
       audit.patches.isKnownWater = false;
@@ -98,24 +126,28 @@
   }
 
   function installHeatmapRoute(authority) {
-    const originalSampler = typeof window.samplePhotoWaterCandidates === 'function'
-      ? window.samplePhotoWaterCandidates
-      : null;
-    const originalDrawHeatmap = typeof window.drawHeatmap === 'function'
-      ? window.drawHeatmap
-      : null;
+    const originalSampler = typeof samplePhotoWaterCandidates === 'function'
+      ? samplePhotoWaterCandidates
+      : (typeof window.samplePhotoWaterCandidates === 'function' ? window.samplePhotoWaterCandidates : null);
+    const originalDrawHeatmap = typeof drawHeatmap === 'function'
+      ? drawHeatmap
+      : (typeof window.drawHeatmap === 'function' ? window.drawHeatmap : null);
 
     if (originalSampler) {
-      window.samplePhotoWaterCandidates = function unifiedWaterSamples(...args) {
+      const replacement = function unifiedWaterSamples(...args) {
         const samples = withContext('heatmap', () => originalSampler.apply(this, args));
         validateHeatmapSamples(authority, samples);
         return samples;
       };
+      if (typeof samplePhotoWaterCandidates === 'function') samplePhotoWaterCandidates = replacement;
+      window.samplePhotoWaterCandidates = replacement;
     }
     if (originalDrawHeatmap) {
-      window.drawHeatmap = function unifiedHeatmap(...args) {
+      const replacement = function unifiedHeatmap(...args) {
         return withContext('heatmap', () => originalDrawHeatmap.apply(this, args));
       };
+      if (typeof drawHeatmap === 'function') drawHeatmap = replacement;
+      window.drawHeatmap = replacement;
     }
 
     audit.patches.samplePhotoWaterCandidates = Boolean(originalSampler);
@@ -143,13 +175,14 @@
     if (!grid?.water || !grid?.latArr || !grid?.lngArr) {
       throw new Error('[onga-stage13-bridge] fluid grid lacks water/lat/lng arrays');
     }
-    const bounds = window.GSI?.bounds;
+    const bounds = legacyGsi()?.bounds;
     const canReconstructCentres = bounds
       && [bounds.north, bounds.south, bounds.west, bounds.east].every(Number.isFinite)
       && Number.isInteger(grid.nx)
       && Number.isInteger(grid.ny);
     let difference = 0;
     let float32Difference = 0;
+    const mismatchDetails = [];
     for (let index = 0; index < grid.water.length; index += 1) {
       const i = index % grid.nx;
       const j = Math.floor(index / grid.nx);
@@ -161,13 +194,19 @@
         : grid.lngArr[index];
       const expected = authority.water.containsLatLng(lat, lng);
       const actual = grid.water[index] === 1;
-      if (expected !== actual) difference += 1;
+      if (expected !== actual) {
+        difference += 1;
+        if (mismatchDetails.length < 20) {
+          mismatchDetails.push({ index, i, j, lat, lng, expected, actual });
+        }
+      }
       const floatExpected = authority.water.containsLatLng(grid.latArr[index], grid.lngArr[index]);
       if (floatExpected !== actual) float32Difference += 1;
     }
     audit.fluidCellsChecked = grid.water.length;
     audit.fluidDomainDifferenceCells = difference;
     audit.fluidFloat32DiagnosticDifference = float32Difference;
+    audit.fluidMismatchDetails = mismatchDetails;
     setDataset('ongaStage13FluidCells', grid.water.length);
     setDataset('ongaStage13FluidDomainDifference', difference);
     setDataset('ongaStage13FluidFloat32Difference', float32Difference);
@@ -177,33 +216,40 @@
   }
 
   function installFluidRoute(authority) {
-    const originalBuildFluidGrid = typeof window.buildFluidGrid === 'function'
-      ? window.buildFluidGrid
-      : null;
+    const originalBuildFluidGrid = typeof buildFluidGrid === 'function'
+      ? buildFluidGrid
+      : (typeof window.buildFluidGrid === 'function' ? window.buildFluidGrid : null);
     if (!originalBuildFluidGrid) {
       audit.patches.buildFluidGrid = false;
       return;
     }
 
-    window.buildFluidGrid = function unifiedBuildFluidGrid(...args) {
-      const previousHydro = window.nearestHydroCorridor;
-      window.nearestHydroCorridor = createHydroFallback(previousHydro, authority);
+    const replacement = function unifiedBuildFluidGrid(...args) {
+      const previousHydro = typeof nearestHydroCorridor === 'function'
+        ? nearestHydroCorridor
+        : window.nearestHydroCorridor;
+      const hydroReplacement = createHydroFallback(previousHydro, authority);
+      if (typeof nearestHydroCorridor === 'function') nearestHydroCorridor = hydroReplacement;
+      window.nearestHydroCorridor = hydroReplacement;
       try {
         const grid = withContext('fluid', () => originalBuildFluidGrid.apply(this, args));
         validateFluidGrid(authority, grid);
         return grid;
       } finally {
+        if (typeof nearestHydroCorridor === 'function') nearestHydroCorridor = previousHydro;
         window.nearestHydroCorridor = previousHydro;
       }
     };
+    if (typeof buildFluidGrid === 'function') buildFluidGrid = replacement;
+    window.buildFluidGrid = replacement;
     audit.patches.buildFluidGrid = true;
   }
 
   function installCandidateFilters(authority) {
     const containsLatLng = authority.water.containsLatLng;
-    const originalHotspots = typeof window.makeShoreCastingHotspots === 'function'
-      ? window.makeShoreCastingHotspots
-      : null;
+    const originalHotspots = typeof makeShoreCastingHotspots === 'function'
+      ? makeShoreCastingHotspots
+      : (typeof window.makeShoreCastingHotspots === 'function' ? window.makeShoreCastingHotspots : null);
 
     window.ongaUnifiedFilterImagePoints = points => (points || []).filter(point => {
       const x = Number(point?.x ?? point?.canvasX);
@@ -218,22 +264,25 @@
     ));
 
     if (originalHotspots) {
-      window.makeShoreCastingHotspots = function unifiedHotspots(candidates, count) {
+      const replacement = function unifiedHotspots(candidates, count) {
         return withContext('hotspot', () => {
           const filtered = window.ongaUnifiedFilterLatLngPoints(candidates);
           return originalHotspots.call(this, filtered, count);
         });
       };
+      if (typeof makeShoreCastingHotspots === 'function') makeShoreCastingHotspots = replacement;
+      window.makeShoreCastingHotspots = replacement;
     }
     audit.patches.makeShoreCastingHotspots = Boolean(originalHotspots);
   }
 
   function clearLegacyCaches() {
     try {
-      window.state?.waterSampleCache?.clear?.();
-      window.state?.fluidCache?.clear?.();
-      window.state?.fluidBaseCache?.clear?.();
-      window.state?.validationCache?.clear?.();
+      const currentState = legacyState();
+      currentState?.waterSampleCache?.clear?.();
+      currentState?.fluidCache?.clear?.();
+      currentState?.fluidBaseCache?.clear?.();
+      currentState?.validationCache?.clear?.();
     } catch (_) {
       // State may not exist yet during early bootstrap.
     }
@@ -259,13 +308,16 @@
     audit.refreshAttempted = true;
     clearLegacyCaches();
     try {
-      if (typeof window.samplePhotoWaterCandidates === 'function') {
-        window.samplePhotoWaterCandidates();
-      }
-      if (typeof window.computeAndRender === 'function' && window.state?.timeline?.length) {
-        await Promise.resolve(window.computeAndRender(true));
-      } else if (typeof window.renderAll === 'function') {
-        window.renderAll();
+      const sampler = typeof samplePhotoWaterCandidates === 'function'
+        ? samplePhotoWaterCandidates
+        : window.samplePhotoWaterCandidates;
+      const compute = typeof computeAndRender === 'function' ? computeAndRender : window.computeAndRender;
+      const render = typeof renderAll === 'function' ? renderAll : window.renderAll;
+      if (typeof sampler === 'function') sampler();
+      if (typeof compute === 'function' && legacyState()?.timeline?.length) {
+        await Promise.resolve(compute(true));
+      } else if (typeof render === 'function') {
+        render();
       }
       await settle();
       audit.refreshCompleted = true;

@@ -19,12 +19,13 @@
   let tags=script(closedPatch)+script(safetyPatch)+script(geometryPatch)+script(authorityPatch)+script(pointCloudPatch);
   if(stage13Enabled){
     try{
-      const [runtime,bridge,bootstrap]=await Promise.all([
-        fetchText('onga_stage13_runtime.js?v=stage13b'),
-        fetchText('onga_stage13_bridge.js?v=stage13b'),
-        fetchText('onga_stage13_bootstrap.js?v=stage13b')
+      const [runtime,bridge,heatmapClip,bootstrap]=await Promise.all([
+        fetchText('onga_stage13_runtime.js?v=stage13c'),
+        fetchText('onga_stage13_bridge.js?v=stage13c'),
+        fetchText('onga_stage13_heatmap_clip.js?v=stage13c'),
+        fetchText('onga_stage13_bootstrap.js?v=stage13c')
       ]);
-      tags+=script(runtime)+script(bridge)+script(bootstrap);
+      tags+=script(runtime)+script(bridge)+script(heatmapClip)+script(bootstrap);
     }catch(error){
       console.error('[onga-stage13] optional assets failed; continuing legacy simulation',error);
       tags+=script("document.documentElement.dataset.ongaStage13='asset-error';window.__ONGA_STAGE13_ERROR__="+JSON.stringify(String(error))+";");

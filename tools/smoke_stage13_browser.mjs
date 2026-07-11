@@ -102,6 +102,7 @@ function validateDom(testCase, dom) {
     'data-onga-stage13-heatmap-route="authority"',
     'data-onga-stage13-fluid-route="authority"',
     'data-onga-stage13-heatmap-mismatch="0"',
+    'data-onga-stage13-fluid-domain-difference="0"',
     'data-onga-stage13-refresh="complete"',
   ];
   for (const token of required) {

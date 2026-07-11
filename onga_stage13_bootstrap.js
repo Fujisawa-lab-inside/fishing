@@ -1,11 +1,15 @@
 (() => {
   'use strict';
 
-  if (window.__ONGA_STAGE13_BOOTSTRAP__) return;
-  window.__ONGA_STAGE13_BOOTSTRAP__ = true;
+  if (window.__ONGA_STAGE13_BOOTSTRAP_V2__) return;
+  window.__ONGA_STAGE13_BOOTSTRAP_V2__ = true;
 
   const params = new URLSearchParams(location.search);
   const enabled = params.get('stage13') === '1';
+
+  function setDataset(name, value) {
+    document.documentElement.dataset[name] = String(value);
+  }
 
   async function start() {
     if (!enabled) {
@@ -23,10 +27,17 @@
 
       const authority = await window.OngaStage13.load();
       const bridge = window.OngaStage13Bridge.install();
-      document.documentElement.dataset.ongaStage13 = 'ready';
+      setDataset('ongaStage13PixelCount', authority.water.pixelCount);
+      setDataset('ongaStage13Georef', 'ready');
+      setDataset(
+        'ongaStage13GeorefMaxError',
+        authority.diagnostics.controlPointValidation.maxPixelError.toExponential(3),
+      );
+      await bridge.refresh();
+      setDataset('ongaStage13', 'ready');
       return { enabled: true, installed: true, authority, bridge };
     } catch (error) {
-      document.documentElement.dataset.ongaStage13 = 'error';
+      setDataset('ongaStage13', 'error');
       window.__ONGA_STAGE13_ERROR__ = error;
       console.error('[onga-stage13] opt-in bootstrap failed; legacy simulation remains active', error);
       return { enabled: true, installed: false, error };

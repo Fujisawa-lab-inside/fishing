@@ -1,0 +1,61 @@
+name: Stage 17 official request submission validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage17_onga_office_request_submission_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'tools/validate_stage17_onga_office_request_submission.mjs'
+      - 'docs/STAGE17_OFFICIAL_REQUEST_SUBMISSION_READINESS.md'
+      - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
+      - '.github/workflows/stage17-official-request-submission-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'config/stage17_onga_office_request_submission_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'tools/validate_stage17_onga_office_request_submission.mjs'
+      - 'docs/STAGE17_OFFICIAL_REQUEST_SUBMISSION_READINESS.md'
+      - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
+      - '.github/workflows/stage17-official-request-submission-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-request-submission-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check request submission validator
+        run: node --check tools/validate_stage17_onga_office_request_submission.mjs
+      - name: Validate route-A authorization and submission blockers
+        run: >-
+          node tools/validate_stage17_onga_office_request_submission.mjs
+          config/stage17_onga_office_request_submission_v1.json
+          config/stage17_physical_data_acquisition_decision_record_v1.json
+          stage17-onga-office-request-submission-validation.json
+      - name: Verify the committed packet remains unsubmitted and fail-closed
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('stage17-onga-office-request-submission-validation.json', 'utf8'));
+          if (report.status !== 'passed') throw new Error('validator failed');
+          if (report.template.readyForSubmission !== false) throw new Error('committed template must not be submission-ready');
+          if (report.template.externalContactPerformed !== false) throw new Error('external contact must remain false');
+          if (report.template.physicalValuesAssigned !== false) throw new Error('physical values must remain unassigned');
+          if (!report.template.blockers.some(item => item.code === 'REQUESTER_UNIVERSITY_MISSING')) {
+            throw new Error('requester metadata blocker missing');
+          }
+          NODE
+      - name: Upload submission readiness report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage17-official-request-submission-validation
+          path: stage17-onga-office-request-submission-validation.json

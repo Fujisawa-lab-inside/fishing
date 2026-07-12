@@ -16,13 +16,15 @@ The shallow-water candidate solves conservative water depth and two horizontal m
 
 The current packet gives extra weight to a two-component velocity vector，tributary-confluence interaction，bidirectional tidal flow，and water-level propagation．These weights describe the intended outputs and are not calibration coefficients．Under these objectives，the shallow-water candidate is recommended because the scalar skeleton has missing or indirect capabilities．
 
-## Current evidence gaps
+## Current evidence
 
-The approved water authority is ready．The scalar algebraic skeleton has passed its isolated synthetic tests．The production mesh artifact has not yet been committed and audited in CI，the integrated shallow-water benchmark registry has not yet been completed on that mesh，and no bathymetry，roughness，physical boundary series，fishway parameter，or barrage operating parameter has been approved．Therefore physical Validation is not ready．
+The approved water authority is ready and remains frozen at 679，791 pixels．The 50，333-cell metric finite-volume mesh has been reproducibly generated and audited，including boundary tags，the 68-face barrage cut，the eight-gate partition，and the fishway transfer cells．The scalar and depth-averaged shallow-water candidates have passed their current synthetic and actual-mesh numerical Verification suites，including conservation，flow reversal，wetting and drying，well-balanced bathymetry tests，Manning friction，and structure-transfer tests．
+
+Physical Validation is nevertheless not ready because no bathymetry，roughness，physical M／N／O／G boundary series，initial state，fishway parameter，or barrage operating parameter has been approved．These remaining items are physical-input decisions rather than numerical defects．
 
 ## Decision options
 
-1．Adopt the depth-averaged shallow-water equations for the physical-Validation track．This retains the scalar skeleton as a diagnostic baseline and proceeds to approved bathymetry，roughness，boundary，and structure data．
+1．Adopt the depth-averaged shallow-water equations for the physical-Validation track．This retains the scalar skeleton as a diagnostic baseline and proceeds to approved bathymetry，roughness，boundary，initial-state，and structure data．
 2．Retain only the scalar skeleton for conservative diagnostics and relative patterns．No complete physical velocity-field claim may be made．
 3．Continue both tracks without selecting a production equation．Synthetic Verification may continue，but physical data acquisition and production integration remain deferred．
 

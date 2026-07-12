@@ -1,0 +1,41 @@
+name: Stage 15 unstructured mesh geometry validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage15_unstructured_mesh_geometry.mjs'
+      - 'tools/validate_stage15_unstructured_mesh_geometry.mjs'
+      - 'docs/STAGE15_UNSTRUCTURED_MESH_GEOMETRY_VERIFICATION.md'
+      - '.github/workflows/stage15-mesh-geometry-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage15_unstructured_mesh_geometry.mjs'
+      - 'tools/validate_stage15_unstructured_mesh_geometry.mjs'
+      - 'docs/STAGE15_UNSTRUCTURED_MESH_GEOMETRY_VERIFICATION.md'
+      - '.github/workflows/stage15-mesh-geometry-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-mesh-geometry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check mesh adapter
+        run: |
+          node --check onga_stage15_unstructured_mesh_geometry.mjs
+          node --check tools/validate_stage15_unstructured_mesh_geometry.mjs
+      - name: Validate mesh geometry and topology
+        run: node tools/validate_stage15_unstructured_mesh_geometry.mjs stage15-unstructured-mesh-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage15-unstructured-mesh-validation
+          path: stage15-unstructured-mesh-validation.json

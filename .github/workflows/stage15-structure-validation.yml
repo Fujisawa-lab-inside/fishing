@@ -1,0 +1,43 @@
+name: Stage 15 structure discharge validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage15_structure_discharge.mjs'
+      - 'tools/validate_stage15_structure_discharge.mjs'
+      - 'docs/STAGE15_STRUCTURE_DISCHARGE_VERIFICATION.md'
+      - '.github/workflows/stage15-structure-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage15_structure_discharge.mjs'
+      - 'tools/validate_stage15_structure_discharge.mjs'
+      - 'docs/STAGE15_STRUCTURE_DISCHARGE_VERIFICATION.md'
+      - '.github/workflows/stage15-structure-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-structure-laws:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check structure modules
+        run: |
+          node --check onga_stage15_structure_discharge.mjs
+          node --check tools/validate_stage15_structure_discharge.mjs
+      - name: Validate structure discharge laws
+        run: node tools/validate_stage15_structure_discharge.mjs stage15-structure-discharge-validation.json
+      - name: Upload structure verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage15-structure-discharge-validation
+          path: stage15-structure-discharge-validation.json
+          if-no-files-found: warn

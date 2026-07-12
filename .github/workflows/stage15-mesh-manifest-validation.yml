@@ -1,0 +1,47 @@
+name: Stage 15 mesh manifest validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage15_mesh_manifest_loader.mjs'
+      - 'tools/export_stage15_mesh_manifest.py'
+      - 'tools/validate_stage15_mesh_manifest_loader.mjs'
+      - 'docs/STAGE15_MESH_MANIFEST_IO_VERIFICATION.md'
+      - '.github/workflows/stage15-mesh-manifest-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage15_mesh_manifest_loader.mjs'
+      - 'tools/export_stage15_mesh_manifest.py'
+      - 'tools/validate_stage15_mesh_manifest_loader.mjs'
+      - 'docs/STAGE15_MESH_MANIFEST_IO_VERIFICATION.md'
+      - '.github/workflows/stage15-mesh-manifest-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-mesh-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax-check loaders and exporter
+        run: |
+          node --check onga_stage15_mesh_manifest_loader.mjs
+          node --check tools/validate_stage15_mesh_manifest_loader.mjs
+          python -m py_compile tools/export_stage15_mesh_manifest.py
+      - name: Validate mesh manifest loader
+        run: node tools/validate_stage15_mesh_manifest_loader.mjs stage15-mesh-manifest-loader-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage15-mesh-manifest-loader-validation
+          path: stage15-mesh-manifest-loader-validation.json

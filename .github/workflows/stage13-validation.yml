@@ -8,8 +8,13 @@ on:
       - 'tools/validate_stage13_data.mjs'
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
+      - 'tools/audit_current_flow_model.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
+      - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
+      - 'closed_gate_patch.js'
+      - 'pc_full.html'
+      - 'mobile_lite.html'
       - 'onga_stage13_*.js'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
@@ -25,8 +30,13 @@ on:
       - 'tools/validate_stage13_data.mjs'
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
+      - 'tools/audit_current_flow_model.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
+      - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
+      - 'closed_gate_patch.js'
+      - 'pc_full.html'
+      - 'mobile_lite.html'
       - 'onga_stage13_*.js'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
@@ -55,17 +65,22 @@ jobs:
           node --check onga_stage13_heatmap_clip.js
           node --check onga_stage13_fluid_domain_patch.js
           node --check onga_stage13_bootstrap.js
+          node --check tools/audit_current_flow_model.mjs
           node --check tools/smoke_stage13_browser.mjs
           node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
         run: node tools/validate_stage13_wrappers.mjs
       - name: Audit legacy heatmap and fluid entrypoints
         run: node tools/audit_stage13_entrypoints.mjs stage13-entrypoint-audit.json
-      - name: Upload entrypoint audit
+      - name: Audit current flow calculation without modifying it
+        run: node tools/audit_current_flow_model.mjs current-flow-model-audit.json
+      - name: Upload static audits
         uses: actions/upload-artifact@v4
         with:
-          name: stage13-entrypoint-audit
-          path: stage13-entrypoint-audit.json
+          name: stage13-static-audits
+          path: |
+            stage13-entrypoint-audit.json
+            current-flow-model-audit.json
       - name: Set up Chrome
         id: chrome
         uses: browser-actions/setup-chrome@v1

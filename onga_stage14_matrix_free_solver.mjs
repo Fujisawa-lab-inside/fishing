@@ -75,6 +75,7 @@ export function buildSteadySystem({
   boundaries = [],
   sources = null,
   anchor = null,
+  allowSingular = false,
 }) {
   const graph = normaliseEdges(cellCount, edges, edgeMultipliers);
   const boundaryDefinitions = normaliseBoundaries(cellCount, boundaries);
@@ -106,12 +107,13 @@ export function buildSteadySystem({
     anchorDefinition = Object.freeze({ cell, value });
     diagonal[cell] = 1;
     rhs[cell] = value;
-  } else {
+  } else if (!allowSingular) {
     assert(dirichletConductance > 0, 'a Dirichlet boundary or anchor is required for a unique solution');
   }
 
   for (let cell = 0; cell < cellCount; cell += 1) {
-    assert(Number.isFinite(diagonal[cell]) && diagonal[cell] > 0, `system diagonal is nonpositive at cell ${cell}`);
+    const valid = allowSingular ? diagonal[cell] >= 0 : diagonal[cell] > 0;
+    assert(Number.isFinite(diagonal[cell]) && valid, `system diagonal is invalid at cell ${cell}`);
   }
 
   function apply(input, output = new Float64Array(cellCount)) {
@@ -139,6 +141,7 @@ export function buildSteadySystem({
     diagonal,
     rhs,
     anchor: anchorDefinition,
+    allowSingular: Boolean(allowSingular),
     apply,
   });
 }

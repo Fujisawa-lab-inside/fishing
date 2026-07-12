@@ -1,10 +1,18 @@
 {
   "schema": "onga-stage16-physical-readiness-v1",
-  "status": "physical_inputs_unassigned",
+  "status": "governing_equation_selected_physical_inputs_unassigned",
   "mesh": {
     "manifest": "../data/stage16/onga_fv_metric_mesh_compact_manifest_v1.json",
     "cellCount": 50333,
     "approvedWaterPixelCount": 679791
+  },
+  "governingEquation": {
+    "selected": "depth_averaged_shallow_water",
+    "decisionRecord": "./stage16_governing_equation_decision_record_v1.json",
+    "selectionApproved": true,
+    "approvedBy": "教授",
+    "approvedAt": "2026-07-12T15:43:58.000Z",
+    "scalarBaselineRetained": true
   },
   "bathymetry": {
     "mode": "unassigned",

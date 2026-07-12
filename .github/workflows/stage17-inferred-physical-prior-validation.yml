@@ -1,0 +1,38 @@
+name: Stage 17 inferred physical prior validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'docs/STAGE17_INFERRED_PHYSICAL_PRIOR.md'
+      - 'tools/validate_stage17_inferred_physical_prior.mjs'
+      - '.github/workflows/stage17-inferred-physical-prior-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'docs/STAGE17_INFERRED_PHYSICAL_PRIOR.md'
+      - 'tools/validate_stage17_inferred_physical_prior.mjs'
+      - '.github/workflows/stage17-inferred-physical-prior-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-inferred-prior:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax check
+        run: node --check tools/validate_stage17_inferred_physical_prior.mjs
+      - name: Validate provisional inference ensemble and safeguards
+        run: node tools/validate_stage17_inferred_physical_prior.mjs
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage17-inferred-physical-prior-validation
+          path: stage17-inferred-physical-prior-validation.json

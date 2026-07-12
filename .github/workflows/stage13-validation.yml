@@ -9,11 +9,13 @@ on:
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/smoke_stage13_browser.mjs'
+      - 'tools/smoke_stage13_public.mjs'
       - 'onga_stage13_*.js'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
       - '.github/workflows/stage13-validation.yml'
+      - '.github/workflows/stage13-public-validation.yml'
   push:
     branches:
       - main
@@ -24,11 +26,13 @@ on:
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/smoke_stage13_browser.mjs'
+      - 'tools/smoke_stage13_public.mjs'
       - 'onga_stage13_*.js'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
       - '.github/workflows/stage13-validation.yml'
+      - '.github/workflows/stage13-public-validation.yml'
   workflow_dispatch:
 
 permissions:
@@ -52,6 +56,7 @@ jobs:
           node --check onga_stage13_fluid_domain_patch.js
           node --check onga_stage13_bootstrap.js
           node --check tools/smoke_stage13_browser.mjs
+          node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
         run: node tools/validate_stage13_wrappers.mjs
       - name: Audit legacy heatmap and fluid entrypoints

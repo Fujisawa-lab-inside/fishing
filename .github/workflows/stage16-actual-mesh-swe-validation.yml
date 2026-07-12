@@ -1,0 +1,53 @@
+name: Stage 16 actual mesh SWE validation
+
+on:
+  pull_request:
+    paths:
+      - 'data/stage16/**'
+      - 'onga_stage15_*.mjs'
+      - 'onga_stage16_metric_fv_mesh_loader.mjs'
+      - 'onga_stage16_actual_mesh_adapter.mjs'
+      - 'tools/validate_stage16_actual_mesh_solver.mjs'
+      - 'docs/STAGE16_ACTUAL_MESH_SWE_VERIFICATION.md'
+      - '.github/workflows/stage16-actual-mesh-swe-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/stage16/**'
+      - 'onga_stage15_*.mjs'
+      - 'onga_stage16_metric_fv_mesh_loader.mjs'
+      - 'onga_stage16_actual_mesh_adapter.mjs'
+      - 'tools/validate_stage16_actual_mesh_solver.mjs'
+      - 'docs/STAGE16_ACTUAL_MESH_SWE_VERIFICATION.md'
+      - '.github/workflows/stage16-actual-mesh-swe-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-actual-mesh-swe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check actual-mesh adapter and verification
+        run: |
+          node --check onga_stage16_actual_mesh_adapter.mjs
+          node --check tools/validate_stage16_actual_mesh_solver.mjs
+      - name: Verify Stage 15 kernels on the actual 50,333-cell metric mesh
+        run: |
+          node tools/validate_stage16_actual_mesh_solver.mjs \
+            data/stage16/onga_fv_metric_mesh_compact_manifest_v1.json \
+            stage16-actual-mesh-solver-validation.json
+      - name: Upload actual-mesh verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-actual-mesh-swe-validation
+          path: stage16-actual-mesh-solver-validation.json
+          if-no-files-found: warn

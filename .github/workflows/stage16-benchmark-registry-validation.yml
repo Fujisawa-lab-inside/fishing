@@ -1,0 +1,41 @@
+name: Stage 16 benchmark registry validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage16_benchmark_registry.mjs'
+      - 'tools/validate_stage16_benchmark_registry.mjs'
+      - 'docs/STAGE16_BENCHMARK_REGISTRY.md'
+      - '.github/workflows/stage16-benchmark-registry-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage16_benchmark_registry.mjs'
+      - 'tools/validate_stage16_benchmark_registry.mjs'
+      - 'docs/STAGE16_BENCHMARK_REGISTRY.md'
+      - '.github/workflows/stage16-benchmark-registry-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-benchmark-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check registry modules
+        run: |
+          node --check onga_stage16_benchmark_registry.mjs
+          node --check tools/validate_stage16_benchmark_registry.mjs
+      - name: Validate benchmark registry
+        run: node tools/validate_stage16_benchmark_registry.mjs stage16-benchmark-registry-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-benchmark-registry-validation
+          path: stage16-benchmark-registry-validation.json

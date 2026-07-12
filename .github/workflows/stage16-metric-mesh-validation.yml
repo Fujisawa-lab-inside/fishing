@@ -9,10 +9,12 @@ on:
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/validate_stage16_metric_solver.py'
       - 'tools/validate_stage16_actual_mesh_shallow_water.py'
+      - 'tools/validate_stage16_actual_mesh_well_balanced.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
       - 'docs/STAGE16_ACTUAL_MESH_SOLVER_VERIFICATION.md'
       - 'docs/STAGE16_ACTUAL_MESH_SHALLOW_WATER_VERIFICATION.md'
+      - 'docs/STAGE16_ACTUAL_MESH_WELL_BALANCED_VERIFICATION.md'
       - '.github/workflows/stage16-metric-mesh-validation.yml'
   push:
     branches:
@@ -22,10 +24,12 @@ on:
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/validate_stage16_metric_solver.py'
       - 'tools/validate_stage16_actual_mesh_shallow_water.py'
+      - 'tools/validate_stage16_actual_mesh_well_balanced.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
       - 'docs/STAGE16_ACTUAL_MESH_SOLVER_VERIFICATION.md'
       - 'docs/STAGE16_ACTUAL_MESH_SHALLOW_WATER_VERIFICATION.md'
+      - 'docs/STAGE16_ACTUAL_MESH_WELL_BALANCED_VERIFICATION.md'
       - '.github/workflows/stage16-metric-mesh-validation.yml'
   workflow_dispatch:
 
@@ -74,6 +78,11 @@ jobs:
           python tools/validate_stage16_actual_mesh_shallow_water.py
           stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
           --output stage16-metric-mesh/stage16_actual_mesh_shallow_water_validation.json
+      - name: Verify well-balanced bathymetry and Manning sources on the actual metric mesh
+        run: >-
+          python tools/validate_stage16_actual_mesh_well_balanced.py
+          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          --output stage16-metric-mesh/stage16_actual_mesh_well_balanced_validation.json
       - name: Upload exact metric mesh artifact and diagnostics
         uses: actions/upload-artifact@v4
         with:

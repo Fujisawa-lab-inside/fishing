@@ -16,6 +16,7 @@ on:
       - 'tools/validate_stage14_physical_input_adapter.mjs'
       - 'tools/validate_stage15_shallow_water_flux_core.mjs'
       - 'tools/validate_stage15_well_balanced_sources.mjs'
+      - 'tools/validate_stage15_positivity_limiter.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
@@ -25,6 +26,7 @@ on:
       - 'docs/STAGE14_PHYSICAL_INPUT_ADAPTER_VERIFICATION.md'
       - 'docs/STAGE15_SHALLOW_WATER_FLUX_VERIFICATION.md'
       - 'docs/STAGE15_WELL_BALANCED_SOURCE_VERIFICATION.md'
+      - 'docs/STAGE15_POSITIVITY_SSPRK2_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -53,6 +55,7 @@ on:
       - 'tools/validate_stage14_physical_input_adapter.mjs'
       - 'tools/validate_stage15_shallow_water_flux_core.mjs'
       - 'tools/validate_stage15_well_balanced_sources.mjs'
+      - 'tools/validate_stage15_positivity_limiter.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
@@ -62,6 +65,7 @@ on:
       - 'docs/STAGE14_PHYSICAL_INPUT_ADAPTER_VERIFICATION.md'
       - 'docs/STAGE15_SHALLOW_WATER_FLUX_VERIFICATION.md'
       - 'docs/STAGE15_WELL_BALANCED_SOURCE_VERIFICATION.md'
+      - 'docs/STAGE15_POSITIVITY_SSPRK2_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -102,6 +106,7 @@ jobs:
           node --check onga_stage14_physical_input_adapter.mjs
           node --check onga_stage15_shallow_water_flux_core.mjs
           node --check onga_stage15_well_balanced_sources.mjs
+          node --check onga_stage15_positivity_limiter.mjs
           node --check tools/audit_current_flow_model.mjs
           node --check tools/validate_stage14_conservative_core.mjs
           node --check tools/validate_stage14_transient_boundary_core.mjs
@@ -110,6 +115,7 @@ jobs:
           node --check tools/validate_stage14_physical_input_adapter.mjs
           node --check tools/validate_stage15_shallow_water_flux_core.mjs
           node --check tools/validate_stage15_well_balanced_sources.mjs
+          node --check tools/validate_stage15_positivity_limiter.mjs
           node --check tools/smoke_stage13_browser.mjs
           node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
@@ -132,6 +138,8 @@ jobs:
         run: node tools/validate_stage15_shallow_water_flux_core.mjs stage15-swe-flux-validation.json
       - name: Validate well-balanced bathymetry and friction
         run: node tools/validate_stage15_well_balanced_sources.mjs stage15-well-balanced-validation.json
+      - name: Validate positivity limiter and SSP-RK2
+        run: node tools/validate_stage15_positivity_limiter.mjs stage15-positivity-validation.json
       - name: Upload static audits
         uses: actions/upload-artifact@v4
         with:
@@ -146,6 +154,7 @@ jobs:
             stage14-input-adapter-validation.json
             stage15-swe-flux-validation.json
             stage15-well-balanced-validation.json
+            stage15-positivity-validation.json
       - name: Set up Chrome
         id: chrome
         uses: browser-actions/setup-chrome@v1

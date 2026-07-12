@@ -1,0 +1,29 @@
+{
+  "schema": "onga-stage16-governing-equation-decision-input-v1",
+  "objectiveWeights": {
+    "mass_conservation": 1.0,
+    "bidirectional_tidal_flow": 1.5,
+    "two_dimensional_velocity_vector": 2.0,
+    "tributary_confluence_interaction": 2.0,
+    "barrage_and_fishway_transfer": 1.0,
+    "water_level_propagation": 1.5,
+    "wetting_and_drying": 1.0
+  },
+  "evidence": {
+    "approvedWaterAuthorityReady": true,
+    "productionMeshAudited": false,
+    "scalarSyntheticBenchmarksPassed": true,
+    "shallowWaterSyntheticBenchmarksPassed": false,
+    "bathymetryApproved": false,
+    "roughnessApproved": false,
+    "boundaryInputsApproved": false,
+    "structureParametersApproved": false
+  },
+  "currentSelection": null,
+  "notes": [
+    "The approved water authority remains frozen at v4.8.0-candidate-r2 and 679791 pixels．",
+    "The production mesh exporter and audit tools exist，but the production artifact is not yet committed and audited in CI．",
+    "The shallow-water components have passed isolated synthetic tests，but the integrated benchmark registry has not yet been completed on the production mesh．",
+    "No bathymetry，roughness，boundary series，fishway discharge，or barrage operating parameter has been approved．"
+  ]
+}

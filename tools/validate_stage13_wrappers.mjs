@@ -11,11 +11,12 @@ for (const file of files) {
     "params.get('stage13')==='1'",
     'if(stage13Enabled)',
     'optional assets failed; continuing legacy simulation',
-    "fetchText('onga_stage13_runtime.js?v=stage13c')",
-    "fetchText('onga_stage13_bridge.js?v=stage13c')",
-    "fetchText('onga_stage13_heatmap_clip.js?v=stage13c')",
-    "fetchText('onga_stage13_bootstrap.js?v=stage13c')",
-    'script(runtime)+script(bridge)+script(heatmapClip)+script(bootstrap)',
+    "fetchText('onga_stage13_runtime.js?v=stage13e')",
+    "fetchText('onga_stage13_bridge.js?v=stage13e')",
+    "fetchText('onga_stage13_heatmap_clip.js?v=stage13e')",
+    "fetchText('onga_stage13_fluid_domain_patch.js?v=stage13e')",
+    "fetchText('onga_stage13_bootstrap.js?v=stage13e')",
+    'script(runtime)+script(bridge)+script(heatmapClip)+script(fluidDomainPatch)+script(bootstrap)',
   ];
   for (const token of required) {
     if (!html.includes(token)) {
@@ -30,12 +31,13 @@ for (const file of files) {
     throw new Error(`${file}: Stage 13 assets are still mandatory in the legacy Promise.all block`);
   }
 
-  const runtimeIndex = html.indexOf("fetchText('onga_stage13_runtime.js?v=stage13c')");
-  const bridgeIndex = html.indexOf("fetchText('onga_stage13_bridge.js?v=stage13c')");
-  const clipIndex = html.indexOf("fetchText('onga_stage13_heatmap_clip.js?v=stage13c')");
-  const bootstrapIndex = html.indexOf("fetchText('onga_stage13_bootstrap.js?v=stage13c')");
-  if (!(runtimeIndex < bridgeIndex && bridgeIndex < clipIndex && clipIndex < bootstrapIndex)) {
-    throw new Error(`${file}: Stage 13 scripts are not ordered runtime -> bridge -> heatmap clip -> bootstrap`);
+  const runtimeIndex = html.indexOf("fetchText('onga_stage13_runtime.js?v=stage13e')");
+  const bridgeIndex = html.indexOf("fetchText('onga_stage13_bridge.js?v=stage13e')");
+  const clipIndex = html.indexOf("fetchText('onga_stage13_heatmap_clip.js?v=stage13e')");
+  const fluidIndex = html.indexOf("fetchText('onga_stage13_fluid_domain_patch.js?v=stage13e')");
+  const bootstrapIndex = html.indexOf("fetchText('onga_stage13_bootstrap.js?v=stage13e')");
+  if (!(runtimeIndex < bridgeIndex && bridgeIndex < clipIndex && clipIndex < fluidIndex && fluidIndex < bootstrapIndex)) {
+    throw new Error(`${file}: Stage 13 scripts are not ordered runtime -> bridge -> heatmap clip -> fluid domain -> bootstrap`);
   }
 
   if (!html.includes('if(!response.ok) throw new Error')) {
@@ -43,4 +45,4 @@ for (const file of files) {
   }
 }
 
-console.log(`Validated ${files.length} wrappers: legacy path is independent and exact Stage 13 heatmap clipping is opt-in.`);
+console.log(`Validated ${files.length} wrappers: legacy path is independent and Stage 13 authority modules are opt-in.`);

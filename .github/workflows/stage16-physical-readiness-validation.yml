@@ -1,0 +1,47 @@
+name: Stage 16 physical readiness validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/onga_stage16_physical_readiness_v1.json'
+      - 'onga_stage16_physical_readiness.mjs'
+      - 'tools/validate_stage16_physical_readiness.mjs'
+      - 'docs/STAGE16_PHYSICAL_READINESS.md'
+      - '.github/workflows/stage16-physical-readiness-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'config/onga_stage16_physical_readiness_v1.json'
+      - 'onga_stage16_physical_readiness.mjs'
+      - 'tools/validate_stage16_physical_readiness.mjs'
+      - 'docs/STAGE16_PHYSICAL_READINESS.md'
+      - '.github/workflows/stage16-physical-readiness-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-readiness-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check readiness module and validator
+        run: |
+          node --check onga_stage16_physical_readiness.mjs
+          node --check tools/validate_stage16_physical_readiness.mjs
+      - name: Verify physical-run blocking and explicit approval contract
+        run: |
+          node tools/validate_stage16_physical_readiness.mjs \
+            config/onga_stage16_physical_readiness_v1.json \
+            stage16-physical-readiness-validation.json
+      - name: Upload readiness report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-physical-readiness-validation
+          path: stage16-physical-readiness-validation.json

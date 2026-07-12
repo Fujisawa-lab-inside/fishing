@@ -1,0 +1,64 @@
+name: Stage 16 metric mesh validation
+
+on:
+  pull_request:
+    paths:
+      - 'data/onga_unified_water_manifest_r2.json'
+      - 'data/onga_water_rows_r2_*.json'
+      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/requirements-stage16-metric-mesh.txt'
+      - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
+      - '.github/workflows/stage16-metric-mesh-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/requirements-stage16-metric-mesh.txt'
+      - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
+      - '.github/workflows/stage16-metric-mesh-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-and-verify-metric-mesh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: tools/requirements-stage16-metric-mesh.txt
+      - name: Install deterministic mesh dependencies
+        run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
+      - name: Generate exact approved metric finite-volume mesh
+        run: python tools/generate_stage16_metric_mesh.py --repo-root . --output stage16-metric-mesh
+      - name: Verify generated artifact files
+        run: |
+          test -s stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          test -s stage16-metric-mesh/stage16_metric_mesh_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('stage16-metric-mesh/stage16_metric_mesh_summary.json').read_text())
+          assert report['status']=='passed'
+          assert report['counts']['cells']==50333
+          assert report['counts']['internalFaces']==72107
+          assert report['counts']['boundaryFaces']==6785
+          assert report['counts']['barrageFaces']==68
+          assert report['counts']['fishwayCells']==[17144,38289]
+          assert report['safeguards']['approvedWaterGeometryChanged'] is False
+          assert report['safeguards']['physicalValuesAssigned'] is False
+          PY
+      - name: Upload exact metric mesh artifact and diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-metric-fv-mesh
+          path: stage16-metric-mesh
+          if-no-files-found: error

@@ -11,9 +11,9 @@
   },
   "evidence": {
     "approvedWaterAuthorityReady": true,
-    "productionMeshAudited": false,
+    "productionMeshAudited": true,
     "scalarSyntheticBenchmarksPassed": true,
-    "shallowWaterSyntheticBenchmarksPassed": false,
+    "shallowWaterSyntheticBenchmarksPassed": true,
     "bathymetryApproved": false,
     "roughnessApproved": false,
     "boundaryInputsApproved": false,
@@ -22,8 +22,8 @@
   "currentSelection": null,
   "notes": [
     "The approved water authority remains frozen at v4.8.0-candidate-r2 and 679791 pixels．",
-    "The production mesh exporter and audit tools exist，but the production artifact is not yet committed and audited in CI．",
-    "The shallow-water components have passed isolated synthetic tests，but the integrated benchmark registry has not yet been completed on the production mesh．",
-    "No bathymetry，roughness，boundary series，fishway discharge，or barrage operating parameter has been approved．"
+    "The 50333-cell metric finite-volume mesh has been reproducibly generated and audited，including boundary tags，the 68-face barrage cut，the eight-gate partition，and the fishway transfer cells．",
+    "The scalar and depth-averaged shallow-water candidates have passed their current synthetic and actual-mesh numerical Verification suites．",
+    "No bathymetry，roughness，physical boundary series，fishway parameter，or barrage operating parameter has been approved．"
   ]
 }

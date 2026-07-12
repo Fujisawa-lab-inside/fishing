@@ -8,6 +8,15 @@ on:
       - 'data/onga_stage16_mesh_source_v1.json'
       - 'tools/generate_stage16_metric_fv_mesh.py.gz.b64'
       - '.github/workflows/stage16-metric-mesh-generation.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'data/onga_stage16_mesh_source_v1.json'
+      - 'tools/generate_stage16_metric_fv_mesh.py.gz.b64'
+      - 'onga_stage16_metric_fv_mesh_loader.mjs'
+      - 'tools/validate_stage16_metric_fv_mesh.mjs'
+      - '.github/workflows/stage16-metric-mesh-generation.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,12 +24,15 @@ permissions:
 
 jobs:
   generate-and-verify:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -69,7 +81,7 @@ jobs:
             echo 'Generated package is already current.'
           else
             git commit -m 'Generate deterministic Stage 16 metric FV mesh package'
-            git push origin HEAD:${{ github.ref_name }}
+            git push origin HEAD:${TARGET_BRANCH}
           fi
       - name: Upload generation validation
         uses: actions/upload-artifact@v4

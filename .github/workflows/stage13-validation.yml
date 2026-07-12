@@ -10,9 +10,11 @@ on:
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/audit_current_flow_model.mjs'
       - 'tools/validate_stage14_conservative_core.mjs'
+      - 'tools/validate_stage14_transient_boundary_core.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
+      - 'docs/STAGE14_TRANSIENT_BOUNDARY_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -34,9 +36,11 @@ on:
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/audit_current_flow_model.mjs'
       - 'tools/validate_stage14_conservative_core.mjs'
+      - 'tools/validate_stage14_transient_boundary_core.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
+      - 'docs/STAGE14_TRANSIENT_BOUNDARY_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -70,8 +74,10 @@ jobs:
           node --check onga_stage13_fluid_domain_patch.js
           node --check onga_stage13_bootstrap.js
           node --check onga_stage14_conservative_flux_core.mjs
+          node --check onga_stage14_transient_boundary_core.mjs
           node --check tools/audit_current_flow_model.mjs
           node --check tools/validate_stage14_conservative_core.mjs
+          node --check tools/validate_stage14_transient_boundary_core.mjs
           node --check tools/smoke_stage13_browser.mjs
           node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
@@ -82,6 +88,8 @@ jobs:
         run: node tools/audit_current_flow_model.mjs current-flow-model-audit.json
       - name: Validate isolated conservative flux algebra
         run: node tools/validate_stage14_conservative_core.mjs stage14-conservative-core-validation.json
+      - name: Validate isolated transient and boundary algebra
+        run: node tools/validate_stage14_transient_boundary_core.mjs stage14-transient-boundary-validation.json
       - name: Upload static audits
         uses: actions/upload-artifact@v4
         with:
@@ -90,6 +98,7 @@ jobs:
             stage13-entrypoint-audit.json
             current-flow-model-audit.json
             stage14-conservative-core-validation.json
+            stage14-transient-boundary-validation.json
       - name: Set up Chrome
         id: chrome
         uses: browser-actions/setup-chrome@v1

@@ -155,6 +155,8 @@ const limitedInternalConservation = Math.max(
   Math.abs([...syntheticLimited.residual.momentumY].reduce((sum, value) => sum + value, 0)),
 );
 
+// This is a cell-index relabelling test，not a reflection of the global x-axis．
+// Reversing left/right cell ids and the face normal must preserve global momentum signs.
 const swapped = advancePositivityEuler({
   cellCount: 2,
   faces: [{ left: 0, right: 1, length: 1, nx: -1, ny: 0 }],
@@ -163,11 +165,13 @@ const swapped = advancePositivityEuler({
   dt: hugeDt,
   minimumDepth: 1e-12,
 });
-const swapSymmetryError = Math.max(
+const relabellingSymmetryError = Math.max(
   Math.abs(swapped.nextState.h[0] - huge.nextState.h[1]),
   Math.abs(swapped.nextState.h[1] - huge.nextState.h[0]),
-  Math.abs(swapped.nextState.hu[0] + huge.nextState.hu[1]),
-  Math.abs(swapped.nextState.hu[1] + huge.nextState.hu[0]),
+  Math.abs(swapped.nextState.hu[0] - huge.nextState.hu[1]),
+  Math.abs(swapped.nextState.hu[1] - huge.nextState.hu[0]),
+  Math.abs(swapped.nextState.hv[0] - huge.nextState.hv[1]),
+  Math.abs(swapped.nextState.hv[1] - huge.nextState.hv[0]),
 );
 
 const checks = [
@@ -185,7 +189,7 @@ const checks = [
   check('negative source capped at zero depth', sinkDepth, '>=0', sinkDepth >= 0),
   check('negative source limiter', Math.abs(sinkAlpha - 0.1), `<${tolerance}`, Math.abs(sinkAlpha - 0.1) < tolerance),
   check('limited internal conservation', limitedInternalConservation, `<${tolerance}`, limitedInternalConservation < tolerance),
-  check('left-right symmetry', swapSymmetryError, `<${tolerance}`, swapSymmetryError < tolerance),
+  check('cell relabelling symmetry', relabellingSymmetryError, `<${tolerance}`, relabellingSymmetryError < tolerance),
 ];
 
 const report = {
@@ -207,7 +211,7 @@ const report = {
     sinkDepth,
     sinkAlpha,
     limitedInternalConservation,
-    swapSymmetryError,
+    relabellingSymmetryError,
   },
   safeguards: {
     connectedToPublicSimulator: false,

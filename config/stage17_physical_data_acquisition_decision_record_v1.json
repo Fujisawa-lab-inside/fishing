@@ -1,0 +1,29 @@
+{
+  "schema": "onga-stage17-physical-data-acquisition-decision-record-v1",
+  "optionId": "parallel_official_request_and_public_database_acquisition",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-13T00:00:00Z",
+  "sourceStatement": "A案で作業を進めてください",
+  "scope": {
+    "officialRequestPreparationAndSubmission": true,
+    "publicOfficialDatabaseAcquisition": true,
+    "secondaryTideReferenceAudit": true,
+    "automaticSolverAssignment": false,
+    "physicalRunEnablement": false,
+    "publicSimulatorConnection": false
+  },
+  "approvedActions": [
+    "prepare an official data request to the Onga River Office",
+    "identify an official contact route and submit only after the recipient and message are verified",
+    "download and archive publicly available official hydrology metadata and observations",
+    "audit station-to-boundary hydraulic compatibility",
+    "preserve provenance, quality flags, time basis, and vertical datum metadata"
+  ],
+  "notApproved": [
+    "assigning any station directly to M, N, O, or G",
+    "using astronomical tide as observed M-boundary water level",
+    "inventing bathymetry, Manning roughness, discharge, rating curves, fishway flow, or barrage coefficients",
+    "changing the approved 679791-pixel water geometry or the 50333-cell mesh",
+    "enabling the physical solver or replacing the legacy public flow calculation"
+  ]
+}

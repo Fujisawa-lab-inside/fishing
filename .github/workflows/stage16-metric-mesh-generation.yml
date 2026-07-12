@@ -76,3 +76,5 @@ jobs:
         with:
           name: stage16-metric-mesh-generation-validation
           path: stage16-metric-mesh-validation.json
+
+# Bootstrap revision: default-branch workflow registered.

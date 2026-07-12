@@ -1,0 +1,41 @@
+name: Stage 16 experiment contract validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage16_experiment_contract.mjs'
+      - 'tools/validate_stage16_experiment_contract.mjs'
+      - 'docs/STAGE16_EXPERIMENT_CONTRACT.md'
+      - '.github/workflows/stage16-experiment-contract-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage16_experiment_contract.mjs'
+      - 'tools/validate_stage16_experiment_contract.mjs'
+      - 'docs/STAGE16_EXPERIMENT_CONTRACT.md'
+      - '.github/workflows/stage16-experiment-contract-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-experiment-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check contract modules
+        run: |
+          node --check onga_stage16_experiment_contract.mjs
+          node --check tools/validate_stage16_experiment_contract.mjs
+      - name: Validate experiment and provenance contract
+        run: node tools/validate_stage16_experiment_contract.mjs stage16-experiment-contract-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-experiment-contract-validation
+          path: stage16-experiment-contract-validation.json

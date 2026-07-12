@@ -7,8 +7,10 @@ on:
       - 'data/onga_water_rows_r2_*.json'
       - 'data/onga_stage16_mesh_constraints_v1.json'
       - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/validate_stage16_metric_solver.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
+      - 'docs/STAGE16_ACTUAL_MESH_SOLVER_VERIFICATION.md'
       - '.github/workflows/stage16-metric-mesh-validation.yml'
   push:
     branches:
@@ -16,8 +18,10 @@ on:
     paths:
       - 'data/onga_stage16_mesh_constraints_v1.json'
       - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/validate_stage16_metric_solver.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'docs/STAGE16_REPRODUCIBLE_METRIC_MESH.md'
+      - 'docs/STAGE16_ACTUAL_MESH_SOLVER_VERIFICATION.md'
       - '.github/workflows/stage16-metric-mesh-validation.yml'
   workflow_dispatch:
 
@@ -56,6 +60,11 @@ jobs:
           assert report['safeguards']['approvedWaterGeometryChanged'] is False
           assert report['safeguards']['physicalValuesAssigned'] is False
           PY
+      - name: Verify conservative algebra on the actual metric mesh
+        run: >-
+          python tools/validate_stage16_metric_solver.py
+          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          --output stage16-metric-mesh/stage16_metric_solver_validation.json
       - name: Upload exact metric mesh artifact and diagnostics
         uses: actions/upload-artifact@v4
         with:

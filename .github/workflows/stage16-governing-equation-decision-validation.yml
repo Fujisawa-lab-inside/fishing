@@ -7,6 +7,7 @@ on:
       - 'tools/validate_stage16_governing_equation_decision.mjs'
       - 'tools/build_stage16_governing_equation_decision_packet.mjs'
       - 'config/stage16_governing_equation_decision_inputs.json'
+      - 'config/stage16_governing_equation_decision_record_v1.json'
       - 'docs/STAGE16_GOVERNING_EQUATION_DECISION.md'
       - '.github/workflows/stage16-governing-equation-decision-validation.yml'
   push:
@@ -17,6 +18,7 @@ on:
       - 'tools/validate_stage16_governing_equation_decision.mjs'
       - 'tools/build_stage16_governing_equation_decision_packet.mjs'
       - 'config/stage16_governing_equation_decision_inputs.json'
+      - 'config/stage16_governing_equation_decision_record_v1.json'
       - 'docs/STAGE16_GOVERNING_EQUATION_DECISION.md'
       - '.github/workflows/stage16-governing-equation-decision-validation.yml'
   workflow_dispatch:
@@ -41,6 +43,24 @@ jobs:
         run: node tools/validate_stage16_governing_equation_decision.mjs stage16-governing-equation-decision-validation.json
       - name: Build current decision packet
         run: node tools/build_stage16_governing_equation_decision_packet.mjs config/stage16_governing_equation_decision_inputs.json stage16-governing-equation-decision-packet.json
+      - name: Verify the recorded option-A decision
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const packet = JSON.parse(fs.readFileSync('stage16-governing-equation-decision-packet.json', 'utf8'));
+          if (packet.currentSelection !== 'depth_averaged_shallow_water') throw new Error('shallow-water selection missing');
+          if (packet.selectionApproved !== true) throw new Error('selection is not explicitly approved');
+          if (packet.humanDecisionRequired !== false) throw new Error('human-decision flag was not cleared');
+          if (packet.recordedDecision?.optionId !== 'adopt_depth_averaged_shallow_water_for_validation') {
+            throw new Error('recorded option is not option A');
+          }
+          if (packet.decisionRecord?.governingEquation !== packet.currentSelection) {
+            throw new Error('decision record and selected equation disagree');
+          }
+          if (packet.physicalValidationReady !== false) {
+            throw new Error('equation selection must not bypass physical-input readiness');
+          }
+          NODE
       - name: Upload decision evidence
         uses: actions/upload-artifact@v4
         with:
@@ -48,3 +68,4 @@ jobs:
           path: |
             stage16-governing-equation-decision-validation.json
             stage16-governing-equation-decision-packet.json
+            config/stage16_governing_equation_decision_record_v1.json

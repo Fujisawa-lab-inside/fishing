@@ -13,12 +13,14 @@ on:
       - 'tools/validate_stage14_transient_boundary_core.mjs'
       - 'tools/validate_stage14_matrix_free_solver.mjs'
       - 'tools/validate_stage14_implicit_integrator.mjs'
+      - 'tools/validate_stage14_physical_input_adapter.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
       - 'docs/STAGE14_TRANSIENT_BOUNDARY_VERIFICATION.md'
       - 'docs/STAGE14_MATRIX_FREE_PCG_VERIFICATION.md'
       - 'docs/STAGE14_IMPLICIT_INTEGRATION_VERIFICATION.md'
+      - 'docs/STAGE14_PHYSICAL_INPUT_ADAPTER_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -43,12 +45,14 @@ on:
       - 'tools/validate_stage14_transient_boundary_core.mjs'
       - 'tools/validate_stage14_matrix_free_solver.mjs'
       - 'tools/validate_stage14_implicit_integrator.mjs'
+      - 'tools/validate_stage14_physical_input_adapter.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
       - 'docs/STAGE14_TRANSIENT_BOUNDARY_VERIFICATION.md'
       - 'docs/STAGE14_MATRIX_FREE_PCG_VERIFICATION.md'
       - 'docs/STAGE14_IMPLICIT_INTEGRATION_VERIFICATION.md'
+      - 'docs/STAGE14_PHYSICAL_INPUT_ADAPTER_VERIFICATION.md'
       - 'closed_gate_patch.js'
       - 'pc_full.html'
       - 'mobile_lite.html'
@@ -85,11 +89,13 @@ jobs:
           node --check onga_stage14_transient_boundary_core.mjs
           node --check onga_stage14_matrix_free_solver.mjs
           node --check onga_stage14_implicit_integrator.mjs
+          node --check onga_stage14_physical_input_adapter.mjs
           node --check tools/audit_current_flow_model.mjs
           node --check tools/validate_stage14_conservative_core.mjs
           node --check tools/validate_stage14_transient_boundary_core.mjs
           node --check tools/validate_stage14_matrix_free_solver.mjs
           node --check tools/validate_stage14_implicit_integrator.mjs
+          node --check tools/validate_stage14_physical_input_adapter.mjs
           node --check tools/smoke_stage13_browser.mjs
           node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
@@ -106,6 +112,8 @@ jobs:
         run: node tools/validate_stage14_matrix_free_solver.mjs stage14-pcg-validation.json
       - name: Validate isolated implicit integration
         run: node tools/validate_stage14_implicit_integrator.mjs stage14-implicit-validation.json
+      - name: Validate isolated physical-input adapter
+        run: node tools/validate_stage14_physical_input_adapter.mjs stage14-input-adapter-validation.json
       - name: Upload static audits
         uses: actions/upload-artifact@v4
         with:
@@ -117,6 +125,7 @@ jobs:
             stage14-transient-boundary-validation.json
             stage14-pcg-validation.json
             stage14-implicit-validation.json
+            stage14-input-adapter-validation.json
       - name: Set up Chrome
         id: chrome
         uses: browser-actions/setup-chrome@v1

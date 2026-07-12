@@ -1,0 +1,41 @@
+name: Stage 16 reference benchmark validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage16_reference_benchmarks.mjs'
+      - 'tools/validate_stage16_reference_benchmarks.mjs'
+      - 'docs/STAGE16_REFERENCE_BENCHMARKS.md'
+      - '.github/workflows/stage16-reference-benchmark-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage16_reference_benchmarks.mjs'
+      - 'tools/validate_stage16_reference_benchmarks.mjs'
+      - 'docs/STAGE16_REFERENCE_BENCHMARKS.md'
+      - '.github/workflows/stage16-reference-benchmark-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-reference-benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check reference modules
+        run: |
+          node --check onga_stage16_reference_benchmarks.mjs
+          node --check tools/validate_stage16_reference_benchmarks.mjs
+      - name: Validate analytical reference benchmarks
+        run: node tools/validate_stage16_reference_benchmarks.mjs stage16-reference-benchmark-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-reference-benchmark-validation
+          path: stage16-reference-benchmark-validation.json

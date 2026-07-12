@@ -15,7 +15,18 @@ function check(name, value, expected, ok) {
 }
 
 function maximumAbsolute(...values) {
-  return Math.max(...values.flat(Infinity).map(value => Math.abs(Number(value))));
+  let maximum = 0;
+  const visit = value => {
+    if (Array.isArray(value) || ArrayBuffer.isView(value)) {
+      for (const entry of value) visit(entry);
+      return;
+    }
+    const numeric = Math.abs(Number(value));
+    if (Number.isNaN(numeric)) throw new TypeError('maximumAbsolute received a nonnumeric value');
+    maximum = Math.max(maximum, numeric);
+  };
+  for (const value of values) visit(value);
+  return maximum;
 }
 
 const lake = accumulateWellBalancedResidual({

@@ -1,0 +1,47 @@
+name: Stage 13 public Pages validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/onga_unified_water_manifest_r2.json'
+      - 'onga_stage13_*.js'
+      - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
+      - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
+      - 'tools/smoke_stage13_public.mjs'
+      - '.github/workflows/stage13-public-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public-pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check public Pages smoke test
+        run: node --check tools/smoke_stage13_public.mjs
+      - name: Set up Chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - name: Wait for deployment and validate public PC and mobile pages
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
+          PUBLIC_BASE_URL: https://fujisawa-lab-inside.github.io/fishing
+          STAGE13_ASSET_VERSION: stage13f
+        run: node tools/smoke_stage13_public.mjs
+      - name: Upload public Pages screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage13-public-pages-smoke
+          path: stage13-public-smoke
+          if-no-files-found: warn

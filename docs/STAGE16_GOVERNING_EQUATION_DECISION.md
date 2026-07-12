@@ -6,7 +6,7 @@ This packet compares the scalar conservative skeleton and the two-dimensional de
 
 ## Scalar conservative skeleton
 
-The scalar skeleton supplies conservative face exchange，flow-reversal sign handling，source and sink accounting，and structure transfer．It is valuable as a diagnostic baseline and regression model．It does not solve horizontal momentum，does not provide a physically complete two-component velocity vector，and cannot independently represent gravity-wave propagation or wetting and drying．
+The scalar skeleton supplies conservative face exchange，flow-reversal sign handling，source and sink accounting，and structure transfer．It remains valuable as a diagnostic baseline and regression model．It does not solve horizontal momentum，does not provide a physically complete two-component velocity vector，and cannot independently represent gravity-wave propagation or wetting and drying．
 
 ## Depth-averaged shallow-water candidate
 
@@ -20,14 +20,16 @@ The current packet gives extra weight to a two-component velocity vector，tribu
 
 The approved water authority is ready and remains frozen at 679，791 pixels．The 50，333-cell metric finite-volume mesh has been reproducibly generated and audited，including boundary tags，the 68-face barrage cut，the eight-gate partition，and the fishway transfer cells．The scalar and depth-averaged shallow-water candidates have passed their current synthetic and actual-mesh numerical Verification suites，including conservation，flow reversal，wetting and drying，well-balanced bathymetry tests，Manning friction，and structure-transfer tests．
 
-Physical Validation is nevertheless not ready because no bathymetry，roughness，physical M／N／O／G boundary series，initial state，fishway parameter，or barrage operating parameter has been approved．These remaining items are physical-input decisions rather than numerical defects．
+## Recorded decision
 
-## Decision options
+The professor explicitly selected option A on 2026-07-13 00:43:58 JST（2026-07-12T15:43:58.000Z）．The physical-Validation development track therefore uses the two-dimensional depth-averaged shallow-water equations．The scalar conservative skeleton is retained as a diagnostic，regression，and conservation baseline．The machine-readable record is `config/stage16_governing_equation_decision_record_v1.json`．
 
-1．Adopt the depth-averaged shallow-water equations for the physical-Validation track．This retains the scalar skeleton as a diagnostic baseline and proceeds to approved bathymetry，roughness，boundary，initial-state，and structure data．
-2．Retain only the scalar skeleton for conservative diagnostics and relative patterns．No complete physical velocity-field claim may be made．
-3．Continue both tracks without selecting a production equation．Synthetic Verification may continue，but physical data acquisition and production integration remain deferred．
+This decision approves only the governing-equation track．It does not approve bathymetry，vertical datum，Manning roughness，initial state，M／N／O／G physical series，fishway hydraulic parameters，barrage parameters，physical execution，or public release．
+
+## Remaining readiness blockers
+
+Physical Validation is not yet ready because no bathymetry，roughness，physical M／N／O／G boundary series，initial state，fishway parameter，or barrage operating parameter has been approved．These remaining items are physical-input decisions rather than numerical defects．`physicalRunEnabled` remains false and the public simulator continues to use the legacy flow calculation．
 
 ## Change control
 
-A decision must identify the selected option，approver，time，and notes．The software does not infer approval from a recommendation，benchmark pass，or displayed flow pattern．Visual fitting is not a decision mechanism，and the approved water geometry cannot be changed to improve apparent agreement．
+The recorded selection must identify the selected option，approver，time，and scope．The software does not infer approval from a recommendation，benchmark pass，or displayed flow pattern．Visual fitting is not a decision mechanism，and the approved water geometry cannot be changed to improve apparent agreement．Any future change of governing equation requires a new explicit decision record rather than editing the accepted geometry or fitting the result visually．

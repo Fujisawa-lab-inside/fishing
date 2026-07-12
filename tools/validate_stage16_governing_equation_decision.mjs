@@ -36,11 +36,17 @@ const packet = buildGoverningEquationDecisionPacket({
 });
 const scalar = packet.candidates.find(candidate => candidate.id === 'scalar_conservative_skeleton');
 const shallow = packet.candidates.find(candidate => candidate.id === 'depth_averaged_shallow_water');
-const recorded = recordGoverningEquationDecision(packet, {
+const deferred = recordGoverningEquationDecision(packet, {
   optionId: 'continue_dual_track_without_selection',
   approvedBy: 'synthetic-validator',
   approvedAt: '2026-07-12T00:00:00.000Z',
   notes: 'Synthetic contract test only．',
+});
+const approvedShallow = recordGoverningEquationDecision(packet, {
+  optionId: 'adopt_depth_averaged_shallow_water_for_validation',
+  approvedBy: '教授',
+  approvedAt: '2026-07-12T15:43:58.000Z',
+  notes: 'Explicit option-A decision contract test．',
 });
 
 const scalarOnlyPacket = buildGoverningEquationDecisionPacket({
@@ -108,9 +114,9 @@ const checks = [
     true, scalar.unmetObjectives.includes('two_dimensional_velocity_vector')),
   check('scalar only partially represents confluence', scalar.partialObjectives.includes('tributary_confluence_interaction'),
     true, scalar.partialObjectives.includes('tributary_confluence_interaction')),
-  check('selection remains unapproved', packet.selectionApproved, false,
+  check('selection remains unapproved before a record', packet.selectionApproved, false,
     packet.selectionApproved === false && packet.currentSelection === null),
-  check('human decision remains required', packet.humanDecisionRequired, true,
+  check('human decision remains required before a record', packet.humanDecisionRequired, true,
     packet.humanDecisionRequired === true),
   check('current packet not physically ready', packet.physicalValidationReady, false,
     packet.physicalValidationReady === false),
@@ -122,10 +128,16 @@ const checks = [
   check('current evidence records shallow-water benchmark completion',
     packet.evidence.shallowWaterSyntheticBenchmarksPassed, true,
     packet.evidence.shallowWaterSyntheticBenchmarksPassed === true),
-  check('dual-track decision records no equation', recorded.currentSelection, null,
-    recorded.selectionApproved && recorded.currentSelection === null),
-  check('recorded decision removes pending flag', recorded.humanDecisionRequired, false,
-    recorded.humanDecisionRequired === false),
+  check('dual-track decision records no equation', deferred.currentSelection, null,
+    deferred.selectionApproved && deferred.currentSelection === null),
+  check('option A records the shallow-water equation', approvedShallow.currentSelection,
+    'depth_averaged_shallow_water',
+    approvedShallow.selectionApproved
+      && approvedShallow.currentSelection === 'depth_averaged_shallow_water'),
+  check('recorded option A removes pending flag', approvedShallow.humanDecisionRequired, false,
+    approvedShallow.humanDecisionRequired === false),
+  check('equation approval alone does not make physical inputs ready', approvedShallow.physicalValidationReady,
+    false, approvedShallow.physicalValidationReady === false),
   check('low-complexity objectives recommend scalar', scalarOnlyPacket.recommendation,
     'scalar_conservative_skeleton', scalarOnlyPacket.recommendation === 'scalar_conservative_skeleton'),
   check('complete evidence can make shallow physical validation ready', physicallyReadyPacket.physicalValidationReady,
@@ -146,7 +158,7 @@ const report = {
   checks,
   safeguards: {
     recommendationIsApproval: false,
-    selectionRecordedInProduction: false,
+    selectionRecordedOnlyByExplicitDecision: true,
     connectedToPublicSimulator: false,
     modifiesApprovedWaterGeometry: false,
     physicalValuesAssigned: false,

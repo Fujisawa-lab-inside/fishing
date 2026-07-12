@@ -1,0 +1,26 @@
+{
+  "schema": "onga-stage16-governing-equation-decision-record-v1",
+  "optionId": "adopt_depth_averaged_shallow_water_for_validation",
+  "governingEquation": "depth_averaged_shallow_water",
+  "approvedBy": "教授",
+  "approvedAt": "2026-07-12T15:43:58.000Z",
+  "source": {
+    "type": "explicit_chat_instruction",
+    "statement": "A案で作業を進めてください",
+    "project": "シーバス釣行"
+  },
+  "scope": [
+    "Select the two-dimensional depth-averaged shallow-water equations for the physical-Validation development track.",
+    "Retain the scalar conservative skeleton as a diagnostic and regression baseline."
+  ],
+  "doesNotApprove": [
+    "bathymetry or vertical datum",
+    "Manning roughness",
+    "initial water level or velocity",
+    "M，N，O，and G physical boundary series",
+    "fishway hydraulic parameters",
+    "barrage geometry，coefficients，or operation series",
+    "physicalRunEnabled",
+    "public simulator integration or release"
+  ]
+}

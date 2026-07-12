@@ -1,0 +1,44 @@
+name: Stage 15 production mesh audit validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage15_production_mesh_audit.mjs'
+      - 'tools/audit_stage15_production_mesh.mjs'
+      - 'tools/validate_stage15_production_mesh_audit.mjs'
+      - 'docs/STAGE15_PRODUCTION_MESH_AUDIT.md'
+      - '.github/workflows/stage15-production-mesh-audit-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'onga_stage15_production_mesh_audit.mjs'
+      - 'tools/audit_stage15_production_mesh.mjs'
+      - 'tools/validate_stage15_production_mesh_audit.mjs'
+      - 'docs/STAGE15_PRODUCTION_MESH_AUDIT.md'
+      - '.github/workflows/stage15-production-mesh-audit-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-production-mesh-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check audit modules
+        run: |
+          node --check onga_stage15_production_mesh_audit.mjs
+          node --check tools/audit_stage15_production_mesh.mjs
+          node --check tools/validate_stage15_production_mesh_audit.mjs
+      - name: Validate production mesh audit logic
+        run: node tools/validate_stage15_production_mesh_audit.mjs stage15-production-mesh-audit-validation.json
+      - name: Upload verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage15-production-mesh-audit-validation
+          path: stage15-production-mesh-audit-validation.json

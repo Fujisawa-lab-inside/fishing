@@ -1,0 +1,80 @@
+{
+  "schema": "onga-stage17-inferred-physical-prior-v1",
+  "purpose": "provisional_sensitivity_and_model_development_only",
+  "governingEquation": "depth_averaged_shallow_water",
+  "geometry": {
+    "approvedWaterPixelCount": 679791,
+    "metricMeshCellCount": 50333,
+    "frozen": true
+  },
+  "inferencePolicy": {
+    "singleBestGuessForbidden": true,
+    "ensembleRequired": true,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "replaceWhenAuthoritativeDataArrive": true,
+    "visualFittingForbidden": true
+  },
+  "bathymetryPrior": {
+    "method": "smooth_channel_family_constrained_by_approved_shoreline_and_connectivity",
+    "mainstemMeanDepthM": {"min": 2.0, "reference": 4.0, "max": 6.0},
+    "tributaryMeanDepthM": {"min": 0.8, "reference": 1.8, "max": 3.0},
+    "thalwegOffsetFractionOfLocalWidth": {"min": -0.20, "reference": 0.0, "max": 0.20},
+    "crossSectionShape": ["parabolic", "trapezoidal", "asymmetric_parabolic"],
+    "longitudinalSmoothingLengthM": {"min": 30, "reference": 80, "max": 180},
+    "verticalDatum": "relative_model_datum_only"
+  },
+  "roughnessPrior": {
+    "parameter": "Manning_n",
+    "openChannel": {"min": 0.020, "reference": 0.030, "max": 0.045},
+    "shallowMarginMultiplier": {"min": 1.0, "reference": 1.25, "max": 1.7},
+    "structureVicinityMultiplier": {"min": 1.0, "reference": 1.15, "max": 1.5}
+  },
+  "boundaryPrior": {
+    "M": {
+      "mode": "observed_or_predicted_water_level_shape_with_free_offset_and_amplitude",
+      "datum": "relative_model_datum_only",
+      "phaseShiftMinutes": {"min": -90, "reference": 0, "max": 90},
+      "amplitudeMultiplier": {"min": 0.6, "reference": 1.0, "max": 1.4}
+    },
+    "N": {
+      "mode": "unknown_discharge_ensemble",
+      "referenceDischargeM3S": {"min": 0.2, "reference": 2.0, "max": 12.0}
+    },
+    "O": {
+      "mode": "unknown_discharge_ensemble",
+      "referenceDischargeM3S": {"min": 5.0, "reference": 35.0, "max": 180.0}
+    },
+    "G": {
+      "mode": "unknown_discharge_ensemble",
+      "referenceDischargeM3S": {"min": 0.1, "reference": 1.0, "max": 8.0}
+    }
+  },
+  "fishwayPrior": {
+    "mode": "head_difference_relation_ensemble",
+    "disabledScenarioRequired": true,
+    "effectiveDischargeCoefficient": {"min": 0.35, "reference": 0.60, "max": 0.85},
+    "effectiveAreaM2": {"min": 0.2, "reference": 1.0, "max": 4.0}
+  },
+  "barragePrior": {
+    "mode": "eight_gate_scenario_ensemble",
+    "requiredScenarios": ["fully_closed", "uniform_25_percent", "uniform_50_percent", "uniform_100_percent"],
+    "effectiveDischargeCoefficient": {"min": 0.45, "reference": 0.65, "max": 0.85},
+    "gateOpeningUncertaintyFraction": 0.20
+  },
+  "requiredOutputs": [
+    "ensemble_median_velocity",
+    "velocity_interquartile_range",
+    "flow_direction_agreement_fraction",
+    "water_level_range",
+    "wet_dry_probability",
+    "mass_balance_error",
+    "parameter_sensitivity_ranking"
+  ],
+  "approval": {
+    "inferenceTrackApprovedBy": "Ryusuke Fujisawa",
+    "sourceStatement": "公開情報が存在しないのであれば推論してください",
+    "scope": "provisional inference and sensitivity analysis only",
+    "physicalRunEnabled": false
+  }
+}

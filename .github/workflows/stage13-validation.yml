@@ -141,6 +141,7 @@ jobs:
       - name: Validate positivity limiter and SSP-RK2
         run: node tools/validate_stage15_positivity_limiter.mjs stage15-positivity-validation.json
       - name: Upload static audits
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stage13-stage15-static-audits

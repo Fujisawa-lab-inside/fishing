@@ -1,0 +1,83 @@
+name: Stage 17 physical data source inventory validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage17_physical_data_source_inventory_v1.json'
+      - 'onga_stage17_physical_data_source_inventory.mjs'
+      - 'tools/validate_stage17_physical_data_source_inventory.mjs'
+      - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
+      - 'docs/STAGE17_PHYSICAL_DATA_ACQUISITION.md'
+      - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
+      - '.github/workflows/stage17-physical-data-source-inventory-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'config/stage17_physical_data_source_inventory_v1.json'
+      - 'onga_stage17_physical_data_source_inventory.mjs'
+      - 'tools/validate_stage17_physical_data_source_inventory.mjs'
+      - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
+      - 'docs/STAGE17_PHYSICAL_DATA_ACQUISITION.md'
+      - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
+      - '.github/workflows/stage17-physical-data-source-inventory-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-physical-data-source-inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check Stage 17 inventory modules
+        run: |
+          node --check onga_stage17_physical_data_source_inventory.mjs
+          node --check tools/validate_stage17_physical_data_source_inventory.mjs
+          node --check tools/build_stage17_data_acquisition_decision_packet.mjs
+      - name: Validate source inventory and decision safeguards
+        run: |
+          node tools/validate_stage17_physical_data_source_inventory.mjs \
+            config/stage17_physical_data_source_inventory_v1.json \
+            stage17-physical-data-source-inventory-validation.json
+      - name: Build data-acquisition decision packet
+        run: |
+          node tools/build_stage17_data_acquisition_decision_packet.mjs \
+            config/stage17_physical_data_source_inventory_v1.json \
+            stage17-data-acquisition-decision-packet.json
+      - name: Verify no physical source or external contact was silently approved
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const inventory = JSON.parse(fs.readFileSync('config/stage17_physical_data_source_inventory_v1.json', 'utf8'));
+          const packet = JSON.parse(fs.readFileSync('stage17-data-acquisition-decision-packet.json', 'utf8'));
+          if (!inventory.requirements.every(item => item.selectedCandidate === null && item.decisionStatus === 'unselected')) {
+            throw new Error('a physical-data source was silently selected');
+          }
+          if (inventory.safeguards.externalContactPerformed !== false) {
+            throw new Error('external contact was incorrectly recorded as performed');
+          }
+          if (inventory.safeguards.physicalValuesAssigned !== false) {
+            throw new Error('physical values were incorrectly assigned');
+          }
+          if (packet.recommendation.optionId !== 'A_official_request_plus_public_retrieval') {
+            throw new Error('unexpected acquisition-route recommendation');
+          }
+          if (packet.nextActionBoundary.physicalRunEnabled !== false) {
+            throw new Error('physical run must remain disabled');
+          }
+          NODE
+      - name: Upload Stage 17 decision evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage17-physical-data-source-inventory
+          path: |
+            stage17-physical-data-source-inventory-validation.json
+            stage17-data-acquisition-decision-packet.json
+            config/stage17_physical_data_source_inventory_v1.json
+            docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md

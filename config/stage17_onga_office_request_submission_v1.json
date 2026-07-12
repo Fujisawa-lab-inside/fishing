@@ -1,0 +1,124 @@
+{
+  "schema": "onga-stage17-official-request-submission-v1",
+  "version": "stage17-onga-office-request-submission-v1",
+  "status": "awaiting_requester_metadata_and_contact_channel",
+  "acquisitionDecisionRecord": "config/stage17_physical_data_acquisition_decision_record_v1.json",
+  "recipient": {
+    "organization": "国土交通省九州地方整備局 遠賀川河川事務所",
+    "officialPage": "https://www.qsr.mlit.go.jp/onga/",
+    "telephone": "0949-22-1830",
+    "postalCode": "822-0013",
+    "postalAddress": "福岡県直方市溝堀1丁目1-1",
+    "verifiedEmail": null,
+    "verifiedContactForm": null,
+    "recommendedFirstContact": "telephone_intake_then_verified_followup",
+    "verificationNote": "公式トップページで電話番号と所在地を確認済みである．データ照会用メールアドレスまたは専用フォームは未確認である．"
+  },
+  "requester": {
+    "university": null,
+    "facultyOrDepartment": null,
+    "laboratory": null,
+    "fullName": null,
+    "position": null,
+    "email": null,
+    "telephone": null,
+    "postalAddress": null
+  },
+  "research": {
+    "formalProjectTitle": null,
+    "provisionalTitle": "遠賀川河口堰周辺の水深平均流況解析",
+    "purpose": "遠賀川河口堰周辺，遠賀川・西川・曲川合流部，魚道および河口側を対象とする2次元水深平均浅水方程式モデルの物理Validation",
+    "plannedUsePeriod": {
+      "start": null,
+      "end": null
+    },
+    "publicationScope": null,
+    "fundingOrProjectIdentifier": null
+  },
+  "requestedDomain": {
+    "spatialScope": [
+      "遠賀川河口から河口堰上流側まで",
+      "遠賀川・西川合流部",
+      "遠賀川・曲川合流部",
+      "遠賀川河口堰全幅と8門",
+      "魚道および河口堰上下流"
+    ],
+    "dataPeriod": {
+      "mode": null,
+      "priorityStart": null,
+      "priorityEnd": null,
+      "requestAllAvailableMetadata": true
+    },
+    "preferredNativeTemporalResolution": true,
+    "preserveOriginalValuesAndQualityFlags": true
+  },
+  "requestedMaterials": [
+    {
+      "id": "bathymetry_and_vertical_datum",
+      "items": [
+        "最新の利用可能な定期横断測量または河床横断資料",
+        "河床縦断，距離標，断面位置座標",
+        "測量年月日，測量精度，鉛直基準面",
+        "測定値と補間値を区別できる電子資料"
+      ]
+    },
+    {
+      "id": "water_level_and_discharge",
+      "items": [
+        "遠賀川下流，西川，曲川の水位・流量観測所一覧と位置座標",
+        "立屋敷，祇園橋，唐熊，中間等の水位・流量時系列",
+        "rating curveまたは水位流量換算関係",
+        "観測間隔，欠測flag，品質flag，鉛直基準面",
+        "曲川における既存観測の有無"
+      ]
+    },
+    {
+      "id": "barrage",
+      "items": [
+        "門別有効幅，敷高，構造諸元，鉛直基準面",
+        "門別開度または操作状態の時系列",
+        "上下流水位，操作理由，操作時刻",
+        "流量係数または既往水理検討資料"
+      ]
+    },
+    {
+      "id": "fishway",
+      "items": [
+        "魚道平面・縦断・横断形状",
+        "敷高，制御部形状，鉛直基準面",
+        "運用状態，流量，または水位差―流量関係",
+        "既往水理計算，流速測定，改良検討資料"
+      ]
+    },
+    {
+      "id": "velocity_validation",
+      "items": [
+        "河口堰，魚道，両合流部，河口側におけるADCPまたは流速計観測",
+        "観測時刻，測線，水深，東西・南北流速，品質管理情報"
+      ]
+    }
+  ],
+  "submission": {
+    "selectedMethod": null,
+    "allowedMethods": [
+      "telephone_intake_then_verified_followup",
+      "verified_email",
+      "verified_official_contact_form",
+      "postal_letter"
+    ],
+    "messageApprovedByRequester": false,
+    "recipientRouteVerified": false,
+    "externalContactPerformed": false,
+    "submittedAt": null,
+    "submissionReference": null
+  },
+  "safeguards": {
+    "approvedWaterGeometryChanged": false,
+    "metricMeshChanged": false,
+    "stationBoundaryAssignmentPerformed": false,
+    "physicalValuesAssigned": false,
+    "physicalRunEnabled": false,
+    "publicSimulatorConnected": false,
+    "visualFittingPerformed": false
+  }
+}

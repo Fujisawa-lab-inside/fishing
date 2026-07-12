@@ -1,0 +1,5 @@
+numpy==2.3.5
+triangle==20250106
+rasterio==1.5.0
+shapely==2.1.2
+affine==2.4.0

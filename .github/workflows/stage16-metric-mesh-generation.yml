@@ -47,13 +47,33 @@ jobs:
       - name: Decode generator and record its digest
         run: |
           python - <<'PY'
-          import base64, gzip, hashlib
+          import base64, gzip, hashlib, json, traceback
           from pathlib import Path
-          encoded = Path('tools/generate_stage16_metric_fv_mesh.py.gz.b64').read_text().strip()
-          source = gzip.decompress(base64.b64decode(encoded))
-          digest = hashlib.sha256(source).hexdigest()
-          print(f'generator SHA-256: {digest}')
-          Path('/tmp/generate_stage16_metric_fv_mesh.py').write_bytes(source)
+          diagnostic = {'schema': 'stage16-generator-decode-diagnostic-v1'}
+          try:
+              text = Path('tools/generate_stage16_metric_fv_mesh.py.gz.b64').read_text()
+              encoded = ''.join(text.split())
+              diagnostic['base64CharactersBeforePadding'] = len(encoded)
+              encoded += '=' * (-len(encoded) % 4)
+              compressed = base64.b64decode(encoded)
+              diagnostic['compressedBytes'] = len(compressed)
+              diagnostic['compressedSha256'] = hashlib.sha256(compressed).hexdigest()
+              source = gzip.decompress(compressed)
+              diagnostic['sourceBytes'] = len(source)
+              diagnostic['sourceSha256'] = hashlib.sha256(source).hexdigest()
+              Path('/tmp/generate_stage16_metric_fv_mesh.py').write_bytes(source)
+              diagnostic['status'] = 'passed'
+              print(f"generator SHA-256: {diagnostic['sourceSha256']}")
+          except Exception as error:
+              diagnostic['status'] = 'failed'
+              diagnostic['errorType'] = type(error).__name__
+              diagnostic['error'] = str(error)
+              diagnostic['traceback'] = traceback.format_exc()
+              raise
+          finally:
+              Path('stage16-generator-decode-diagnostic.json').write_text(
+                  json.dumps(diagnostic, indent=2) + '\n'
+              )
           PY
       - name: Generate exact metric finite-volume mesh package
         run: |
@@ -81,8 +101,12 @@ jobs:
             git commit -m 'Generate deterministic Stage 16 metric FV mesh package'
             git push origin HEAD:${TARGET_BRANCH}
           fi
-      - name: Upload generation validation
+      - name: Upload generation validation and decode diagnostics
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stage16-metric-mesh-generation-validation
-          path: stage16-metric-mesh-validation.json
+          path: |
+            stage16-generator-decode-diagnostic.json
+            stage16-metric-mesh-validation.json
+          if-no-files-found: warn

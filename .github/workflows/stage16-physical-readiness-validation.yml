@@ -4,8 +4,13 @@ on:
   pull_request:
     paths:
       - 'config/onga_stage16_physical_readiness_v1.json'
+      - 'config/stage16_governing_equation_decision_inputs.json'
+      - 'config/stage16_governing_equation_decision_record_v1.json'
       - 'onga_stage16_physical_readiness.mjs'
+      - 'onga_stage16_physical_validation_gate.mjs'
+      - 'onga_stage16_governing_equation_decision.mjs'
       - 'tools/validate_stage16_physical_readiness.mjs'
+      - 'tools/validate_stage16_physical_validation_gate.mjs'
       - 'docs/STAGE16_PHYSICAL_READINESS.md'
       - '.github/workflows/stage16-physical-readiness-validation.yml'
   push:
@@ -13,8 +18,13 @@ on:
       - main
     paths:
       - 'config/onga_stage16_physical_readiness_v1.json'
+      - 'config/stage16_governing_equation_decision_inputs.json'
+      - 'config/stage16_governing_equation_decision_record_v1.json'
       - 'onga_stage16_physical_readiness.mjs'
+      - 'onga_stage16_physical_validation_gate.mjs'
+      - 'onga_stage16_governing_equation_decision.mjs'
       - 'tools/validate_stage16_physical_readiness.mjs'
+      - 'tools/validate_stage16_physical_validation_gate.mjs'
       - 'docs/STAGE16_PHYSICAL_READINESS.md'
       - '.github/workflows/stage16-physical-readiness-validation.yml'
   workflow_dispatch:
@@ -31,17 +41,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Syntax-check readiness module and validator
+      - name: Syntax-check readiness and combined-gate modules
         run: |
           node --check onga_stage16_physical_readiness.mjs
+          node --check onga_stage16_physical_validation_gate.mjs
           node --check tools/validate_stage16_physical_readiness.mjs
-      - name: Verify physical-run blocking and explicit approval contract
+          node --check tools/validate_stage16_physical_validation_gate.mjs
+      - name: Verify physical-input blocking and explicit approval contract
         run: |
           node tools/validate_stage16_physical_readiness.mjs \
             config/onga_stage16_physical_readiness_v1.json \
             stage16-physical-readiness-validation.json
-      - name: Upload readiness report
+      - name: Verify the combined governing-equation and physical-input gate
+        run: node tools/validate_stage16_physical_validation_gate.mjs stage16-physical-validation-gate-validation.json
+      - name: Upload readiness reports
         uses: actions/upload-artifact@v4
         with:
           name: stage16-physical-readiness-validation
-          path: stage16-physical-readiness-validation.json
+          path: |
+            stage16-physical-readiness-validation.json
+            stage16-physical-validation-gate-validation.json
+            config/stage16_governing_equation_decision_record_v1.json

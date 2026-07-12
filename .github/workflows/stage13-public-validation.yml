@@ -1,6 +1,10 @@
 name: Stage 13 public Pages validation
 
 on:
+  pull_request:
+    paths:
+      - 'tools/smoke_stage13_public.mjs'
+      - '.github/workflows/stage13-public-validation.yml'
   push:
     branches:
       - main

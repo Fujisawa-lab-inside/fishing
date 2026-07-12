@@ -74,11 +74,13 @@ function validateDom(testCase, dom) {
   assert(!dom.includes('読込に失敗しました'), `${testCase.name}: wrapper fatal-load message is present`);
   if (!testCase.stage13) {
     assert(!/data-onga-stage13(?:=|-)/.test(dom), `${testCase.name}: legacy URL unexpectedly activated Stage 13`);
+    assert(!dom.includes('onga-stage13-status-badge'), `${testCase.name}: legacy URL shows the Stage 13 badge`);
     return;
   }
 
   const required = [
     'data-onga-stage13="ready"',
+    'data-onga-stage13-badge="ready"',
     'data-onga-stage13-pixel-count="679791"',
     'data-onga-stage13-georef="ready"',
     'data-onga-stage13-water-predicate="authority"',
@@ -92,6 +94,7 @@ function validateDom(testCase, dom) {
     'data-onga-stage13-fluid-false-negative="0"',
     'data-onga-stage13-fluid-false-positive="0"',
     'data-onga-stage13-refresh="complete"',
+    'Stage 13 正解水面統合：稼働中',
   ];
   for (const token of required) {
     assert(dom.includes(token), `${testCase.name}: missing runtime diagnostic ${token}`);

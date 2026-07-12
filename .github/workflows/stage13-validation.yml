@@ -9,6 +9,7 @@ on:
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/audit_current_flow_model.mjs'
+      - 'tools/validate_stage14_conservative_core.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
@@ -16,6 +17,7 @@ on:
       - 'pc_full.html'
       - 'mobile_lite.html'
       - 'onga_stage13_*.js'
+      - 'onga_stage14_*.mjs'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
@@ -31,6 +33,7 @@ on:
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
       - 'tools/audit_current_flow_model.mjs'
+      - 'tools/validate_stage14_conservative_core.mjs'
       - 'tools/smoke_stage13_browser.mjs'
       - 'tools/smoke_stage13_public.mjs'
       - 'docs/CURRENT_FLOW_MODEL_AUDIT.md'
@@ -38,6 +41,7 @@ on:
       - 'pc_full.html'
       - 'mobile_lite.html'
       - 'onga_stage13_*.js'
+      - 'onga_stage14_*.mjs'
       - 'config/onga_*_v1.json'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
@@ -58,14 +62,16 @@ jobs:
           node-version: '22'
       - name: Validate authoritative water domain
         run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r2.json
-      - name: Syntax-check Stage 13 scripts
+      - name: Syntax-check Stage 13 and isolated Stage 14 scripts
         run: |
           node --check onga_stage13_runtime.js
           node --check onga_stage13_bridge.js
           node --check onga_stage13_heatmap_clip.js
           node --check onga_stage13_fluid_domain_patch.js
           node --check onga_stage13_bootstrap.js
+          node --check onga_stage14_conservative_flux_core.mjs
           node --check tools/audit_current_flow_model.mjs
+          node --check tools/validate_stage14_conservative_core.mjs
           node --check tools/smoke_stage13_browser.mjs
           node --check tools/smoke_stage13_public.mjs
       - name: Validate opt-in wrapper fallback
@@ -74,13 +80,16 @@ jobs:
         run: node tools/audit_stage13_entrypoints.mjs stage13-entrypoint-audit.json
       - name: Audit current flow calculation without modifying it
         run: node tools/audit_current_flow_model.mjs current-flow-model-audit.json
+      - name: Validate isolated conservative flux algebra
+        run: node tools/validate_stage14_conservative_core.mjs stage14-conservative-core-validation.json
       - name: Upload static audits
         uses: actions/upload-artifact@v4
         with:
-          name: stage13-static-audits
+          name: stage13-stage14-static-audits
           path: |
             stage13-entrypoint-audit.json
             current-flow-model-audit.json
+            stage14-conservative-core-validation.json
       - name: Set up Chrome
         id: chrome
         uses: browser-actions/setup-chrome@v1

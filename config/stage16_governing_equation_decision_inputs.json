@@ -20,10 +20,12 @@
     "structureParametersApproved": false
   },
   "currentSelection": null,
+  "decisionRecord": "config/stage16_governing_equation_decision_record_v1.json",
   "notes": [
     "The approved water authority remains frozen at v4.8.0-candidate-r2 and 679791 pixels．",
     "The 50333-cell metric finite-volume mesh has been reproducibly generated and audited，including boundary tags，the 68-face barrage cut，the eight-gate partition，and the fishway transfer cells．",
     "The scalar and depth-averaged shallow-water candidates have passed their current synthetic and actual-mesh numerical Verification suites．",
+    "Professor explicitly selected option A：the two-dimensional depth-averaged shallow-water equations for the physical-Validation development track．",
     "No bathymetry，roughness，physical boundary series，fishway parameter，or barrage operating parameter has been approved．"
   ]
 }

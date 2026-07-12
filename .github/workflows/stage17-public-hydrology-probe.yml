@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'tools/probe_stage17_public_hydrology.py'
+      - 'tools/probe_stage17_river_api.py'
       - 'docs/STAGE17_PUBLIC_HYDROLOGY_PROBE.md'
       - '.github/workflows/stage17-public-hydrology-probe.yml'
   push:
@@ -11,6 +12,7 @@ on:
       - main
     paths:
       - 'tools/probe_stage17_public_hydrology.py'
+      - 'tools/probe_stage17_river_api.py'
       - 'docs/STAGE17_PUBLIC_HYDROLOGY_PROBE.md'
       - '.github/workflows/stage17-public-hydrology-probe.yml'
   workflow_dispatch:
@@ -21,33 +23,44 @@ permissions:
 jobs:
   probe-public-official-sources:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Syntax-check public-source probe
-        run: python -m py_compile tools/probe_stage17_public_hydrology.py
+      - name: Syntax-check public-source probes
+        run: |
+          python -m py_compile tools/probe_stage17_public_hydrology.py
+          python -m py_compile tools/probe_stage17_river_api.py
       - name: Probe official public hydrology pages
         run: python tools/probe_stage17_public_hydrology.py --output stage17-public-hydrology-probe
+      - name: Probe official river.go.jp metadata and water-level API
+        run: python tools/probe_stage17_river_api.py --output stage17-river-api-probe
       - name: Verify safeguards and minimum official-page reachability
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          report=json.loads(Path('stage17-public-hydrology-probe/report.json').read_text())
-          assert report['status']=='passed'
-          assert report['diagnostics']['requiredReachabilityFailures']==[]
-          assert report['safeguards']['approvedWaterGeometryChanged'] is False
-          assert report['safeguards']['physicalValuesAssigned'] is False
-          assert report['safeguards']['externalContactPerformed'] is False
-          assert report['safeguards']['publicSimulatorConnected'] is False
+          public=json.loads(Path('stage17-public-hydrology-probe/report.json').read_text())
+          api=json.loads(Path('stage17-river-api-probe/report.json').read_text())
+          assert public['status']=='passed'
+          assert public['diagnostics']['requiredReachabilityFailures']==[]
+          assert api['status']=='passed'
+          assert api['selectedProbeTime']
+          for report in (public,api):
+              assert report['safeguards']['approvedWaterGeometryChanged'] is False
+              assert report['safeguards']['physicalValuesAssigned'] is False
+              assert report['safeguards']['externalContactPerformed'] is False
+              assert report['safeguards']['publicSimulatorConnected'] is False
+          assert api['safeguards']['sourceCandidateApproved'] is False
           PY
       - name: Upload public-source diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stage17-public-hydrology-probe
-          path: stage17-public-hydrology-probe
+          path: |
+            stage17-public-hydrology-probe
+            stage17-river-api-probe
           if-no-files-found: warn

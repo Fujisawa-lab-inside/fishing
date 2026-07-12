@@ -1,0 +1,46 @@
+{
+  "schema": "onga-stage16-mesh-source-v1",
+  "version": "v1",
+  "meshing": {
+    "boundarySimplifyTolerancePixel": 0.5,
+    "triangleOptions": "pq30a30"
+  },
+  "barrage": {
+    "markerEndpointsImagePixel": [
+      [1454.1503211781874, 981.4013738598115],
+      [1115.7533082266086, 1017.7002082685227]
+    ],
+    "extensionSearchPixel": 1000.0,
+    "extensionSamples": 40001
+  },
+  "openBoundarySelectionTolerancePixel": 0.75,
+  "quantization": {
+    "localMetreToIntegerScale": 1000.0,
+    "imagePixelToIntegerScale": 1000.0,
+    "maximumCoordinateErrorM": 0.001,
+    "maximumTotalAreaRelativeError": 1e-6
+  },
+  "encoding": {
+    "base64ChunkCharacters": 262144
+  },
+  "referenceSections": [
+    {"id": "M", "endpointAImagePixel": [27.0, 128.0], "endpointBImagePixel": [370.0, 261.0]},
+    {"id": "N", "endpointAImagePixel": [926.0, 1181.0], "endpointBImagePixel": [1012.0, 1201.0]},
+    {"id": "O", "endpointAImagePixel": [1150.0, 1125.0], "endpointBImagePixel": [1485.0, 1090.0]},
+    {"id": "G", "endpointAImagePixel": [1779.0, 1170.0], "endpointBImagePixel": [1894.0, 1189.0]}
+  ],
+  "expected": {
+    "vertices": 28560,
+    "cells": 50333,
+    "segments": 6846,
+    "internalFaces": 72107,
+    "boundaryFaces": 6785,
+    "barrageFaces": 68,
+    "closedComponents": 2,
+    "fishwayCells": [17144, 38289]
+  },
+  "expectedPackage": {
+    "sha256Compressed": "ac57381aa9c7260cbbd0e58f80a288e2b3dc06dbcf50842655a37fe0e3812144",
+    "sha256Uncompressed": "d2cd04c556035d7a4624ae215aa82e5678068267bb61218541f18ca1a5ac71e9"
+  }
+}

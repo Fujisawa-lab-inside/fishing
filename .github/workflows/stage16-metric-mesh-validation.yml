@@ -67,7 +67,9 @@ jobs:
           from pathlib import Path
           report=json.loads(Path('stage16-metric-mesh/stage16_metric_mesh_summary.json').read_text())
           assert report['status']=='passed'
-          assert report['canonical'] is True
+          assert report['candidateStatus']=='linux_x86_64_pinned_awaiting_visual_review'
+          assert report['identityPinned'] is True
+          assert report['canonical'] is False
           assert report['inputs']['waterAuthorityVersion']=='v4.8.0-candidate-r3'
           assert report['inputs']['waterPixelCount']==680633
           assert report['counts']['cells']>0

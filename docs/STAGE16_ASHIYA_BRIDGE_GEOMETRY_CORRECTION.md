@@ -25,7 +25,7 @@ Rows 0 and 1 restore the river to the image edge. Rows 2–34 fill only the dry 
 
 The corrected authority requires a new mesh version, `stage16-metric-fv-mesh-v2`. The previous mesh counts and every mesh digest are invalid for the corrected geometry.
 
-Triangle output is platform-sensitive. A Darwin arm64 probe is retained only as a diagnostic and is not pinned as the canonical mesh. GitHub Actions Linux x86-64 probe run `29282420163` completed successfully, and its counts and hashes are now pinned in `data/onga_stage16_mesh_constraints_v2.json`. Canonical generation is accepted only on Linux x86-64. The mesh remains blocked from physical execution until its rendered comparison is visually approved.
+Triangle output is platform-sensitive. A Darwin arm64 probe is retained only as a diagnostic and is not pinned as the canonical mesh. GitHub Actions Linux x86-64 probe run `29282420163` completed successfully, and its counts and hashes are now pinned in `data/onga_stage16_mesh_constraints_v2.json`. Reproduction of that pinned identity is accepted only on Linux x86-64. Its generation summary remains `canonical: false` while visual review is pending, and the mesh remains blocked from physical execution.
 
 Both the probe and final validation must verify:
 
@@ -50,6 +50,12 @@ All three isolated algebra checks passed in probe run `29282420163`. These are m
 
 `config/stage18_full64_run_authorization_v1.json` remains byte-for-byte historical evidence for the old 679,791-pixel / 50,333-cell geometry. It is not edited or translated to the new mesh. A separate execution gate blocks the full64 workflow until the corrected Linux mesh is visually reviewed and a new explicit authorization is created.
 
-As an immediate pre-merge safeguard, GitHub Actions workflow ID `312347615` (`stage18-full64-run.yml`) was manually disabled on 2026-07-14. Its verified remote state is `disabled_manually`. It must remain disabled until a new authorization record and gate are explicitly approved.
+As immediate pre-merge safeguards, the old numerical workflows were manually disabled on 2026-07-14:
+
+- full64 workflow ID `312347615` (`stage18-full64-run.yml`);
+- v1 pilot workflow ID `312073089` (`stage18-production-pilot-run.yml`);
+- r2/v1 mesh-generation workflow ID `311686955` (`stage16-metric-mesh-generation.yml`).
+
+All three verified remote states are `disabled_manually`. The v1 full64, v1 pilot, and r2/v1 mesh-generation workflows are also replaced in this branch by explicit rejection-only jobs. Both v1 numerical command-line runners reject before importing numerical dependencies, reading inputs, or creating outputs. None may be re-enabled until the corresponding corrected-geometry flow is separately reviewed and explicitly authorized.
 
 The earlier Stage 16 and Stage 18 verification documents remain historical records for the superseded geometry; their old measured values are not rewritten as if they had been rerun.

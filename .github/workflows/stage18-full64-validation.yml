@@ -27,6 +27,8 @@ on:
       - 'docs/WORK_HANDOFF.md'
       - '.github/workflows/stage18-full64-validation.yml'
       - '.github/workflows/stage18-full64-run.yml'
+      - '.github/workflows/stage18-production-pilot-run.yml'
+      - '.github/workflows/stage16-metric-mesh-generation.yml'
   push:
     branches: [main]
     paths:
@@ -54,6 +56,8 @@ on:
       - 'docs/WORK_HANDOFF.md'
       - '.github/workflows/stage18-full64-validation.yml'
       - '.github/workflows/stage18-full64-run.yml'
+      - '.github/workflows/stage18-production-pilot-run.yml'
+      - '.github/workflows/stage16-metric-mesh-generation.yml'
 
 permissions:
   contents: read
@@ -86,6 +90,40 @@ jobs:
         run: node tools/validate_stage18_full64_workflow.mjs
       - name: Validate disabled execution gate and retired authorization
         run: node tools/validate_stage18_full64_gate.mjs
+      - name: Verify retired numerical CLIs reject before creating outputs
+        run: |
+          set -euo pipefail
+          if python tools/run_stage18_full64.py \
+            missing-retired-mesh.npz \
+            missing-retired-ensemble.json \
+            config/stage18_full64_run_authorization_v1.json \
+            --mesh-summary missing-retired-summary.json \
+            --fields-output stage18-retired-fields.npz \
+            --report-output stage18-retired-report.json \
+            --progress-output stage18-retired-progress.json \
+            --repo-root . \
+            >stage18-retired-runner.log 2>&1; then
+            echo 'Retired v1 full64 runner unexpectedly succeeded.' >&2
+            exit 1
+          fi
+          grep -F 'The v1 full64 runner is retired after the Ashiya bridge geometry correction; no numerical cases were started.' stage18-retired-runner.log
+          test ! -e stage18-retired-fields.npz
+          test ! -e stage18-retired-report.json
+          test ! -e stage18-retired-progress.json
+          rm -f stage18-retired-runner.log
+          if python tools/run_stage18_production_mesh_pilot.py \
+            missing-retired-mesh.npz \
+            missing-retired-ensemble.json \
+            config/stage18_production_mesh_pilot_v1.json \
+            pilot \
+            --output stage18-retired-pilot.json \
+            >stage18-retired-pilot.log 2>&1; then
+            echo 'Retired v1 pilot runner unexpectedly succeeded.' >&2
+            exit 1
+          fi
+          grep -F 'The v1 production-mesh pilot runner is retired after the Ashiya bridge geometry correction; no numerical cases were started.' stage18-retired-pilot.log
+          test ! -e stage18-retired-pilot.json
+          rm -f stage18-retired-pilot.log
       - name: Regenerate candidate mesh and reject the retired authorization
         run: |
           python tools/generate_stage16_metric_mesh.py \

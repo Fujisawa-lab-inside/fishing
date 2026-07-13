@@ -9,6 +9,15 @@ import sys
 import time
 from pathlib import Path
 
+RETIRED_CLI_MESSAGE = (
+    'The v1 full64 runner is retired after the Ashiya bridge geometry correction; '
+    'no numerical cases were started.'
+)
+
+if __name__ == '__main__':
+    print(RETIRED_CLI_MESSAGE, file=sys.stderr)
+    raise SystemExit(2)
+
 import numpy as np
 
 from run_stage18_production_mesh_pilot import geom, run_case_result
@@ -104,10 +113,13 @@ EXPECTED_SAFEGUARDS = {
     'automaticAdditionalRunsAllowed': False,
 }
 
-
 def require(condition, message):
     if not condition:
         raise RuntimeError(message)
+
+
+def reject_retired_cli():
+    raise RuntimeError(RETIRED_CLI_MESSAGE)
 
 
 def sha256(path):
@@ -309,6 +321,8 @@ def main():
     parser.add_argument('--progress-output', required=True)
     parser.add_argument('--repo-root', default='.')
     args = parser.parse_args()
+
+    reject_retired_cli()
 
     validate_fresh_outputs(
         [args.mesh, args.ensemble, args.authorization, args.mesh_summary],

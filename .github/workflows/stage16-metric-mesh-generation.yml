@@ -1,112 +1,18 @@
-name: Stage 16 metric mesh generation
+name: Stage 16 superseded metric mesh generation
 
 on:
-  push:
-    branches:
-      - feat/stage16-metric-fv-mesh-package
-    paths:
-      - 'data/onga_stage16_mesh_source_v1.json'
-      - 'tools/generate_stage16_metric_fv_mesh.py.gz.b64'
-      - '.github/workflows/stage16-metric-mesh-generation.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'data/onga_stage16_mesh_source_v1.json'
-      - 'tools/generate_stage16_metric_fv_mesh.py.gz.b64'
-      - 'onga_stage16_metric_fv_mesh_loader.mjs'
-      - 'tools/validate_stage16_metric_fv_mesh.mjs'
-      - '.github/workflows/stage16-metric-mesh-generation.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  generate-and-verify:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+  reject-superseded-v1-generation:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ env.TARGET_BRANCH }}
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install pinned deterministic mesh dependencies
+      - name: Reject superseded r2/v1 mesh generation
         run: |
-          python -m pip install --disable-pip-version-check \
-            numpy==2.3.5 rasterio==1.5.0 shapely==2.1.2 triangle==20250106
-      - name: Decode generator and record its digest
-        run: |
-          python - <<'PY'
-          import base64, gzip, hashlib, json, traceback
-          from pathlib import Path
-          diagnostic = {'schema': 'stage16-generator-decode-diagnostic-v1'}
-          try:
-              text = Path('tools/generate_stage16_metric_fv_mesh.py.gz.b64').read_text()
-              encoded = ''.join(text.split())
-              diagnostic['base64CharactersBeforePadding'] = len(encoded)
-              encoded += '=' * (-len(encoded) % 4)
-              compressed = base64.b64decode(encoded)
-              diagnostic['compressedBytes'] = len(compressed)
-              diagnostic['compressedSha256'] = hashlib.sha256(compressed).hexdigest()
-              source = gzip.decompress(compressed)
-              diagnostic['sourceBytes'] = len(source)
-              diagnostic['sourceSha256'] = hashlib.sha256(source).hexdigest()
-              Path('/tmp/generate_stage16_metric_fv_mesh.py').write_bytes(source)
-              diagnostic['status'] = 'passed'
-              print(f"generator SHA-256: {diagnostic['sourceSha256']}")
-          except Exception as error:
-              diagnostic['status'] = 'failed'
-              diagnostic['errorType'] = type(error).__name__
-              diagnostic['error'] = str(error)
-              diagnostic['traceback'] = traceback.format_exc()
-              raise
-          finally:
-              Path('stage16-generator-decode-diagnostic.json').write_text(
-                  json.dumps(diagnostic, indent=2) + '\n'
-              )
-          PY
-      - name: Generate exact metric finite-volume mesh package
-        run: |
-          rm -rf data/stage16
-          python /tmp/generate_stage16_metric_fv_mesh.py \
-            --water-manifest data/onga_unified_water_manifest_r2.json \
-            --source data/onga_stage16_mesh_source_v1.json \
-            --output data/stage16
-      - name: Validate generated compact package
-        run: |
-          node --check onga_stage16_metric_fv_mesh_loader.mjs
-          node --check tools/validate_stage16_metric_fv_mesh.mjs
-          node tools/validate_stage16_metric_fv_mesh.mjs \
-            data/stage16/onga_fv_metric_mesh_compact_manifest_v1.json \
-            data/onga_stage16_mesh_source_v1.json \
-            stage16-metric-mesh-validation.json
-      - name: Commit deterministic generated package
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/stage16
-          if git diff --cached --quiet; then
-            echo 'Generated package is already current.'
-          else
-            git commit -m 'Generate deterministic Stage 16 metric FV mesh package'
-            git push origin HEAD:${TARGET_BRANCH}
-          fi
-      - name: Upload generation validation and decode diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage16-metric-mesh-generation-validation
-          path: |
-            stage16-generator-decode-diagnostic.json
-            stage16-metric-mesh-validation.json
-          if-no-files-found: warn
+          echo 'The r2/v1 metric-mesh generator is retired after the Ashiya bridge geometry correction.' >&2
+          echo 'Use the separately reviewed r3/v2 Linux artifact flow; this workflow cannot modify repository data.' >&2
+          exit 1

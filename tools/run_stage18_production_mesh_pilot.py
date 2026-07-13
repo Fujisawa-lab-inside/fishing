@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
 import argparse, json, math, resource, sys, time
 from pathlib import Path
+
+RETIRED_CLI_MESSAGE = (
+ 'The v1 production-mesh pilot runner is retired after the Ashiya bridge geometry correction; '
+ 'no numerical cases were started.'
+)
+
+if __name__=='__main__':
+ print(RETIRED_CLI_MESSAGE,file=sys.stderr)
+ raise SystemExit(2)
+
 import numpy as np
 G=9.80665
+
+def reject_retired_cli():
+ raise RuntimeError(RETIRED_CLI_MESSAGE)
 
 class NumericalStateError(RuntimeError):
  def __init__(self,message,nan_count,negative_depth_count):
@@ -61,6 +74,7 @@ def run_case(case,steps,g):
  return result['massBalanceError'],result['maxCfl'],result['minimumDepthM']
 
 def main():
+ reject_retired_cli()
  ap=argparse.ArgumentParser();ap.add_argument('mesh');ap.add_argument('ensemble');ap.add_argument('config');ap.add_argument('tier');ap.add_argument('--output',required=True);a=ap.parse_args()
  cfg=json.loads(Path(a.config).read_text());ens=json.loads(Path(a.ensemble).read_text());
  if cfg.get('schema')!='onga-stage18-production-mesh-pilot-v1': raise RuntimeError('unsupported pilot config schema')

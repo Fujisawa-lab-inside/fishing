@@ -9,6 +9,16 @@ const CORRECTED_CONSTRAINTS_PATH = 'data/onga_stage16_mesh_constraints_v2.json';
 const RETIRED_AUTHORIZATION_SHA256 = 'dbe9b61c832a3d75a54acd5042b8a27843a9ea826be27b305aaaf8911a11932f';
 const RETIRED_MESH_SUMMARY_SHA256 = 'f44b1317f469e34227e83cb0910db75d75404098f0927d93a8e3316ae92060f8';
 const CORRECTED_AUTHORIZATION_SCHEMA = 'onga-stage18-full64-run-authorization-v2';
+const EXPECTED_VISUAL_APPROVAL = Object.freeze({
+  status: 'approved',
+  approvedBy: 'Ryusuke Fujisawa',
+  approvedDate: '2026-07-14',
+  sourceStatement: 'この形でよい',
+  scope: 'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization',
+  reviewedMeshVersion: 'stage16-metric-fv-mesh-v2',
+  reviewedPackageSha256: 'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2',
+  comparisonImageSha256: '5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda',
+});
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -90,6 +100,17 @@ async function requireRetiredAuthorizationUnchanged(gate) {
   );
 }
 
+function validateApprovedCorrectedMeshConstraints(constraints) {
+  assert(constraints.schema === 'onga-stage16-mesh-constraints-v2', 'corrected mesh constraints schema changed');
+  assert(constraints.version === 'stage16-metric-fv-mesh-v2', 'corrected mesh version changed');
+  assert(constraints.candidateStatus === 'approved_canonical', 'corrected mesh visual approval is not canonical');
+  assert(equalJson(constraints.visualApproval, EXPECTED_VISUAL_APPROVAL), 'corrected mesh visual approval record changed');
+  assert(
+    constraints.visualApproval.reviewedPackageSha256 === constraints.canonicalProbe.packageSha256,
+    'visual approval is not bound to the pinned Linux package',
+  );
+}
+
 async function requireActiveAuthorization(gate) {
   validateActiveGateStructure(gate);
   const resolved = path.resolve(gate.activeAuthorization.path);
@@ -99,11 +120,8 @@ async function requireActiveAuthorization(gate) {
   assert(sha256(payload) === gate.activeAuthorization.sha256, 'active authorization digest mismatch');
   const authorization = JSON.parse(payload.toString('utf8'));
   const constraints = JSON.parse(await fs.readFile(CORRECTED_CONSTRAINTS_PATH, 'utf8'));
+  validateApprovedCorrectedMeshConstraints(constraints);
   validateCorrectedAuthorizationMetadata(authorization, constraints);
-  assert(
-    constraints.candidateStatus === 'approved_canonical',
-    'corrected mesh remains blocked until visual approval is recorded',
-  );
 }
 
 function validateCorrectedAuthorizationMetadata(authorization, constraints) {
@@ -280,7 +298,9 @@ jobs:
 
 const requireActive = process.argv.slice(2).includes('--require-active');
 const gate = JSON.parse(await fs.readFile(GATE_PATH, 'utf8'));
+const correctedConstraints = JSON.parse(await fs.readFile(CORRECTED_CONSTRAINTS_PATH, 'utf8'));
 await requireRetiredAuthorizationUnchanged(gate);
+validateApprovedCorrectedMeshConstraints(correctedConstraints);
 
 if (requireActive) {
   await requireActiveAuthorization(gate);
@@ -309,6 +329,7 @@ if (requireActive) {
     rejectedUnsafeMutations,
     verified: [
       'retired authorization bytes and old mesh binding remain unchanged',
+      'corrected Linux v2 package is canonical only for the exact recorded visual approval',
       'replacement explicit authorization is required',
       'authorization consumption and full64 execution remain disabled',
       'pending state cannot satisfy the active gate',

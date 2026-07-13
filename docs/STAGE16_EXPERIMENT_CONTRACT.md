@@ -6,7 +6,7 @@ This contract prevents synthetic Verification，physical Validation，and public
 
 ## Frozen geometry
 
-Every new scenario must reference water-authority version `v4.8.0-candidate-r3` and exactly 680，633 water pixels．A physical run additionally requires an audited production mesh and a traceable bathymetry source．While the corrected v2 mesh is awaiting its Linux canonical audit and visual review，no new physical run is executable．A flow result may not be used to alter the approved water geometry．
+Every new scenario must reference water-authority version `v4.8.0-candidate-r3` and exactly 680，633 water pixels．The corrected Linux v2 mesh is visually approved as `approved_canonical` by the source statement `この形でよい`．This geometry approval does not authorize a physical run．A separate `physicalExecutionAuthorized` gate remains false，so no physical or public run is executable until a new explicit decision is recorded．A flow result may not be used to alter the approved water geometry．
 
 ## Run classes
 
@@ -20,7 +20,7 @@ Non-synthetic data sources require an identifier and checksum or version．The r
 
 ## Prohibited behaviour
 
-Visual fitting is rejected by the contract．Synthetic output may not be labelled as a physical prediction．A public run cannot be created merely because a numerical test passes．Missing approvals，missing boundary sources，water-authority mismatch，and untraceable physical data are hard errors．
+Visual fitting is rejected by the contract．Synthetic output may not be labelled as a physical prediction．A public run cannot be created merely because a numerical test passes．Missing approvals，missing boundary sources，water-authority mismatch，untraceable physical data，and missing separate execution authorization are hard errors．
 
 ## Safeguards
 

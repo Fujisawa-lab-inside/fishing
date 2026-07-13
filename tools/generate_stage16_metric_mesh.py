@@ -152,11 +152,23 @@ def main():
         if set(E['packageArrayHashes'])!=set(PACKAGE_KEYS):raise RuntimeError('package hash key set mismatch')
         for k,v in E['packageArrayHashes'].items():
             if package_hashes.get(k)!=v:raise RuntimeError(f'{k} package hash mismatch')
-    artifact_name=C.get('artifactFile','onga_stage16_metric_fv_mesh_v2.npz')
-    np.savez_compressed(out/artifact_name,**package)
+    artifact_name=C.get('artifactFile','onga_stage16_metric_fv_mesh_v2.npz');artifact_path=out/artifact_name;temporary_artifact=out/f'.{artifact_name}.tmp'
+    visual_approval=C.get('visualApproval');approved_release=bool(not a.probe and C.get('candidateStatus')=='approved_canonical')
+    if approved_release:
+        expected_approval={'status':'approved','approvedBy':'Ryusuke Fujisawa','approvedDate':'2026-07-14','sourceStatement':'この形でよい','scope':'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization','reviewedMeshVersion':C['version'],'reviewedPackageSha256':'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2','comparisonImageSha256':'5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda'}
+        if visual_approval!=expected_approval:raise RuntimeError('canonical visual approval record mismatch')
+        if visual_approval['reviewedPackageSha256']!=C['canonicalProbe']['packageSha256']:raise RuntimeError('visual approval package provenance mismatch')
+    try:
+        with temporary_artifact.open('wb') as handle:np.savez_compressed(handle,**package)
+        artifact_sha=hashlib.sha256(temporary_artifact.read_bytes()).hexdigest()
+        if approved_release and artifact_sha!=visual_approval['reviewedPackageSha256']:raise RuntimeError('generated package differs from visually approved Linux package')
+        temporary_artifact.replace(artifact_path)
+    except BaseException:
+        temporary_artifact.unlink(missing_ok=True);raise
     pts=local[M['triangles']];area=np.abs((pts[:,1,0]-pts[:,0,0])*(pts[:,2,1]-pts[:,0,1])-(pts[:,1,1]-pts[:,0,1])*(pts[:,2,0]-pts[:,0,0]))/2
     identity_pinned=bool(isinstance(E,dict) and not a.probe)
     visually_approved=bool(identity_pinned and C.get('candidateStatus')=='approved_canonical')
-    report={'schema':'onga-stage16-metric-mesh-summary-v2','version':C['version'],'candidateStatus':C['candidateStatus'],'status':'probe-only' if a.probe else 'passed','identityPinned':identity_pinned,'canonical':visually_approved,'platform':{'system':platform.system(),'machine':platform.machine(),'python':platform.python_version()},'inputs':{'waterManifest':a.water_manifest,'waterAuthorityVersion':m['version'],'waterPixelCount':int(m['pixelCount']),'constraints':a.constraints},'artifactFile':artifact_name,'counts':counts,'topBoundaryM':top_m,'meshArrayHashes':{k:h(v) for k,v in M.items()},'packageArrayHashes':package_hashes,'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'safeguards':{'waterAuthorityModifiedDuringGeneration':False,'physicalValuesAssigned':False,'connectedToPublicSimulator':False,'calibrationPerformed':False,'previousMeshAuthorizationReusable':False}}
+    approved_identity_reproduced=bool(isinstance(visual_approval,dict) and artifact_sha==visual_approval.get('reviewedPackageSha256'))
+    report={'schema':'onga-stage16-metric-mesh-summary-v2','version':C['version'],'candidateStatus':C['candidateStatus'],'status':'probe-only' if a.probe else 'passed','identityPinned':identity_pinned,'approvedIdentityReproduced':approved_identity_reproduced,'canonical':visually_approved,'visualApproval':visual_approval if visually_approved else None,'targetVisualApproval':visual_approval if a.probe else None,'platform':{'system':platform.system(),'machine':platform.machine(),'python':platform.python_version()},'inputs':{'waterManifest':a.water_manifest,'waterAuthorityVersion':m['version'],'waterPixelCount':int(m['pixelCount']),'constraints':a.constraints},'artifactFile':artifact_name,'artifactSha256':artifact_sha,'counts':counts,'topBoundaryM':top_m,'meshArrayHashes':{k:h(v) for k,v in M.items()},'packageArrayHashes':package_hashes,'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'safeguards':{'waterAuthorityModifiedDuringGeneration':False,'physicalValuesAssigned':False,'physicalExecutionAuthorized':False,'connectedToPublicSimulator':False,'calibrationPerformed':False,'previousMeshAuthorizationReusable':False}}
     (out/'stage16_metric_mesh_summary.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps(report,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()

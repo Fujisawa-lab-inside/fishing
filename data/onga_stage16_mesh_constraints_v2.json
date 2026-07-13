@@ -2,7 +2,7 @@
   "schema": "onga-stage16-mesh-constraints-v2",
   "version": "stage16-metric-fv-mesh-v2",
   "artifactFile": "onga_stage16_metric_fv_mesh_v2.npz",
-  "candidateStatus": "linux_x86_64_pinned_awaiting_visual_review",
+  "candidateStatus": "approved_canonical",
   "waterAuthority": {
     "version": "v4.8.0-candidate-r3",
     "pixelCount": 680633,
@@ -19,6 +19,16 @@
     "addedWaterPixels": 842,
     "removedWaterPixels": 0,
     "changedBoundingBoxImagePixel": [57, 0, 323, 34]
+  },
+  "visualApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "この形でよい",
+    "scope": "corrected_linux_mesh_geometry_only_no_numerical_execution_authorization",
+    "reviewedMeshVersion": "stage16-metric-fv-mesh-v2",
+    "reviewedPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "comparisonImageSha256": "5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda"
   },
   "barrageHardConstraint": {
     "endpoint0Pixel": [1454.1503211781874, 981.4013738598115],

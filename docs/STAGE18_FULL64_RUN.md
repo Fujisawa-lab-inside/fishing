@@ -1,8 +1,8 @@
 # Stage 18 full64 numerical ensemble run
 
-> Historical authorization: this procedure is bound to the superseded v1 geometry and is currently blocked by the execution gate. The Ashiya bridge correction requires a new Linux-generated mesh, a new visual review, and a separate explicit authorization before any 64-case run.
+> Historical authorization: this procedure is bound to the superseded v1 geometry and is currently blocked by the execution gate. The corrected Linux v2 mesh has completed visual review, but a separate v2 execution contract and explicit authorization are still required before any 64-case run.
 >
-> The remote GitHub Actions workflow was manually disabled on 2026-07-14 (workflow ID `312347615`, state `disabled_manually`) and is rejection-only on the correction branch. The v1 full64 and pilot command-line runners also reject before importing numerical dependencies, reading inputs, or creating outputs. A separately reviewed v2 execution contract is required after visual approval.
+> The remote GitHub Actions workflow was manually disabled on 2026-07-14 (workflow ID `312347615`, state `disabled_manually`) and is rejection-only on the correction branch. The v1 full64 and pilot command-line runners also reject before importing numerical dependencies, reading inputs, or creating outputs. Visual approval does not change these stops.
 > The related v1 production-pilot workflow was also manually disabled (workflow ID `312073089`, state `disabled_manually`) and is rejection-only on the correction branch.
 > The r2/v1 mesh-generation workflow was manually disabled as well (workflow ID `311686955`, state `disabled_manually`) and is rejection-only on the correction branch, so it cannot restore the superseded mesh package.
 

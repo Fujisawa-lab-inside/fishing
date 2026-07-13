@@ -39,7 +39,7 @@ jobs:
         run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
       - name: Validate corrected water authority
         run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r3.json
-      - name: Generate unpinned Linux candidate mesh
+      - name: Reproduce the approved Linux mesh in probe mode
         run: >-
           python tools/generate_stage16_metric_mesh.py
           --repo-root .
@@ -50,12 +50,20 @@ jobs:
       - name: Verify probe identity and safeguards
         run: |
           python - <<'PY'
-          import json, platform
+          import hashlib, json, platform
           from pathlib import Path
+          artifact = Path('stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz')
           report = json.loads(Path('stage16-bridge-mesh-probe/stage16_metric_mesh_summary.json').read_text())
+          constraints = json.loads(Path('data/onga_stage16_mesh_constraints_v2.json').read_text())
           assert report['status'] == 'probe-only'
+          assert report['candidateStatus'] == 'approved_canonical'
           assert report['identityPinned'] is False
+          assert report['approvedIdentityReproduced'] is True
           assert report['canonical'] is False
+          assert report['visualApproval'] is None
+          assert report['targetVisualApproval'] == constraints['visualApproval']
+          assert report['artifactSha256'] == constraints['visualApproval']['reviewedPackageSha256']
+          assert hashlib.sha256(artifact.read_bytes()).hexdigest() == report['artifactSha256']
           assert report['inputs']['waterAuthorityVersion'] == 'v4.8.0-candidate-r3'
           assert report['inputs']['waterPixelCount'] == 680633
           assert report['topBoundaryM']['allTaggedM'] is True
@@ -64,6 +72,7 @@ jobs:
           assert abs(report['topBoundaryM']['imageLengthPixels'] - 266.0) < 1e-9
           assert report['counts']['fishwayComponents'][0] != report['counts']['fishwayComponents'][1]
           assert report['safeguards']['previousMeshAuthorizationReusable'] is False
+          assert report['safeguards']['physicalExecutionAuthorized'] is False
           assert platform.system() == 'Linux'
           assert platform.machine() == 'x86_64'
           PY

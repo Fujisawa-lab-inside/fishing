@@ -63,13 +63,21 @@ jobs:
           test -s stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz
           test -s stage16-metric-mesh/stage16_metric_mesh_summary.json
           python - <<'PY'
-          import json
+          import hashlib, json
           from pathlib import Path
+          artifact=Path('stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz')
           report=json.loads(Path('stage16-metric-mesh/stage16_metric_mesh_summary.json').read_text())
+          constraints=json.loads(Path('data/onga_stage16_mesh_constraints_v2.json').read_text())
           assert report['status']=='passed'
-          assert report['candidateStatus']=='linux_x86_64_pinned_awaiting_visual_review'
+          assert report['candidateStatus']=='approved_canonical'
           assert report['identityPinned'] is True
-          assert report['canonical'] is False
+          assert report['approvedIdentityReproduced'] is True
+          assert report['canonical'] is True
+          assert report['visualApproval']==constraints['visualApproval']
+          assert report['targetVisualApproval'] is None
+          assert report['visualApproval']['sourceStatement']=='この形でよい'
+          assert report['artifactSha256']==constraints['visualApproval']['reviewedPackageSha256']
+          assert hashlib.sha256(artifact.read_bytes()).hexdigest()==report['artifactSha256']
           assert report['inputs']['waterAuthorityVersion']=='v4.8.0-candidate-r3'
           assert report['inputs']['waterPixelCount']==680633
           assert report['counts']['cells']>0
@@ -84,6 +92,7 @@ jobs:
           assert report['safeguards']['waterAuthorityModifiedDuringGeneration'] is False
           assert report['safeguards']['previousMeshAuthorizationReusable'] is False
           assert report['safeguards']['physicalValuesAssigned'] is False
+          assert report['safeguards']['physicalExecutionAuthorized'] is False
           PY
       - name: Verify conservative algebra on the actual metric mesh
         run: >-

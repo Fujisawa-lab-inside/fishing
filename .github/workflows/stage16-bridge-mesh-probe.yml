@@ -1,0 +1,90 @@
+name: Stage 16 Ashiya bridge mesh Linux probe
+
+on:
+  pull_request:
+    paths:
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
+      - 'data/onga_stage16_mesh_constraints_v2.json'
+      - 'tools/generate_stage13_ashiya_bridge_r3.py'
+      - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/validate_stage13_data.mjs'
+      - 'tools/validate_stage16_metric_solver.py'
+      - 'tools/validate_stage16_actual_mesh_shallow_water.py'
+      - 'tools/validate_stage16_actual_mesh_well_balanced.py'
+      - 'tools/requirements-stage16-metric-mesh.txt'
+      - '.github/workflows/stage16-bridge-mesh-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-x86-64-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: tools/requirements-stage16-metric-mesh.txt
+      - name: Install pinned deterministic mesh dependencies
+        run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
+      - name: Validate corrected water authority
+        run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r3.json
+      - name: Generate unpinned Linux candidate mesh
+        run: >-
+          python tools/generate_stage16_metric_mesh.py
+          --repo-root .
+          --water-manifest data/onga_unified_water_manifest_r3.json
+          --constraints data/onga_stage16_mesh_constraints_v2.json
+          --output stage16-bridge-mesh-probe
+          --probe
+      - name: Verify probe identity and safeguards
+        run: |
+          python - <<'PY'
+          import json, platform
+          from pathlib import Path
+          report = json.loads(Path('stage16-bridge-mesh-probe/stage16_metric_mesh_summary.json').read_text())
+          assert report['status'] == 'probe-only'
+          assert report['canonical'] is False
+          assert report['inputs']['waterAuthorityVersion'] == 'v4.8.0-candidate-r3'
+          assert report['inputs']['waterPixelCount'] == 680633
+          assert report['topBoundaryM']['allTaggedM'] is True
+          assert report['topBoundaryM']['faceCount'] == report['counts']['boundaryFaceCounts']['M']
+          assert report['topBoundaryM']['endpointXSpan'] == [57.0, 323.0]
+          assert abs(report['topBoundaryM']['imageLengthPixels'] - 266.0) < 1e-9
+          assert report['counts']['fishwayComponents'][0] != report['counts']['fishwayComponents'][1]
+          assert report['safeguards']['previousMeshAuthorizationReusable'] is False
+          assert platform.system() == 'Linux'
+          assert platform.machine() == 'x86_64'
+          PY
+      - name: Verify conservative algebra on candidate mesh
+        run: >-
+          python tools/validate_stage16_metric_solver.py
+          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
+          --output stage16-bridge-mesh-probe/stage16_metric_solver_validation.json
+      - name: Verify shallow-water algebra on candidate mesh
+        run: >-
+          python tools/validate_stage16_actual_mesh_shallow_water.py
+          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
+          --output stage16-bridge-mesh-probe/stage16_actual_mesh_shallow_water_validation.json
+      - name: Verify well-balanced algebra on candidate mesh
+        run: >-
+          python tools/validate_stage16_actual_mesh_well_balanced.py
+          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
+          --output stage16-bridge-mesh-probe/stage16_actual_mesh_well_balanced_validation.json
+      - name: Upload Linux candidate and diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage16-ashiya-bridge-linux-probe-${{ github.run_id }}
+          path: stage16-bridge-mesh-probe
+          if-no-files-found: error
+          retention-days: 30

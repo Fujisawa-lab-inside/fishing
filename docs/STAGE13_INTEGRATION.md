@@ -6,8 +6,9 @@
 
 ## 今回追加する基盤
 
-- `data/onga_unified_spec_v480_candidate_r2.json`
-  - 承認済み水面679,791 px
+- `data/onga_unified_water_manifest_r3.json`
+  - 承認済み水面680,633 px
+  - r2へ芦屋橋下の水面842 pxだけを追加し，既存水面は削除しない
   - G1・G2・G3の微小ノイズ445 pxを除外済み
   - 橋，河口堰，M/N/O/G，魚道の位置情報を保持
 - `config/onga_recommended_model_v1.json`
@@ -34,7 +35,7 @@
 
 PC版・スマホ版ラッパーへ `onga_stage13_runtime.js` を読み込み，既存の水面判定，ホットスポット生成，流体計算入口を共通authorityへ差し替える．差し替え後，以下を自動検査する．
 
-- 3処理の参照画素数が679,791 pxで一致する
+- 3処理の参照画素数が680,633 pxで一致する
 - 水面外ヒートマップ点が0
 - 水面外流体セルが0
 - 河口堰閉鎖時の残存横断面が0

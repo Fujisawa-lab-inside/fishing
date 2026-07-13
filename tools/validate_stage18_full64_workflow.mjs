@@ -73,6 +73,8 @@ for (const required of [
   'group: stage18-full64-one-time-20260713',
   'cancel-in-progress: false',
   'Validate dispatch identity and scope',
+  'Validate active authorization gate',
+  'node tools/validate_stage18_full64_gate.mjs --require-active',
   "test \"$CONFIRMATION\" = 'RUN_STAGE18_FULL64_20260713'",
   "test \"$REPOSITORY\" = 'Fujisawa-lab-inside/fishing'",
   "test \"$ACTOR\" = 'RyusukeFujisawa'",
@@ -102,6 +104,12 @@ for (const required of [
   "test \"$ACTOR\" = 'RyusukeFujisawa'",
   "test \"$REF\" = 'refs/heads/main'",
   "test \"$RUN_ATTEMPT\" = '1'",
+  'actions/checkout@v4',
+  'persist-credentials: false',
+  'actions/setup-node@v4',
+  "node-version: '22'",
+  'Validate active authorization gate',
+  'node tools/validate_stage18_full64_gate.mjs --require-active',
   'Consume one-time authorization',
   'gh api --paginate',
   'select(.id != ${RUN_ID})',
@@ -111,11 +119,24 @@ for (const required of [
 assert(!/^\s+if:/m.test(authorizeJob), 'authorize steps must not be conditionally skipped');
 assertUniqueOrdered(authorizeJob, [
   '- name: Validate dispatch identity and scope',
+  '- uses: actions/checkout@v4',
+  '- uses: actions/setup-node@v4',
+  '- name: Validate active authorization gate',
   '- name: Consume one-time authorization',
 ], 'authorize job');
 assert(
   authorizeJob.indexOf('      - ') === authorizeJob.indexOf('      - name: Validate dispatch identity and scope'),
   'identity validation must be the first authorize step',
+);
+const gateStepStart = authorizeJob.indexOf('      - name: Validate active authorization gate');
+const consumeStepStart = authorizeJob.indexOf('      - name: Consume one-time authorization');
+const expectedGateStep = `      - name: Validate active authorization gate
+        run: node tools/validate_stage18_full64_gate.mjs --require-active
+`;
+assert(gateStepStart >= 0 && consumeStepStart > gateStepStart, 'active gate must precede authorization consumption');
+assert(
+  authorizeJob.slice(gateStepStart, consumeStepStart) === expectedGateStep,
+  'active-gate validation must immediately precede authorization consumption',
 );
 
 for (const required of [
@@ -243,6 +264,7 @@ const report = {
     'workflow_dispatch-only trigger',
     'read-only repository and Actions permissions',
     'authorized repository, actor, main ref, confirmation, and first attempt',
+    'disabled or retired authorization is rejected before one-time consumption',
     'serialized one-time authorization consumption check',
     'full64 job depends on authorization and independently rejects reruns',
     'bounded runtime',

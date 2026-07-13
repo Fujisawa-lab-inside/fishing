@@ -5,6 +5,9 @@ on:
     paths:
       - 'data/onga_unified_water_manifest_r2.json'
       - 'data/onga_water_rows_r2_*.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
+      - 'tools/generate_stage13_ashiya_bridge_r3.py'
       - 'tools/validate_stage13_data.mjs'
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
@@ -44,6 +47,9 @@ on:
     paths:
       - 'data/onga_unified_water_manifest_r2.json'
       - 'data/onga_water_rows_r2_*.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
+      - 'tools/generate_stage13_ashiya_bridge_r3.py'
       - 'tools/validate_stage13_data.mjs'
       - 'tools/validate_stage13_wrappers.mjs'
       - 'tools/audit_stage13_entrypoints.mjs'
@@ -90,8 +96,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify deterministic Ashiya Bridge authority correction
+        run: |
+          python -m py_compile tools/generate_stage13_ashiya_bridge_r3.py
+          python tools/generate_stage13_ashiya_bridge_r3.py --check
       - name: Validate authoritative water domain
-        run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r2.json
+        run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r3.json
       - name: Syntax-check Stage 13 and isolated solver scripts
         run: |
           node --check onga_stage13_runtime.js

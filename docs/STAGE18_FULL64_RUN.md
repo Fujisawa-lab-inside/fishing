@@ -1,5 +1,9 @@
 # Stage 18 full64 numerical ensemble run
 
+> Historical authorization: this procedure is bound to the superseded v1 geometry and is currently blocked by the execution gate. The Ashiya bridge correction requires a new Linux-generated mesh, a new visual review, and a separate explicit authorization before any 64-case run.
+>
+> The remote GitHub Actions workflow was also manually disabled on 2026-07-14 (workflow ID `312347615`, state `disabled_manually`) so the unconsumed old authorization cannot be dispatched while this gate change is awaiting merge.
+
 ## 承認範囲
 
 この実行は、seed `20260713`の決定的Stage 18 inference ensemble、679,791 pixelの凍結水面領域、50,333 cellのproduction mesh、1 caseあたり500 stepsを対象とする。目的はオフラインの実行時間・数値安定性確認だけである。

@@ -9,7 +9,8 @@ on:
     branches:
       - main
     paths:
-      - 'data/onga_unified_water_manifest_r2.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
       - 'onga_stage13_*.js'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html'
       - 'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html'
@@ -32,18 +33,20 @@ jobs:
       - name: Syntax-check public Pages smoke test
         run: node --check tools/smoke_stage13_public.mjs
       - name: Set up Chrome
+        if: github.event_name != 'pull_request'
         id: chrome
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
       - name: Wait for deployment and validate public PC and mobile pages
+        if: github.event_name != 'pull_request'
         env:
           CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
           PUBLIC_BASE_URL: https://fujisawa-lab-inside.github.io/fishing
-          STAGE13_ASSET_VERSION: stage13f
+          STAGE13_ASSET_VERSION: stage13g
         run: node tools/smoke_stage13_public.mjs
       - name: Upload public Pages screenshots and diagnostics
-        if: always()
+        if: ${{ always() && github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:
           name: stage13-public-pages-smoke

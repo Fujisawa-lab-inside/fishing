@@ -1,5 +1,7 @@
 # Stage 16 reproducible metric finite-volume mesh
 
+> Historical record: this document describes the superseded 679,791-pixel / 50,333-cell v1 geometry. The Ashiya bridge correction and v2 regeneration status are recorded in `STAGE16_ASHIYA_BRIDGE_GEOMETRY_CORRECTION.md`.
+
 ## Purpose
 
 This stage reproduces the approved non-structured triangular mesh directly from the frozen 679,791-pixel water authority．It converts the image-space mesh to a local metric coordinate system and emits an isolated solver artifact．The public simulator is not changed and no physical flow values are assigned．

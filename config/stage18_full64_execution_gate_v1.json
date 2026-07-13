@@ -1,0 +1,18 @@
+{
+  "schema": "onga-stage18-full64-execution-gate-v1",
+  "state": "awaiting_new_explicit_authorization",
+  "enabled": false,
+  "replacementAuthorizationRequired": true,
+  "activeAuthorization": null,
+  "retiredAuthorization": {
+    "path": "config/stage18_full64_run_authorization_v1.json",
+    "sha256": "dbe9b61c832a3d75a54acd5042b8a27843a9ea826be27b305aaaf8911a11932f",
+    "retiredDate": "2026-07-14",
+    "reason": "canonical_water_geometry_and_metric_mesh_changed"
+  },
+  "safeguards": {
+    "consumeOneTimeAuthorizationAllowed": false,
+    "full64ExecutionAllowed": false,
+    "automaticActivationAllowed": false
+  }
+}

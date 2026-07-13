@@ -11,11 +11,11 @@ for (const file of files) {
     "params.get('stage13')==='1'",
     'if(stage13Enabled)',
     'optional assets failed; continuing legacy simulation',
-    "fetchText('onga_stage13_runtime.js?v=stage13f')",
-    "fetchText('onga_stage13_bridge.js?v=stage13f')",
-    "fetchText('onga_stage13_heatmap_clip.js?v=stage13f')",
-    "fetchText('onga_stage13_fluid_domain_patch.js?v=stage13f')",
-    "fetchText('onga_stage13_bootstrap.js?v=stage13f')",
+    "fetchText('onga_stage13_runtime.js?v=stage13g')",
+    "fetchText('onga_stage13_bridge.js?v=stage13g')",
+    "fetchText('onga_stage13_heatmap_clip.js?v=stage13g')",
+    "fetchText('onga_stage13_fluid_domain_patch.js?v=stage13g')",
+    "fetchText('onga_stage13_bootstrap.js?v=stage13g')",
     'script(runtime)+script(bridge)+script(heatmapClip)+script(fluidDomainPatch)+script(bootstrap)',
   ];
   for (const token of required) {
@@ -31,11 +31,11 @@ for (const file of files) {
     throw new Error(`${file}: Stage 13 assets are still mandatory in the legacy Promise.all block`);
   }
 
-  const runtimeIndex = html.indexOf("fetchText('onga_stage13_runtime.js?v=stage13f')");
-  const bridgeIndex = html.indexOf("fetchText('onga_stage13_bridge.js?v=stage13f')");
-  const clipIndex = html.indexOf("fetchText('onga_stage13_heatmap_clip.js?v=stage13f')");
-  const fluidIndex = html.indexOf("fetchText('onga_stage13_fluid_domain_patch.js?v=stage13f')");
-  const bootstrapIndex = html.indexOf("fetchText('onga_stage13_bootstrap.js?v=stage13f')");
+  const runtimeIndex = html.indexOf("fetchText('onga_stage13_runtime.js?v=stage13g')");
+  const bridgeIndex = html.indexOf("fetchText('onga_stage13_bridge.js?v=stage13g')");
+  const clipIndex = html.indexOf("fetchText('onga_stage13_heatmap_clip.js?v=stage13g')");
+  const fluidIndex = html.indexOf("fetchText('onga_stage13_fluid_domain_patch.js?v=stage13g')");
+  const bootstrapIndex = html.indexOf("fetchText('onga_stage13_bootstrap.js?v=stage13g')");
   if (!(runtimeIndex < bridgeIndex && bridgeIndex < clipIndex && clipIndex < fluidIndex && fluidIndex < bootstrapIndex)) {
     throw new Error(`${file}: Stage 13 scripts are not ordered runtime -> bridge -> heatmap clip -> fluid domain -> bootstrap`);
   }

@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {
   APPROVED_WATER_AUTHORITY,
+  AUDITED_PRODUCTION_MESH,
   STAGE16_EXPERIMENT_CONTRACT_VERSION,
   canonicalScenarioJson,
   createRunManifest,
@@ -88,7 +89,7 @@ function rejected(mutator) {
 }
 
 const wrongWaterRejected = rejected(scenario => {
-  scenario.geometry.waterPixelCount = 679790;
+  scenario.geometry.waterPixelCount = 680632;
 });
 const publicSyntheticRejected = rejected(scenario => {
   scenario.runtime.publicRuntimeEnabled = true;
@@ -146,13 +147,19 @@ physicalScenario.inputs.roughness = {
 physicalScenario.approvals.geometryApproved = true;
 physicalScenario.approvals.governingEquationApproved = true;
 physicalScenario.approvals.physicalInputsApproved = true;
-const physical = validateExperimentScenario(physicalScenario);
+physicalScenario.geometry.meshVersion = AUDITED_PRODUCTION_MESH.version;
+let physicalPendingMeshRejected = false;
+try {
+  validateExperimentScenario(physicalScenario);
+} catch (error) {
+  physicalPendingMeshRejected = String(error).includes('corrected production mesh is canonical');
+}
 
 const checks = [
   check('synthetic scenario accepted', valid.purpose, 'synthetic_verification',
     valid.purpose === 'synthetic_verification'),
-  check('frozen water pixel count', valid.geometry.waterPixelCount, 679791,
-    valid.geometry.waterPixelCount === 679791),
+  check('frozen water pixel count', valid.geometry.waterPixelCount, 680633,
+    valid.geometry.waterPixelCount === 680633),
   check('synthetic run executable', manifestA.executable, true, manifestA.executable),
   check('canonical hash independent of object key order', manifestB.scenarioHash, manifestA.scenarioHash,
     manifestA.scenarioHash === manifestB.scenarioHash),
@@ -164,8 +171,10 @@ const checks = [
     physicalSyntheticSourceRejected),
   check('unapproved public run rejected', unapprovedPublicRejected, true, unapprovedPublicRejected),
   check('missing O boundary rejected', missingBoundaryRejected, true, missingBoundaryRejected),
-  check('approved physical-validation contract accepted', physical.purpose, 'physical_validation',
-    physical.purpose === 'physical_validation'),
+  check('physical validation blocked pending canonical mesh', physicalPendingMeshRejected, true,
+    physicalPendingMeshRejected),
+  check('production mesh remains noncanonical', AUDITED_PRODUCTION_MESH.canonical, false,
+    AUDITED_PRODUCTION_MESH.canonical === false),
   check('contract version', valid.contractVersion, STAGE16_EXPERIMENT_CONTRACT_VERSION,
     valid.contractVersion === STAGE16_EXPERIMENT_CONTRACT_VERSION),
 ];
@@ -180,6 +189,7 @@ const report = {
     modifiesApprovedWaterGeometry: false,
     physicalValuesAssigned: false,
     calibrationPerformed: false,
+    physicalExecutionBlockedPendingCanonicalMesh: true,
   },
 };
 

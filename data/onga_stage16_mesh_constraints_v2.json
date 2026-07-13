@@ -1,0 +1,69 @@
+{
+  "schema": "onga-stage16-mesh-constraints-v2",
+  "version": "stage16-metric-fv-mesh-v2",
+  "artifactFile": "onga_stage16_metric_fv_mesh_v2.npz",
+  "candidateStatus": "awaiting_linux_x86_64_canonical_probe",
+  "waterAuthority": {
+    "version": "v4.8.0-candidate-r3",
+    "pixelCount": 680633,
+    "manifest": "data/onga_unified_water_manifest_r3.json"
+  },
+  "supersedes": {
+    "meshVersion": "stage16-metric-fv-mesh-v1",
+    "reason": "Ashiya bridge deck occlusion was incorrectly treated as dry shoreline"
+  },
+  "approvedCorrection": {
+    "id": "ashiya-bridge-underpass-water-v1",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "進めてください",
+    "addedWaterPixels": 842,
+    "removedWaterPixels": 0,
+    "changedBoundingBoxImagePixel": [57, 0, 323, 34]
+  },
+  "barrageHardConstraint": {
+    "endpoint0Pixel": [1454.1503211781874, 981.4013738598115],
+    "endpoint1Pixel": [1115.7533082266086, 1017.7002082685227]
+  },
+  "referenceSections": [
+    {
+      "id": "M",
+      "endpointAImagePixel": [347.162416249502, 30.71822944336384],
+      "endpointBImagePixel": [215.54079165169975, 167.74285474201307]
+    },
+    {
+      "id": "N",
+      "endpointAImagePixel": [982.435339020629, 1171.0619421129627],
+      "endpointBImagePixel": [895.7547396179723, 1178.5100081167072]
+    },
+    {
+      "id": "O",
+      "endpointAImagePixel": [1467.1337615037185, 1155.3928335875828],
+      "endpointBImagePixel": [1137.926501005877, 1194.3136459571415]
+    },
+    {
+      "id": "G",
+      "endpointAImagePixel": [1847.2591491992032, 1142.328076048551],
+      "endpointBImagePixel": [1767.776183219856, 1217.6454586313648]
+    }
+  ],
+  "expected": null,
+  "nonCanonicalDarwinArm64Probe": {
+    "warning": "diagnostic only; do not pin these values as Linux canonical constants",
+    "counts": {
+      "vertices": 28403,
+      "cells": 50113,
+      "internalFaces": 71824,
+      "boundaryFaces": 6691,
+      "barrageFaces": 67,
+      "boundaryFaceCounts": {"shoreline": 6556, "M": 36, "N": 21, "O": 54, "G": 24}
+    },
+    "topBoundaryM": {
+      "faceCount": 36,
+      "imageLengthPixels": 266.0,
+      "metricLengthM": 379.66510729936044
+    },
+    "closedBarrageComponents": 2,
+    "fishwayOppositeComponents": true
+  },
+  "fishwayApprovedImagePixel": [1111.66, 987.21]
+}

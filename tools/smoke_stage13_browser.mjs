@@ -81,7 +81,7 @@ function validateDom(testCase, dom) {
   const required = [
     'data-onga-stage13="ready"',
     'data-onga-stage13-badge="ready"',
-    'data-onga-stage13-pixel-count="679791"',
+    'data-onga-stage13-pixel-count="680633"',
     'data-onga-stage13-georef="ready"',
     'data-onga-stage13-water-predicate="authority"',
     'data-onga-stage13-heatmap-route="authority"',

@@ -6,7 +6,7 @@ This contract prevents synthetic Verification，physical Validation，and public
 
 ## Frozen geometry
 
-Every scenario must reference water-authority version `v4.8.0-candidate-r2` and exactly 679，791 water pixels．A physical run additionally requires an audited production mesh and a traceable bathymetry source．A flow result may not be used to alter the approved water geometry．
+Every new scenario must reference water-authority version `v4.8.0-candidate-r3` and exactly 680，633 water pixels．A physical run additionally requires an audited production mesh and a traceable bathymetry source．While the corrected v2 mesh is awaiting its Linux canonical audit and visual review，no new physical run is executable．A flow result may not be used to alter the approved water geometry．
 
 ## Run classes
 

@@ -8,7 +8,7 @@ Heatmap candidate centres were already restricted to the approved water authorit
 
 `onga_stage13_heatmap_clip.js` performs a final alpha clip after the legacy heatmap has rendered to an offscreen canvas.
 
-1. The approved 2048 x 1232，679,791-cell water mask is converted to a binary source alpha canvas.
+1. The approved 2048 x 1232，680,633-cell water mask is converted to a binary source alpha canvas.
 2. The approved geographic control mesh maps its 12 source-image triangles to the current browser viewport.
 3. Each triangle is rendered by an affine transform into a cached viewport mask.
 4. Shared triangle edges use additive alpha composition to prevent seams.

@@ -3,6 +3,8 @@ name: Stage 16 experiment contract validation
 on:
   pull_request:
     paths:
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_stage16_mesh_constraints_v2.json'
       - 'onga_stage16_experiment_contract.mjs'
       - 'tools/validate_stage16_experiment_contract.mjs'
       - 'docs/STAGE16_EXPERIMENT_CONTRACT.md'
@@ -11,6 +13,8 @@ on:
     branches:
       - main
     paths:
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_stage16_mesh_constraints_v2.json'
       - 'onga_stage16_experiment_contract.mjs'
       - 'tools/validate_stage16_experiment_contract.mjs'
       - 'docs/STAGE16_EXPERIMENT_CONTRACT.md'

@@ -36,6 +36,14 @@ jobs:
           test "$ACTOR" = 'RyusukeFujisawa'
           test "$REF" = 'refs/heads/main'
           test "$RUN_ATTEMPT" = '1'
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate active authorization gate
+        run: node tools/validate_stage18_full64_gate.mjs --require-active
       - name: Consume one-time authorization
         env:
           GH_TOKEN: ${{ github.token }}

@@ -1,0 +1,41 @@
+name: Stage 18 ensemble runner validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage18_ensemble_runner.mjs'
+      - 'tools/validate_stage18_ensemble_runner.mjs'
+      - 'docs/STAGE18_ENSEMBLE_RUNNER.md'
+      - '.github/workflows/stage18-ensemble-runner-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'onga_stage18_ensemble_runner.mjs'
+      - 'tools/validate_stage18_ensemble_runner.mjs'
+      - 'docs/STAGE18_ENSEMBLE_RUNNER.md'
+      - '.github/workflows/stage18-ensemble-runner-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-ensemble-runner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check runner and validator
+        run: |
+          node --check onga_stage18_ensemble_runner.mjs
+          node --check tools/validate_stage18_ensemble_runner.mjs
+      - name: Validate execution contract and statistical reduction
+        run: node tools/validate_stage18_ensemble_runner.mjs | tee stage18-ensemble-runner-validation.json
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage18-ensemble-runner-validation
+          path: stage18-ensemble-runner-validation.json

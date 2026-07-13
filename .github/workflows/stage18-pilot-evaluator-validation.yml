@@ -1,0 +1,35 @@
+name: Stage 18 pilot evaluator validation
+
+on:
+  pull_request:
+    paths:
+      - 'onga_stage18_pilot_evaluator.mjs'
+      - 'tools/validate_stage18_pilot_evaluator.mjs'
+      - 'config/stage18_production_mesh_pilot_v1.json'
+      - '.github/workflows/stage18-pilot-evaluator-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'onga_stage18_pilot_evaluator.mjs'
+      - 'tools/validate_stage18_pilot_evaluator.mjs'
+      - 'config/stage18_production_mesh_pilot_v1.json'
+      - '.github/workflows/stage18-pilot-evaluator-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check onga_stage18_pilot_evaluator.mjs
+      - run: node --check tools/validate_stage18_pilot_evaluator.mjs
+      - run: node tools/validate_stage18_pilot_evaluator.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage18-pilot-evaluator-validation
+          path: stage18-pilot-evaluator-validation.json

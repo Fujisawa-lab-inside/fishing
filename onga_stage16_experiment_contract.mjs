@@ -6,7 +6,7 @@ export const APPROVED_WATER_AUTHORITY = Object.freeze({
 export const AUDITED_PRODUCTION_MESH = Object.freeze({
   version: 'stage16-metric-fv-mesh-v2',
   canonical: false,
-  status: 'awaiting_linux_x86_64_canonical_probe',
+  status: 'linux_x86_64_pinned_awaiting_visual_review',
 });
 
 const PURPOSES = new Set(['synthetic_verification', 'physical_validation', 'public_production']);

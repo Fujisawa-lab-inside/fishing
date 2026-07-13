@@ -25,7 +25,7 @@ Rows 0 and 1 restore the river to the image edge. Rows 2–34 fill only the dry 
 
 The corrected authority requires a new mesh version, `stage16-metric-fv-mesh-v2`. The previous mesh counts and every mesh digest are invalid for the corrected geometry.
 
-Triangle output is platform-sensitive. A Darwin arm64 probe is retained only as a diagnostic and must not be pinned as the canonical mesh. The canonical counts and hashes are fixed only after regeneration with the pinned dependencies on GitHub Actions Linux x86-64. Until then, `data/onga_stage16_mesh_constraints_v2.json` has `expected: null`, and normal generation fails unless the explicit `--probe` flag is used.
+Triangle output is platform-sensitive. A Darwin arm64 probe is retained only as a diagnostic and is not pinned as the canonical mesh. GitHub Actions Linux x86-64 probe run `29282420163` completed successfully, and its counts and hashes are now pinned in `data/onga_stage16_mesh_constraints_v2.json`. Canonical generation is accepted only on Linux x86-64. The mesh remains blocked from physical execution until its rendered comparison is visually approved.
 
 Both the probe and final validation must verify:
 
@@ -35,6 +35,16 @@ Both the probe and final validation must verify:
 - two components when the barrage is closed;
 - fishway cells on opposite barrage components;
 - conservative, shallow-water, and well-balanced algebra tests.
+
+The pinned Linux candidate has:
+
+- 28,411 vertices and 50,129 cells;
+- 71,848 internal faces and 6,691 boundary faces;
+- 67 barrage cut faces and two closed-barrage components;
+- 36 M faces covering the complete 266-pixel top opening;
+- fishway cells 16,903 and 37,535 on opposite components.
+
+All three isolated algebra checks passed in probe run `29282420163`. These are mesh integrity checks, not a physical-flow run or physical validation.
 
 ## Authorization safety
 

@@ -128,6 +128,7 @@ def main():
     if not a.probe and not isinstance(E,dict):raise RuntimeError('canonical expected mesh values are not pinned')
     if E is None and C.get('candidateStatus')!='awaiting_linux_x86_64_canonical_probe':raise RuntimeError('unpinned candidate status mismatch')
     if isinstance(E,dict) and C.get('candidateStatus') not in ('linux_x86_64_pinned_awaiting_visual_review','approved_canonical'):raise RuntimeError('pinned candidate status mismatch')
+    if not a.probe and (platform.system()!='Linux' or platform.machine()!='x86_64'):raise RuntimeError('canonical mesh generation requires Linux x86_64')
     authority=C['waterAuthority']
     if m['version']!=authority['version'] or int(m['pixelCount'])!=int(authority['pixelCount']):
         raise RuntimeError('water authority mismatch')

@@ -1,0 +1,45 @@
+name: Stage 18 inference ensemble validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'onga_stage18_inference_ensemble.mjs'
+      - 'tools/validate_stage18_inference_ensemble.mjs'
+      - 'docs/STAGE18_INFERENCE_ENSEMBLE.md'
+      - '.github/workflows/stage18-inference-ensemble-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'onga_stage18_inference_ensemble.mjs'
+      - 'tools/validate_stage18_inference_ensemble.mjs'
+      - 'docs/STAGE18_INFERENCE_ENSEMBLE.md'
+      - '.github/workflows/stage18-inference-ensemble-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-inference-ensemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check generator and validator
+        run: |
+          node --check onga_stage18_inference_ensemble.mjs
+          node --check tools/validate_stage18_inference_ensemble.mjs
+      - name: Validate deterministic ensemble and safeguards
+        run: node tools/validate_stage18_inference_ensemble.mjs
+      - name: Upload Stage 18 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage18-inference-ensemble-validation
+          path: |
+            stage18-inference-ensemble-validation.json
+            stage18-inference-ensemble-sample.json

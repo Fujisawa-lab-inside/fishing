@@ -27,6 +27,18 @@ function assertUniqueOrdered(section, markers, label) {
   }
 }
 
+const visualArtifacts = [
+  'full64-depth-median.png',
+  'full64-velocity-median.png',
+  'full64-wet-probability.png',
+  'full64-direction-agreement.png',
+  'full64-direction-support.png',
+  'full64-judgment.svg',
+  'full64-visual-manifest.json',
+];
+assert(visualArtifacts.length === 7, 'visual package must contain exactly five PNG maps, one judgment SVG, and one manifest');
+assert(visualArtifacts.filter((name) => name.endsWith('.png')).length === 5, 'visual package must contain exactly five PNG maps');
+
 const expectedOn = `on:
   workflow_dispatch:
     inputs:
@@ -73,6 +85,7 @@ for (const required of [
   '--progress-output stage18-full64/full64-progress.json',
   'node tools/evaluate_stage18_full64.mjs',
   'stage18-full64/full64-report.json\n          stage18-full64/full64-fields.npz\n          stage18-full64/full64-evaluation.json',
+  'python tools/render_stage18_full64_visuals.py',
   'Verify complete result set',
   'stage18-full64-results-${{ github.run_id }}',
   'stage18-full64-diagnostics-${{ github.run_id }}',
@@ -124,8 +137,10 @@ assertUniqueOrdered(full64Job, [
   '- name: Run exactly 64 numerical cases',
   '- name: Evaluate full64 report and bind provenance',
   '- name: Aggregate offline step-matched statistics',
+  '- name: Render visual judgment package',
   '- name: Verify complete result set',
   'name: stage18-full64-results-${{ github.run_id }}',
+  '- name: Render STOP diagnostic image',
   'name: stage18-full64-diagnostics-${{ github.run_id }}',
 ], 'full64 job');
 assert(
@@ -133,21 +148,82 @@ assert(
   'rerun rejection must be the first full64 step',
 );
 
+const expectedVisualStep = `      - name: Render visual judgment package
+        run: >-
+          python tools/render_stage18_full64_visuals.py
+          stage18-full64/onga_stage16_metric_fv_mesh_v1.npz
+          stage18-full64/full64-statistics.npz
+          stage18-full64/full64-statistics-summary.json
+          stage18-full64/full64-report.json
+          stage18-full64/full64-evaluation.json
+          config/stage18_full64_run_authorization_v1.json
+          --output-dir stage18-full64
+`;
+assert(full64Job.includes(expectedVisualStep), 'visual renderer interface must match the provenance-bound contract exactly');
+assert(
+  full64Job.lastIndexOf(expectedVisualStep) === full64Job.indexOf(expectedVisualStep),
+  'visual renderer interface must be unique',
+);
+const visualStepStart = full64Job.indexOf('      - name: Render visual judgment package');
+const verifyStepStart = full64Job.indexOf('      - name: Verify complete result set');
+assert(visualStepStart >= 0 && verifyStepStart > visualStepStart, 'visual renderer must precede complete-result verification');
+const visualStep = full64Job.slice(visualStepStart, verifyStepStart);
+assert(!/^\s+if:/m.test(visualStep), 'visual rendering must be an unconditional success-path step');
+
 assert((workflow.match(/uses: actions\/upload-artifact@v4/g) || []).length === 2, 'separate result and diagnostic uploads required');
 assert(workflow.includes('persist-credentials: false'), 'checkout credentials must not persist');
 
 const resultStepStart = full64Job.indexOf('      - uses: actions/upload-artifact@v4');
 const resultPathStart = full64Job.indexOf('name: stage18-full64-results-${{ github.run_id }}');
+const diagnosticRenderStepStart = full64Job.indexOf('      - name: Render STOP diagnostic image');
 const diagnosticStepStart = full64Job.lastIndexOf('      - uses: actions/upload-artifact@v4');
 const diagnosticPathStart = full64Job.indexOf('name: stage18-full64-diagnostics-${{ github.run_id }}');
 assert(resultStepStart >= 0 && resultPathStart > resultStepStart && diagnosticPathStart > resultPathStart, 'result/diagnostic upload order invalid');
-assert(diagnosticStepStart > resultPathStart && diagnosticStepStart < diagnosticPathStart, 'diagnostic upload step boundary invalid');
-const resultUpload = full64Job.slice(resultStepStart, diagnosticStepStart);
+assert(diagnosticRenderStepStart > resultPathStart, 'diagnostic renderer must follow the success upload');
+assert(diagnosticStepStart > diagnosticRenderStepStart && diagnosticStepStart < diagnosticPathStart, 'diagnostic upload step boundary invalid');
+const resultUpload = full64Job.slice(resultStepStart, diagnosticRenderStepStart);
+const diagnosticRenderStep = full64Job.slice(diagnosticRenderStepStart, diagnosticStepStart);
 const diagnosticUpload = full64Job.slice(diagnosticStepStart);
 assert(!/^\s+if:/m.test(resultUpload), 'success result upload must not be conditional');
+
+const expectedDiagnosticRenderStep = `      - name: Render STOP diagnostic image
+        if: \${{ failure() || cancelled() }}
+        env:
+          RUN_ID: \${{ github.run_id }}
+          REPOSITORY: \${{ github.repository }}
+        run: >-
+          python tools/render_stage18_full64_diagnostic.py
+          --work-dir stage18-full64
+          --output stage18-full64/full64-diagnostic-stop.svg
+          --workflow-run-id "$RUN_ID"
+          --repository "$REPOSITORY"
+`;
+assert(diagnosticRenderStep === expectedDiagnosticRenderStep, 'STOP diagnostic renderer step and command must match exactly and immediately precede diagnostic upload');
+assert((full64Job.match(/python tools\/render_stage18_full64_diagnostic\.py/g) || []).length === 1, 'STOP diagnostic renderer command must be unique');
 assert(diagnosticUpload.includes('if: ${{ failure() || cancelled() }}'), 'diagnostic upload must run only after failure or cancellation');
 assert((diagnosticUpload.match(/^\s+if:/gm) || []).length === 1, 'diagnostic upload must have exactly one condition');
 assert(diagnosticUpload.includes('if-no-files-found: warn'), 'diagnostic upload must tolerate partial output');
+assert(diagnosticUpload.includes('stage18-full64/full64-diagnostic-stop.svg'), 'STOP diagnostic image must be included in failure diagnostics');
+assert(!resultUpload.includes('full64-diagnostic-stop.svg'), 'STOP diagnostic image must be excluded from success results');
+const verifyStep = full64Job.slice(verifyStepStart, resultStepStart);
+assertUniqueOrdered(
+  verifyStep,
+  visualArtifacts.map((artifact) => `test -s stage18-full64/${artifact}`),
+  'visual result verification',
+);
+assertUniqueOrdered(
+  resultUpload,
+  visualArtifacts.map((artifact) => `stage18-full64/${artifact}`),
+  'visual result upload',
+);
+for (const visualArtifact of visualArtifacts) {
+  assert(
+    verifyStep.includes(`test -s stage18-full64/${visualArtifact}`),
+    `visual result verification missing: ${visualArtifact}`,
+  );
+  assert(resultUpload.includes(`stage18-full64/${visualArtifact}`), `required visual result artifact missing: ${visualArtifact}`);
+  assert(!diagnosticUpload.includes(visualArtifact), `visual success artifact must not be included in failure diagnostics: ${visualArtifact}`);
+}
 for (const requiredArtifact of [
   'onga_stage16_metric_fv_mesh_v1.npz',
   'stage16_metric_mesh_summary.json',
@@ -171,6 +247,8 @@ const report = {
     'full64 job depends on authorization and independently rejects reruns',
     'bounded runtime',
     'provenance-bound evaluation',
+    'success-only visual judgment package with five PNG maps and seven verified artifacts',
+    'failure/cancel-only STOP diagnostic image immediately before diagnostic upload',
     'complete success artifacts separated from failure diagnostics',
   ],
 };

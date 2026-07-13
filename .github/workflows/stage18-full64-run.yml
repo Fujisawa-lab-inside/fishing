@@ -120,6 +120,16 @@ jobs:
           config/stage18_full64_run_authorization_v1.json
           --statistics-output stage18-full64/full64-statistics.npz
           --summary-output stage18-full64/full64-statistics-summary.json
+      - name: Render visual judgment package
+        run: >-
+          python tools/render_stage18_full64_visuals.py
+          stage18-full64/onga_stage16_metric_fv_mesh_v1.npz
+          stage18-full64/full64-statistics.npz
+          stage18-full64/full64-statistics-summary.json
+          stage18-full64/full64-report.json
+          stage18-full64/full64-evaluation.json
+          config/stage18_full64_run_authorization_v1.json
+          --output-dir stage18-full64
       - name: Verify complete result set
         run: |
           set -euo pipefail
@@ -132,6 +142,13 @@ jobs:
           test -s stage18-full64/full64-evaluation.json
           test -s stage18-full64/full64-statistics.npz
           test -s stage18-full64/full64-statistics-summary.json
+          test -s stage18-full64/full64-depth-median.png
+          test -s stage18-full64/full64-velocity-median.png
+          test -s stage18-full64/full64-wet-probability.png
+          test -s stage18-full64/full64-direction-agreement.png
+          test -s stage18-full64/full64-direction-support.png
+          test -s stage18-full64/full64-judgment.svg
+          test -s stage18-full64/full64-visual-manifest.json
       - uses: actions/upload-artifact@v4
         with:
           name: stage18-full64-results-${{ github.run_id }}
@@ -145,8 +162,26 @@ jobs:
             stage18-full64/full64-evaluation.json
             stage18-full64/full64-statistics.npz
             stage18-full64/full64-statistics-summary.json
+            stage18-full64/full64-depth-median.png
+            stage18-full64/full64-velocity-median.png
+            stage18-full64/full64-wet-probability.png
+            stage18-full64/full64-direction-agreement.png
+            stage18-full64/full64-direction-support.png
+            stage18-full64/full64-judgment.svg
+            stage18-full64/full64-visual-manifest.json
           if-no-files-found: error
           retention-days: 90
+      - name: Render STOP diagnostic image
+        if: ${{ failure() || cancelled() }}
+        env:
+          RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        run: >-
+          python tools/render_stage18_full64_diagnostic.py
+          --work-dir stage18-full64
+          --output stage18-full64/full64-diagnostic-stop.svg
+          --workflow-run-id "$RUN_ID"
+          --repository "$REPOSITORY"
       - uses: actions/upload-artifact@v4
         if: ${{ failure() || cancelled() }}
         with:
@@ -159,5 +194,6 @@ jobs:
             stage18-full64/full64-fields.npz
             stage18-full64/full64-evaluation.json
             stage18-full64/full64-statistics-summary.json
+            stage18-full64/full64-diagnostic-stop.svg
           if-no-files-found: warn
           retention-days: 90

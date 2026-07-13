@@ -14,6 +14,8 @@ on:
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/run_stage18_full64.py'
       - 'tools/aggregate_stage18_full64.py'
+      - 'tools/render_stage18_full64_visuals.py'
+      - 'tools/render_stage18_full64_diagnostic.py'
       - 'tools/run_stage18_production_mesh_pilot.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'tools/validate_stage18_full64.mjs'
@@ -37,6 +39,8 @@ on:
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/run_stage18_full64.py'
       - 'tools/aggregate_stage18_full64.py'
+      - 'tools/render_stage18_full64_visuals.py'
+      - 'tools/render_stage18_full64_diagnostic.py'
       - 'tools/run_stage18_production_mesh_pilot.py'
       - 'tools/requirements-stage16-metric-mesh.txt'
       - 'tools/validate_stage18_full64.mjs'
@@ -72,7 +76,7 @@ jobs:
           node --check tools/evaluate_stage18_full64.mjs
           node --check tools/validate_stage18_full64.mjs
           node --check tools/validate_stage18_full64_workflow.mjs
-          python -m py_compile tools/run_stage18_production_mesh_pilot.py tools/run_stage18_full64.py tools/aggregate_stage18_full64.py tools/validate_stage18_full64_artifacts.py
+          python -m py_compile tools/run_stage18_production_mesh_pilot.py tools/run_stage18_full64.py tools/aggregate_stage18_full64.py tools/render_stage18_full64_visuals.py tools/render_stage18_full64_diagnostic.py tools/validate_stage18_full64_artifacts.py
       - name: Validate one-time workflow safeguards
         run: node tools/validate_stage18_full64_workflow.mjs
       - name: Validate authorization, ensemble identity, and evaluator behavior

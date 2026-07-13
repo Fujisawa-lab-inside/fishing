@@ -34,6 +34,8 @@ workflowは専用concurrency groupで直列化される。authorize jobは過去
 
 authorize stepの成功後に数値計算や基盤障害で失敗した場合も、この承認は消費済みである。同じrunのre-runや同じ承認recordによる再dispatchは行わない。再実行が必要な場合は、失敗run IDと理由を記録し、別の明示承認recordを作成する。
 
+画像レポート機能の実装・検証と、実際の64-case runの許可は別である。画像レポートをmainへ統合してもrunは開始されず、上記の一回限りの実行には改めて明示判断が必要である。
+
 ## PR前のcontract validation
 
 通常のfull64数値計算はPRでは実行しない。PRでは次を検証する。
@@ -48,10 +50,11 @@ node tools/validate_stage18_full64_workflow.mjs
 node tools/validate_stage18_full64.mjs
 
 python -m pip install -r tools/requirements-stage16-metric-mesh.txt
+python tools/generate_stage16_metric_mesh.py --repo-root . --output stage18-contract-mesh
 python tools/validate_stage18_full64_artifacts.py
 ```
 
-この検証は、one-time workflow gate、承認とcanonical ensemble、evaluatorのfail-closed動作、64 × 50,333 field artifact、report／evaluation／authorizationのdigest binding、時間配列のshape・有限性、円方向統計の±π境界を含む。
+この検証は、one-time workflow gate、承認とcanonical ensemble、evaluatorのfail-closed動作、64 × 50,333 field artifact、report／evaluation／authorizationのdigest binding、時間配列のshape・有限性、円方向統計の±π境界、判定画像とそのsource／output digest bindingを含む。検証用fixtureから画像を生成するだけであり、実際のfull64 runを実行したことにはならない。
 
 ## 承認runの処理順
 
@@ -65,7 +68,8 @@ workflowは以下を順番に実行する。
 6. 64 casesを各500 steps実行する。
 7. reportを評価し、authorization／report／field／mesh／ensemble digestをevaluationへ結び付ける。
 8. evaluation合格時だけstep-matched statisticsを集約する。
-9. 必須成果物がすべて存在することを確認してからsuccess artifactを作成する。
+9. 合格した評価と集約結果から、固定名の判定画像とvisual manifestを生成する。
+10. 必須成果物がすべて存在することを確認してからsuccess artifactを作成する。
 
 runnerのworkflow内呼び出しは次である。
 
@@ -95,10 +99,32 @@ python tools/run_stage18_full64.py \
 - provenance付きevaluation JSON
 - step-matched statistics NPZ
 - statistics summary JSON
+- `full64-judgment.svg`（数値ゲートと5枚の地図をまとめた利用者向け判定画像）
+- `full64-depth-median.png`
+- `full64-velocity-median.png`
+- `full64-wet-probability.png`
+- `full64-direction-agreement.png`
+- `full64-direction-support.png`（各cellの有効流向sample数 ÷ 64）
+- `full64-visual-manifest.json`（入力と画像のdigest）
 
 field artifactは64/64 casesが有限・非負fieldで完了した場合だけ作成する。evaluationは64/64完了、NaN 0、負水深 0、CFL 0.95以下、最大絶対質量保存誤差`1e-8`以下、wall time 3,600秒以下、peak RSS 8,192 MiB以下を要求する。
 
-数値run stepには65分のwatchdogを置き、90分のjob上限より前に失敗として制御を戻す。失敗時は `stage18-full64-diagnostics-<run_id>` を作り、存在するprogress、report、field、evaluation等をsuccess artifactとは別名で保存する。数値step timeoutでは、最後に完了したcaseまでのprogress JSONを診断に使う。GitHub run自体を手動cancelした場合はartifact uploadが完了しない可能性がある。
+数値run stepには65分のwatchdogを置き、90分のjob上限より前に失敗として制御を戻す。失敗またはcancel時は `stage18-full64-diagnostics-<run_id>` を作り、`full64-diagnostic-stop.svg` と、存在するprogress、report、field、evaluation等をsuccess artifactとは別名で保存する。STOP画像は入力JSONが欠損・途中・破損していても生成し、一回限りの承認が消費済みであること、完了数・失敗数・利用可能な指標、保存された失敗理由を表示する。数値step timeoutでは、最後に完了したcaseまでのprogress JSONを診断に使う。GitHub run自体を手動cancelした場合はartifact uploadが完了しない可能性がある。
+
+失敗後に利用者が判断するのは、STOP画像で原因と保存済み証拠を確認し、**新しい明示承認を作るだけの根拠があるか**である。STOP画像は再実行を許可せず、自動再実行もしない。利用者へ判断を求めるときは必ずこの画像を提示し、raw JSONだけで判断を求めない。
+
+## 画像で判断する項目
+
+実際のrun後に利用者が最初に見るものは `full64-judgment.svg` である。次の順で「次の検討へ進めてよいか」を判断する。
+
+1. `RESULT: PASS`、完了数 `64 / 64`、NaN 0、負の水深 0であること。
+2. CFL 0.95以下、最大絶対質量保存誤差 `1e-8` 以下、実行時間3,600秒以下、peak RSS 8,192 MiB以下であること。画像には実測値と閾値を並べる。
+3. 5枚の3,840 × 2,640地図が空白や欠落なく表示されることを確認する。visual manifestの `representedCellCount` が50,333、`coverageFraction` が1.0でなければ成果物は不完全として止める。水深median・流速medianでは、高い領域と低い領域がどこに集中しているかを見る。この段階では物理的な正しさを判定しない。
+4. wet probabilityで常時wet／dryの領域を確認する。direction agreementはdirection sample support（有効流向sample数 ÷ 64）と必ず一緒に見る。agreementが高くてもsupportが低い場所は確証が弱い。流向の有効sampleが2例未満（0例または1例）のcellは灰色の「比較不可」であり、低agreementとは区別する。これら3枚はPASS／FAILの追加基準ではない。
+
+1と2がすべて合格し、5枚の地図が正常に表示されていれば、「数値runの成果物を次の検討へ進める」と判断できる。いずれかが不合格または画像が欠落していれば、そこで止めて原因を調べる。
+
+この画像が示すのは、固定mesh上の**同一ステップ数での数値終端統計**と実行ゲートの合否だけである。観測値との一致、物理的妥当性、同一物理時刻での比較、parameter sensitivity、公開シミュレータへの接続を示すものではない。画像だけを根拠にこれらを承認してはならない。
 
 ## Step-matched statistics
 

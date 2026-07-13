@@ -59,13 +59,17 @@ await assert.rejects(
   () => runEnsemble({ cases, solver: syntheticSolver, publicSimulatorConnected: true }),
   /public simulator connection/
 );
-await assert.rejects(
-  () => runEnsemble({ cases, solver: async () => ({
+
+const invalidDepthRun = await runEnsemble({
+  cases: cases.slice(0, 2),
+  solver: async () => ({
     velocityU: [0], velocityV: [0], waterDepth: [-1],
     massBalanceError: 0, converged: true, cflMax: 0.1
-  }) }),
-  /negative water depth/
-);
+  })
+});
+assert.equal(invalidDepthRun.succeeded, 0);
+assert.equal(invalidDepthRun.failed, 2);
+assert(invalidDepthRun.results.every(result => /negative water depth/.test(result.error)));
 
 console.log(JSON.stringify({
   status: 'passed',

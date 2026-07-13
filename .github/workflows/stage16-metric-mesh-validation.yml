@@ -3,9 +3,9 @@ name: Stage 16 metric mesh validation
 on:
   pull_request:
     paths:
-      - 'data/onga_unified_water_manifest_r2.json'
-      - 'data/onga_water_rows_r2_*.json'
-      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
+      - 'data/onga_stage16_mesh_constraints_v2.json'
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/validate_stage16_metric_solver.py'
       - 'tools/validate_stage16_actual_mesh_shallow_water.py'
@@ -20,7 +20,9 @@ on:
     branches:
       - main
     paths:
-      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
+      - 'data/onga_stage16_mesh_constraints_v2.json'
       - 'tools/generate_stage16_metric_mesh.py'
       - 'tools/validate_stage16_metric_solver.py'
       - 'tools/validate_stage16_actual_mesh_shallow_water.py'
@@ -49,39 +51,63 @@ jobs:
           cache-dependency-path: tools/requirements-stage16-metric-mesh.txt
       - name: Install deterministic mesh dependencies
         run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
-      - name: Generate exact approved metric finite-volume mesh
-        run: python tools/generate_stage16_metric_mesh.py --repo-root . --output stage16-metric-mesh
+      - name: Generate corrected metric finite-volume mesh
+        run: >-
+          python tools/generate_stage16_metric_mesh.py
+          --repo-root .
+          --water-manifest data/onga_unified_water_manifest_r3.json
+          --constraints data/onga_stage16_mesh_constraints_v2.json
+          --output stage16-metric-mesh
       - name: Verify generated artifact files
         run: |
-          test -s stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          test -s stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz
           test -s stage16-metric-mesh/stage16_metric_mesh_summary.json
           python - <<'PY'
-          import json
+          import hashlib, json
           from pathlib import Path
+          artifact=Path('stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz')
           report=json.loads(Path('stage16-metric-mesh/stage16_metric_mesh_summary.json').read_text())
+          constraints=json.loads(Path('data/onga_stage16_mesh_constraints_v2.json').read_text())
           assert report['status']=='passed'
-          assert report['counts']['cells']==50333
-          assert report['counts']['internalFaces']==72107
-          assert report['counts']['boundaryFaces']==6785
-          assert report['counts']['barrageFaces']==68
-          assert report['counts']['fishwayCells']==[17144,38289]
-          assert report['safeguards']['approvedWaterGeometryChanged'] is False
+          assert report['candidateStatus']=='approved_canonical'
+          assert report['identityPinned'] is True
+          assert report['approvedIdentityReproduced'] is True
+          assert report['canonical'] is True
+          assert report['visualApproval']==constraints['visualApproval']
+          assert report['targetVisualApproval'] is None
+          assert report['visualApproval']['sourceStatement']=='この形でよい'
+          assert report['artifactSha256']==constraints['visualApproval']['reviewedPackageSha256']
+          assert hashlib.sha256(artifact.read_bytes()).hexdigest()==report['artifactSha256']
+          assert report['inputs']['waterAuthorityVersion']=='v4.8.0-candidate-r3'
+          assert report['inputs']['waterPixelCount']==680633
+          assert report['counts']['cells']>0
+          assert report['counts']['internalFaces']>0
+          assert report['counts']['boundaryFaces']>0
+          assert report['counts']['barrageFaces']>0
+          assert report['counts']['fishwayComponents'][0]!=report['counts']['fishwayComponents'][1]
+          assert report['topBoundaryM']['allTaggedM'] is True
+          assert report['topBoundaryM']['faceCount']==report['counts']['boundaryFaceCounts']['M']
+          assert report['topBoundaryM']['endpointXSpan']==[57.0,323.0]
+          assert abs(report['topBoundaryM']['imageLengthPixels']-266.0)<1e-9
+          assert report['safeguards']['waterAuthorityModifiedDuringGeneration'] is False
+          assert report['safeguards']['previousMeshAuthorizationReusable'] is False
           assert report['safeguards']['physicalValuesAssigned'] is False
+          assert report['safeguards']['physicalExecutionAuthorized'] is False
           PY
       - name: Verify conservative algebra on the actual metric mesh
         run: >-
           python tools/validate_stage16_metric_solver.py
-          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz
           --output stage16-metric-mesh/stage16_metric_solver_validation.json
       - name: Verify shallow-water fluxes on the actual metric mesh
         run: >-
           python tools/validate_stage16_actual_mesh_shallow_water.py
-          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz
           --output stage16-metric-mesh/stage16_actual_mesh_shallow_water_validation.json
       - name: Verify well-balanced bathymetry and Manning sources on the actual metric mesh
         run: >-
           python tools/validate_stage16_actual_mesh_well_balanced.py
-          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v1.npz
+          stage16-metric-mesh/onga_stage16_metric_fv_mesh_v2.npz
           --output stage16-metric-mesh/stage16_actual_mesh_well_balanced_validation.json
       - name: Upload exact metric mesh artifact and diagnostics
         uses: actions/upload-artifact@v4

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse, hashlib, json, math
+import argparse, hashlib, json, math, platform
 from pathlib import Path
 import numpy as np
 import triangle as tr
@@ -8,6 +8,8 @@ from rasterio.features import shapes
 from shapely.geometry import shape
 
 CIRC=40075016.68557849
+RAW_MESH_KEYS=('vertices','triangles','segments','segment_markers')
+PACKAGE_KEYS=('vertex_local_mm','vertex_image_millipixel','triangles','internal_face_vertices','internal_face_cells','boundary_face_vertices','boundary_face_cell','boundary_face_tag','barrage_face_ids','barrage_gate_id','fishway_cells','fishway_components')
 
 def j(path): return json.loads(Path(path).read_text(encoding='utf-8'))
 def h(a): return hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
@@ -26,7 +28,7 @@ def load_water(root, path):
     for y,runs in enumerate(rows):
         for k in range(0,len(runs),2):
             x0,x1=map(int,runs[k:k+2]); w[y,x0:x1+1]=1; count+=x1-x0+1
-    if count!=679791 or count!=int(m['pixelCount']): raise RuntimeError('water count mismatch')
+    if count!=int(m['pixelCount']): raise RuntimeError('water count mismatch')
     return m,w
 
 def mesh_from_water(w,c):
@@ -114,18 +116,59 @@ def fish(m,C,I,B,opens,cut,c):
     return np.array([a,b],np.int32),np.array([up,dn],np.int32),lab
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--repo-root',default='.');ap.add_argument('--output',default='stage16-metric-mesh');a=ap.parse_args();root=Path(a.repo_root).resolve();out=root/a.output;out.mkdir(parents=True,exist_ok=True); C=j(root/'data/onga_stage16_mesh_constraints_v1.json');m,w=load_water(root,root/'data/onga_unified_water_manifest_r2.json');M=mesh_from_water(w,C);E=C['expected']
-    for k,v in E['meshArrayHashes'].items():
-        if h(M[k])!=v:raise RuntimeError(f'{k} hash mismatch')
+    ap=argparse.ArgumentParser()
+    ap.add_argument('--repo-root',default='.')
+    ap.add_argument('--water-manifest',default='data/onga_unified_water_manifest_r3.json')
+    ap.add_argument('--constraints',default='data/onga_stage16_mesh_constraints_v2.json')
+    ap.add_argument('--output',default='stage16-metric-mesh')
+    ap.add_argument('--probe',action='store_true',help='emit unpinned diagnostics without accepting them as canonical')
+    a=ap.parse_args();root=Path(a.repo_root).resolve();out=root/a.output;out.mkdir(parents=True,exist_ok=True)
+    constraints_path=root/a.constraints;manifest_path=root/a.water_manifest
+    C=j(constraints_path);m,w=load_water(root,manifest_path);M=mesh_from_water(w,C);E=C.get('expected')
+    if not a.probe and not isinstance(E,dict):raise RuntimeError('canonical expected mesh values are not pinned')
+    if E is None and C.get('candidateStatus')!='awaiting_linux_x86_64_canonical_probe':raise RuntimeError('unpinned candidate status mismatch')
+    if isinstance(E,dict) and C.get('candidateStatus') not in ('linux_x86_64_pinned_awaiting_visual_review','approved_canonical'):raise RuntimeError('pinned candidate status mismatch')
+    if not a.probe and (platform.system()!='Linux' or platform.machine()!='x86_64'):raise RuntimeError('canonical mesh generation requires Linux x86_64')
+    authority=C['waterAuthority']
+    if m['version']!=authority['version'] or int(m['pixelCount'])!=int(authority['pixelCount']):
+        raise RuntimeError('water authority mismatch')
+    if not a.probe:
+        if set(E['meshArrayHashes'])!=set(RAW_MESH_KEYS):raise RuntimeError('mesh hash key set mismatch')
+        for k,v in E['meshArrayHashes'].items():
+            if h(M[k])!=v:raise RuntimeError(f'{k} hash mismatch')
     em,I,B,c=edges(M['vertices'],M['triangles']);tag,opens=tags(m,B);cut,gate,p0,p1=barrage(w,M,I,c);fc,comp,labels=fish(m,C,I,B,opens,cut,c)
+    boundary_vertices=B[:,:2].astype(np.int32); top=np.where(np.all(np.isclose(M['vertices'][boundary_vertices][:,:,1],0.0,atol=1e-12),axis=1))[0].astype(np.int32); top_endpoints=M['vertices'][boundary_vertices[top]]; top_length=float(np.linalg.norm(top_endpoints[:,1]-top_endpoints[:,0],axis=1).sum()); top_x=[float(top_endpoints[:,:,0].min()),float(top_endpoints[:,:,0].max())]; top_m={'faceCount':int(len(top)),'allTaggedM':bool(np.array_equal(np.sort(top),np.sort(opens['M'])) and np.all(tag[top]==1)),'endpointXSpan':top_x,'imageLengthPixels':top_length}
     world,_=coords(m['coordinateSystem']); W=np.asarray([world(x) for x in M['vertices']]); metric=np.column_stack([W[:,0],-W[:,1]]); origin=metric.mean(0); local=metric-origin; qlocal=np.rint(local*1000).astype(np.int32); qimage=np.rint(M['vertices']*1000).astype(np.int32)
     counts={'vertices':len(M['vertices']),'cells':len(M['triangles']),'internalFaces':len(I),'boundaryFaces':len(B),'barrageFaces':len(cut),'boundaryFaceCounts':{'shoreline':int(np.sum(tag==0)),'M':int(np.sum(tag==1)),'N':int(np.sum(tag==2)),'O':int(np.sum(tag==3)),'G':int(np.sum(tag==4))},'gateFaceCounts':{str(k):int(np.sum(gate==k)) for k in range(1,9)},'fishwayCells':fc.tolist(),'fishwayComponents':comp.tolist()}
-    for k in ['vertices','cells','internalFaces','boundaryFaces','barrageFaces']:
-        if counts[k]!=E[k]:raise RuntimeError(f'{k} mismatch')
-    for k in ['boundaryFaceCounts','gateFaceCounts','fishwayCells','fishwayComponents']:
-        if counts[k]!=E[k]:raise RuntimeError(f'{k} mismatch')
-    np.savez_compressed(out/'onga_stage16_metric_fv_mesh_v1.npz',vertex_local_mm=qlocal,vertex_image_millipixel=qimage,triangles=M['triangles'],internal_face_vertices=I[:,:2].astype(np.int32),internal_face_cells=I[:,2:4].astype(np.int32),boundary_face_vertices=B[:,:2].astype(np.int32),boundary_face_cell=B[:,2].astype(np.int32),boundary_face_tag=tag,barrage_face_ids=cut,barrage_gate_id=gate,fishway_cells=fc,fishway_components=comp)
+    if not a.probe:
+        for k in ['vertices','cells','internalFaces','boundaryFaces','barrageFaces']:
+            if counts[k]!=E[k]:raise RuntimeError(f'{k} mismatch')
+        for k in ['boundaryFaceCounts','gateFaceCounts','fishwayCells','fishwayComponents']:
+            if counts[k]!=E[k]:raise RuntimeError(f'{k} mismatch')
+        if top_m!=E['topBoundaryM']:raise RuntimeError('top boundary M mismatch')
+    package={'vertex_local_mm':qlocal,'vertex_image_millipixel':qimage,'triangles':M['triangles'],'internal_face_vertices':I[:,:2].astype(np.int32),'internal_face_cells':I[:,2:4].astype(np.int32),'boundary_face_vertices':B[:,:2].astype(np.int32),'boundary_face_cell':B[:,2].astype(np.int32),'boundary_face_tag':tag,'barrage_face_ids':cut,'barrage_gate_id':gate,'fishway_cells':fc,'fishway_components':comp}
+    package_hashes={k:h(v) for k,v in package.items()}
+    if not a.probe:
+        if set(E['packageArrayHashes'])!=set(PACKAGE_KEYS):raise RuntimeError('package hash key set mismatch')
+        for k,v in E['packageArrayHashes'].items():
+            if package_hashes.get(k)!=v:raise RuntimeError(f'{k} package hash mismatch')
+    artifact_name=C.get('artifactFile','onga_stage16_metric_fv_mesh_v2.npz');artifact_path=out/artifact_name;temporary_artifact=out/f'.{artifact_name}.tmp'
+    visual_approval=C.get('visualApproval');approved_release=bool(not a.probe and C.get('candidateStatus')=='approved_canonical')
+    if approved_release:
+        expected_approval={'status':'approved','approvedBy':'Ryusuke Fujisawa','approvedDate':'2026-07-14','sourceStatement':'この形でよい','scope':'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization','reviewedMeshVersion':C['version'],'reviewedPackageSha256':'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2','comparisonImageSha256':'5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda'}
+        if visual_approval!=expected_approval:raise RuntimeError('canonical visual approval record mismatch')
+        if visual_approval['reviewedPackageSha256']!=C['canonicalProbe']['packageSha256']:raise RuntimeError('visual approval package provenance mismatch')
+    try:
+        with temporary_artifact.open('wb') as handle:np.savez_compressed(handle,**package)
+        artifact_sha=hashlib.sha256(temporary_artifact.read_bytes()).hexdigest()
+        if approved_release and artifact_sha!=visual_approval['reviewedPackageSha256']:raise RuntimeError('generated package differs from visually approved Linux package')
+        temporary_artifact.replace(artifact_path)
+    except BaseException:
+        temporary_artifact.unlink(missing_ok=True);raise
     pts=local[M['triangles']];area=np.abs((pts[:,1,0]-pts[:,0,0])*(pts[:,2,1]-pts[:,0,1])-(pts[:,1,1]-pts[:,0,1])*(pts[:,2,0]-pts[:,0,0]))/2
-    report={'status':'passed','counts':counts,'meshArrayHashes':{k:h(v) for k,v in M.items()},'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'safeguards':{'approvedWaterGeometryChanged':False,'physicalValuesAssigned':False,'connectedToPublicSimulator':False,'calibrationPerformed':False}}
+    identity_pinned=bool(isinstance(E,dict) and not a.probe)
+    visually_approved=bool(identity_pinned and C.get('candidateStatus')=='approved_canonical')
+    approved_identity_reproduced=bool(isinstance(visual_approval,dict) and artifact_sha==visual_approval.get('reviewedPackageSha256'))
+    report={'schema':'onga-stage16-metric-mesh-summary-v2','version':C['version'],'candidateStatus':C['candidateStatus'],'status':'probe-only' if a.probe else 'passed','identityPinned':identity_pinned,'approvedIdentityReproduced':approved_identity_reproduced,'canonical':visually_approved,'visualApproval':visual_approval if visually_approved else None,'targetVisualApproval':visual_approval if a.probe else None,'platform':{'system':platform.system(),'machine':platform.machine(),'python':platform.python_version()},'inputs':{'waterManifest':a.water_manifest,'waterAuthorityVersion':m['version'],'waterPixelCount':int(m['pixelCount']),'constraints':a.constraints},'artifactFile':artifact_name,'artifactSha256':artifact_sha,'counts':counts,'topBoundaryM':top_m,'meshArrayHashes':{k:h(v) for k,v in M.items()},'packageArrayHashes':package_hashes,'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'safeguards':{'waterAuthorityModifiedDuringGeneration':False,'physicalValuesAssigned':False,'physicalExecutionAuthorized':False,'connectedToPublicSimulator':False,'calibrationPerformed':False,'previousMeshAuthorizationReusable':False}}
     (out/'stage16_metric_mesh_summary.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps(report,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()

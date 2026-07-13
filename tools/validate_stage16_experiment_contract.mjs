@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {
   APPROVED_WATER_AUTHORITY,
+  AUDITED_PRODUCTION_MESH,
   STAGE16_EXPERIMENT_CONTRACT_VERSION,
   canonicalScenarioJson,
   createRunManifest,
@@ -8,6 +9,9 @@ import {
 } from '../onga_stage16_experiment_contract.mjs';
 
 const outputPath = process.argv[2] || 'stage16-experiment-contract-validation.json';
+const meshConstraints = JSON.parse(
+  await fs.readFile('data/onga_stage16_mesh_constraints_v2.json', 'utf8'),
+);
 
 function check(name, value, expected, ok) {
   return { name, value, expected, ok: Boolean(ok) };
@@ -88,7 +92,7 @@ function rejected(mutator) {
 }
 
 const wrongWaterRejected = rejected(scenario => {
-  scenario.geometry.waterPixelCount = 679790;
+  scenario.geometry.waterPixelCount = 680632;
 });
 const publicSyntheticRejected = rejected(scenario => {
   scenario.runtime.publicRuntimeEnabled = true;
@@ -146,13 +150,46 @@ physicalScenario.inputs.roughness = {
 physicalScenario.approvals.geometryApproved = true;
 physicalScenario.approvals.governingEquationApproved = true;
 physicalScenario.approvals.physicalInputsApproved = true;
-const physical = validateExperimentScenario(physicalScenario);
+physicalScenario.geometry.meshVersion = AUDITED_PRODUCTION_MESH.version;
+let physicalExecutionAuthorizationRejected = false;
+try {
+  validateExperimentScenario(physicalScenario);
+} catch (error) {
+  physicalExecutionAuthorizationRejected = String(error).includes(
+    'separate explicit physical execution authorization',
+  );
+}
+
+const wrongCanonicalMeshScenario = structuredClone(physicalScenario);
+wrongCanonicalMeshScenario.geometry.meshVersion = 'stage16-metric-fv-mesh-v1';
+let wrongCanonicalMeshRejected = false;
+try {
+  validateExperimentScenario(wrongCanonicalMeshScenario);
+} catch (error) {
+  wrongCanonicalMeshRejected = String(error).includes('mesh version is not canonical');
+}
+
+const fullyApprovedPublicScenario = structuredClone(physicalScenario);
+fullyApprovedPublicScenario.scenarioId = 'fully-approved-public-contract-test';
+fullyApprovedPublicScenario.purpose = 'public_production';
+fullyApprovedPublicScenario.resultsLabel = 'public_prediction';
+fullyApprovedPublicScenario.approvals.calibrationApproved = true;
+fullyApprovedPublicScenario.approvals.publicReleaseApproved = true;
+fullyApprovedPublicScenario.runtime.publicRuntimeEnabled = true;
+let publicExecutionAuthorizationRejected = false;
+try {
+  validateExperimentScenario(fullyApprovedPublicScenario);
+} catch (error) {
+  publicExecutionAuthorizationRejected = String(error).includes(
+    'separate explicit physical execution authorization',
+  );
+}
 
 const checks = [
   check('synthetic scenario accepted', valid.purpose, 'synthetic_verification',
     valid.purpose === 'synthetic_verification'),
-  check('frozen water pixel count', valid.geometry.waterPixelCount, 679791,
-    valid.geometry.waterPixelCount === 679791),
+  check('frozen water pixel count', valid.geometry.waterPixelCount, 680633,
+    valid.geometry.waterPixelCount === 680633),
   check('synthetic run executable', manifestA.executable, true, manifestA.executable),
   check('canonical hash independent of object key order', manifestB.scenarioHash, manifestA.scenarioHash,
     manifestA.scenarioHash === manifestB.scenarioHash),
@@ -164,8 +201,37 @@ const checks = [
     physicalSyntheticSourceRejected),
   check('unapproved public run rejected', unapprovedPublicRejected, true, unapprovedPublicRejected),
   check('missing O boundary rejected', missingBoundaryRejected, true, missingBoundaryRejected),
-  check('approved physical-validation contract accepted', physical.purpose, 'physical_validation',
-    physical.purpose === 'physical_validation'),
+  check('wrong canonical mesh version rejected', wrongCanonicalMeshRejected, true,
+    wrongCanonicalMeshRejected),
+  check('physical validation blocked pending separate execution authorization',
+    physicalExecutionAuthorizationRejected, true, physicalExecutionAuthorizationRejected),
+  check('fully approved public production blocked pending separate execution authorization',
+    publicExecutionAuthorizationRejected, true, publicExecutionAuthorizationRejected),
+  check('production mesh is visually approved canonical', AUDITED_PRODUCTION_MESH.canonical, true,
+    AUDITED_PRODUCTION_MESH.canonical === true),
+  check('production mesh canonical status', AUDITED_PRODUCTION_MESH.status, 'approved_canonical',
+    AUDITED_PRODUCTION_MESH.status === 'approved_canonical'),
+  check('contract visual approval matches mesh constraints',
+    JSON.stringify(AUDITED_PRODUCTION_MESH.visualApproval),
+    JSON.stringify(meshConstraints.visualApproval),
+    JSON.stringify(AUDITED_PRODUCTION_MESH.visualApproval)
+      === JSON.stringify(meshConstraints.visualApproval)),
+  check('visual approval source statement', AUDITED_PRODUCTION_MESH.visualApproval.sourceStatement,
+    'この形でよい', AUDITED_PRODUCTION_MESH.visualApproval.sourceStatement === 'この形でよい'),
+  check('visual approval scope', AUDITED_PRODUCTION_MESH.visualApproval.scope,
+    'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization',
+    AUDITED_PRODUCTION_MESH.visualApproval.scope
+      === 'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization'),
+  check('visual approval package identity', AUDITED_PRODUCTION_MESH.visualApproval.reviewedPackageSha256,
+    'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2',
+    AUDITED_PRODUCTION_MESH.visualApproval.reviewedPackageSha256
+      === 'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2'),
+  check('visual comparison identity', AUDITED_PRODUCTION_MESH.visualApproval.comparisonImageSha256,
+    '5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda',
+    AUDITED_PRODUCTION_MESH.visualApproval.comparisonImageSha256
+      === '5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda'),
+  check('physical execution remains unauthorized', AUDITED_PRODUCTION_MESH.physicalExecutionAuthorized,
+    false, AUDITED_PRODUCTION_MESH.physicalExecutionAuthorized === false),
   check('contract version', valid.contractVersion, STAGE16_EXPERIMENT_CONTRACT_VERSION,
     valid.contractVersion === STAGE16_EXPERIMENT_CONTRACT_VERSION),
 ];
@@ -180,6 +246,8 @@ const report = {
     modifiesApprovedWaterGeometry: false,
     physicalValuesAssigned: false,
     calibrationPerformed: false,
+    productionMeshCanonical: true,
+    physicalExecutionBlockedPendingSeparateAuthorization: true,
   },
 };
 

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const inputPath = process.argv[2] ?? 'data/onga_unified_water_manifest_r2.json';
+const inputPath = process.argv[2] ?? 'data/onga_unified_water_manifest_r3.json';
 const EARTH_CIRCUMFERENCE_M = 40075016.68557849;
 
 function assert(condition, message) {
@@ -43,6 +43,7 @@ async function loadSpec(filePath) {
     fishway: root.fishway,
     openBoundaries: root.openBoundaries,
     acceptanceCriteria: root.acceptanceCriteria,
+    geometryCorrection: root.geometryCorrection,
     waterDomain: {
       width: root.width,
       height: root.height,
@@ -145,7 +146,7 @@ function countComponents(mask, width, height) {
 }
 
 const spec = await loadSpec(inputPath);
-assert(spec.version === 'v4.8.0-candidate-r2', 'version mismatch');
+assert(spec.version === 'v4.8.0-candidate-r3', 'version mismatch');
 const domain = spec.waterDomain;
 assert(Number.isInteger(domain.width) && domain.width > 0, 'invalid width');
 assert(Number.isInteger(domain.height) && domain.height > 0, 'invalid height');
@@ -193,7 +194,19 @@ const fishwayInsideWater = contains(fishwayPixel.x, fishwayPixel.y);
 const waterConnectedComponents = countComponents(mask, domain.width, domain.height);
 
 assert(pixelCount === domain.pixelCount, `pixel count mismatch: ${pixelCount} != ${domain.pixelCount}`);
-assert(pixelCount === 679791, `approved water pixel count mismatch: ${pixelCount}`);
+assert(pixelCount === 680633, `approved water pixel count mismatch: ${pixelCount}`);
+assert(JSON.stringify(domain.rows[0]) === JSON.stringify([57, 322]), 'r3 top row mismatch');
+assert(JSON.stringify(domain.rows[1]) === JSON.stringify([57, 323]), 'r3 second row mismatch');
+assert(spec.geometryCorrection?.id === 'ashiya_bridge_underpass_water_restore_v1',
+  'r3 geometry-correction id mismatch');
+assert(spec.geometryCorrection?.approvedDate === '2026-07-14', 'r3 approval date mismatch');
+assert(spec.geometryCorrection?.sourceStatement === '進めてください', 'r3 approval statement mismatch');
+assert(spec.geometryCorrection?.sourceVersion === 'v4.8.0-candidate-r2',
+  'r3 geometry-correction source mismatch');
+assert(spec.geometryCorrection?.addedPixelCount === 842, 'r3 added-pixel count mismatch');
+assert(spec.geometryCorrection?.removedPixelCount === 0, 'r3 must not remove r2 water pixels');
+assert(JSON.stringify(spec.geometryCorrection?.changedRowRangeInclusive) === JSON.stringify([0, 34]),
+  'r3 changed-row range mismatch');
 assert(maxControlPointError <= 0.05, `control-point georeference error: ${maxControlPointError}`);
 assert(controlPointSemanticMismatchCount === 0, `control-point semantic mismatch: ${controlPointSemanticMismatchCount}`);
 assert(fishwayInsideWater, 'fishway must be inside water');

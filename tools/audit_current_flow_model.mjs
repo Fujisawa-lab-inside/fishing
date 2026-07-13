@@ -95,7 +95,7 @@ const report = {
   stage13PhysicsMutations,
   closedGateChecks,
   invariants: {
-    approvedWaterPixelsFrozen: 679791,
+    approvedWaterPixelsFrozen: 680633,
     doNotModifyApprovedWaterFromFlowMismatch: true,
     observationDoesNotAuthorizeCorrection: true,
     requireSeparateDiagnosisOfDisplayInputBoundaryPhysicsAndNumerics: true,

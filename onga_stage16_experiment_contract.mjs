@@ -1,7 +1,23 @@
-export const STAGE16_EXPERIMENT_CONTRACT_VERSION = 'stage16-experiment-contract-v1';
+export const STAGE16_EXPERIMENT_CONTRACT_VERSION = 'stage16-experiment-contract-v3';
 export const APPROVED_WATER_AUTHORITY = Object.freeze({
-  version: 'v4.8.0-candidate-r2',
-  pixelCount: 679791,
+  version: 'v4.8.0-candidate-r3',
+  pixelCount: 680633,
+});
+export const AUDITED_PRODUCTION_MESH = Object.freeze({
+  version: 'stage16-metric-fv-mesh-v2',
+  canonical: true,
+  status: 'approved_canonical',
+  visualApproval: Object.freeze({
+    status: 'approved',
+    approvedBy: 'Ryusuke Fujisawa',
+    approvedDate: '2026-07-14',
+    sourceStatement: 'この形でよい',
+    scope: 'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization',
+    reviewedMeshVersion: 'stage16-metric-fv-mesh-v2',
+    reviewedPackageSha256: 'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2',
+    comparisonImageSha256: '5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda',
+  }),
+  physicalExecutionAuthorized: false,
 });
 
 const PURPOSES = new Set(['synthetic_verification', 'physical_validation', 'public_production']);
@@ -93,12 +109,19 @@ export function validateExperimentScenario(candidate) {
   assert(geometry.waterAuthorityVersion === APPROVED_WATER_AUTHORITY.version,
     'water authority version differs from the approved frozen version');
   assert(Number(geometry.waterPixelCount) === APPROVED_WATER_AUTHORITY.pixelCount,
-    'water pixel count differs from 679791');
+    `water pixel count differs from ${APPROVED_WATER_AUTHORITY.pixelCount}`);
   const meshVersion = nonempty(geometry.meshVersion, 'geometry.meshVersion');
   const meshStatus = nonempty(geometry.meshStatus, 'geometry.meshStatus');
   assert(new Set(['synthetic', 'candidate', 'audited_production']).has(meshStatus),
     'geometry.meshStatus is unsupported');
-  if (!allowSynthetic) assert(meshStatus === 'audited_production', 'physical runs require an audited production mesh');
+  if (!allowSynthetic) {
+    assert(AUDITED_PRODUCTION_MESH.canonical === true,
+      'physical runs are blocked until the corrected production mesh is canonical and visually approved');
+    assert(meshVersion === AUDITED_PRODUCTION_MESH.version, 'physical run mesh version is not canonical');
+    assert(meshStatus === 'audited_production', 'physical runs require an audited production mesh');
+    assert(AUDITED_PRODUCTION_MESH.physicalExecutionAuthorized === true,
+      'physical runs remain blocked pending separate explicit physical execution authorization');
+  }
   const bathymetry = validateDataSource(geometry.bathymetry, 'geometry.bathymetry', { allowSynthetic });
   if (!allowSynthetic) assert(bathymetry.kind !== 'derived' || candidate.approvals?.geometryApproved === true,
     'derived physical bathymetry requires geometry approval');
@@ -205,7 +228,8 @@ export function createRunManifest(scenario, metadata = {}) {
     codeCommit: nonempty(metadata.codeCommit ?? 'uncommitted', 'metadata.codeCommit'),
     createdAt: nonempty(metadata.createdAt ?? new Date().toISOString(), 'metadata.createdAt'),
     executable: validated.purpose === 'synthetic_verification'
-      || (validated.approvals.geometryApproved
+      || (AUDITED_PRODUCTION_MESH.physicalExecutionAuthorized === true
+        && validated.approvals.geometryApproved
         && validated.approvals.governingEquationApproved
         && validated.approvals.physicalInputsApproved),
   });
@@ -214,6 +238,7 @@ export function createRunManifest(scenario, metadata = {}) {
 export const Stage16ExperimentContract = Object.freeze({
   version: STAGE16_EXPERIMENT_CONTRACT_VERSION,
   approvedWaterAuthority: APPROVED_WATER_AUTHORITY,
+  auditedProductionMesh: AUDITED_PRODUCTION_MESH,
   canonicalScenarioJson,
   fnv1a32,
   validateExperimentScenario,

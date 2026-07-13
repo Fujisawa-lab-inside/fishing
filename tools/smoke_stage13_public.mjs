@@ -6,7 +6,7 @@ const baseUrl = (process.env.PUBLIC_BASE_URL || 'https://fujisawa-lab-inside.git
 const outputDirectory = 'stage13-public-smoke';
 const chrome = process.env.CHROME_BIN || process.env.CHROME_PATH || 'google-chrome';
 const deploymentId = process.env.GITHUB_SHA || String(Date.now());
-const expectedAssetVersion = process.env.STAGE13_ASSET_VERSION || 'stage13f';
+const expectedAssetVersion = process.env.STAGE13_ASSET_VERSION || 'stage13g';
 
 const wrappers = {
   pc: 'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html',
@@ -57,13 +57,16 @@ async function waitForDeployment() {
       const [pc, mobile, manifest, bootstrap] = await Promise.all([
         fetchText(publicUrl(cases[0], true)),
         fetchText(publicUrl(cases[2], true)),
-        fetchText(`${baseUrl}/data/onga_unified_water_manifest_r2.json?deploy=${deploymentId}&probe=${Date.now()}`),
+        fetchText(`${baseUrl}/data/onga_unified_water_manifest_r3.json?deploy=${deploymentId}&probe=${Date.now()}`),
         fetchText(`${baseUrl}/onga_stage13_bootstrap.js?deploy=${deploymentId}&probe=${Date.now()}`),
       ]);
+      const parsedManifest = JSON.parse(manifest);
       last = {
         pcExpected: pc.includes(expectedToken),
         mobileExpected: mobile.includes(expectedToken),
-        manifestV2: manifest.includes('onga-unified-water-runtime-v2'),
+        manifestR3: parsedManifest.schema === 'onga-unified-water-runtime-v2'
+          && parsedManifest.version === 'v4.8.0-candidate-r3'
+          && parsedManifest.pixelCount === 680633,
         badgeCode: bootstrap.includes('Stage 13 正解水面統合'),
       };
       if (Object.values(last).every(Boolean)) return last;
@@ -117,7 +120,7 @@ function validateDom(testCase, dom) {
   const required = [
     'data-onga-stage13="ready"',
     'data-onga-stage13-badge="ready"',
-    'data-onga-stage13-pixel-count="679791"',
+    'data-onga-stage13-pixel-count="680633"',
     'data-onga-stage13-georef="ready"',
     'data-onga-stage13-water-predicate="authority"',
     'data-onga-stage13-heatmap-route="authority"',

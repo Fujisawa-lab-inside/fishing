@@ -57,7 +57,7 @@
       return { enabled: false, installed: false };
     }
 
-    updateBadge('pending', '承認済み679,791画素の正解水面authorityを読み込み中');
+    updateBadge('pending', '承認済み680,633画素の正解水面authorityを読み込み中');
     try {
       if (!window.OngaStage13?.load) throw new Error('onga_stage13_runtime.js is not loaded');
       if (!window.OngaStage13FluidDomainPatch?.install) {

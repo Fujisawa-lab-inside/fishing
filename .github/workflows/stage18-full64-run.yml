@@ -1,163 +1,18 @@
-name: Stage 18 authorized full64 numerical run
-run-name: Stage 18 full64 one-time run ${{ github.run_id }}
+name: Stage 18 superseded full64 numerical run
 
 on:
   workflow_dispatch:
-    inputs:
-      confirmation:
-        description: 'Exact confirmation phrase for the one authorized 64-case run'
-        required: true
-        type: string
 
 permissions:
-  actions: read
   contents: read
 
-concurrency:
-  group: stage18-full64-one-time-20260713
-  cancel-in-progress: false
-
 jobs:
-  authorize:
+  reject-superseded-v1-full64:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Validate dispatch identity and scope
-        env:
-          ACTOR: ${{ github.actor }}
-          CONFIRMATION: ${{ inputs.confirmation }}
-          REF: ${{ github.ref }}
-          REPOSITORY: ${{ github.repository }}
-          RUN_ATTEMPT: ${{ github.run_attempt }}
+      - name: Reject superseded v1 full64 run
         run: |
-          set -euo pipefail
-          test "$CONFIRMATION" = 'RUN_STAGE18_FULL64_20260713'
-          test "$REPOSITORY" = 'Fujisawa-lab-inside/fishing'
-          test "$ACTOR" = 'RyusukeFujisawa'
-          test "$REF" = 'refs/heads/main'
-          test "$RUN_ATTEMPT" = '1'
-      - name: Consume one-time authorization
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
-          RUN_ID: ${{ github.run_id }}
-        run: |
-          set -euo pipefail
-          prior_run_ids="$(
-            gh api --paginate \
-              -H 'X-GitHub-Api-Version: 2022-11-28' \
-              "/repos/${REPOSITORY}/actions/workflows/stage18-full64-run.yml/runs?event=workflow_dispatch&per_page=100" \
-              --jq ".workflow_runs[] | select(.id != ${RUN_ID}) | .id"
-          )"
-          while IFS= read -r prior_run_id; do
-            test -n "$prior_run_id" || continue
-            jobs_json="$(
-              gh api \
-                -H 'X-GitHub-Api-Version: 2022-11-28' \
-                "/repos/${REPOSITORY}/actions/runs/${prior_run_id}/jobs?filter=all&per_page=100"
-            )"
-            if jq -e '[.jobs[].steps[]? | select(.name == "Consume one-time authorization" and .conclusion == "success")] | length > 0' <<<"$jobs_json" >/dev/null; then
-              echo "The Stage 18 full64 authorization was already consumed by run ${prior_run_id}." >&2
-              exit 1
-            fi
-          done <<<"$prior_run_ids"
-
-  full64:
-    needs: authorize
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    steps:
-      - name: Reject rerun attempts
-        env:
-          RUN_ATTEMPT: ${{ github.run_attempt }}
-        run: |
-          set -euo pipefail
-          test "$RUN_ATTEMPT" = '1'
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: pip
-          cache-dependency-path: tools/requirements-stage16-metric-mesh.txt
-      - name: Install dependencies
-        run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
-      - name: Validate explicit authorization and canonical ensemble
-        run: node tools/validate_stage18_full64.mjs
-      - name: Generate frozen production mesh
-        run: python tools/generate_stage16_metric_mesh.py --repo-root . --output stage18-full64
-      - name: Generate deterministic 64-case ensemble
-        run: node onga_stage18_inference_ensemble.mjs config/stage17_inferred_physical_prior_v1.json stage18-full64/ensemble.json 64 20260713
-      - name: Run exactly 64 numerical cases
-        run: >-
-          timeout --signal=TERM --kill-after=30s 65m
-          python tools/run_stage18_full64.py
-          stage18-full64/onga_stage16_metric_fv_mesh_v1.npz
-          stage18-full64/ensemble.json
-          config/stage18_full64_run_authorization_v1.json
-          --mesh-summary stage18-full64/stage16_metric_mesh_summary.json
-          --fields-output stage18-full64/full64-fields.npz
-          --report-output stage18-full64/full64-report.json
-          --progress-output stage18-full64/full64-progress.json
-          --repo-root .
-      - name: Evaluate full64 report and bind provenance
-        run: >-
-          node tools/evaluate_stage18_full64.mjs
-          config/stage18_full64_run_authorization_v1.json
-          stage18-full64/full64-report.json
-          stage18-full64/full64-fields.npz
-          stage18-full64/full64-evaluation.json
-      - name: Aggregate offline step-matched statistics
-        run: >-
-          python tools/aggregate_stage18_full64.py
-          stage18-full64/full64-fields.npz
-          stage18-full64/full64-report.json
-          stage18-full64/full64-evaluation.json
-          config/stage18_full64_run_authorization_v1.json
-          --statistics-output stage18-full64/full64-statistics.npz
-          --summary-output stage18-full64/full64-statistics-summary.json
-      - name: Verify complete result set
-        run: |
-          set -euo pipefail
-          test -s stage18-full64/onga_stage16_metric_fv_mesh_v1.npz
-          test -s stage18-full64/stage16_metric_mesh_summary.json
-          test -s stage18-full64/ensemble.json
-          test -s stage18-full64/full64-progress.json
-          test -s stage18-full64/full64-report.json
-          test -s stage18-full64/full64-fields.npz
-          test -s stage18-full64/full64-evaluation.json
-          test -s stage18-full64/full64-statistics.npz
-          test -s stage18-full64/full64-statistics-summary.json
-      - uses: actions/upload-artifact@v4
-        with:
-          name: stage18-full64-results-${{ github.run_id }}
-          path: |
-            stage18-full64/onga_stage16_metric_fv_mesh_v1.npz
-            stage18-full64/stage16_metric_mesh_summary.json
-            stage18-full64/ensemble.json
-            stage18-full64/full64-progress.json
-            stage18-full64/full64-report.json
-            stage18-full64/full64-fields.npz
-            stage18-full64/full64-evaluation.json
-            stage18-full64/full64-statistics.npz
-            stage18-full64/full64-statistics-summary.json
-          if-no-files-found: error
-          retention-days: 90
-      - uses: actions/upload-artifact@v4
-        if: ${{ failure() || cancelled() }}
-        with:
-          name: stage18-full64-diagnostics-${{ github.run_id }}
-          path: |
-            stage18-full64/stage16_metric_mesh_summary.json
-            stage18-full64/ensemble.json
-            stage18-full64/full64-progress.json
-            stage18-full64/full64-report.json
-            stage18-full64/full64-fields.npz
-            stage18-full64/full64-evaluation.json
-            stage18-full64/full64-statistics-summary.json
-          if-no-files-found: warn
-          retention-days: 90
+          echo 'The v1 full64 workflow is retired after the Ashiya bridge geometry correction.' >&2
+          echo 'Create a separate v2 execution contract after visual approval; this workflow cannot run numerical cases.' >&2
+          exit 1

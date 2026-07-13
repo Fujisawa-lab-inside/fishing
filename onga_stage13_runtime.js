@@ -1,10 +1,10 @@
 (() => {
   'use strict';
 
-  const VERSION = 'stage13-runtime-v2';
+  const VERSION = 'stage13-runtime-v3';
   const EARTH_CIRCUMFERENCE_M = 40075016.68557849;
   const DEFAULTS = Object.freeze({
-    unifiedSpecUrl: './data/onga_unified_water_manifest_r2.json',
+    unifiedSpecUrl: './data/onga_unified_water_manifest_r3.json',
     modelConfigUrl: './config/onga_recommended_model_v1.json',
     inputSchemaUrl: './config/onga_physical_input_schema_v1.json',
   });
@@ -216,10 +216,10 @@
       fetchJson(urls.inputSchemaUrl),
     ]);
 
-    assert(spec.version === 'v4.8.0-candidate-r2', '統一仕様versionが不一致である');
+    assert(spec.version === 'v4.8.0-candidate-r3', '統一仕様versionが不一致である');
     const decoded = decodeRows(spec.waterDomain);
     assert(decoded.pixelCount === spec.waterDomain.pixelCount, '水面画素数が仕様値と一致しない');
-    assert(decoded.pixelCount === 679791, '承認済み水面画素数679791と一致しない');
+    assert(decoded.pixelCount === 680633, '承認済み水面画素数680633と一致しない');
     assert(spec.acceptanceCriteria?.runtimeDomainDifferenceCells === 0, 'runtime水面差分条件が0ではない');
     validateModelConfig(modelConfig);
     validateInputSchema(inputSchema);

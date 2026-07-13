@@ -1,0 +1,46 @@
+{
+  "schema": "onga-stage18-production-mesh-pilot-v1",
+  "purpose": "synthetic_inference_runtime_and_numerical_stability_pilot_only",
+  "geometry": {
+    "approvedWaterPixelCount": 679791,
+    "metricMeshCellCount": 50333,
+    "frozen": true
+  },
+  "tiers": [
+    {"id": "smoke", "caseCount": 1, "maxSteps": 20, "maxWallSeconds": 120, "maxResidentMemoryMiB": 2048},
+    {"id": "screening", "caseCount": 4, "maxSteps": 100, "maxWallSeconds": 900, "maxResidentMemoryMiB": 4096},
+    {"id": "pilot", "caseCount": 16, "maxSteps": 500, "maxWallSeconds": 7200, "maxResidentMemoryMiB": 8192}
+  ],
+  "requiredDiagnostics": [
+    "completedCaseCount",
+    "failedCaseCount",
+    "wallSeconds",
+    "peakResidentMemoryMiB",
+    "maxCfl",
+    "maxAbsoluteMassBalanceError",
+    "minimumDepthM",
+    "nanCount",
+    "negativeDepthCount"
+  ],
+  "acceptance": {
+    "completionFractionMin": 0.95,
+    "nanCountMax": 0,
+    "negativeDepthCountMax": 0,
+    "maxCflMax": 0.95,
+    "maxAbsoluteMassBalanceErrorMax": 1e-8
+  },
+  "promotionOrder": ["smoke", "screening", "pilot"],
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "visualFittingAllowed": false,
+    "physicalRunEnabled": false,
+    "automaticTierPromotionAllowed": false,
+    "failedCasesMayBeImputed": false
+  },
+  "full64CaseRun": {
+    "enabled": false,
+    "requiresPilotAcceptance": true,
+    "requiresExplicitHumanApproval": true
+  }
+}

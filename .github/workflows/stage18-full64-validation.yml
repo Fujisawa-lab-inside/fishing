@@ -1,0 +1,110 @@
+name: Stage 18 full64 contract validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage18_full64_run_authorization_v1.json'
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'data/onga_unified_water_manifest_r2.json'
+      - 'data/onga_water_rows_r2_*.json'
+      - 'onga_stage18_full64_evaluator.mjs'
+      - 'onga_stage18_inference_ensemble.mjs'
+      - 'tools/evaluate_stage18_full64.mjs'
+      - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/run_stage18_full64.py'
+      - 'tools/aggregate_stage18_full64.py'
+      - 'tools/run_stage18_production_mesh_pilot.py'
+      - 'tools/requirements-stage16-metric-mesh.txt'
+      - 'tools/validate_stage18_full64.mjs'
+      - 'tools/validate_stage18_full64_artifacts.py'
+      - 'tools/validate_stage18_full64_workflow.mjs'
+      - 'docs/STAGE18_FULL64_RUN.md'
+      - 'docs/WORK_HANDOFF.md'
+      - '.github/workflows/stage18-full64-validation.yml'
+      - '.github/workflows/stage18-full64-run.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'config/stage18_full64_run_authorization_v1.json'
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'data/onga_stage16_mesh_constraints_v1.json'
+      - 'data/onga_unified_water_manifest_r2.json'
+      - 'data/onga_water_rows_r2_*.json'
+      - 'onga_stage18_full64_evaluator.mjs'
+      - 'onga_stage18_inference_ensemble.mjs'
+      - 'tools/evaluate_stage18_full64.mjs'
+      - 'tools/generate_stage16_metric_mesh.py'
+      - 'tools/run_stage18_full64.py'
+      - 'tools/aggregate_stage18_full64.py'
+      - 'tools/run_stage18_production_mesh_pilot.py'
+      - 'tools/requirements-stage16-metric-mesh.txt'
+      - 'tools/validate_stage18_full64.mjs'
+      - 'tools/validate_stage18_full64_artifacts.py'
+      - 'tools/validate_stage18_full64_workflow.mjs'
+      - 'docs/STAGE18_FULL64_RUN.md'
+      - 'docs/WORK_HANDOFF.md'
+      - '.github/workflows/stage18-full64-validation.yml'
+      - '.github/workflows/stage18-full64-run.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned mesh and validation dependencies
+        run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
+      - name: Syntax checks
+        run: |
+          node --check onga_stage18_full64_evaluator.mjs
+          node --check tools/evaluate_stage18_full64.mjs
+          node --check tools/validate_stage18_full64.mjs
+          node --check tools/validate_stage18_full64_workflow.mjs
+          python -m py_compile tools/run_stage18_production_mesh_pilot.py tools/run_stage18_full64.py tools/aggregate_stage18_full64.py tools/validate_stage18_full64_artifacts.py
+      - name: Validate one-time workflow safeguards
+        run: node tools/validate_stage18_full64_workflow.mjs
+      - name: Validate authorization, ensemble identity, and evaluator behavior
+        run: node tools/validate_stage18_full64.mjs
+      - name: Regenerate and verify the canonical metric mesh package
+        run: |
+          python tools/generate_stage16_metric_mesh.py --repo-root . --output stage18-contract-mesh
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'tools')
+          from run_stage18_full64 import validate_authorization, validate_mesh_package, validate_mesh_summary
+          authorization = json.loads(Path('config/stage18_full64_run_authorization_v1.json').read_text())
+          summary_path = 'stage18-contract-mesh/stage16_metric_mesh_summary.json'
+          validate_authorization(authorization)
+          validate_mesh_summary(json.loads(Path(summary_path).read_text()), authorization, summary_path)
+          validate_mesh_package('stage18-contract-mesh/onga_stage16_metric_fv_mesh_v1.npz', authorization)
+          PY
+      - name: Validate provenance-bound 64-by-50333 artifact aggregation
+        run: python tools/validate_stage18_full64_artifacts.py
+      - name: Verify validation reports
+        run: |
+          test -s stage18-full64-workflow-validation.json
+          test -s stage18-full64-validation.json
+          test -s stage18-full64-artifact-validation.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage18-full64-validation-${{ github.run_id }}
+          path: |
+            stage18-full64-workflow-validation.json
+            stage18-full64-validation.json
+            stage18-full64-artifact-validation.json
+          if-no-files-found: error
+          retention-days: 30

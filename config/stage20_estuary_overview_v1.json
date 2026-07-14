@@ -1,0 +1,35 @@
+{
+  "schema": "onga-stage20-estuary-overview-v1",
+  "status": "reference_view_only",
+  "approvedMesh": {
+    "browserBinary": "public/data/onga/stage20/mesh-v1.bin",
+    "sha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cells": 50339
+  },
+  "imagery": {
+    "provider": "国土地理院",
+    "layer": "全国最新写真（シームレス）",
+    "zoom": 16,
+    "tileCount": 24,
+    "retrievedDate": "2026-07-14",
+    "tileSetSha256": "4a19057dcd3bdb7f27980bac30c631ed2d0262dc5c9ede63f2bb05e09068efe6"
+  },
+  "output": {
+    "path": "docs/visuals/stage20-estuary-overview-v1.png",
+    "sha256": "6cd8736e836c43bdeefc9cf264f6a7a253cc9c8060f977fbbf291f59115732e1"
+  },
+  "shown": [
+    "full_approved_mesh_extent",
+    "M_N_O_G_boundaries",
+    "approved_barrage",
+    "fishway_cells",
+    "synthetic_display_sample"
+  ],
+  "safeguards": {
+    "syntheticDisplayOnly": true,
+    "physicalFlowRun": false,
+    "full64Run": false,
+    "published": false,
+    "mainMerged": false
+  }
+}

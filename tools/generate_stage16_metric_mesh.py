@@ -10,6 +10,10 @@ from shapely.geometry import shape
 CIRC=40075016.68557849
 RAW_MESH_KEYS=('vertices','triangles','segments','segment_markers')
 PACKAGE_KEYS=('vertex_local_mm','vertex_image_millipixel','triangles','internal_face_vertices','internal_face_cells','boundary_face_vertices','boundary_face_cell','boundary_face_tag','barrage_face_ids','barrage_gate_id','fishway_cells','fishway_components')
+APPROVED_VISUALS={
+    'stage16-metric-fv-mesh-v2':{'status':'approved','approvedBy':'Ryusuke Fujisawa','approvedDate':'2026-07-14','sourceStatement':'この形でよい','scope':'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization','reviewedMeshVersion':'stage16-metric-fv-mesh-v2','reviewedPackageSha256':'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2','comparisonImageSha256':'5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda'},
+    'stage20-metric-fv-mesh-v1-candidate':{'status':'approved','approvedBy':'Ryusuke Fujisawa','approvedDate':'2026-07-14','sourceStatement':'採用する','scope':'stage20_linux_candidate_mesh_geometry_only_no_numerical_execution_authorization','reviewedMeshVersion':'stage20-metric-fv-mesh-v1-candidate','reviewedPackageSha256':'c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df','comparisonImageSha256':'210711b782a1dc98a363f3aff2de77a1de1ed0482fdbde384e1eecbbee71e2d3','decisionRecord':'config/stage20_linux_mesh_probe_result_v1.json'},
+}
 
 def j(path): return json.loads(Path(path).read_text(encoding='utf-8'))
 def h(a): return hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
@@ -157,7 +161,8 @@ def main():
     artifact_name=C.get('artifactFile','onga_stage16_metric_fv_mesh_v2.npz');artifact_path=out/artifact_name;temporary_artifact=out/f'.{artifact_name}.tmp'
     visual_approval=C.get('visualApproval');approved_release=bool(not a.probe and C.get('candidateStatus')=='approved_canonical')
     if approved_release:
-        expected_approval={'status':'approved','approvedBy':'Ryusuke Fujisawa','approvedDate':'2026-07-14','sourceStatement':'この形でよい','scope':'corrected_linux_mesh_geometry_only_no_numerical_execution_authorization','reviewedMeshVersion':C['version'],'reviewedPackageSha256':'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2','comparisonImageSha256':'5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda'}
+        expected_approval=APPROVED_VISUALS.get(C['version'])
+        if expected_approval is None:raise RuntimeError('approved mesh version has no frozen visual approval')
         if visual_approval!=expected_approval:raise RuntimeError('canonical visual approval record mismatch')
         if visual_approval['reviewedPackageSha256']!=C['canonicalProbe']['packageSha256']:raise RuntimeError('visual approval package provenance mismatch')
     try:

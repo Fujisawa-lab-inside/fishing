@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-candidate-mesh-probe-decision-v1",
-  "status": "linux_probe_passed_awaiting_visual_review",
+  "status": "complete_linux_mesh_approved",
   "approvedBarragePosition": {
     "record": "config/stage20_barrage_coordinate_candidate_v1.json",
     "sourceStatement": "青線を採用します"

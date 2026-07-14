@@ -2,7 +2,7 @@
   "schema": "onga-stage20-mesh-constraints-v1",
   "version": "stage20-metric-fv-mesh-v1-candidate",
   "artifactFile": "onga_stage20_metric_fv_mesh_v1_candidate.npz",
-  "candidateStatus": "linux_x86_64_pinned_awaiting_visual_review",
+  "candidateStatus": "approved_canonical",
   "waterAuthority": {
     "version": "v4.8.0-candidate-r3",
     "pixelCount": 680633,
@@ -58,6 +58,17 @@
     "evidenceSha256": "8d918b22cd5afdc559373d6b479e7778a888d94f374a63e2845941f43d536eb7",
     "summarySha256": "044de854850c635228c9189770ecd8bdc4bc9fa1375901b3168a0e804bdf677b",
     "packageSha256": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df"
+  },
+  "visualApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "採用する",
+    "scope": "stage20_linux_candidate_mesh_geometry_only_no_numerical_execution_authorization",
+    "reviewedMeshVersion": "stage20-metric-fv-mesh-v1-candidate",
+    "reviewedPackageSha256": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df",
+    "comparisonImageSha256": "210711b782a1dc98a363f3aff2de77a1de1ed0482fdbde384e1eecbbee71e2d3",
+    "decisionRecord": "config/stage20_linux_mesh_probe_result_v1.json"
   },
   "expected": {
     "vertices": 28529,

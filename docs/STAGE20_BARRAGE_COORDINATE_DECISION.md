@@ -20,4 +20,10 @@ The Darwin arm64 diagnostic candidate contains 50,327 cells and 78 barrage faces
 
 The user authorized choice A with the exact statement `A：この形でLinux x86確認を一回実行する`. GitHub Actions run `29338332867` completed successfully on the first attempt from commit `889418c48539eb62f68788b3138b5d120a220a72`. The one-time authorization is consumed.
 
-The pinned Linux candidate contains 50,339 cells and 79 barrage faces. It forms exactly two hydraulic components when closed, places the upstream and estuary-side fishway cells on opposite components, retains the complete M opening, and passes the conservative, shallow-water, and well-balanced checks. No physical-flow case, 64-condition ensemble, publication, or `main` merge occurred. The Linux identity is pinned but remains awaiting visual geometry approval.
+The pinned Linux candidate contains 50,339 cells and 79 barrage faces. It forms exactly two hydraulic components when closed, places the upstream and estuary-side fishway cells on opposite components, retains the complete M opening, and passes the conservative, shallow-water, and well-balanced checks. No physical-flow case, 64-condition ensemble, publication, or `main` merge occurred.
+
+## Final mesh-geometry approval
+
+After reviewing `docs/visuals/stage20-linux-mesh-result-decision-v1.svg.png`, the user approved the Linux candidate on 2026-07-14 with the exact statement `採用する`. The Linux package SHA-256 `c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df` is therefore the canonical Stage 20 mesh geometry.
+
+This approval is limited to the mesh geometry shown in the decision visual. It does not authorize a physical-flow run, the 64-condition ensemble, publication, or a merge to `main`.

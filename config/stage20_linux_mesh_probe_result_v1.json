@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-linux-mesh-probe-result-v1",
-  "status": "passed_awaiting_visual_review",
+  "status": "approved_canonical",
   "run": {
     "id": 29338332867,
     "attempt": 1,
@@ -75,5 +75,22 @@
     "sha256": "210711b782a1dc98a363f3aff2de77a1de1ed0482fdbde384e1eecbbee71e2d3",
     "question": "このLinux候補メッシュ形状を採用するか"
   },
-  "nextDecision": "approve_or_reject_linux_candidate_mesh_geometry"
+  "visualApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "採用する",
+    "approvedChoice": "A",
+    "scope": "stage20_linux_candidate_mesh_geometry_only_no_numerical_execution_authorization",
+    "reviewedMeshVersion": "stage20-metric-fv-mesh-v1-candidate",
+    "reviewedPackageSha256": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df",
+    "comparisonImageSha256": "210711b782a1dc98a363f3aff2de77a1de1ed0482fdbde384e1eecbbee71e2d3",
+    "doesNotAuthorize": [
+      "physical_flow_run",
+      "full64",
+      "publish",
+      "main_merge"
+    ]
+  },
+  "nextDecision": "proceed_to_browser_reference_kernel_integration_without_physical_execution"
 }

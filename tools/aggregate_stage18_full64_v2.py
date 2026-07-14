@@ -246,7 +246,35 @@ def build_cell_raster(
     require(x_max > x_min and y_max > y_min, 'mesh bounds are degenerate')
     margin_x = max(1e-6, float(x_max - x_min) * 0.025)
     margin_y = max(1e-6, float(y_max - y_min) * 0.025)
-    bounds = (x_min - margin_x, y_min - margin_y, x_max + margin_x, y_max + margin_y)
+    padded_bounds = (
+        float(x_min - margin_x), float(y_min - margin_y),
+        float(x_max + margin_x), float(y_max + margin_y),
+    )
+    span_x = padded_bounds[2] - padded_bounds[0]
+    span_y = padded_bounds[3] - padded_bounds[1]
+    target_aspect = float(width) / float(height)
+    center_x = (padded_bounds[0] + padded_bounds[2]) / 2.0
+    center_y = (padded_bounds[1] + padded_bounds[3]) / 2.0
+    expansion_x = 0.0
+    expansion_y = 0.0
+    if span_x / span_y > target_aspect:
+        expanded_span_y = span_x / target_aspect
+        expansion_y = expanded_span_y - span_y
+        span_y = expanded_span_y
+    else:
+        expanded_span_x = span_y * target_aspect
+        expansion_x = expanded_span_x - span_x
+        span_x = expanded_span_x
+    bounds = (
+        center_x - span_x / 2.0, center_y - span_y / 2.0,
+        center_x + span_x / 2.0, center_y + span_y / 2.0,
+    )
+    pixel_width = span_x / width
+    pixel_height = span_y / height
+    require(
+        math.isclose(pixel_width, pixel_height, rel_tol=1e-12, abs_tol=1e-12),
+        'mesh rasterization pixels must be square',
+    )
     transform = from_bounds(*bounds, width, height)
 
     def geometries():
@@ -268,6 +296,13 @@ def build_cell_raster(
     return grid, [float(value) for value in bounds], {
         'representedCellCount': int(represented.size),
         'coverageFraction': float(represented.size / len(triangles)),
+        'rasterization': 'deterministic_triangle_cell_index_center_sample_square_pixel',
+        'squarePixels': True,
+        'pixelSizeLocalM': float(pixel_width),
+        'boundsExpansionLocalM': {
+            'xTotal': float(expansion_x),
+            'yTotal': float(expansion_y),
+        },
     }
 
 
@@ -316,12 +351,29 @@ def render_map(
     }
 
 
+def validate_reported_field_path(
+    reported_path: str,
+    fields_path: str | Path,
+    *,
+    allow_relocated_fields: bool,
+) -> None:
+    reported = Path(reported_path)
+    supplied = Path(fields_path)
+    if allow_relocated_fields:
+        require(reported.name == supplied.name == 'full64-fields.npz',
+                'relocated run report field filename mismatch')
+    else:
+        require(reported.resolve() == supplied.resolve(), 'run report field path mismatch')
+
+
 def validate_evaluation_chain(
     contract_path: Path,
     authorization_path: Path,
     report_path: Path,
     fields_path: Path,
     evaluation_path: Path,
+    *,
+    allow_relocated_fields: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     contract = load_json_object(contract_path)
     authorization = load_json_object(authorization_path)
@@ -329,8 +381,11 @@ def validate_evaluation_chain(
     evaluation = load_json_object(evaluation_path)
     validate_contract(contract)
     fields = inspect_fields(fields_path)
-    require(Path(report.get('fieldArtifact', {}).get('path', '')).resolve() == fields_path.resolve(),
-            'run report field path mismatch')
+    validate_reported_field_path(
+        report.get('fieldArtifact', {}).get('path', ''),
+        fields_path,
+        allow_relocated_fields=allow_relocated_fields,
+    )
     expected = evaluate_evidence(
         contract,
         authorization,
@@ -406,6 +461,8 @@ def aggregate_and_render(
     authorization_path: str | Path,
     contract_path: str | Path,
     output_dir: str | Path,
+    *,
+    allow_relocated_fields: bool = False,
 ) -> dict[str, Any]:
     import io
     import numpy as np
@@ -421,6 +478,7 @@ def aggregate_and_render(
     contract, authorization, report, field_evidence, evaluation = validate_evaluation_chain(
         Path(contract_path), Path(authorization_path), Path(report_path),
         Path(fields_path), Path(evaluation_path),
+        allow_relocated_fields=allow_relocated_fields,
     )
     vertices, triangles = load_mesh_geometry(Path(mesh_path), contract)
 

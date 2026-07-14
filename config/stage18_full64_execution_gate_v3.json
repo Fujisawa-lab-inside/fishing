@@ -1,0 +1,20 @@
+{
+  "schema": "onga-stage18-full64-execution-gate-v3",
+  "state": "awaiting_new_explicit_authorization",
+  "enabled": false,
+  "replacementAuthorizationRequired": true,
+  "activeAuthorization": null,
+  "consumedPreviousAuthorization": {
+    "id": "stage18-v2-20260714t015121z-one-time",
+    "path": "config/stage18_full64_run_authorization_v2.json",
+    "sha256": "0796a530bcfb8a1b9656be697b2bcef2c95ed4bfd8efb4882c6f65263b61f03c",
+    "workflowRunId": 29300177716,
+    "consumed": true,
+    "reusable": false
+  },
+  "safeguards": {
+    "consumeOneTimeAuthorizationAllowed": false,
+    "full64ExecutionAllowed": false,
+    "automaticActivationAllowed": false
+  }
+}

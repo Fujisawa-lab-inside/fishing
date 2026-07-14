@@ -1,5 +1,7 @@
 # Stage 18 corrected-geometry full64 execution plan
 
+> Historical plan: the one-time v2 authorization was consumed by workflow run `29300177716` on 2026-07-14. The numerical evaluation passed, but map packaging stopped after omitting boundary cell 320. This path cannot be reused. See `STAGE18_FULL64_V3_RECOVERY_PLAN.md` for the inactive recovery proposal.
+
 ## Current state
 
 The corrected water authority and Linux metric mesh are visually approved, but numerical execution is not authorized. The active execution gate must remain disabled until a separate user decision is recorded after review of the decision image.

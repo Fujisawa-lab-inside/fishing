@@ -1,0 +1,364 @@
+{
+  "schema": "onga-stage18-full64-execution-contract-v3",
+  "status": "awaiting_explicit_authorization",
+  "executionAuthorized": false,
+  "authorization": null,
+  "authorizationContract": {
+    "schema": "onga-stage18-full64-run-authorization-v3",
+    "path": "config/stage18_full64_run_authorization_v3.json",
+    "required": true,
+    "bindingField": "executionContract",
+    "oneTime": true,
+    "requiredSourceStatement": "承認済み橋下補正v2と修正済み地図化経路v3上で、この判断資料に示された64条件×500ステップを、承認後24時間以内に一回限り、完全な数値証拠と5枚の地図を作成するため再実行してよい。",
+    "maxValiditySeconds": 86400,
+    "scope": "exactly_one_recovery_run_of_64_corrected_geometry_v2_cases_for_sealed_numerical_evidence_and_five_maps"
+  },
+  "geometry": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "metricMeshCellCount": 50129,
+    "frozen": true
+  },
+  "meshExpected": {
+    "version": "stage16-metric-fv-mesh-v2",
+    "candidateStatus": "approved_canonical",
+    "artifactFile": "onga_stage16_metric_fv_mesh_v2.npz",
+    "constraints": {
+      "path": "data/onga_stage16_mesh_constraints_v2.json",
+      "sha256": "44c629ba6b7eb7bf0c43a1863de0c4835d8d331c0d230e50d891a0b23043fb33"
+    },
+    "waterAuthority": {
+      "version": "v4.8.0-candidate-r3",
+      "pixelCount": 680633,
+      "manifest": "data/onga_unified_water_manifest_r3.json",
+      "manifestSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"
+    },
+    "counts": {
+      "vertices": 28411,
+      "cells": 50129,
+      "internalFaces": 71848,
+      "boundaryFaces": 6691,
+      "barrageFaces": 67
+    },
+    "meshArrayHashes": {
+      "vertices": "8a43ab92f776809ba7216d27b7da60584937b698bb4b4f534edd8ce30e4886ec",
+      "triangles": "b0c3310a71707c8756acc176a5d5f5b0b580a7fc8edefbe1948992b2b4593100",
+      "segments": "263cec21c51c01edc44f9fb84093275070ab89f73c1a54c8b61234ccb946c993",
+      "segment_markers": "860b9d8f24a3159a9f552e8b980886007a9c9e7248434e149dc7752b2620b01e"
+    },
+    "packageArrays": {
+      "vertex_local_mm": {
+        "shape": [
+          28411,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "1a86b9d8837a1529fd4fd525e335153f2a22456538803b87cff68a93a1d82a93"
+      },
+      "vertex_image_millipixel": {
+        "shape": [
+          28411,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "2a789541a06c663fd7c23c6ce5020c5c74d6196352f934e3d931deb7dba99319"
+      },
+      "triangles": {
+        "shape": [
+          50129,
+          3
+        ],
+        "dtype": "int32",
+        "sha256": "b0c3310a71707c8756acc176a5d5f5b0b580a7fc8edefbe1948992b2b4593100"
+      },
+      "internal_face_vertices": {
+        "shape": [
+          71848,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "ff9716f5468658710f98298ba6bd2b44628cabfffcd08d94d22d8f7e346505c5"
+      },
+      "internal_face_cells": {
+        "shape": [
+          71848,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "c8c6a65dc8f04ff2c86b164a68e021040223f613d8fafce4a3fe0f2eb0882801"
+      },
+      "boundary_face_vertices": {
+        "shape": [
+          6691,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "8dd2bfea336b80671950c341728e5b25bfaab9e7e72d3e0e71272f05057434b7"
+      },
+      "boundary_face_cell": {
+        "shape": [
+          6691
+        ],
+        "dtype": "int32",
+        "sha256": "1bf0b02ef7f665adcde5fa3656e53255baa8087b077438372ac86730dc71ef4c"
+      },
+      "boundary_face_tag": {
+        "shape": [
+          6691
+        ],
+        "dtype": "uint8",
+        "sha256": "5b0d27c341c57448f5cccea5cc08afcfa4c49d8b7d27e150a72e94cc550f8f83"
+      },
+      "barrage_face_ids": {
+        "shape": [
+          67
+        ],
+        "dtype": "int32",
+        "sha256": "c707afbc5126ae95925cb1e4428c4fd9811394cb8831b9e27337f19afac44afd"
+      },
+      "barrage_gate_id": {
+        "shape": [
+          67
+        ],
+        "dtype": "uint8",
+        "sha256": "c8cfdfc7432ffa7d6b8e47dc2353c9950bb0a29354a5d4536a13b3378a82ecaf"
+      },
+      "fishway_cells": {
+        "shape": [
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "d6924334ca4940004ffbf91450222d1a69b416942c057c6dbebf7a12f06ab259"
+      },
+      "fishway_components": {
+        "shape": [
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+      }
+    },
+    "packageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "sourceProbe": {
+      "platform": "Linux x86_64",
+      "workflowRunId": 29282420163,
+      "sourceCommit": "c9b3cf11a8a0ea0f1684af6ca3ef2bb794c84046",
+      "artifactName": "stage16-ashiya-bridge-linux-probe-29282420163",
+      "summarySha256": "0a874c0de615194630bd994629e1107d03f8f7ee3b504446dda5255c94aa51c8",
+      "packageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2"
+    },
+    "visualApproval": {
+      "status": "approved",
+      "approvedBy": "Ryusuke Fujisawa",
+      "approvedDate": "2026-07-14",
+      "sourceStatement": "この形でよい",
+      "scope": "corrected_linux_mesh_geometry_only_no_numerical_execution_authorization",
+      "reviewedMeshVersion": "stage16-metric-fv-mesh-v2",
+      "reviewedPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+      "comparisonImageSha256": "5d71c84aca13e264aa643b64161f17caa7fb36c31e0a3a987117bebe073aafda"
+    }
+  },
+  "ensembleExpected": {
+    "schema": "onga-stage18-inference-ensemble-v2",
+    "generatedFrom": "onga-stage17-inferred-physical-prior-v1",
+    "sourcePrior": {
+      "path": "config/stage17_inferred_physical_prior_v1.json",
+      "sha256": "bc801566ff93f6d73ed01926fa9da195faf91d55dc5bd122905d0d5dd5e40a84"
+    },
+    "parameterCaseInheritance": {
+      "sourceEnsembleSchema": "onga-stage18-inference-ensemble-v1",
+      "sourceEnsembleSerializedSha256": "0a926fa20d6260a6cdb113b2a7d5be6807ca87f33350ce82be32ef9e13023ef2",
+      "casesSha256": "f139f094c154e2c62c258bbe537b438b076bd47b2ae174242c968a6f7c2db317",
+      "policy": "parameter_cases_identical_geometry_rebound_only"
+    },
+    "seed": 20260713,
+    "caseCount": 64,
+    "samplingMethod": "deterministic_stratified_marginals_with_categorical_rotation",
+    "governingEquation": "depth_averaged_shallow_water",
+    "geometry": {
+      "waterAuthorityVersion": "v4.8.0-candidate-r3",
+      "approvedWaterPixelCount": 680633,
+      "metricMeshCellCount": 50129,
+      "frozen": true
+    },
+    "serialization": "JSON.stringify(value,null,2)+LF",
+    "sha256": "ef0fc1cd8cba91ebbdcd0921260543f829c637b3c9508ea9c2dfeff5aa766684"
+  },
+  "run": {
+    "purpose": "offline_runtime_and_numerical_stability_evidence_only",
+    "resultsClassification": "provisional_full64_runtime_and_numerical_stability_evidence_only",
+    "caseCount": 64,
+    "ensembleSeed": 20260713,
+    "maxStepsPerCase": 500,
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time",
+    "checkpointCompletedCaseCounts": [
+      1,
+      4,
+      16,
+      64
+    ]
+  },
+  "acceptance": {
+    "completionFractionMin": 1.0,
+    "nanCountMax": 0,
+    "negativeDepthCountMax": 0,
+    "maxCflMax": 0.95,
+    "maxAbsoluteMassBalanceErrorMax": 1E-8,
+    "maxWallSeconds": 3600,
+    "maxResidentMemoryMiB": 8192
+  },
+  "safeguards": {
+    "geometryApprovalIsExecutionAuthorization": false,
+    "physicalExecutionAuthorized": false,
+    "full64ExecutionAllowed": false,
+    "automaticActivationAllowed": false,
+    "automaticAdditionalRunsAllowed": false,
+    "automaticRetryAllowed": false,
+    "previousV1AuthorizationReusable": false,
+    "inferredParametersAreObservations": false,
+    "physicalValidationClaimAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "publicRuntimeEnabled": false,
+    "legacyFlowCalculationMayChange": false,
+    "failedCasesMayBeImputed": false,
+    "previousV2AuthorizationReusable": false
+  },
+  "protectedPaths": [
+    "index.html",
+    "pc_full.html",
+    "mobile_lite.html",
+    "app.js",
+    "assets/app.js",
+    "OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html",
+    "OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html"
+  ],
+  "parameterCoverage": {
+    "active": [
+      "bathymetry.mainstemMeanDepthM",
+      "roughness.manningOpenChannel",
+      "boundaries.M.phaseShiftMinutes",
+      "fishway.mode",
+      "fishway.effectiveDischargeCoefficient",
+      "fishway.effectiveAreaM2",
+      "barrage.scenario.closedVersusOpen"
+    ],
+    "inactive": [
+      "bathymetry.crossSectionShape",
+      "bathymetry.tributaryMeanDepthM",
+      "bathymetry.thalwegOffsetFractionOfLocalWidth",
+      "bathymetry.longitudinalSmoothingLengthM",
+      "roughness.shallowMarginMultiplier",
+      "roughness.structureVicinityMultiplier",
+      "boundaries.M.amplitudeMultiplier",
+      "boundaries.N.dischargeM3S",
+      "boundaries.O.dischargeM3S",
+      "boundaries.G.dischargeM3S",
+      "barrage.effectiveDischargeCoefficient",
+      "barrage.gateOpeningUncertaintyFraction",
+      "barrage.scenario.openingMagnitude"
+    ]
+  },
+  "outputs": {
+    "successRequired": [
+      "execution-receipt.json",
+      "onga_stage16_metric_fv_mesh_v2.npz",
+      "stage16_metric_mesh_summary.json",
+      "ensemble-v2.json",
+      "preflight.json",
+      "preflight-recheck.json",
+      "full64-map-raster-preflight.json",
+      "full64-map-raster-preflight-recheck.json",
+      "full64-progress.json",
+      "full64-report.json",
+      "full64-fields.npz",
+      "full64-evaluation.json",
+      "full64-numeric-evidence-manifest.json",
+      "full64-statistics.npz",
+      "full64-statistics-summary.json",
+      "full64-depth-median.png",
+      "full64-velocity-median.png",
+      "full64-wet-probability.png",
+      "full64-direction-agreement.png",
+      "full64-direction-support.png",
+      "full64-judgment.svg",
+      "full64-visual-manifest.json"
+    ],
+    "numericCheckpointRequired": [
+      "execution-receipt.json",
+      "onga_stage16_metric_fv_mesh_v2.npz",
+      "stage16_metric_mesh_summary.json",
+      "ensemble-v2.json",
+      "preflight.json",
+      "preflight-recheck.json",
+      "full64-map-raster-preflight.json",
+      "full64-map-raster-preflight-recheck.json",
+      "full64-progress.json",
+      "full64-report.json",
+      "full64-fields.npz",
+      "full64-evaluation.json",
+      "full64-numeric-evidence-manifest.json"
+    ],
+    "diagnosticBestEffortIfStoppedAfterAuthorization": [
+      "execution-receipt.json",
+      "full64-progress.json",
+      "full64-diagnostic-stop.svg"
+    ],
+    "partialFieldArtifactAllowed": false,
+    "numericEvidenceArtifactPrefix": "stage18-full64-v3-numeric-evidence-",
+    "successArtifactPrefix": "stage18-full64-v3-results-",
+    "diagnosticArtifactPrefix": "stage18-full64-v3-diagnostics-"
+  },
+  "stopPolicy": {
+    "immediateStopOnAnyCaseFailure": true,
+    "immediateStopOnNan": true,
+    "immediateStopOnNegativeDepth": true,
+    "immediateStopOnCflExceedance": true,
+    "immediateStopOnMassBalanceExceedance": true,
+    "immediateStopOnWallTimeExceedance": true,
+    "immediateStopOnMemoryExceedance": true,
+    "failedCasesMayBeImputed": false
+  },
+  "claimLimits": {
+    "physicalValidationClaimAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "inferredParametersMayBeCalledObservations": false,
+    "publicSimulatorConnectionAllowed": false,
+    "commonPhysicalTimeComparisonAllowed": false,
+    "absoluteWaterSurfaceElevationClaimAllowed": false
+  },
+  "visualDecision": {
+    "geometryDecisionRecorded": true,
+    "geometrySourceStatement": "この形でよい",
+    "geometryDecisionScope": "corrected_linux_mesh_geometry_only_no_numerical_execution_authorization",
+    "executionDecisionRequired": true,
+    "executionDecisionRecorded": false,
+    "executionDecisionImageRequired": true,
+    "executionDecisionImageSha256": null
+  },
+  "previousAttempt": {
+    "workflowRunId": 29300177716,
+    "authorizationId": "stage18-v2-20260714t015121z-one-time",
+    "authorizationConsumed": true,
+    "numericalCasesCompleted": 64,
+    "numericalEvaluationPassed": true,
+    "mapPackageCompleted": false,
+    "failure": "mesh_rasterization_omitted_cell_320",
+    "fullFieldArtifactAvailable": false,
+    "reusable": false,
+    "automaticRetryAllowed": false
+  },
+  "mapRaster": {
+    "preflightRequiredBeforeAuthorizationConsumption": true,
+    "pngWidth": 3840,
+    "pngHeight": 2640,
+    "rasterization": "deterministic_triangle_cell_index_center_sample_square_pixel",
+    "squarePixels": true,
+    "representedCellCountRequired": 50129,
+    "coverageFractionRequired": 1.0,
+    "minimumPixelsPerCellRequired": 1,
+    "cell320MinimumPixelsRequired": 1,
+    "pixelSizeLocalMRequired": 0.7147801171875,
+    "yBoundsExpansionTotalLocalMRequired": 8.356359375
+  }
+}

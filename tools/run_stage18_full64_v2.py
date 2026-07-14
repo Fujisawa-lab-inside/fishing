@@ -229,6 +229,14 @@ EXPECTED_PROTECTED_PATHS = [
     'OngaEstuarySimulator_Browser_Service_v4_6_PCFull_ConfluenceTracer.html',
     'OngaEstuarySimulator_Browser_Service_v4_6_MobileLite_ConfluenceTracer.html',
 ]
+EXPECTED_REVIEWED_CODE_PATHS = [
+    CONTRACT_PATH,
+    'tools/run_stage18_full64_v2.py',
+    'tools/stage18_shallow_water_kernel_v2.py',
+    EXPECTED_WORKFLOW_PATH,
+]
+EXPECTED_PREVIOUS_ATTEMPT = None
+EXPECTED_MAP_RASTER = None
 EXPECTED_CONTRACT_KEYS = {
     'schema', 'status', 'executionAuthorized', 'authorization', 'authorizationContract',
     'geometry', 'meshExpected', 'ensembleExpected', 'run', 'acceptance', 'safeguards',
@@ -360,6 +368,11 @@ def _reviewed_workflow_path():
 
 
 def validate_reviewed_code_commit(repo_root, reviewed_commit, decision_image_path=None):
+    reviewed_workflow_path = _reviewed_workflow_path()
+    require(
+        reviewed_workflow_path in EXPECTED_REVIEWED_CODE_PATHS,
+        'reviewed workflow is missing from the fixed reviewed-code paths',
+    )
     require(
         re.fullmatch(r'[a-f0-9]{40}', reviewed_commit or '') is not None,
         'reviewedCodeCommit must be a full lowercase Git commit',
@@ -385,20 +398,12 @@ def validate_reviewed_code_commit(repo_root, reviewed_commit, decision_image_pat
         ['diff', '--name-only', f'{reviewed_commit}..{head}'],
         'inspect post-review changes',
     ).stdout.splitlines()
-    expected_changes = [
-        'config/stage18_full64_execution_gate_v1.json',
-        'config/stage18_full64_run_authorization_v2.json',
-    ]
+    expected_changes = [GATE_PATH, AUTHORIZATION_PATH]
     require(
         sorted(changed) == expected_changes,
         'post-review changes must be exactly the v2 authorization and execution gate',
     )
-    reviewed_paths = [
-        CONTRACT_PATH,
-        'tools/run_stage18_full64_v2.py',
-        'tools/stage18_shallow_water_kernel_v2.py',
-        _reviewed_workflow_path(),
-    ]
+    reviewed_paths = list(EXPECTED_REVIEWED_CODE_PATHS)
     if decision_image_path is not None:
         resolved_decision = resolve_repo_relative_path(
             repo_root,
@@ -549,6 +554,12 @@ def validate_immutable_contract(contract):
     require(contract.get('parameterCoverage') == EXPECTED_PARAMETER_COVERAGE, 'parameter coverage changed')
     require(contract.get('outputs') == EXPECTED_OUTPUTS, 'v2 output contract changed')
     require(contract.get('claimLimits') == EXPECTED_CLAIM_LIMITS, 'v2 claim limits changed')
+    if EXPECTED_PREVIOUS_ATTEMPT is not None:
+        require(contract.get('previousAttempt') == EXPECTED_PREVIOUS_ATTEMPT,
+                'previous-attempt evidence changed')
+    if EXPECTED_MAP_RASTER is not None:
+        require(contract.get('mapRaster') == EXPECTED_MAP_RASTER,
+                'map-raster recovery contract changed')
 
     safeguards = contract.get('safeguards', {})
     for key in (

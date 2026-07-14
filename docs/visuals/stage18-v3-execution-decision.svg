@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1700" viewBox="0 0 1600 1700" role="img" aria-labelledby="title desc">
+  <title id="title">Stage 18 v3 一回限りの再実行判断</title>
+  <desc id="desc">前回の64条件の数値計算は全件合格し、地図化だけがセル320欠落で停止した。正方形ピクセルへの修正により全50129セルとセル320の地図化を確認済みであること、承認後の処理順、所要時間、変更しないもの、残るリスク、承認後24時間以内の一回限りの再実行を許可するか実行しないかの二択を示す。</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; fill: #17352b; }
+    .title { font-size: 46px; font-weight: 700; fill: #ffffff; }
+    .subtitle { font-size: 25px; fill: #dff6ec; }
+    .badge { font-size: 21px; font-weight: 700; }
+    .metric-label { font-size: 21px; fill: #5f786e; }
+    .metric-value { font-size: 36px; font-weight: 700; }
+    .metric-note { font-size: 19px; fill: #5f786e; }
+    .section { font-size: 30px; font-weight: 700; }
+    .flow-main { font-size: 24px; font-weight: 700; }
+    .flow-sub { font-size: 19px; fill: #607a70; }
+    .body { font-size: 22px; }
+    .body-muted { font-size: 21px; fill: #607a70; }
+    .number { font-size: 25px; font-weight: 700; fill: #ffffff; }
+    .choice { font-size: 32px; font-weight: 700; fill: #ffffff; }
+    .approval-label { font-size: 22px; font-weight: 700; }
+    .approval { font-size: 22px; font-weight: 600; }
+    .foot { font-size: 18px; fill: #607a70; }
+  </style>
+
+  <rect width="1600" height="1700" fill="#f5f9f7"/>
+
+  <rect x="40" y="35" width="1520" height="180" rx="28" fill="#126a4d"/>
+  <text x="85" y="105" class="title">判断するのは「64条件をもう一度だけ実行してよいか」</text>
+  <text x="88" y="160" class="subtitle">前回の数値計算は合格。セル320を含む地図化経路を修正し、実行はまだ開始していません。</text>
+
+  <rect x="65" y="242" width="300" height="50" rx="25" fill="#d9f2e7"/>
+  <text x="215" y="275" text-anchor="middle" class="badge" fill="#14583f">河道・橋下：変更なし</text>
+  <rect x="385" y="242" width="300" height="50" rx="25" fill="#d9f2e7"/>
+  <text x="535" y="275" text-anchor="middle" class="badge" fill="#14583f">地図修正：検査済み</text>
+  <rect x="705" y="242" width="300" height="50" rx="25" fill="#fff0c2"/>
+  <text x="855" y="275" text-anchor="middle" class="badge" fill="#725208">再計算：未開始</text>
+
+  <g transform="translate(65 325)">
+    <rect width="460" height="160" rx="22" fill="#ffffff" stroke="#cfddd6" stroke-width="2"/>
+    <text x="28" y="40" class="metric-label">前回の数値計算</text>
+    <text x="28" y="92" class="metric-value">64 / 64 PASS</text>
+    <text x="28" y="130" class="metric-note">地図化だけがセル320欠落でSTOP</text>
+  </g>
+  <g transform="translate(570 325)">
+    <rect width="460" height="160" rx="22" fill="#ffffff" stroke="#cfddd6" stroke-width="2"/>
+    <text x="28" y="40" class="metric-label">修正後の地図検査</text>
+    <text x="28" y="92" class="metric-value">50,129 / 50,129</text>
+    <text x="28" y="130" class="metric-note">セル320：0 → 1 pixel、画像寸法は不変</text>
+  </g>
+  <g transform="translate(1075 325)">
+    <rect width="460" height="160" rx="22" fill="#ffffff" stroke="#cfddd6" stroke-width="2"/>
+    <text x="28" y="40" class="metric-label">所要時間</text>
+    <text x="28" y="92" class="metric-value">計算実績 10分26秒</text>
+    <text x="28" y="130" class="metric-note">全体目安15–25分＋GitHub待ち時間</text>
+  </g>
+
+  <text x="65" y="555" class="section">承認した場合の順序</text>
+  <line x1="155" y1="620" x2="155" y2="950" stroke="#bfd1c8" stroke-width="4"/>
+
+  <g transform="translate(115 590)">
+    <circle cx="40" cy="40" r="40" fill="#126a4d"/>
+    <text x="40" y="49" text-anchor="middle" class="number">1</text>
+    <text x="105" y="35" class="flow-main">地図を先に検査</text>
+    <text x="105" y="68" class="flow-sub">正方形pixel・全50,129セル・数値ケース0を確認</text>
+  </g>
+  <g transform="translate(115 700)">
+    <circle cx="40" cy="40" r="40" fill="#126a4d"/>
+    <text x="40" y="49" text-anchor="middle" class="number">2</text>
+    <text x="105" y="35" class="flow-main">数値計算を一回だけ実行</text>
+    <text x="105" y="68" class="flow-sub">64条件 × 500ステップ。同じmesh・橋下補正・物理入力・判定基準</text>
+  </g>
+  <g transform="translate(115 810)">
+    <circle cx="40" cy="40" r="40" fill="#126a4d"/>
+    <text x="40" y="49" text-anchor="middle" class="number">3</text>
+    <text x="105" y="35" class="flow-main">数値証拠を先に保存</text>
+    <text x="105" y="68" class="flow-sub">fields・評価・SHA-256 manifestを地図処理より前に保存</text>
+  </g>
+  <g transform="translate(115 920)">
+    <circle cx="40" cy="40" r="40" fill="#126a4d"/>
+    <text x="40" y="49" text-anchor="middle" class="number">4</text>
+    <text x="105" y="35" class="flow-main">保存済み証拠から5地図を作成</text>
+    <text x="105" y="68" class="flow-sub">地図だけ失敗した場合は、数値を再実行せず地図だけ手動再試行可能</text>
+  </g>
+
+  <rect x="65" y="1055" width="715" height="270" rx="22" fill="#ffffff" stroke="#cfddd6" stroke-width="2"/>
+  <text x="100" y="1105" class="section">変更しないもの</text>
+  <text x="105" y="1160" class="body">• 承認済み河道・橋下補正・50,129セルmesh</text>
+  <text x="105" y="1210" class="body">• 64条件、500ステップ、数値kernel、停止基準</text>
+  <text x="105" y="1260" class="body">• 公開シミュレータと既存flow計算</text>
+
+  <rect x="820" y="1055" width="715" height="270" rx="22" fill="#fff5f3" stroke="#d77062" stroke-width="2"/>
+  <text x="855" y="1105" class="section">残るリスク</text>
+  <text x="860" y="1160" class="body">• 承認は消費時点で一回分を使い切る</text>
+  <text x="860" y="1210" class="body">• 数値異常・GitHub障害・保存失敗ならSTOP</text>
+  <text x="860" y="1260" class="body">• 物理妥当性や釣果を証明する計算ではない</text>
+
+  <rect x="65" y="1360" width="1470" height="105" rx="22" fill="#126a4d"/>
+  <text x="800" y="1405" text-anchor="middle" class="choice">二択：この一回の再実行を許可する ／ 実行しない</text>
+  <text x="800" y="1442" text-anchor="middle" class="subtitle">許可する場合は、下の文をそのまま送信</text>
+
+  <rect x="65" y="1495" width="1470" height="145" rx="22" fill="#ffffff" stroke="#cfddd6" stroke-width="2"/>
+  <text x="100" y="1534" class="approval-label">承認文</text>
+  <text x="100" y="1580" class="approval">承認済み橋下補正v2と修正済み地図化経路v3上で、この判断資料に示された64条件×500ステップを、</text>
+  <text x="100" y="1615" class="approval">承認後24時間以内に一回限り、完全な数値証拠と5枚の地図を作成するため再実行してよい。</text>
+
+  <text x="65" y="1675" class="foot">この資料は再実行許可の判断専用です。河道・橋下形状の再判断や、物理Validation・公開反映の判断ではありません。</text>
+</svg>

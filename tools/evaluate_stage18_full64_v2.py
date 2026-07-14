@@ -26,6 +26,8 @@ AUTHORIZATION_SOURCE_STATEMENT = (
     '承認後24時間以内に一回限りの数値安定性確認として実行してよい。'
 )
 DECISION_IMAGE_PATH = 'docs/visuals/stage18-v2-execution-decision.svg'
+CONTRACT_PATH = 'config/stage18_full64_execution_contract_v2.json'
+AUTHORIZATION_PATH = 'config/stage18_full64_run_authorization_v2.json'
 
 CASE_COUNT = 64
 CELL_COUNT = 50129
@@ -116,6 +118,24 @@ SHA256_RE = re.compile(r'^[0-9a-f]{64}$')
 DATE_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 COMMIT_RE = re.compile(r'^[0-9a-f]{40}$')
 
+EXPECTED_CONTRACT_KEYS = {
+    'schema', 'status', 'executionAuthorized', 'authorization', 'authorizationContract',
+    'geometry', 'meshExpected', 'ensembleExpected', 'run', 'acceptance', 'safeguards',
+    'protectedPaths', 'parameterCoverage', 'outputs', 'stopPolicy', 'claimLimits',
+    'visualDecision',
+}
+EXPECTED_RUN = {
+    'purpose': 'offline_runtime_and_numerical_stability_evidence_only',
+    'resultsClassification': CLASSIFICATION,
+    'caseCount': CASE_COUNT,
+    'ensembleSeed': 20260713,
+    'maxStepsPerCase': 500,
+    'comparisonBasis': COMPARISON_BASIS,
+    'checkpointCompletedCaseCounts': [1, 4, 16, 64],
+}
+EXPECTED_PREVIOUS_ATTEMPT = None
+EXPECTED_MAP_RASTER = None
+
 
 class ValidationError(RuntimeError):
     """Raised when an input is structurally invalid or provenance is broken."""
@@ -175,12 +195,7 @@ def require_close(actual: float, expected: float, label: str) -> None:
 
 
 def validate_contract(contract: dict[str, Any]) -> None:
-    require(set(contract) == {
-        'schema', 'status', 'executionAuthorized', 'authorization', 'authorizationContract',
-        'geometry', 'meshExpected', 'ensembleExpected', 'run', 'acceptance', 'safeguards',
-        'protectedPaths', 'parameterCoverage', 'outputs', 'stopPolicy', 'claimLimits',
-        'visualDecision',
-    }, 'execution-contract top-level keys changed')
+    require(set(contract) == EXPECTED_CONTRACT_KEYS, 'execution-contract top-level keys changed')
     require(contract.get('schema') == CONTRACT_SCHEMA, 'unsupported execution-contract schema')
     require(contract.get('status') == 'awaiting_explicit_authorization', 'execution-contract status changed')
     require(contract.get('executionAuthorized') is False,
@@ -191,7 +206,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
     authorization_contract = contract.get('authorizationContract')
     require(authorization_contract == {
         'schema': AUTHORIZATION_SCHEMA,
-        'path': 'config/stage18_full64_run_authorization_v2.json',
+        'path': AUTHORIZATION_PATH,
         'required': True,
         'bindingField': 'executionContract',
         'oneTime': True,
@@ -226,16 +241,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
     require(ensemble.get('seed') == 20260713, 'ensemble seed changed')
     require(ensemble.get('geometry') == geometry, 'ensemble geometry does not match contract geometry')
 
-    run = contract.get('run')
-    require(run == {
-        'purpose': 'offline_runtime_and_numerical_stability_evidence_only',
-        'resultsClassification': CLASSIFICATION,
-        'caseCount': CASE_COUNT,
-        'ensembleSeed': 20260713,
-        'maxStepsPerCase': 500,
-        'comparisonBasis': COMPARISON_BASIS,
-        'checkpointCompletedCaseCounts': [1, 4, 16, 64],
-    }, 'run definition changed')
+    require(contract.get('run') == EXPECTED_RUN, 'run definition changed')
     require(contract.get('acceptance') == EXPECTED_ACCEPTANCE, 'acceptance thresholds changed')
     require(contract.get('stopPolicy') == EXPECTED_STOP_POLICY, 'immediate STOP policy changed')
     require(contract.get('protectedPaths') == EXPECTED_PROTECTED_PATHS, 'protected paths changed')
@@ -261,6 +267,12 @@ def validate_contract(contract: dict[str, Any]) -> None:
     claim_limits = contract.get('claimLimits')
     require(isinstance(claim_limits, dict) and claim_limits, 'claim limits are missing')
     require(all(value is False for value in claim_limits.values()), 'one or more claim limits were enabled')
+    if EXPECTED_PREVIOUS_ATTEMPT is not None:
+        require(contract.get('previousAttempt') == EXPECTED_PREVIOUS_ATTEMPT,
+                'previous-attempt evidence changed')
+    if EXPECTED_MAP_RASTER is not None:
+        require(contract.get('mapRaster') == EXPECTED_MAP_RASTER,
+                'map-raster recovery contract changed')
 
 
 def validate_authorization_validity_window(authorization: dict[str, Any]) -> None:
@@ -314,7 +326,7 @@ def validate_authorization(
     require_sha256(decision_image.get('sha256'), 'authorization decision-image digest')
 
     expected_binding = {
-        'path': 'config/stage18_full64_execution_contract_v2.json',
+        'path': CONTRACT_PATH,
         'sha256': contract_digest,
     }
     require(authorization.get('executionContract') == expected_binding,

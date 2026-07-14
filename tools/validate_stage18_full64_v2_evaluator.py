@@ -36,6 +36,7 @@ from aggregate_stage18_full64_v2 import (
     build_cell_raster,
     compute_statistics,
     render_map,
+    validate_reported_field_path,
     write_bundle_atomic,
 )
 
@@ -540,8 +541,16 @@ def main() -> None:
             vertices = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=np.float64)
             triangles = np.array([[0, 1, 2], [0, 2, 3]], dtype=np.int32)
             grid, _, coverage = build_cell_raster(vertices, triangles, width=128, height=128)
-            require(coverage == {'representedCellCount': 2, 'coverageFraction': 1.0},
+            require(coverage['representedCellCount'] == 2 and coverage['coverageFraction'] == 1.0,
                     'small raster coverage changed')
+            require(coverage['squarePixels'] is True, 'small raster pixels are not square')
+            require(coverage['rasterization'] ==
+                    'deterministic_triangle_cell_index_center_sample_square_pixel',
+                    'small rasterization method changed')
+            require(abs(coverage['pixelSizeLocalM'] - (1.05 / 128)) < 1e-15,
+                    'small raster pixel size changed')
+            require(coverage['boundsExpansionLocalM'] == {'xTotal': 0.0, 'yTotal': 0.0},
+                    'square small fixture unexpectedly expanded bounds')
             png, metadata = render_map(
                 grid,
                 np.array([0.0, 1.0], dtype=np.float64),
@@ -550,6 +559,26 @@ def main() -> None:
             )
             require(png.startswith(b'\x89PNG\r\n\x1a\n'), 'small map PNG signature changed')
             require(metadata['excludedCellCount'] == 0, 'small map exclusion count changed')
+
+            original_fields = root / 'original' / 'full64-fields.npz'
+            relocated_fields = root / 'downloaded' / 'full64-fields.npz'
+            validate_reported_field_path(
+                str(original_fields), relocated_fields, allow_relocated_fields=True,
+            )
+            rejected_field_paths = 0
+            for supplied, allow_relocated in (
+                (relocated_fields, False),
+                (root / 'downloaded' / 'renamed-fields.npz', True),
+            ):
+                try:
+                    validate_reported_field_path(
+                        str(original_fields), supplied,
+                        allow_relocated_fields=allow_relocated,
+                    )
+                except ValidationError:
+                    rejected_field_paths += 1
+            require(rejected_field_paths == 2,
+                    'field relocation path policy did not fail closed')
 
     print(json.dumps({
         'schema': 'onga-stage18-full64-v2-evaluator-validation-v1',
@@ -570,6 +599,8 @@ def main() -> None:
             'five-map presence gate',
             'atomic statistics and five-map bundle publication',
             'small numerical statistics and raster fixture when dependencies are available',
+            'square-pixel raster bounds preserve complete cell coverage',
+            'v3 checkpoint field relocation preserves the fixed filename while v2 stays strict',
         ],
     }, ensure_ascii=False, indent=2))
 

@@ -7,6 +7,9 @@ on:
       - 'config/stage18_full64_run_authorization_v1.json'
       - 'config/stage18_full64_run_authorization_v2.json'
       - 'config/stage18_full64_execution_contract_v2.json'
+      - 'config/stage18_full64_run_authorization_v3.json'
+      - 'config/stage18_full64_execution_contract_v3.json'
+      - 'config/stage18_full64_execution_gate_v3.json'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'data/onga_stage16_mesh_constraints_v*.json'
       - 'data/onga_unified_water_manifest_r*.json'
@@ -37,14 +40,29 @@ on:
       - 'tools/validate_stage18_full64_execution_contract_v2.mjs'
       - 'tools/validate_stage18_full64_v2.py'
       - 'tools/validate_stage18_full64_v2_evaluator.py'
+      - 'tools/validate_stage18_full64_v2_map_raster.py'
       - 'tools/validate_stage18_full64_v2_workflow.py'
+      - 'tools/stage18_full64_v3_profile.py'
+      - 'tools/run_stage18_full64_v3.py'
+      - 'tools/preflight_stage18_full64_v3.py'
+      - 'tools/create_stage18_full64_v3_execution_receipt.py'
+      - 'tools/evaluate_stage18_full64_v3.py'
+      - 'tools/aggregate_stage18_full64_v3.py'
+      - 'tools/render_stage18_full64_decision_v3.py'
+      - 'tools/seal_stage18_full64_v3_numeric_evidence.py'
+      - 'tools/validate_stage18_full64_v3_control.py'
+      - 'tools/validate_stage18_full64_v3_map_raster.py'
+      - 'tools/validate_stage18_full64_v3_workflow.py'
       - 'docs/STAGE18_FULL64_RUN.md'
       - 'docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md'
+      - 'docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md'
       - 'docs/visuals/stage18-v2-execution-decision.svg'
+      - 'docs/visuals/stage18-v3-execution-decision.svg'
       - 'docs/WORK_HANDOFF.md'
       - '.github/workflows/stage18-full64-validation.yml'
       - '.github/workflows/stage18-full64-run.yml'
       - '.github/workflows/stage18-full64-v2-run.yml'
+      - '.github/workflows/stage18-full64-v3-run.yml'
       - '.github/workflows/stage18-production-pilot-run.yml'
       - '.github/workflows/stage16-metric-mesh-generation.yml'
   push:
@@ -54,6 +72,9 @@ on:
       - 'config/stage18_full64_run_authorization_v1.json'
       - 'config/stage18_full64_run_authorization_v2.json'
       - 'config/stage18_full64_execution_contract_v2.json'
+      - 'config/stage18_full64_run_authorization_v3.json'
+      - 'config/stage18_full64_execution_contract_v3.json'
+      - 'config/stage18_full64_execution_gate_v3.json'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'data/onga_stage16_mesh_constraints_v*.json'
       - 'data/onga_unified_water_manifest_r*.json'
@@ -84,14 +105,29 @@ on:
       - 'tools/validate_stage18_full64_execution_contract_v2.mjs'
       - 'tools/validate_stage18_full64_v2.py'
       - 'tools/validate_stage18_full64_v2_evaluator.py'
+      - 'tools/validate_stage18_full64_v2_map_raster.py'
       - 'tools/validate_stage18_full64_v2_workflow.py'
+      - 'tools/stage18_full64_v3_profile.py'
+      - 'tools/run_stage18_full64_v3.py'
+      - 'tools/preflight_stage18_full64_v3.py'
+      - 'tools/create_stage18_full64_v3_execution_receipt.py'
+      - 'tools/evaluate_stage18_full64_v3.py'
+      - 'tools/aggregate_stage18_full64_v3.py'
+      - 'tools/render_stage18_full64_decision_v3.py'
+      - 'tools/seal_stage18_full64_v3_numeric_evidence.py'
+      - 'tools/validate_stage18_full64_v3_control.py'
+      - 'tools/validate_stage18_full64_v3_map_raster.py'
+      - 'tools/validate_stage18_full64_v3_workflow.py'
       - 'docs/STAGE18_FULL64_RUN.md'
       - 'docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md'
+      - 'docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md'
       - 'docs/visuals/stage18-v2-execution-decision.svg'
+      - 'docs/visuals/stage18-v3-execution-decision.svg'
       - 'docs/WORK_HANDOFF.md'
       - '.github/workflows/stage18-full64-validation.yml'
       - '.github/workflows/stage18-full64-run.yml'
       - '.github/workflows/stage18-full64-v2-run.yml'
+      - '.github/workflows/stage18-full64-v3-run.yml'
       - '.github/workflows/stage18-production-pilot-run.yml'
       - '.github/workflows/stage16-metric-mesh-generation.yml'
 
@@ -106,14 +142,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.13'
       - name: Install pinned mesh and validation dependencies
@@ -129,7 +165,7 @@ jobs:
           node --check tools/validate_stage18_full64_workflow.mjs
           node --check onga_stage18_inference_ensemble_v2.mjs
           node --check tools/validate_stage18_full64_execution_contract_v2.mjs
-          python -m py_compile tools/run_stage18_production_mesh_pilot.py tools/run_stage18_full64.py tools/aggregate_stage18_full64.py tools/render_stage18_full64_visuals.py tools/render_stage18_full64_diagnostic.py tools/validate_stage18_full64_artifacts.py tools/run_stage18_full64_v2.py tools/preflight_stage18_full64_v2.py tools/stage18_shallow_water_kernel_v2.py tools/create_stage18_full64_v2_execution_receipt.py tools/evaluate_stage18_full64_v2.py tools/aggregate_stage18_full64_v2.py tools/render_stage18_full64_decision_v2.py tools/validate_stage18_full64_v2.py tools/validate_stage18_full64_v2_evaluator.py tools/validate_stage18_full64_v2_workflow.py
+          python -m py_compile tools/run_stage18_production_mesh_pilot.py tools/run_stage18_full64.py tools/aggregate_stage18_full64.py tools/render_stage18_full64_visuals.py tools/render_stage18_full64_diagnostic.py tools/validate_stage18_full64_artifacts.py tools/run_stage18_full64_v2.py tools/preflight_stage18_full64_v2.py tools/stage18_shallow_water_kernel_v2.py tools/create_stage18_full64_v2_execution_receipt.py tools/evaluate_stage18_full64_v2.py tools/aggregate_stage18_full64_v2.py tools/render_stage18_full64_decision_v2.py tools/validate_stage18_full64_v2.py tools/validate_stage18_full64_v2_evaluator.py tools/validate_stage18_full64_v2_map_raster.py tools/validate_stage18_full64_v2_workflow.py tools/stage18_full64_v3_profile.py tools/run_stage18_full64_v3.py tools/preflight_stage18_full64_v3.py tools/create_stage18_full64_v3_execution_receipt.py tools/evaluate_stage18_full64_v3.py tools/aggregate_stage18_full64_v3.py tools/render_stage18_full64_decision_v3.py tools/seal_stage18_full64_v3_numeric_evidence.py tools/validate_stage18_full64_v3_control.py tools/validate_stage18_full64_v3_map_raster.py tools/validate_stage18_full64_v3_workflow.py
       - name: Validate pending or active execution gate without numerical execution
         env:
           EXECUTION_GITHUB_RUN_ID: ${{ github.run_id }}
@@ -197,6 +233,90 @@ jobs:
             > stage18-full64-v2-evaluator-validation.json
           python tools/validate_stage18_full64_v2_workflow.py \
             > stage18-full64-v2-workflow-validation.json
+      - name: Validate corrected-v3 recovery control without numerical execution
+        env:
+          EXECUTION_GITHUB_RUN_ID: ${{ github.run_id }}
+          EXECUTION_GITHUB_SHA: ${{ github.sha }}
+          V3_CONTROL_REPORT: ${{ runner.temp }}/stage18-full64-v3-control-validation.json
+          V3_WORKFLOW_REPORT: ${{ runner.temp }}/stage18-full64-v3-workflow-validation.json
+        run: |
+          set -euo pipefail
+          python tools/validate_stage18_full64_v3_workflow.py \
+            > "$V3_WORKFLOW_REPORT"
+          v3_state="$(jq -er '.state' config/stage18_full64_execution_gate_v3.json)"
+          if test "$v3_state" = 'awaiting_new_explicit_authorization'; then
+            test ! -e config/stage18_full64_run_authorization_v3.json
+            python tools/validate_stage18_full64_v3_control.py \
+              --repo-root . \
+              --expect pending \
+              --output "$V3_CONTROL_REPORT"
+            set +e
+            python tools/preflight_stage18_full64_v3.py \
+              missing-v3-mesh.npz \
+              missing-v3-ensemble.json \
+              --mesh-summary missing-v3-summary.json \
+              --fields-output stage18-v3-must-not-create-fields.npz \
+              --report-output stage18-v3-must-not-create-report.json \
+              --progress-output stage18-v3-must-not-create-progress.json \
+              --repo-root . \
+              > stage18-v3-pending-preflight.stdout \
+              2> stage18-v3-pending-preflight.stderr
+            preflight_status="$?"
+            set -e
+            test "$preflight_status" -eq 2
+            grep -F 'V3 CONTROL-PLANE STOP:' stage18-v3-pending-preflight.stderr
+            grep -F 'No numerical cases were started' stage18-v3-pending-preflight.stderr
+            test ! -e stage18-v3-must-not-create-fields.npz
+            test ! -e stage18-v3-must-not-create-report.json
+            test ! -e stage18-v3-must-not-create-progress.json
+            rm -f stage18-v3-pending-preflight.stdout stage18-v3-pending-preflight.stderr
+          elif test "$v3_state" = 'authorized'; then
+            python tools/validate_stage18_full64_v3_control.py \
+              --repo-root . \
+              --expect active \
+              --output "$V3_CONTROL_REPORT"
+            active_test_root="${RUNNER_TEMP}/stage18-v3-active-control-check"
+            test ! -e "$active_test_root"
+            mkdir -p "$active_test_root"
+            git worktree add --detach "$active_test_root/repo" "$EXECUTION_GITHUB_SHA"
+            set +e
+            env \
+              GITHUB_ACTIONS=true \
+              GITHUB_ACTOR=RyusukeFujisawa \
+              GITHUB_EVENT_NAME=workflow_dispatch \
+              GITHUB_REF=refs/heads/main \
+              GITHUB_REPOSITORY=Fujisawa-lab-inside/fishing \
+              GITHUB_RUN_ATTEMPT=1 \
+              GITHUB_RUN_ID="$EXECUTION_GITHUB_RUN_ID" \
+              GITHUB_SHA="$EXECUTION_GITHUB_SHA" \
+              GITHUB_WORKFLOW='Stage 18 corrected v3 one-time full64 recovery run' \
+              GITHUB_WORKFLOW_REF='Fujisawa-lab-inside/fishing/.github/workflows/stage18-full64-v3-run.yml@refs/heads/main' \
+              python tools/preflight_stage18_full64_v3.py \
+                missing-v3-mesh.npz \
+                missing-v3-ensemble.json \
+                config/stage18_full64_run_authorization_v3.json \
+                --mesh-summary missing-v3-summary.json \
+                --fields-output "$active_test_root/must-not-create-fields.npz" \
+                --report-output "$active_test_root/must-not-create-report.json" \
+                --progress-output "$active_test_root/must-not-create-progress.json" \
+                --repo-root "$active_test_root/repo" \
+                > "$active_test_root/preflight.stdout" \
+                2> "$active_test_root/preflight.stderr"
+            active_preflight_status="$?"
+            set -e
+            test "$active_preflight_status" -eq 3
+            grep -F 'V3 PREFLIGHT STOP:' "$active_test_root/preflight.stderr"
+            grep -F 'No numerical cases were started and no outputs were created.' \
+              "$active_test_root/preflight.stderr"
+            test ! -e "$active_test_root/must-not-create-fields.npz"
+            test ! -e "$active_test_root/must-not-create-report.json"
+            test ! -e "$active_test_root/must-not-create-progress.json"
+          else
+            echo "Unsupported Stage 18 v3 execution-gate state: $v3_state" >&2
+            exit 1
+          fi
+          cp "$V3_CONTROL_REPORT" stage18-full64-v3-control-validation.json
+          cp "$V3_WORKFLOW_REPORT" stage18-full64-v3-workflow-validation.json
       - name: Verify retired numerical CLIs reject before creating outputs
         run: |
           set -euo pipefail
@@ -239,6 +359,24 @@ jobs:
             --water-manifest data/onga_unified_water_manifest_r3.json \
             --constraints data/onga_stage16_mesh_constraints_v2.json \
             --probe
+          python tools/validate_stage18_full64_v2_map_raster.py \
+            stage18-contract-mesh/onga_stage16_metric_fv_mesh_v2.npz \
+            --output stage18-full64-v2-map-raster-validation.json
+          jq -e \
+            '.status == "passed" and .numericalCasesStarted == 0 and
+             .representedCellCount == 50129 and .coverageFraction == 1 and
+             .minimumPixelsPerCell >= 1 and .cell320PixelCount >= 1 and
+             .pngWidth == 3840 and .pngHeight == 2640 and .squarePixels == true' \
+            stage18-full64-v2-map-raster-validation.json
+          python tools/validate_stage18_full64_v3_map_raster.py \
+            stage18-contract-mesh/onga_stage16_metric_fv_mesh_v2.npz \
+            --output stage18-full64-v3-map-raster-validation.json
+          jq -e \
+            '.status == "passed" and .numericalCasesStarted == 0 and
+             .representedCellCount == 50129 and .coverageFraction == 1 and
+             .minimumPixelsPerCell >= 1 and .cell320PixelCount >= 1 and
+             .pngWidth == 3840 and .pngHeight == 2640 and .squarePixels == true' \
+            stage18-full64-v3-map-raster-validation.json
           python - <<'PY'
           import hashlib
           import json
@@ -288,8 +426,12 @@ jobs:
           test -s stage18-full64-execution-contract-v2-validation.json
           test -s stage18-full64-v2-negative-validation.json
           test -s stage18-full64-v2-evaluator-validation.json
+          test -s stage18-full64-v2-map-raster-validation.json
           test -s stage18-full64-v2-workflow-validation.json
-      - uses: actions/upload-artifact@v4
+          test -s stage18-full64-v3-control-validation.json
+          test -s stage18-full64-v3-map-raster-validation.json
+          test -s stage18-full64-v3-workflow-validation.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: stage18-full64-validation-${{ github.run_id }}
           path: |
@@ -299,6 +441,10 @@ jobs:
             stage18-full64-execution-contract-v2-validation.json
             stage18-full64-v2-negative-validation.json
             stage18-full64-v2-evaluator-validation.json
+            stage18-full64-v2-map-raster-validation.json
             stage18-full64-v2-workflow-validation.json
+            stage18-full64-v3-control-validation.json
+            stage18-full64-v3-map-raster-validation.json
+            stage18-full64-v3-workflow-validation.json
           if-no-files-found: error
           retention-days: 30

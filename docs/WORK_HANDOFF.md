@@ -4,6 +4,14 @@
 
 この文書の「移行時」各節は履歴スナップショットである。旧v1手順は `docs/STAGE18_FULL64_RUN.md`、補正後v2の実行候補は `docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md`、最新の実装状態はGit履歴を正本とする。
 
+## 2026-07-14 v2実行後の最新状態
+
+- one-time v2 workflow run `29300177716` は64 cases × 500 stepsを完了し、数値評価に合格した。64/64完了、NaN 0、負水深0、最大CFL 0.12、最大絶対質量保存誤差 `3.013e-16`、数値wall time約625.7秒、peak RSS約172.4 MiBだった。
+- 地図化は、3,840 × 2,640のcenter-sampled rasterで境界セル320が1セル欠落したためSTOPした。欠落位置は画像上端近くの東側河岸で、承認済み橋下補正や河道形状の不具合ではない。
+- v2 authorizationは消費済みで再利用不可。旧gateは再び無効化され、地図化より前にfull fieldsをartifactへ保存していなかったため、同runから5地図だけを再構成することもできない。
+- 修正は画像寸法と中心を維持し、描画範囲のy方向だけを合計約8.356 m対称拡張して0.7147801171875 mの正方形pixelにする。exact meshのzero-case検証で50,129/50,129セル、最小1 pixel/cell、cell 320も1 pixelを確認済み。
+- 次の正本は `docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md`。新v3経路は新しい明示承認までgate無効・authorization不在とし、再実行が承認された場合も数値PASS直後にfull fieldsと評価をSHA-256 manifest付きartifactへ保存してから、別jobで地図を作る。
+
 ## 2026-07-14時点の継続状態
 
 - 芦屋橋の橋桁を水面障害物にしない補正後水域（680,633 pixel）とLinux metric mesh v2（50,129 cell）は、比較画像に対する「この形でよい」で形状承認済み。

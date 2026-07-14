@@ -2,17 +2,32 @@
   "schema": "onga-stage17-official-request-submission-v1",
   "version": "stage17-onga-office-request-submission-v1",
   "status": "awaiting_requester_metadata_and_contact_channel",
-  "acquisitionDecisionRecord": "config/stage17_physical_data_acquisition_decision_record_v1.json",
+  "acquisitionDecisionRecord": "config/stage17_physical_data_acquisition_decision_record_v2.json",
   "recipient": {
     "organization": "国土交通省九州地方整備局 遠賀川河川事務所",
     "officialPage": "https://www.qsr.mlit.go.jp/onga/",
     "telephone": "0949-22-1830",
     "postalCode": "822-0013",
     "postalAddress": "福岡県直方市溝堀1丁目1-1",
-    "verifiedEmail": null,
+    "verifiedEmail": "onga@qsr.mlit.go.jp",
     "verifiedContactForm": null,
-    "recommendedFirstContact": "telephone_intake_then_verified_followup",
-    "verificationNote": "公式トップページで電話番号と所在地を確認済みである．データ照会用メールアドレスまたは専用フォームは未確認である．"
+    "officialContactEvidence": {
+      "url": "https://www.qsr.mlit.go.jp/onga/access/index.html",
+      "retrievedAt": "2026-07-14T05:53:29Z",
+      "sha256": "a42fb487de0c39c8215a9fcb70010caf056e09a2f31172035a086736aef0adee",
+      "httpStatus": 200,
+      "pageTitle": "事務所アクセス・お問い合わせ | 遠賀川河川事務所"
+    },
+    "routeVerification": {
+      "method": null,
+      "destination": null,
+      "officialSourceUrl": null,
+      "officialSourceSha256": null,
+      "verifiedAt": null,
+      "verifiedBy": null
+    },
+    "recommendedFirstContact": "verified_email",
+    "verificationNote": "公式の事務所アクセス・お問い合わせページで電話番号，所在地，一般連絡メール onga@qsr.mlit.go.jp を確認済みである．送信直前にページ原本SHA-256と確認日時をrouteVerificationへ固定する．"
   },
   "requester": {
     "university": null,
@@ -101,11 +116,15 @@
   "submission": {
     "selectedMethod": null,
     "allowedMethods": [
-      "telephone_intake_then_verified_followup",
-      "verified_email",
-      "verified_official_contact_form",
-      "postal_letter"
+      "verified_email"
     ],
+    "message": {
+      "path": "docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md",
+      "currentDraftSha256": "5830fdf336292e14d8e10ec3a04262103db920e829b9ce1a2c409b22add5d27f",
+      "approvedSha256": null,
+      "approvedBy": null,
+      "approvedAt": null
+    },
     "messageApprovedByRequester": false,
     "recipientRouteVerified": false,
     "externalContactPerformed": false,

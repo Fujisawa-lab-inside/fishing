@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'config/stage17_physical_data_source_inventory_v1.json'
+      - 'config/stage17_physical_data_source_inventory_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'onga_stage17_physical_data_source_inventory.mjs'
       - 'tools/validate_stage17_physical_data_source_inventory.mjs'
       - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
@@ -15,6 +17,8 @@ on:
       - main
     paths:
       - 'config/stage17_physical_data_source_inventory_v1.json'
+      - 'config/stage17_physical_data_source_inventory_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'onga_stage17_physical_data_source_inventory.mjs'
       - 'tools/validate_stage17_physical_data_source_inventory.mjs'
       - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
@@ -43,19 +47,29 @@ jobs:
       - name: Validate source inventory and decision safeguards
         run: |
           node tools/validate_stage17_physical_data_source_inventory.mjs \
-            config/stage17_physical_data_source_inventory_v1.json \
+            config/stage17_physical_data_source_inventory_v2.json \
             stage17-physical-data-source-inventory-validation.json
       - name: Build data-acquisition decision packet
         run: |
           node tools/build_stage17_data_acquisition_decision_packet.mjs \
-            config/stage17_physical_data_source_inventory_v1.json \
+            config/stage17_physical_data_source_inventory_v2.json \
             stage17-data-acquisition-decision-packet.json
       - name: Verify no physical source or external contact was silently approved
         run: |
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
-          const inventory = JSON.parse(fs.readFileSync('config/stage17_physical_data_source_inventory_v1.json', 'utf8'));
+          const inventory = JSON.parse(fs.readFileSync('config/stage17_physical_data_source_inventory_v2.json', 'utf8'));
+          const historical = JSON.parse(fs.readFileSync('config/stage17_physical_data_source_inventory_v1.json', 'utf8'));
           const packet = JSON.parse(fs.readFileSync('stage17-data-acquisition-decision-packet.json', 'utf8'));
+          if (historical.version !== 'stage17-physical-data-source-inventory-v1'
+            || historical.modelDomain.approvedWaterPixelCount !== 679791
+            || historical.modelDomain.metricMeshCellCount !== 50333
+            || historical.nextDecision.status !== 'pending') {
+            throw new Error('historical v1 inventory was rewritten');
+          }
+          if (inventory.version !== 'stage17-physical-data-source-inventory-v2') {
+            throw new Error('current inventory is not v2');
+          }
           if (!inventory.requirements.every(item => item.selectedCandidate === null && item.decisionStatus === 'unselected')) {
             throw new Error('a physical-data source was silently selected');
           }
@@ -67,6 +81,17 @@ jobs:
           }
           if (packet.recommendation.optionId !== 'A_official_request_plus_public_retrieval') {
             throw new Error('unexpected acquisition-route recommendation');
+          }
+          if (packet.schema !== 'onga-stage17-data-acquisition-decision-packet-v2'
+            || packet.generatedFrom !== 'config/stage17_physical_data_source_inventory_v2.json') {
+            throw new Error('decision packet is not bound to the current v2 inventory');
+          }
+          if (packet.acquisitionRoute.status !== 'recorded'
+            || packet.acquisitionRoute.selectedOption !== 'A_official_request_plus_public_retrieval') {
+            throw new Error('approved route A is not the single recorded route');
+          }
+          if (packet.nextActionBoundary.externalContactRequiresSubmissionReadinessAndExactRequesterApproval !== true) {
+            throw new Error('external contact is not bound to exact submission readiness');
           }
           if (packet.nextActionBoundary.physicalRunEnabled !== false) {
             throw new Error('physical run must remain disabled');
@@ -80,4 +105,6 @@ jobs:
             stage17-physical-data-source-inventory-validation.json
             stage17-data-acquisition-decision-packet.json
             config/stage17_physical_data_source_inventory_v1.json
+            config/stage17_physical_data_source_inventory_v2.json
+            config/stage17_physical_data_acquisition_decision_record_v2.json
             docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md

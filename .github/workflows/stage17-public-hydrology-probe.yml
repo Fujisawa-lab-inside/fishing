@@ -5,7 +5,13 @@ on:
     paths:
       - 'tools/probe_stage17_public_hydrology.py'
       - 'tools/probe_stage17_river_api.py'
+      - 'tools/audit_stage17_station_boundary_compatibility.py'
+      - 'tools/validate_stage17_public_hydrology_audit_record.mjs'
+      - 'config/stage17_public_hydrology_audit_record_20260714.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
       - 'docs/STAGE17_PUBLIC_HYDROLOGY_PROBE.md'
+      - 'docs/STAGE17_STATION_BOUNDARY_AUDIT.md'
       - '.github/workflows/stage17-public-hydrology-probe.yml'
   push:
     branches:
@@ -13,7 +19,13 @@ on:
     paths:
       - 'tools/probe_stage17_public_hydrology.py'
       - 'tools/probe_stage17_river_api.py'
+      - 'tools/audit_stage17_station_boundary_compatibility.py'
+      - 'tools/validate_stage17_public_hydrology_audit_record.mjs'
+      - 'config/stage17_public_hydrology_audit_record_20260714.json'
+      - 'data/onga_unified_water_manifest_r3.json'
+      - 'data/onga_water_rows_r3_*.json'
       - 'docs/STAGE17_PUBLIC_HYDROLOGY_PROBE.md'
+      - 'docs/STAGE17_STATION_BOUNDARY_AUDIT.md'
       - '.github/workflows/stage17-public-hydrology-probe.yml'
   workflow_dispatch:
 
@@ -29,14 +41,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Syntax-check public-source probes
         run: |
           python -m py_compile tools/probe_stage17_public_hydrology.py
           python -m py_compile tools/probe_stage17_river_api.py
+          python -m py_compile tools/audit_stage17_station_boundary_compatibility.py
+          node --check tools/validate_stage17_public_hydrology_audit_record.mjs
+      - name: Validate the diagnostic audit snapshot
+        run: >-
+          node tools/validate_stage17_public_hydrology_audit_record.mjs
+          config/stage17_public_hydrology_audit_record_20260714.json
+          stage17-public-hydrology-diagnostic-snapshot-validation.json
       - name: Probe official public hydrology pages
         run: python tools/probe_stage17_public_hydrology.py --output stage17-public-hydrology-probe
       - name: Probe official river.go.jp metadata and water-level API
         run: python tools/probe_stage17_river_api.py --output stage17-river-api-probe
+      - name: Audit station relationships to the corrected approved domain
+        run: >-
+          python tools/audit_stage17_station_boundary_compatibility.py
+          --water-manifest data/onga_unified_water_manifest_r3.json
+          --output stage17-station-boundary-audit
       - name: Verify safeguards and minimum official-page reachability
         run: |
           python - <<'PY'
@@ -44,16 +71,21 @@ jobs:
           from pathlib import Path
           public=json.loads(Path('stage17-public-hydrology-probe/report.json').read_text())
           api=json.loads(Path('stage17-river-api-probe/report.json').read_text())
+          audit=json.loads(Path('stage17-station-boundary-audit/report.json').read_text())
           assert public['status']=='passed'
           assert public['diagnostics']['requiredReachabilityFailures']==[]
           assert api['status']=='passed'
           assert api['selectedProbeTime']
-          for report in (public,api):
+          assert audit['status']=='passed'
+          assert audit['approvedDomain']['version']=='v4.8.0-candidate-r3'
+          assert audit['approvedDomain']['pixelCount']==680633
+          for report in (public,api,audit):
               assert report['safeguards']['approvedWaterGeometryChanged'] is False
               assert report['safeguards']['physicalValuesAssigned'] is False
               assert report['safeguards']['externalContactPerformed'] is False
               assert report['safeguards']['publicSimulatorConnected'] is False
           assert api['safeguards']['sourceCandidateApproved'] is False
+          assert audit['safeguards']['stationBoundaryAssignmentPerformed'] is False
           PY
       - name: Upload public-source diagnostics
         if: always()
@@ -63,4 +95,6 @@ jobs:
           path: |
             stage17-public-hydrology-probe
             stage17-river-api-probe
+            stage17-station-boundary-audit
+            stage17-public-hydrology-diagnostic-snapshot-validation.json
           if-no-files-found: warn

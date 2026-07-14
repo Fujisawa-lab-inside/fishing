@@ -2,9 +2,20 @@
 
 更新日: 2026-07-14
 
-この文書の「移行時」各節は履歴スナップショットである。旧v1手順は `docs/STAGE18_FULL64_RUN.md`、補正後v2の実行候補は `docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md`、最新の実装状態はGit履歴を正本とする。
+冒頭の「Stage 18 v3完了後の最新状態」以外で、実行前後や移行時と明記した各節は履歴スナップショットであり、現行判断を示さない。旧v1手順は `docs/STAGE18_FULL64_RUN.md`、補正後v2の実行候補は `docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md`、最新の実装状態はGit履歴を正本とする。
 
-## 2026-07-14 v2実行後の最新状態
+## 2026-07-14 Stage 18 v3完了後の最新状態
+
+- one-time v3 workflow [run `29307047699`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699) はexecution commit `c378fb3885484ea17b39143d294ca10e41cb59b6` 上で64 casesを完了し、数値評価に合格した。64/64完了、NaN 0、負水深0、最大CFL `0.12000000000000002`、最大絶対質量保存誤差 `3.0134486651120407e-16`、wall time `599.102227037`秒、peak RSS `168.59765625` MiB、最小水深 `1.26795059543982` mだった。
+- 修正済みrasterは50,129/50,129セルを表現し、5/5枚の地図を完成した。numeric-evidence manifest SHA-256は`e60287e82d1837b978ecb1c939e9e4b5f2ac075bbaf5c4563df8972da8a350f8`、judgment SVG SHA-256は`47d3d36a257f4b086f707f97748d39782c50ff77ce40d55aed001233b3b11594`である。
+- [results artifact `8300775754`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300775754) と [numeric-evidence artifact `8300766356`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300766356) のexpiryはともに`2026-10-12`である。
+- authorization `stage18-v3-20260714t044734z-one-time` は消費済みで再利用不可。自動retry、追加run、物理Validation主張、公開シミュレータ接続は許可されない。
+- 比較はstep-matchedであり同一物理時刻ではない。結果は暫定推論入力に対する実行時間・数値安定性の証拠に限定する。詳細は `docs/STAGE18_FULL64_V3_RESULT.md`、機械可読記録は `config/stage18_full64_v3_result_record.json` を正本とする。
+- 利用者の地図レビューでは、水深中央値の分布は一般に実水深と異なり、河道中央ほど深く岸へ近づくほど浅いのではないかとの仮説が示された。これは公式横断測量で検査する未検証仮説として引き継ぎ、地図の見た目からbathymetryを作成・承認しない。
+
+## 2026-07-14 Stage 18 v2実行後・v3実行前の履歴スナップショット
+
+以下はv3再実行の承認・完了より前の状態であり、現行判断ではない。
 
 - one-time v2 workflow run `29300177716` は64 cases × 500 stepsを完了し、数値評価に合格した。64/64完了、NaN 0、負水深0、最大CFL 0.12、最大絶対質量保存誤差 `3.013e-16`、数値wall time約625.7秒、peak RSS約172.4 MiBだった。
 - 地図化は、3,840 × 2,640のcenter-sampled rasterで境界セル320が1セル欠落したためSTOPした。欠落位置は画像上端近くの東側河岸で、承認済み橋下補正や河道形状の不具合ではない。
@@ -12,7 +23,9 @@
 - 修正は画像寸法と中心を維持し、描画範囲のy方向だけを合計約8.356 m対称拡張して0.7147801171875 mの正方形pixelにする。exact meshのzero-case検証で50,129/50,129セル、最小1 pixel/cell、cell 320も1 pixelを確認済み。
 - 次の正本は `docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md`。新v3経路は新しい明示承認までgate無効・authorization不在とし、再実行が承認された場合も数値PASS直後にfull fieldsと評価をSHA-256 manifest付きartifactへ保存してから、別jobで地図を作る。
 
-## 2026-07-14時点の継続状態
+## 2026-07-14 Stage 18 v2実行前の履歴スナップショット
+
+以下はv2実行承認より前の状態であり、現行判断ではない。
 
 - 芦屋橋の橋桁を水面障害物にしない補正後水域（680,633 pixel）とLinux metric mesh v2（50,129 cell）は、比較画像に対する「この形でよい」で形状承認済み。
 - この形状承認は数値実行許可ではない。実行ゲートは無効、v2 authorizationは未作成で、64-case数値計算は0 caseのまま。

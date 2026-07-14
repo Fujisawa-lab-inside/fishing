@@ -8,6 +8,8 @@ A second targeted probe inspects the official `river.go.jp` public application's
 
 The probes are diagnostic only．They do not assign a station to M，N，O，or G，do not write an observation into the solver，and do not approve any physical source．
 
+All requests and redirects are restricted to an explicit HTTPS allowlist of official MLIT，river.go.jp，and JMA hosts．A linked script outside that allowlist is not fetched．
+
 ## Public-page probe
 
 For each target，the workflow records the requested and final URL，HTTP status，content type，received byte count，SHA-256，page title，encoding，script URLs，link count，and strings that may indicate official data endpoints or observation identifiers．Static JavaScript resources linked from the pages are downloaded within size and count limits and scanned for candidate endpoint strings．
@@ -24,6 +26,10 @@ The official application bundle identifies an API base under the same `river.go.
 
 Every raw public response is preserved in the workflow artifact．The report does not promote a successful payload to an approved time series．
 
+## Diagnostic audit snapshot
+
+`config/stage17_public_hydrology_audit_record_20260714.json` is a diagnostic audit snapshot, not a sealed authorization record. It pins the three source-report roles and SHA-256 values, the three station identities, and the official contact-page SHA-256 observed in the cited run. Its validator recomputes the station and source-selection summary from the snapshot fields. Independent re-verification still requires the corresponding workflow artifacts; the snapshot does not select a physical source or authorize solver use.
+
 ## Interpretation
 
 A successful HTTP or JSON response proves only that the official public resource was reachable during the workflow run．It does not establish that a complete historical archive，discharge，rating curve，quality flag，coordinate，or vertical datum is available．Those properties require a separate metadata and data-content audit．
@@ -34,7 +40,7 @@ A current water-level value is especially unsuitable as a direct solver input be
 
 ## Failure handling
 
-The workflow requires the core Onga Office pages，the official station list，the 立屋敷 page，the JMA tide table，and the official application current-time resource to be reachable．Dynamic station or historical endpoint failures are preserved as diagnostics．A failed or partial probe is not permission to substitute an unverified third-party source．
+The workflow requires the core Onga Office pages，the official station list，the 立屋敷 page，the JMA tide table，and the official application current-time resource to be reachable．Dynamic station or historical endpoint failures are preserved as diagnostics．The station-boundary audit rejects any individual official JSON response larger than 8 MiB rather than parsing a truncated or unbounded body. A failed or partial probe is not permission to substitute an unverified third-party source．
 
 ## Safeguards
 

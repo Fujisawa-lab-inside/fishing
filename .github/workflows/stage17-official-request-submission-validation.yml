@@ -5,6 +5,7 @@ on:
     paths:
       - 'config/stage17_onga_office_request_submission_v1.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'tools/validate_stage17_onga_office_request_submission.mjs'
       - 'docs/STAGE17_OFFICIAL_REQUEST_SUBMISSION_READINESS.md'
       - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'config/stage17_onga_office_request_submission_v1.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'tools/validate_stage17_onga_office_request_submission.mjs'
       - 'docs/STAGE17_OFFICIAL_REQUEST_SUBMISSION_READINESS.md'
       - 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
@@ -39,7 +41,7 @@ jobs:
         run: >-
           node tools/validate_stage17_onga_office_request_submission.mjs
           config/stage17_onga_office_request_submission_v1.json
-          config/stage17_physical_data_acquisition_decision_record_v1.json
+          config/stage17_physical_data_acquisition_decision_record_v2.json
           stage17-onga-office-request-submission-validation.json
       - name: Verify the committed packet remains unsubmitted and fail-closed
         run: |

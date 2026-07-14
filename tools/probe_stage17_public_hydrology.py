@@ -29,12 +29,23 @@ USER_AGENT = (
 MAX_BODY_BYTES = 8 * 1024 * 1024
 MAX_SCRIPT_COUNT = 40
 MAX_SCRIPT_BYTES = 8 * 1024 * 1024
+ALLOWED_HOSTS = frozenset({
+    "www.qsr.mlit.go.jp",
+    "www.river.go.jp",
+    "www1.river.go.jp",
+    "www.data.jma.go.jp",
+})
 
 TARGETS = [
     {
         "id": "onga_office_home",
         "url": "https://www.qsr.mlit.go.jp/onga/",
         "role": "official office and contact",
+    },
+    {
+        "id": "onga_office_contact",
+        "url": "https://www.qsr.mlit.go.jp/onga/access/index.html",
+        "role": "official postal, telephone, fax, and email contact route",
     },
     {
         "id": "onga_hydrology_portal",
@@ -109,6 +120,25 @@ class ResourceParser(html.parser.HTMLParser):
         return " ".join(part.strip() for part in self.title_parts if part.strip())
 
 
+def require_allowed_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "https" or (parsed.hostname or "").lower() not in ALLOWED_HOSTS:
+        raise ValueError(f"URL is outside the official-source allowlist: {url}")
+    return url
+
+
+class AllowlistedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
+        require_allowed_url(newurl)
+        return super().redirect_request(request, fp, code, msg, headers, newurl)
+
+
+OPENER = urllib.request.build_opener(
+    AllowlistedRedirectHandler(),
+    urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+)
+
+
 @dataclass(frozen=True)
 class FetchResult:
     requested_url: str
@@ -129,6 +159,7 @@ def safe_name(value: str) -> str:
 
 
 def fetch(url: str, timeout: float = 30.0, max_bytes: int = MAX_BODY_BYTES) -> FetchResult:
+    require_allowed_url(url)
     request = urllib.request.Request(
         url,
         headers={
@@ -139,7 +170,7 @@ def fetch(url: str, timeout: float = 30.0, max_bytes: int = MAX_BODY_BYTES) -> F
     )
     started = time.perf_counter()
     try:
-        with urllib.request.urlopen(request, timeout=timeout, context=ssl.create_default_context()) as response:
+        with OPENER.open(request, timeout=timeout) as response:
             body = response.read(max_bytes + 1)
             if len(body) > max_bytes:
                 body = body[:max_bytes]
@@ -212,7 +243,7 @@ def normalise_urls(base_url: str, references: Iterable[str]) -> list[str]:
     for reference in references:
         url = urllib.parse.urljoin(base_url, reference)
         parsed = urllib.parse.urlparse(url)
-        if parsed.scheme not in {"http", "https"}:
+        if parsed.scheme != "https" or (parsed.hostname or "").lower() not in ALLOWED_HOSTS:
             continue
         if url in seen:
             continue
@@ -303,6 +334,7 @@ def main() -> None:
     target_by_id = {item["id"]: item for item in target_reports}
     required_reachable = [
         "onga_office_home",
+        "onga_office_contact",
         "onga_hydrology_portal",
         "onga_realtime_station_list",
         "station_tateyashiki",
@@ -328,6 +360,7 @@ def main() -> None:
         "targets": target_reports,
         "scripts": script_reports,
         "diagnostics": {
+            "allowedHosts": sorted(ALLOWED_HOSTS),
             "requiredReachabilityFailures": required_failures,
             "stationPageStatuses": station_page_statuses,
             "discoveredScriptCount": len(script_reports),

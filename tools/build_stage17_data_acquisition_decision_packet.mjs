@@ -1,17 +1,22 @@
 import fs from 'node:fs/promises';
 import {
+  STAGE17_PHYSICAL_DATA_SOURCE_INVENTORY_VERSION,
   buildPhysicalDataSourceInventoryReport,
   loadPhysicalDataSourceInventory,
 } from '../onga_stage17_physical_data_source_inventory.mjs';
 
-const inventoryPath = process.argv[2] || 'config/stage17_physical_data_source_inventory_v1.json';
+const inventoryPath = process.argv[2] || 'config/stage17_physical_data_source_inventory_v2.json';
 const outputPath = process.argv[3] || 'stage17-data-acquisition-decision-packet.json';
 const inventory = await loadPhysicalDataSourceInventory(inventoryPath);
+if (inventory.version !== STAGE17_PHYSICAL_DATA_SOURCE_INVENTORY_VERSION) {
+  throw new Error('the decision packet must be built from the current v2 inventory');
+}
 const report = buildPhysicalDataSourceInventoryReport(inventory);
-const recommended = inventory.nextDecision.options.find(option => option.recommended === true);
+const recommended = inventory.nextDecision.options
+  .find(option => option.id === inventory.nextDecision.selectedOption);
 
 const packet = {
-  schema: 'onga-stage17-data-acquisition-decision-packet-v1',
+  schema: 'onga-stage17-data-acquisition-decision-packet-v2',
   version: inventory.version,
   generatedFrom: inventoryPath,
   inventoryAsOf: inventory.asOf,
@@ -19,7 +24,8 @@ const packet = {
   approvedWaterPixelCount: inventory.modelDomain.approvedWaterPixelCount,
   metricMeshCellCount: inventory.modelDomain.metricMeshCellCount,
   report,
-  decision: inventory.nextDecision,
+  acquisitionRoute: inventory.nextDecision,
+  nextDecision: inventory.submissionDecision,
   recommendation: {
     optionId: recommended.id,
     reason: [
@@ -41,9 +47,14 @@ const packet = {
     acquisitionPlan: 'docs/STAGE17_PHYSICAL_DATA_ACQUISITION.md',
     unsentOfficeRequestDraft: 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
   },
+  inventoryHistory: {
+    current: 'config/stage17_physical_data_source_inventory_v2.json',
+    historicalReadOnly: 'config/stage17_physical_data_source_inventory_v1.json'
+  },
   nextActionBoundary: {
     publicDatabaseInventoryMayProceedWithoutPhysicalParameterApproval: true,
-    externalContactRequiresExplicitRouteDecision: true,
+    acquisitionRouteDecisionAlreadyRecorded: true,
+    externalContactRequiresSubmissionReadinessAndExactRequesterApproval: true,
     physicalSourceSelectionRequiresLaterPerSourceApproval: true,
     physicalRunEnabled: false
   }

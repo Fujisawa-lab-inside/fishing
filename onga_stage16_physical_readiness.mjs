@@ -1,9 +1,151 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 
-export const STAGE16_PHYSICAL_READINESS_VERSION = 'stage16-physical-readiness-v1';
+const READINESS_PROFILES = Object.freeze({
+  'onga-stage16-physical-readiness-v1': Object.freeze({
+    version: 'stage16-physical-readiness-v1',
+    cellCount: 50333,
+    approvedWaterPixelCount: 679791,
+    manifest: '../data/stage16/onga_fv_metric_mesh_compact_manifest_v1.json',
+  }),
+  'onga-stage16-physical-readiness-v2': Object.freeze({
+    version: 'stage16-physical-readiness-v2',
+    cellCount: 50129,
+    approvedWaterPixelCount: 680633,
+    meshVersion: 'stage16-metric-fv-mesh-v2',
+    artifactFile: 'onga_stage16_metric_fv_mesh_v2.npz',
+    waterAuthorityVersion: 'v4.8.0-candidate-r3',
+    waterManifest: '../data/onga_unified_water_manifest_r3.json',
+    waterManifestSha256: '964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7',
+    waterRowChunks: Object.freeze([
+      Object.freeze({
+        path: '../data/onga_water_rows_r3_0.json',
+        sha256: 'ecbedb7475c53357f60650e194b58e88f25f9cbc13aa6b6277ecb2293a0a47c0',
+      }),
+      Object.freeze({
+        path: '../data/onga_water_rows_r3_1.json',
+        sha256: 'ef373644c0b325d396ed8f03c1fcf6b4a34dfb8d4330e363e99118b5bdaa0ee8',
+      }),
+      Object.freeze({
+        path: '../data/onga_water_rows_r3_2.json',
+        sha256: '0bebd9f5b735bfc990f7d9e00b564e7d9a9aca64bb1b17006fe128bcd452f443',
+      }),
+      Object.freeze({
+        path: '../data/onga_water_rows_r3_3.json',
+        sha256: '9e55ca5fc0fddfbbfdd83d0dcea6b28ad41c91eb78adf5e39fc8eca1cf5ee48e',
+      }),
+    ]),
+    constraints: '../data/onga_stage16_mesh_constraints_v2.json',
+    constraintsSha256: '44c629ba6b7eb7bf0c43a1863de0c4835d8d331c0d230e50d891a0b23043fb33',
+    packageSha256: 'f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2',
+  }),
+});
+
+export const STAGE16_PHYSICAL_READINESS_VERSION = 'stage16-physical-readiness-v2';
+export const STAGE16_PHYSICAL_READINESS_SCHEMAS = Object.freeze(Object.keys(READINESS_PROFILES));
+const VERIFIED_CONFIGURATIONS = new WeakSet();
 
 function assert(condition, message) {
   if (!condition) throw new Error(`[stage16-readiness] ${message}`);
+}
+
+function readinessProfile(config) {
+  const profile = Object.hasOwn(READINESS_PROFILES, config?.schema)
+    ? READINESS_PROFILES[config.schema]
+    : null;
+  assert(profile, `unsupported schema ${String(config?.schema)}`);
+  return profile;
+}
+
+function deepFreeze(value) {
+  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  for (const child of Object.values(value)) deepFreeze(child);
+  return Object.freeze(value);
+}
+
+function runtimeMeshPackageReady(mesh, profile) {
+  const resource = mesh?.runtimePackage;
+  return resource && typeof resource === 'object'
+    && nonempty(resource.path)
+    && resource.sha256 === profile.packageSha256
+    && resource.approved === true;
+}
+
+function validateMeshIdentity(mesh, profile) {
+  assert(Number(mesh?.cellCount) === profile.cellCount, 'mesh cell count mismatch');
+  assert(Number(mesh?.approvedWaterPixelCount) === profile.approvedWaterPixelCount,
+    'approved water pixel count mismatch');
+  if (profile.version === 'stage16-physical-readiness-v1') {
+    assert(mesh.manifest === profile.manifest, 'historical v1 mesh manifest mismatch');
+    return;
+  }
+  assert(mesh.version === profile.meshVersion, 'mesh version mismatch');
+  assert(mesh.artifactFile === profile.artifactFile, 'mesh artifact filename mismatch');
+  assert(mesh.waterAuthorityVersion === profile.waterAuthorityVersion,
+    'water-authority version mismatch');
+  assert(mesh.waterManifest === profile.waterManifest, 'water manifest path mismatch');
+  assert(mesh.waterManifestSha256 === profile.waterManifestSha256,
+    'water manifest digest mismatch');
+  assert(Array.isArray(mesh.waterRowChunks)
+    && mesh.waterRowChunks.length === profile.waterRowChunks.length,
+  'water row-chunk inventory mismatch');
+  for (const [index, expected] of profile.waterRowChunks.entries()) {
+    assert(mesh.waterRowChunks[index]?.path === expected.path,
+      `water row chunk ${index} path mismatch`);
+    assert(mesh.waterRowChunks[index]?.sha256 === expected.sha256,
+      `water row chunk ${index} digest mismatch`);
+  }
+  assert(mesh.constraints === profile.constraints, 'mesh constraints path mismatch');
+  assert(mesh.constraintsSha256 === profile.constraintsSha256,
+    'mesh constraints digest mismatch');
+  assert(mesh.packageSha256 === profile.packageSha256, 'mesh package digest mismatch');
+  assert(mesh.runtimePackage === null || typeof mesh.runtimePackage === 'object',
+    'runtime mesh package must be null or an object');
+}
+
+async function sha256File(filePath) {
+  const content = await fs.readFile(filePath);
+  return crypto.createHash('sha256').update(content).digest('hex');
+}
+
+async function validateReferencedV2Files(config, configPath) {
+  if (config.schema !== 'onga-stage16-physical-readiness-v2') return;
+  const profile = readinessProfile(config);
+  const configDirectory = path.dirname(path.resolve(configPath));
+  for (const [pathKey, digestKey, label] of [
+    ['waterManifest', 'waterManifestSha256', 'water manifest'],
+    ['constraints', 'constraintsSha256', 'mesh constraints'],
+  ]) {
+    const sourcePath = path.resolve(configDirectory, config.mesh[pathKey]);
+    const digest = await sha256File(sourcePath);
+    assert(digest === config.mesh[digestKey], `${label} source digest mismatch`);
+  }
+  const manifestPath = path.resolve(configDirectory, config.mesh.waterManifest);
+  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+  const expectedManifestChunks = profile.waterRowChunks
+    .map(resource => `./data/${path.basename(resource.path)}`);
+  assert(manifest.version === profile.waterAuthorityVersion,
+    'water manifest source version mismatch');
+  assert(Number(manifest.pixelCount) === profile.approvedWaterPixelCount,
+    'water manifest source pixel count mismatch');
+  assert(Array.isArray(manifest.chunks)
+    && manifest.chunks.length === expectedManifestChunks.length
+    && manifest.chunks.every((value, index) => value === expectedManifestChunks[index]),
+  'water manifest row-chunk references mismatch');
+  for (const [index, resource] of config.mesh.waterRowChunks.entries()) {
+    const sourcePath = path.resolve(configDirectory, resource.path);
+    const digest = await sha256File(sourcePath);
+    assert(digest === resource.sha256, `water row chunk ${index} source digest mismatch`);
+  }
+  if (config.mesh.runtimePackage !== null) {
+    const resource = config.mesh.runtimePackage;
+    assert(runtimeMeshPackageReady(config.mesh, readinessProfile(config)),
+      'runtime mesh package approval or digest mismatch');
+    const sourcePath = path.resolve(configDirectory, resource.path);
+    const digest = await sha256File(sourcePath);
+    assert(digest === resource.sha256, 'runtime mesh package source digest mismatch');
+  }
 }
 
 function finiteOrNull(value, label) {
@@ -49,9 +191,12 @@ function validateBoundaryModes(boundaries) {
 
 export function validatePhysicalReadinessConfiguration(config) {
   assert(config && typeof config === 'object', 'configuration must be an object');
-  assert(config.schema === 'onga-stage16-physical-readiness-v1', 'schema mismatch');
-  assert(Number(config.mesh?.cellCount) === 50333, 'mesh cell count mismatch');
-  assert(Number(config.mesh?.approvedWaterPixelCount) === 679791, 'approved water pixel count mismatch');
+  const profile = readinessProfile(config);
+  validateMeshIdentity(config.mesh, profile);
+  assert(config.governingEquation?.selected === 'depth_averaged_shallow_water',
+    'selected governing equation mismatch');
+  assert(config.governingEquation?.selectionApproved === true,
+    'governing-equation selection must remain approved');
   assert(config.bathymetry?.units === 'm', 'bathymetry units must be m');
   assert(config.roughness?.parameter === 'Manning_n', 'roughness parameter must be Manning_n');
   assert(config.roughness?.units === 's/m^(1/3)', 'roughness units mismatch');
@@ -71,8 +216,25 @@ export function validatePhysicalReadinessConfiguration(config) {
 
 export function physicalReadinessReport(config) {
   validatePhysicalReadinessConfiguration(config);
+  const profile = readinessProfile(config);
   const blockers = [];
   const cellCount = Number(config.mesh.cellCount);
+
+  if (profile.version === 'stage16-physical-readiness-v1') blockers.push(blocker(
+    'HISTORICAL_READINESS_SCHEMA_NOT_EXECUTABLE',
+    'schema',
+    'Historical v1 readiness data may be audited but can never authorize physical execution.',
+  ));
+
+  const runtimeMeshPackageVerified = profile.version === 'stage16-physical-readiness-v2'
+    && VERIFIED_CONFIGURATIONS.has(config)
+    && runtimeMeshPackageReady(config.mesh, profile);
+  if (profile.version === 'stage16-physical-readiness-v2'
+    && !runtimeMeshPackageVerified) blockers.push(blocker(
+    'MESH_RUNTIME_PACKAGE_UNVERIFIED',
+    'mesh.runtimePackage',
+    'The exact canonical v2 mesh package must be present, hash-verified, and approved before physical execution.',
+  ));
 
   const bathymetryModes = new Set(['per_cell', 'surveyed_bathymetry', 'authoritative_cross_sections', 'hydrographic_raster']);
   if (!bathymetryModes.has(config.bathymetry.mode)) {
@@ -274,7 +436,7 @@ export function physicalReadinessReport(config) {
 
   const ready = blockers.length === 0;
   return Object.freeze({
-    version: STAGE16_PHYSICAL_READINESS_VERSION,
+    version: profile.version,
     ready,
     blockerCount: blockers.length,
     blockers: Object.freeze(blockers),
@@ -284,6 +446,7 @@ export function physicalReadinessReport(config) {
       boundarySourcesAssigned: ['M', 'N', 'O', 'G'].every(id => dataSourceReady(config.boundaries[id].dataSource)),
       fishwayAssigned: config.fishway.selectedMode === 'disabled' || dataSourceReady(config.fishway.dataSource),
       barrageAssigned: dataSourceReady(config.barrage.operationDataSource),
+      runtimeMeshPackageVerified,
       explicitlyApproved: config.approval?.status === 'approved',
       physicalRunEnabled: config.simulation?.physicalRunEnabled === true,
     }),
@@ -291,6 +454,10 @@ export function physicalReadinessReport(config) {
 }
 
 export function assertPhysicalSimulationReady(config) {
+  assert(config?.schema === 'onga-stage16-physical-readiness-v2',
+    'physical execution requires the current v2 readiness schema');
+  assert(VERIFIED_CONFIGURATIONS.has(config),
+    'physical execution requires a deeply frozen configuration loaded with verified referenced files');
   const report = physicalReadinessReport(config);
   if (!report.ready) {
     const codes = report.blockers.map(item => item.code).join(', ');
@@ -300,9 +467,12 @@ export function assertPhysicalSimulationReady(config) {
 }
 
 export async function loadPhysicalReadinessConfiguration(
-  path = 'config/onga_stage16_physical_readiness_v1.json',
+  configPath = 'config/onga_stage16_physical_readiness_v2.json',
 ) {
-  const config = JSON.parse(await fs.readFile(path, 'utf8'));
+  const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
   validatePhysicalReadinessConfiguration(config);
-  return Object.freeze(config);
+  await validateReferencedV2Files(config, configPath);
+  const frozen = deepFreeze(config);
+  VERIFIED_CONFIGURATIONS.add(frozen);
+  return frozen;
 }

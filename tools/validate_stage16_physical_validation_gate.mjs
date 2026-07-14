@@ -33,9 +33,19 @@ function expectThrow(fn) {
   }
 }
 
+function deeplyFrozen(value) {
+  return !value || typeof value !== 'object'
+    || (Object.isFrozen(value) && Object.values(value).every(deeplyFrozen));
+}
+
 const inputs = await loadStage16PhysicalValidationGateInputs();
 const current = stage16PhysicalValidationGateReport(inputs);
 const currentCodes = new Set(current.blockers.map(item => item.code));
+const fixtureCellCount = Number(inputs.readinessConfig.mesh.cellCount);
+const historicalInputs = await loadStage16PhysicalValidationGateInputs({
+  readinessConfigPath: 'config/onga_stage16_physical_readiness_v1.json',
+});
+const historicalDowngrade = stage16PhysicalValidationGateReport(historicalInputs);
 
 const missingRecord = governingEquationSelectionReport({
   decisionInput: inputs.decisionInput,
@@ -66,13 +76,18 @@ const provenanceMismatchReport = governingEquationSelectionReport({
 
 const fixture = clone(inputs.readinessConfig);
 fixture.status = 'verification_fixture_complete';
+fixture.mesh.runtimePackage = {
+  path: 'fixture://canonical-mesh-v2.npz',
+  sha256: fixture.mesh.packageSha256,
+  approved: true,
+};
 fixture.bathymetry = {
   ...fixture.bathymetry,
   mode: 'per_cell',
   dataSource: approvedSource('bathymetry-fixture'),
   verticalDatum: 'fixture-datum',
   uncertaintyM: 0.1,
-  cellFieldResource: approvedResource('fixture://bathymetry', 50333),
+  cellFieldResource: approvedResource('fixture://bathymetry', fixtureCellCount),
 };
 fixture.roughness = {
   ...fixture.roughness,
@@ -118,14 +133,30 @@ const complete = stage16PhysicalValidationGateReport({
 });
 
 const currentAssertRejected = expectThrow(() => assertStage16PhysicalValidationReady(inputs));
-const completeAssertAccepted = assertStage16PhysicalValidationReady({
+const historicalAssertRejected = expectThrow(
+  () => assertStage16PhysicalValidationReady(historicalInputs),
+);
+const completeUnverifiedAssertRejected = expectThrow(() => assertStage16PhysicalValidationReady({
   ...inputs,
   readinessConfig: fixture,
-}).ready;
+}));
+const secureBundleMutationRejected = expectThrow(() => {
+  inputs.decisionRecord.optionId = 'tampered-after-load';
+});
 
 const checks = [
   check('committed equation selection is ready', current.equationSelection.ready, true,
     current.equationSelection.ready),
+  check('historical v1 readiness cannot pass the execution gate', historicalDowngrade.ready, false,
+    historicalDowngrade.ready === false
+      && historicalDowngrade.blockers
+        .some(item => item.code === 'READINESS_SCHEMA_DOWNGRADE_REJECTED')),
+  check('historical v1 assert-ready is rejected', historicalAssertRejected, true,
+    historicalAssertRejected),
+  check('secure gate loader deeply freezes every input', deeplyFrozen(inputs), true,
+    deeplyFrozen(inputs)),
+  check('secure gate inputs reject mutation after load', secureBundleMutationRejected, true,
+    secureBundleMutationRejected),
   check('selected equation is shallow water', current.equationSelection.selectedEquation,
     'depth_averaged_shallow_water',
     current.equationSelection.selectedEquation === 'depth_averaged_shallow_water'),
@@ -151,8 +182,12 @@ const checks = [
   check('approval provenance mismatch rejected', provenanceMismatchReport.ready, false,
     !provenanceMismatchReport.ready
       && provenanceMismatchReport.blockers.some(item => item.code === 'READINESS_DECISION_PROVENANCE_MISMATCH')),
-  check('complete in-memory fixture passes combined gate', complete.ready, true, complete.ready),
-  check('complete fixture assert-ready accepts', completeAssertAccepted, true, completeAssertAccepted),
+  check('complete metadata fixture remains blocked without verified runtime mesh bytes',
+    complete.ready, false,
+    complete.ready === false
+      && complete.blockers.some(item => item.code === 'MESH_RUNTIME_PACKAGE_UNVERIFIED')),
+  check('complete in-memory fixture assert-ready rejects without verified references',
+    completeUnverifiedAssertRejected, true, completeUnverifiedAssertRejected),
   check('approved water geometry remains frozen', current.safeguards.approvedWaterGeometryChanged, false,
     current.safeguards.approvedWaterGeometryChanged === false),
   check('legacy flow calculation remains frozen', current.safeguards.legacyFlowCalculationChanged, false,
@@ -165,6 +200,9 @@ const report = {
   schema: 'onga-stage16-physical-validation-gate-validation-v1',
   status: checks.every(item => item.ok) ? 'passed' : 'failed',
   current: {
+    readinessSchema: inputs.readinessConfig.schema,
+    cellCount: inputs.readinessConfig.mesh.cellCount,
+    approvedWaterPixelCount: inputs.readinessConfig.mesh.approvedWaterPixelCount,
     ready: current.ready,
     equationSelectionReady: current.equationSelection.ready,
     physicalInputsReady: current.physicalInputs.ready,
@@ -174,7 +212,7 @@ const report = {
   completeVerificationFixture: {
     ready: complete.ready,
     committed: false,
-    purpose: 'validator-only fixture，not an approved physical model input',
+    purpose: 'validator-only metadata fixture; secure runtime mesh bytes are intentionally unavailable',
   },
   checks,
 };

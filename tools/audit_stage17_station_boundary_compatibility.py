@@ -15,6 +15,7 @@ import re
 import ssl
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from collections import Counter
 from datetime import datetime
@@ -25,6 +26,8 @@ CIRCUMFERENCE_M = 40075016.68557849
 EARTH_RADIUS_M = 6371008.8
 ORIGIN = "https://www.river.go.jp"
 FILE_BASE = f"{ORIGIN}/kawabou/file/files"
+ALLOWED_HOSTS = frozenset({"www.river.go.jp"})
+MAX_BODY_BYTES = 8 * 1024 * 1024
 USER_AGENT = (
     "OngaStage17StationBoundaryAudit/1.0 "
     "(+https://github.com/Fujisawa-lab-inside/fishing; public metadata audit)"
@@ -52,7 +55,27 @@ STATIONS = [
 ]
 
 
+def require_allowed_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "https" or (parsed.hostname or "").lower() not in ALLOWED_HOSTS:
+        raise ValueError(f"URL is outside the official river.go.jp allowlist: {url}")
+    return url
+
+
+class AllowlistedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
+        require_allowed_url(newurl)
+        return super().redirect_request(request, fp, code, msg, headers, newurl)
+
+
+OPENER = urllib.request.build_opener(
+    AllowlistedRedirectHandler(),
+    urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+)
+
+
 def fetch_json(url: str, timeout: float = 30.0) -> Any:
+    require_allowed_url(url)
     request = urllib.request.Request(
         url,
         headers={
@@ -61,12 +84,12 @@ def fetch_json(url: str, timeout: float = 30.0) -> Any:
             "Referer": f"{ORIGIN}/kawabou/pc/tm",
         },
     )
-    with urllib.request.urlopen(
-        request,
-        timeout=timeout,
-        context=ssl.create_default_context(),
-    ) as response:
-        body = response.read()
+    with OPENER.open(request, timeout=timeout) as response:
+        body = response.read(MAX_BODY_BYTES + 1)
+    if len(body) > MAX_BODY_BYTES:
+        raise RuntimeError(
+            f"official JSON resource exceeds {MAX_BODY_BYTES} bytes: {url}"
+        )
     for encoding in ("utf-8", "cp932", "shift_jis"):
         try:
             return json.loads(body.decode(encoding))
@@ -132,7 +155,9 @@ def load_water(manifest_path: Path) -> tuple[dict[str, Any], list[list[int]]]:
         for row in typed_rows
         for x0, x1 in zip(row[0::2], row[1::2])
     )
-    if pixel_count != 679791 or pixel_count != int(manifest["pixelCount"]):
+    if manifest.get("version") != "v4.8.0-candidate-r3":
+        raise RuntimeError(f"approved water version mismatch {manifest.get('version')}")
+    if pixel_count != 680633 or pixel_count != int(manifest["pixelCount"]):
         raise RuntimeError(f"approved water pixel count mismatch {pixel_count}")
     return manifest, typed_rows
 
@@ -284,7 +309,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--water-manifest",
-        default="data/onga_unified_water_manifest_r2.json",
+        default="data/onga_unified_water_manifest_r3.json",
     )
     parser.add_argument("--output", default="stage17-station-boundary-audit")
     args = parser.parse_args()
@@ -399,6 +424,7 @@ def main() -> None:
             "width": width,
             "height": height,
             "openBoundaryMidpoints": boundary_points,
+            "allowedHosts": sorted(ALLOWED_HOSTS),
         },
         "stations": reports,
         "diagnostics": {

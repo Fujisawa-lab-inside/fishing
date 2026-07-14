@@ -1,0 +1,468 @@
+{
+  "schema": "onga-stage17-physical-data-source-inventory-v2",
+  "version": "stage17-physical-data-source-inventory-v2",
+  "asOf": "2026-07-14",
+  "governingEquation": {
+    "selected": "depth_averaged_shallow_water",
+    "decisionRecord": "config/stage16_governing_equation_decision_record_v1.json",
+    "scalarBaselineRetained": true
+  },
+  "modelDomain": {
+    "approvedWaterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "waterManifest": "data/onga_unified_water_manifest_r3.json",
+    "waterManifestSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+    "metricMeshVersion": "stage16-metric-fv-mesh-v2",
+    "metricMeshCellCount": 50129,
+    "metricMeshPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "meshConstraints": "data/onga_stage16_mesh_constraints_v2.json",
+    "meshConstraintsSha256": "44c629ba6b7eb7bf0c43a1863de0c4835d8d331c0d230e50d891a0b23043fb33",
+    "geometryFrozen": true
+  },
+  "physicalHypotheses": [
+    {
+      "id": "cross_channel_depth_profile",
+      "recordedAt": "2026-07-14",
+      "source": "user_review_of_stage18_v3_median_depth_map",
+      "statement": "The user hypothesizes that actual bathymetry may be deeper near the channel centre and shallower toward land than the provisional median-depth map suggests.",
+      "status": "unverified",
+      "verificationSourceRequired": "authoritative_surveyed_cross_sections_with_vertical_datum",
+      "solverUseApproved": false,
+      "visualFittingAllowed": false
+    }
+  ],
+  "officialSources": [
+    {
+      "id": "mlit_onga_office",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_page_and_request_contact",
+      "url": "https://www.qsr.mlit.go.jp/onga/",
+      "evidence": [
+        "The office publishes real-time rainfall and water-level links，barrage information，river planning，maintenance，and hydrology links.",
+        "The official contact page lists telephone 0949-22-1830 and email onga@qsr.mlit.go.jp."
+      ]
+    },
+    {
+      "id": "mlit_onga_hydrology_portal",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_page",
+      "url": "https://www.qsr.mlit.go.jp/onga/river_info/quality.html",
+      "evidence": [
+        "The page links to the Kyushu hydrology and water-quality quick data and the national MLIT hydrology and water-quality database."
+      ]
+    },
+    {
+      "id": "mlit_onga_realtime_station_list",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_page",
+      "url": "https://www.qsr.mlit.go.jp/onga/disaster/rt/realtime_suii.html",
+      "evidence": [
+        "The official list includes main-stem stations such as 唐熊，中間，and 立屋敷.",
+        "The official list includes 西川 stations 木月 and 祇園橋，with 祇園橋 located at 芦屋町大字船頭.",
+        "No 曲川 station is identified on this public list."
+      ]
+    },
+    {
+      "id": "mlit_onga_barrage_page",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_page_and_linked_documents",
+      "url": "https://www.qsr.mlit.go.jp/onga/river_info/facility/kakouzeki.html",
+      "evidence": [
+        "The barrage is described as approximately 2 km upstream from the river mouth.",
+        "The page states that follow-up work investigates gate-operation records and environmental effects.",
+        "The page links official barrage，fishway，and follow-up materials."
+      ]
+    },
+    {
+      "id": "mlit_onga_maintenance_page",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_page_and_request_contact",
+      "url": "https://www.qsr.mlit.go.jp/onga/business/maintain/index.html",
+      "evidence": [
+        "The office maintains and repairs barrage gate equipment and other river-management facilities."
+      ]
+    },
+    {
+      "id": "mlit_water_information_database",
+      "provider": "国土交通省",
+      "authorityLevel": "primary",
+      "accessMode": "public_database",
+      "url": "https://www1.river.go.jp/",
+      "evidence": [
+        "The Onga office hydrology page identifies this database as the national hydrology and water-quality archive."
+      ]
+    },
+    {
+      "id": "mlit_station_gion_bridge",
+      "provider": "国土交通省",
+      "authorityLevel": "primary",
+      "accessMode": "public_realtime_station",
+      "url": "https://www.river.go.jp/kawabou/pc/tm?ofcCd=22806&itmkndCd=004&obsCd=00020",
+      "station": {
+        "river": "西川",
+        "name": "祇園橋",
+        "location": "芦屋町大字船頭",
+        "officeCode": "22806",
+        "observationCode": "00020"
+      }
+    },
+    {
+      "id": "mlit_station_karakuma",
+      "provider": "国土交通省",
+      "authorityLevel": "primary",
+      "accessMode": "public_realtime_station",
+      "url": "https://www.river.go.jp/kawabou/pc/tm?ofcCd=22806&itmkndCd=004&obsCd=00005",
+      "station": {
+        "river": "遠賀川",
+        "name": "唐熊",
+        "location": "北九州市八幡西区唐熊",
+        "officeCode": "22806",
+        "observationCode": "00005"
+      }
+    },
+    {
+      "id": "mlit_station_nakama",
+      "provider": "国土交通省",
+      "authorityLevel": "primary",
+      "accessMode": "public_realtime_station",
+      "url": "https://www.river.go.jp/kawabou/pc/tm?ofcCd=22806&itmkndCd=004&obsCd=00006",
+      "station": {
+        "river": "遠賀川",
+        "name": "中間",
+        "location": "中間市中間",
+        "officeCode": "22806",
+        "observationCode": "00006"
+      }
+    },
+    {
+      "id": "mlit_station_tateyashiki",
+      "provider": "国土交通省九州地方整備局遠賀川河川事務所",
+      "authorityLevel": "primary",
+      "accessMode": "public_realtime_station",
+      "url": "https://www.qsr.mlit.go.jp/onga/onga_wlevel/tateyashiki_graph.php",
+      "station": {
+        "river": "遠賀川",
+        "name": "立屋敷",
+        "location": "水巻町立屋敷"
+      }
+    },
+    {
+      "id": "jma_tide_table",
+      "provider": "気象庁",
+      "authorityLevel": "primary_external_reference",
+      "accessMode": "public_database",
+      "url": "https://www.data.jma.go.jp/kaiyou/db/tide/suisan/index.php",
+      "evidence": [
+        "The published values are astronomical tide predictions and are explicitly different from observed tide levels.",
+        "The 2026 and 2027 mean-sea-level and chart-datum elevations were updated using the Geospatial Information Authority of Japan Survey Results 2024."
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "bathymetry_and_vertical_datum",
+      "requiredBy": ["hydrostatic_reconstruction", "water_depth", "wetting_and_drying", "boundary_datum_consistency"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "request_latest_surveyed_cross_sections_and_bed_elevations_from_mlit_onga_office",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "onga_office_surveyed_cross_sections",
+          "sourceIds": ["mlit_onga_office", "mlit_onga_maintenance_page"],
+          "accessState": "request_required_or_public_document_to_be_confirmed",
+          "authority": "primary",
+          "expectedFields": ["survey_date", "chainage", "cross_section_xy_or_station_elevation", "bed_elevation_m", "vertical_datum", "survey_accuracy"],
+          "currentSufficiency": "not_yet_obtained",
+          "acceptanceConditions": [
+            "Covers the entire approved 50，129-cell domain or supports documented interpolation with bounded gaps.",
+            "Declares the vertical datum and survey epoch.",
+            "Retains original measured values separately from interpolated cell values.",
+            "Receives explicit provenance approval before solver use."
+          ]
+        },
+        {
+          "id": "synthetic_or_image_inferred_bed",
+          "sourceIds": [],
+          "accessState": "available_to_generate",
+          "authority": "nonphysical",
+          "currentSufficiency": "rejected_for_physical_validation",
+          "exclusionReason": "The approved water mask and visible shoreline do not determine submerged bed elevation or vertical datum."
+        }
+      ]
+    },
+    {
+      "id": "M_mouth_water_level_boundary",
+      "requiredBy": ["tidal_reversal", "free_surface_propagation", "boundary_flux"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "obtain_observed_lower_onga_or_barrage_downstream_water_level_with_datum",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "lower_onga_observed_water_level",
+          "sourceIds": ["mlit_onga_hydrology_portal", "mlit_station_tateyashiki", "mlit_onga_office"],
+          "accessState": "public_realtime_and_historical_archive_to_be_verified",
+          "authority": "primary",
+          "currentSufficiency": "conditional",
+          "acceptanceConditions": [
+            "Station position and hydraulic relation to open boundary M are documented.",
+            "Historical observed values and quality flags are obtainable for the validation period.",
+            "Vertical datum is identical to or transformable to the bathymetry datum.",
+            "Barrage operation does not make the selected station an invalid proxy for the seaward boundary."
+          ]
+        },
+        {
+          "id": "jma_astronomical_tide_secondary_reference",
+          "sourceIds": ["jma_tide_table"],
+          "accessState": "public",
+          "authority": "primary_external_reference",
+          "currentSufficiency": "secondary_reference_only",
+          "exclusionReason": "Astronomical prediction is not an observed Onga-mouth water level and cannot be substituted directly without a validated datum，phase，and amplitude transfer."
+        }
+      ]
+    },
+    {
+      "id": "N_nishikawa_boundary",
+      "requiredBy": ["tributary_inflow", "mass_conservation", "confluence_momentum"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "evaluate_gion_bridge_and_historical_hydrology_database_for_discharge_or_rating_curve",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "gion_bridge_observation",
+          "sourceIds": ["mlit_station_gion_bridge", "mlit_onga_hydrology_portal"],
+          "accessState": "public_realtime_and_historical_archive_to_be_verified",
+          "authority": "primary",
+          "currentSufficiency": "conditional",
+          "acceptanceConditions": [
+            "Station coordinates and distance from model boundary N are verified.",
+            "Discharge observations or an approved stage-discharge relation are available.",
+            "Tributary storage and ungauged lateral inflow between station and N are quantified."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "O_mainstem_boundary",
+      "requiredBy": ["mainstem_inflow", "mass_conservation", "barrage_head_difference"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "identify_nearest_hydraulically_compatible_mainstem_gauge_and_obtain_observed_discharge",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "tateyashiki_or_nearest_mainstem_observation",
+          "sourceIds": ["mlit_station_tateyashiki", "mlit_station_nakama", "mlit_station_karakuma", "mlit_onga_hydrology_portal"],
+          "accessState": "public_realtime_and_historical_archive_to_be_verified",
+          "authority": "primary",
+          "currentSufficiency": "conditional",
+          "acceptanceConditions": [
+            "The station selected after coordinate review is hydraulically compatible with boundary O.",
+            "Observed discharge or an approved rating curve is available.",
+            "Barrage operation and tributary inflows between the station and O are accounted for."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G_magarigawa_boundary",
+      "requiredBy": ["tributary_inflow", "mass_conservation", "confluence_momentum"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "request_existing_magarigawa_observations_or_plan_temporary_measurement",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "official_existing_magarigawa_record",
+          "sourceIds": ["mlit_onga_office", "mlit_onga_hydrology_portal"],
+          "accessState": "not_identified_on_public_station_list",
+          "authority": "primary_if_obtained",
+          "currentSufficiency": "missing",
+          "acceptanceConditions": [
+            "Observation point and period are documented.",
+            "Discharge or a defensible stage-discharge relation is available.",
+            "Data provenance and quality controls are approved."
+          ]
+        },
+        {
+          "id": "temporary_magarigawa_measurement_campaign",
+          "sourceIds": [],
+          "accessState": "field_campaign_required",
+          "authority": "project_observation",
+          "currentSufficiency": "not_started",
+          "expectedFields": ["water_level", "cross_section", "velocity_profile_or_ADCP", "derived_discharge", "time", "datum"]
+        }
+      ]
+    },
+    {
+      "id": "manning_roughness",
+      "requiredBy": ["momentum_loss", "tidal_attenuation", "velocity_magnitude"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "prepare_zonal_prior_only_after_bed_and_surface_classification_then_calibrate_against_independent_observations",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "uniform_manning_n",
+          "sourceIds": [],
+          "accessState": "model_choice",
+          "authority": "parameter_assumption",
+          "currentSufficiency": "not_approved",
+          "risk": "A single value may compensate for bathymetry or boundary errors and obscure spatially varying resistance."
+        },
+        {
+          "id": "zonal_manning_n_with_observation_calibration",
+          "sourceIds": ["mlit_onga_office", "mlit_onga_maintenance_page"],
+          "accessState": "classification_and_validation_data_required",
+          "authority": "model_with_observational_constraints",
+          "currentSufficiency": "not_approved",
+          "acceptanceConditions": [
+            "Zones are based on documented bed，bank，vegetation，or structure classes rather than visual fitting to a desired flow map.",
+            "Calibration and validation periods are separated.",
+            "Parameter bounds and uncertainty are reported."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fishway_hydraulics",
+      "requiredBy": ["conservative_transfer", "local_momentum_source"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "obtain_official_geometry_and_operation_or_head_discharge_relation",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "official_fishway_design_and_operation_data",
+          "sourceIds": ["mlit_onga_barrage_page", "mlit_onga_office"],
+          "accessState": "public_documents_and_request_required",
+          "authority": "primary",
+          "currentSufficiency": "not_yet_obtained",
+          "expectedFields": ["invert_elevation", "cross_section", "control_geometry", "operation_state", "discharge_or_head_discharge_relation", "vertical_datum"]
+        }
+      ]
+    },
+    {
+      "id": "barrage_hydraulics_and_operation",
+      "requiredBy": ["gate_flux", "head_loss", "connectivity", "saltwater_exclusion_state"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "obtain_gatewise_operation_records_effective_geometry_and_validated_discharge_parameters",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "official_barrage_followup_and_operation_records",
+          "sourceIds": ["mlit_onga_barrage_page", "mlit_onga_maintenance_page", "mlit_onga_office"],
+          "accessState": "public_summary_and_request_required_for_machine_readable_detail",
+          "authority": "primary",
+          "currentSufficiency": "not_yet_obtained",
+          "expectedFields": ["timestamp", "gate_id", "opening", "upstream_level", "downstream_level", "operation_reason", "effective_width", "invert_elevation", "discharge_coefficient", "vertical_datum"]
+        }
+      ]
+    },
+    {
+      "id": "independent_velocity_validation",
+      "requiredBy": ["two_component_velocity_validation", "confluence_validation", "barrage_jet_validation"],
+      "selectedCandidate": null,
+      "recommendedAcquisition": "request_existing_current_surveys_and_prepare_ADCP_campaign_if_absent",
+      "decisionStatus": "unselected",
+      "candidates": [
+        {
+          "id": "existing_official_current_measurements",
+          "sourceIds": ["mlit_onga_office", "mlit_onga_barrage_page"],
+          "accessState": "request_required_and_existence_unconfirmed",
+          "authority": "primary_if_obtained",
+          "currentSufficiency": "unknown"
+        },
+        {
+          "id": "project_ADCP_validation_campaign",
+          "sourceIds": [],
+          "accessState": "field_campaign_required",
+          "authority": "project_observation",
+          "currentSufficiency": "not_started",
+          "expectedFields": ["east_velocity", "north_velocity", "depth", "water_level", "time", "quality_flags", "instrument_position"]
+        }
+      ]
+    }
+  ],
+  "acquisitionPackages": [
+    {
+      "id": "package_A_official_office_request",
+      "label": "遠賀川河川事務所への公式データ照会",
+      "priority": 1,
+      "status": "route_approved_submission_readiness_required",
+      "requestedItems": [
+        "Latest usable surveyed river cross sections and bed elevations for the approved model domain，including datum，survey date，and accuracy.",
+        "Historical observed water level and discharge series，station metadata，rating-curve availability，quality flags，and vertical datums for lower Onga，Nishikawa，and any Magarigawa observations.",
+        "Gatewise barrage operation records，upstream and downstream levels，effective gate geometry，invert elevations，and validated discharge coefficients.",
+        "Fishway geometry，invert elevations，operation records，and discharge or head-discharge information.",
+        "Existing ADCP or current-meter surveys near the confluences，barrage，fishway，and lower open boundary."
+      ]
+    },
+    {
+      "id": "package_B_public_database_retrieval",
+      "label": "公開水文データベースの機械取得とstation metadata監査",
+      "priority": 2,
+      "status": "can_proceed_without_physical_model_approval",
+      "requestedItems": [
+        "Retrieve station metadata and available historical observed series for candidate main-stem and Nishikawa stations.",
+        "Determine whether each station provides discharge，water level only，or a rating relation.",
+        "Record coordinates，datum，sampling interval，quality flags，missingness，and period coverage.",
+        "Do not map a station to M，N，O，or G until hydraulic compatibility is reviewed."
+      ]
+    },
+    {
+      "id": "package_C_secondary_tide_reference",
+      "label": "気象庁潮位の二次参照整備",
+      "priority": 3,
+      "status": "secondary_only",
+      "requestedItems": [
+        "Inventory nearby north-Kyushu tide stations and datum metadata.",
+        "Keep astronomical prediction separate from observed river-mouth water level.",
+        "Use only for phase，datum，or plausibility comparison after an observed M-boundary source is selected."
+      ]
+    }
+  ],
+  "nextDecision": {
+    "id": "stage17_data_acquisition_route",
+    "status": "recorded",
+    "selectedOption": "A_official_request_plus_public_retrieval",
+    "decisionRecord": "config/stage17_physical_data_acquisition_decision_record_v2.json",
+    "question": "Should the project pursue an official data request to the Onga River Office in parallel with public-database retrieval，or restrict the next stage to public data only?",
+    "options": [
+      {
+        "id": "A_official_request_plus_public_retrieval",
+        "recommended": true,
+        "consequence": "Highest likelihood of obtaining bathymetry，vertical datum，gate operation，fishway hydraulics，and velocity observations required for defensible physical Validation."
+      },
+      {
+        "id": "B_public_data_only",
+        "recommended": false,
+        "consequence": "Historical water-level data may be obtainable，but bathymetry，structure parameters，and Magarigawa or velocity observations may remain unresolved；physical Validation will remain blocked if authoritative data are absent."
+      },
+      {
+        "id": "C_synthetic_verification_only",
+        "recommended": false,
+        "consequence": "No external data acquisition；continue numerical Verification without claiming real-flow prediction."
+      }
+    ]
+  },
+  "submissionDecision": {
+    "id": "stage17_official_request_submission",
+    "status": "blocked_on_requester_metadata_message_digest_and_verified_contact_route",
+    "readinessConfig": "config/stage17_onga_office_request_submission_v1.json",
+    "requiresExplicitRequesterDecision": true,
+    "publicDatabaseRetrievalMayContinue": true,
+    "physicalSourceSelectionAllowed": false,
+    "physicalRunEnabled": false
+  },
+  "safeguards": {
+    "approvedWaterGeometryChanged": false,
+    "meshGeometryChanged": false,
+    "physicalValuesAssigned": false,
+    "sourceCandidateAutomaticallyApproved": false,
+    "externalContactPerformed": false,
+    "legacyFlowCalculationChanged": false,
+    "publicSimulatorConnected": false,
+    "calibrationPerformed": false
+  }
+}

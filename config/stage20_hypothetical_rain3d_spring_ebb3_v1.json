@@ -1,0 +1,132 @@
+{
+  "schema": "onga-stage20-hypothetical-routing-preview-v1",
+  "status": "approved_scenario_output_layout_not_physical_run",
+  "scenario": {
+    "labelJa": "3日間降雨後相当・河口堰全開・大潮相当・下げ三分",
+    "rainInterpretation": "three_day_rainfall_aftermath_represented_by_approved_upper_inferred_N_O_G_discharges",
+    "boundaryDischargeM3S": {
+      "M": {
+        "phaseShiftMinutes": 0.0,
+        "amplitudeMultiplier": 1.4,
+        "meanOffsetM": null
+      },
+      "N": {
+        "dischargeM3S": 12.0
+      },
+      "O": {
+        "dischargeM3S": 180.0
+      },
+      "G": {
+        "dischargeM3S": 8.0
+      }
+    },
+    "barrage": {
+      "scenario": "uniform_100_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "tide": {
+      "ebbFraction": 0.3,
+      "curveHour": 22.8,
+      "amplitudeMultiplier": 1.4,
+      "relativeAnomalyM": 0.4729661999999997,
+      "levelSlopeMPerS": -0.0001011111111111111,
+      "levelSlopeMPerHour": -0.364
+    },
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    }
+  },
+  "modelClass": "quasi_steady_graph_routing_proxy",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v1.json",
+    "binarySha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cells": 50339
+  },
+  "diagnostics": {
+    "speedMPS": {
+      "min": 0.00040358761857615895,
+      "median": 0.05586318940997271,
+      "p95": 0.5199265082325755,
+      "max": 10.023575407117661
+    },
+    "riverInflowM3S": 200.0,
+    "fallingTideStorageReleaseM3S": 139.27853568522835,
+    "totalSourceM3S": 339.2785356852283,
+    "mouthSinkM3S": -339.27853568615154,
+    "maxFreeCellResidualM3S": 8.63672007175853e-11
+  },
+  "views": [
+    {
+      "path": "docs/visuals/stage20-rain3d-ebb3-estuary-v1.jpg",
+      "sha256": "29e5bd7a8708755e26666a5c1dce7c6ccd3fe127601eea8c305c755e97f01861",
+      "visibleCells": 50339,
+      "displayArrows": 54,
+      "zoom": 16
+    },
+    {
+      "path": "docs/visuals/stage20-rain3d-ebb3-barrage-v1.jpg",
+      "sha256": "b571e2dedaf6a722a76620e8ca8cef48e7bebd10f2f867bd614c065f8c373b9a",
+      "visibleCells": 5421,
+      "displayArrows": 227,
+      "zoom": 18
+    },
+    {
+      "path": "docs/visuals/stage20-rain3d-ebb3-confluence-v1.jpg",
+      "sha256": "9786ad3d7b467d66258c9b6076ff894e91e91a07c0c375396fed5e93664dd9c7",
+      "visibleCells": 7259,
+      "displayArrows": 248,
+      "zoom": 18
+    },
+    {
+      "path": "docs/visuals/stage20-rain3d-ebb3-fishway-v1.jpg",
+      "sha256": "d01a5081b3b3711e6c98170a38d1f2bd3875bf15b982ff164e10ba7e97a4102d",
+      "visibleCells": 5061,
+      "displayArrows": 295,
+      "zoom": 18
+    }
+  ],
+  "visualDecision": {
+    "question": "May these four extents and the mesh-referenced adaptive display be adopted as the scenario-output layout?",
+    "approve": "adopt_view_extents_and_mesh_referenced_display_only",
+    "revise": "revise_extents_or_display_before_physical_solver_output"
+  },
+  "layoutApproval": {
+    "approved": true,
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "採用します。作業を進めてください。",
+    "approvedScope": [
+      "four_view_extents_for_estuary_barrage_confluence_and_fishway",
+      "mesh_referenced_speed_colour",
+      "depth_area_weighted_adaptive_arrow_display",
+      "shared_display_legend"
+    ],
+    "doesNotApprove": [
+      "physical_correctness_of_preview_velocity",
+      "rainfall_runoff_calibration",
+      "numerical_execution",
+      "public_simulator_connection",
+      "main_merge"
+    ]
+  },
+  "safeguards": {
+    "shallowWaterSolverExecuted": false,
+    "rainfallRunoffModelExecuted": false,
+    "observedOngaMouthLevelAssigned": false,
+    "physicalValidationClaimAllowed": false,
+    "fishingOrSafetyPredictionAllowed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

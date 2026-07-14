@@ -1,0 +1,49 @@
+{
+  "schema": "onga-stage19-solver-integration-zero-case-preflight-v1",
+  "status": "passed",
+  "mesh": {
+    "path": "/tmp/stage19-probe-mesh/onga_stage16_metric_fv_mesh_v2.npz",
+    "sha256": "9843300bd97c57ef3a783002b0a81d5862e3006397c158cd55e71e15868f3e46",
+    "canonical": false,
+    "cellCount": 50113
+  },
+  "casePackage": {
+    "caseCount": 64,
+    "seed": 20260714,
+    "sha256": "d970409f842382a2ef8c996f0c3866f3651095bbf2867707c4e240a4d2d80ce7"
+  },
+  "branchOwnershipCellCounts": {
+    "M": 14573,
+    "N": 8791,
+    "O": 19068,
+    "G": 7681
+  },
+  "extremaAcross64PreparedInputFields": {
+    "minimumDepthM": 0.05,
+    "maximumDepthM": 23.244335145163113,
+    "minimumManningN": 0.02009725,
+    "maximumManningN": 0.09308181368693148,
+    "minimumBarrageTransmissivity": 0.0,
+    "maximumBarrageTransmissivity": 0.83693379
+  },
+  "counterfactualChecks": {
+    "bathymetrySigmaChangesSpatialField": true,
+    "mainstemDepthChangesMainMean": true,
+    "tributaryDepthChangesTributaryMean": true,
+    "allThreeRoughnessInputsChangeManningField": true,
+    "MPhaseAndAmplitudeChangeBoundaryValue": true,
+    "allThreeRiverDischargesReachBoundaryFields": true,
+    "BarrageScenarioAndCoefficientChangeTransmissivity": true,
+    "FishwayModeCoefficientAndAreaReachHeadRelation": true
+  },
+  "approvedInputDimensionsReached": 16,
+  "elapsedSeconds": 0.8539572920126375,
+  "safeguards": {
+    "numericalTimeStepFunctionCalled": false,
+    "productionMeshNumericalCaseStarted": false,
+    "full64RunEnabled": false,
+    "externalContactPerformed": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

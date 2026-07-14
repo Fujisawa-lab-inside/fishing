@@ -1,0 +1,75 @@
+{
+  "schema": "onga-stage19-m-boundary-tide-candidate-v1",
+  "version": "stage19-m-boundary-tide-candidate-v1",
+  "status": "visual_review_required_before_solver_assignment",
+  "asOf": "2026-07-14",
+  "source": {
+    "provider": "気象庁",
+    "station": "博多",
+    "stationCode": "QF",
+    "kind": "2026 astronomical hourly tide prediction",
+    "pageUrl": "https://www.data.jma.go.jp/kaiyou/db/tide/suisan/suisan.php?stn=QF&ys=2026&ye=2026",
+    "textUrl": "https://www.data.jma.go.jp/kaiyou/data/db/tide/suisan/txt/2026/QF.txt",
+    "localSnapshot": "data/jma_hakata_2026_hourly_tide_QF.txt",
+    "retrievedAt": "2026-07-14",
+    "retrievedTextSha256": "2f6339ae6d6cf3a282f5f88dce03996f1c89bd0f4a23e93ed56d98ee8a7aaee9",
+    "tideTableDatumElevationM": -0.936,
+    "useRestriction": "secondary_relative_tide_reference_not_observed_onga_mouth_level"
+  },
+  "selectionRule": {
+    "population": "all 365 daily hourly-prediction rows in calendar year 2026",
+    "dailyRangeDefinition": "maximum hourly height minus minimum hourly height",
+    "representativeRule": "choose the earliest day whose daily range is closest to the annual median daily range",
+    "annualMedianDailyRangeCm": 137,
+    "candidateDate": "2026-02-15",
+    "candidateDailyRangeCm": 137,
+    "tieBreak": "earliest_date",
+    "selectionApproved": false
+  },
+  "candidateCurve": {
+    "hourlyHeightAboveTideTableDatumCm": [71, 46, 29, 22, 27, 42, 67, 95, 120, 136, 136, 122, 100, 78, 63, 61, 72, 92, 116, 140, 156, 159, 147, 121],
+    "dailyMeanCm": 92.4166666667,
+    "relativeAnomalyM": [-0.214167, -0.464167, -0.634167, -0.704167, -0.654167, -0.504167, -0.254167, 0.025833, 0.275833, 0.435833, 0.435833, 0.295833, 0.075833, -0.144167, -0.294167, -0.314167, -0.204167, -0.004167, 0.235833, 0.475833, 0.635833, 0.665833, 0.545833, 0.285833],
+    "nextDayZeroHourRelativeAnomalyM": -0.044167,
+    "meanRemoved": true,
+    "absoluteOffsetAssigned": false,
+    "interpolation": "piecewise_linear_hourly",
+    "simulationUseIfApproved": "relative anomaly multiplied by each case amplitudeMultiplier and shifted by phaseShiftMinutes"
+  },
+  "resultingCaseEnvelope": {
+    "amplitudeMultiplier": {"min": 0.6, "reference": 1.0, "max": 1.4},
+    "phaseShiftMinutes": {"min": -90, "reference": 0, "max": 90},
+    "relativePeakToTroughRangeM": {"min": 0.822, "reference": 1.37, "max": 1.918},
+    "absoluteMeanWaterLevel": null
+  },
+  "otherBoundaryRule": {
+    "N": "constant inferred discharge sampled from the approved case range; Gion Bridge remains provenance candidate only",
+    "O": "constant inferred discharge sampled from the approved case range; Nakama and Karakuma remain provenance candidates only",
+    "G": "constant inferred discharge sampled from the approved case range and labelled inference-only"
+  },
+  "visualDecision": {
+    "question": "May the 2026-02-15 mean-removed Hakata astronomical tide curve be used as the relative M-boundary reference for solver integration?",
+    "doesApprove": [
+      "the deterministic representative-day selection rule",
+      "the 24-hour mean-removed curve and next-day interpolation point",
+      "use of the approved phase and amplitude multiplier ranges",
+      "constant inferred N, O, and G discharges during each 500-step case"
+    ],
+    "doesNotApprove": [
+      "an absolute Onga-mouth water level",
+      "observational status at boundary M",
+      "a numerical run",
+      "physical Validation",
+      "public simulator connection",
+      "main merge"
+    ]
+  },
+  "safeguards": {
+    "externalContactPerformed": false,
+    "candidateAssignedToSolver": false,
+    "numericalCaseStarted": false,
+    "numericalRunEnabled": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

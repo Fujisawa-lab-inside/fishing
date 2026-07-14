@@ -1,0 +1,122 @@
+{
+  "schema": "onga-stage19-solver-parameter-coverage-audit-v1",
+  "version": "stage19-solver-parameter-coverage-audit-v1",
+  "status": "implementation_required_before_stage19_execution_scope",
+  "asOf": "2026-07-14",
+  "ensemble": {
+    "path": "config/stage19_provisional_ensemble_cases_v1.json",
+    "sha256": "d970409f842382a2ef8c996f0c3866f3651095bbf2867707c4e240a4d2d80ce7",
+    "caseCount": 64,
+    "numericalRunEnabled": false
+  },
+  "auditedLegacyKernel": {
+    "path": "tools/stage18_shallow_water_kernel_v2.py",
+    "sha256": "e8b1af9ea6518085052323b7fa04faa6d1f209a06f74510b3812b4e97c027935",
+    "runnerPath": "tools/run_stage18_full64_v2.py",
+    "runnerSha256": "2bcc9743be1dd3e1dcafe950569743c2103e52864427edf37b24e33d7a62a238"
+  },
+  "approvedCaseDimensions": 16,
+  "coverage": [
+    {
+      "input": "bathymetry.sigma",
+      "legacyStatus": "not_used",
+      "evidence": "no cross-section or shore-distance field exists in the kernel"
+    },
+    {
+      "input": "bathymetry.mainstemMeanDepthM",
+      "legacyStatus": "partial_wrong_semantics",
+      "evidence": "used as a spatially uniform initial water column rather than bed bathymetry"
+    },
+    {
+      "input": "bathymetry.tributaryMeanDepthM",
+      "legacyStatus": "not_used",
+      "evidence": "no main-stem/tributary cell classification exists"
+    },
+    {
+      "input": "roughness.manningOpenChannel",
+      "legacyStatus": "semantically_applied",
+      "evidence": "used in the Manning momentum damping term"
+    },
+    {
+      "input": "roughness.shallowMarginMultiplier",
+      "legacyStatus": "not_used",
+      "evidence": "the kernel uses one scalar Manning value for every cell"
+    },
+    {
+      "input": "roughness.structureVicinityMultiplier",
+      "legacyStatus": "not_used",
+      "evidence": "the kernel uses one scalar Manning value for every cell"
+    },
+    {
+      "input": "boundaries.M.phaseShiftMinutes",
+      "legacyStatus": "partial_wrong_semantics",
+      "evidence": "converted to an initial velocity direction rather than tide-series phase"
+    },
+    {
+      "input": "boundaries.M.amplitudeMultiplier",
+      "legacyStatus": "not_used",
+      "evidence": "no time-varying M water-level boundary exists"
+    },
+    {
+      "input": "boundaries.N.dischargeM3S",
+      "legacyStatus": "not_used",
+      "evidence": "every boundary face is reflected as a wall"
+    },
+    {
+      "input": "boundaries.O.dischargeM3S",
+      "legacyStatus": "not_used",
+      "evidence": "every boundary face is reflected as a wall"
+    },
+    {
+      "input": "boundaries.G.dischargeM3S",
+      "legacyStatus": "not_used",
+      "evidence": "every boundary face is reflected as a wall"
+    },
+    {
+      "input": "barrage.scenario",
+      "legacyStatus": "partial_binary_only",
+      "evidence": "closed blocks faces; 25, 50, and 100 percent are all treated identically as open"
+    },
+    {
+      "input": "barrage.effectiveDischargeCoefficient",
+      "legacyStatus": "not_used",
+      "evidence": "the coefficient is not referenced by the kernel"
+    },
+    {
+      "input": "fishway.mode",
+      "legacyStatus": "partial_wrong_semantics",
+      "evidence": "enables a fixed transfer rather than a head-difference relation"
+    },
+    {
+      "input": "fishway.effectiveDischargeCoefficient",
+      "legacyStatus": "partial_wrong_semantics",
+      "evidence": "scales a fixed transfer without a head-difference term"
+    },
+    {
+      "input": "fishway.effectiveAreaM2",
+      "legacyStatus": "partial_wrong_semantics",
+      "evidence": "scales a fixed transfer without a head-difference term"
+    }
+  ],
+  "summary": {
+    "semanticallyApplied": 1,
+    "partialOrWrongSemantics": 6,
+    "notUsed": 9,
+    "stage19ExecutionOnLegacyKernelAllowed": false
+  },
+  "requiredBeforeExecutionDecision": [
+    "generate a spatial bathymetry and roughness field from the approved shape and ranges",
+    "implement time-varying M and discharge-driven N, O, and G open boundaries",
+    "apply barrage opening magnitude and discharge coefficient",
+    "apply a head-difference fishway relation",
+    "prove by zero-case and short synthetic fixtures that every approved dimension reaches its intended equation",
+    "prepare a new execution contract and visual authorization packet"
+  ],
+  "safeguards": {
+    "legacyKernelModifiedByAudit": false,
+    "physicalValuesAssignedToLegacyKernel": false,
+    "numericalCaseStarted": false,
+    "numericalRunEnabled": false,
+    "executionAuthorizationProvided": false
+  }
+}

@@ -1,0 +1,243 @@
+name: Stage 19 public inference input validation
+
+on:
+  pull_request:
+    paths:
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
+      - 'config/stage19_public_inference_input_plan_v1.json'
+      - 'config/stage19_public_inference_shape_approval_v1.json'
+      - 'config/stage19_inferred_scenario_ranges_v1.json'
+      - 'config/stage19_inferred_scenario_ranges_approval_v1.json'
+      - 'config/stage19_provisional_ensemble_cases_v1.json'
+      - 'config/stage19_solver_parameter_coverage_audit_v1.json'
+      - 'config/stage19_m_boundary_tide_candidate_v1.json'
+      - 'config/stage19_m_boundary_tide_approval_v1.json'
+      - 'config/stage19_solver_integration_contract_v1.json'
+      - 'config/stage19_solver_integration_synthetic_validation_v1.json'
+      - 'config/stage19_solver_integration_zero_case_probe_v1.json'
+      - 'config/stage19_full64_execution_contract_v1.json'
+      - 'data/jma_hakata_2026_hourly_tide_QF.txt'
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'config/stage17_onga_office_request_submission_v1.json'
+      - 'tools/validate_stage19_public_inference_input_plan.mjs'
+      - 'tools/validate_stage19_inferred_scenario_ranges.mjs'
+      - 'onga_stage19_provisional_ensemble.mjs'
+      - 'tools/validate_stage19_provisional_ensemble.mjs'
+      - 'tools/validate_stage19_solver_parameter_coverage_audit.mjs'
+      - 'tools/validate_stage19_m_boundary_tide_candidate.mjs'
+      - 'tools/render_stage19_public_inference_decision.py'
+      - 'tools/render_stage19_inferred_ranges_decision.py'
+      - 'tools/render_stage19_m_boundary_tide_decision.py'
+      - 'tools/stage19_solver_inputs.py'
+      - 'tools/stage19_shallow_water_kernel_v1.py'
+      - 'tools/preflight_stage19_solver_integration.py'
+      - 'tools/validate_stage19_solver_integration.py'
+      - 'tools/validate_stage19_execution_readiness.py'
+      - 'tools/render_stage19_full64_execution_decision.py'
+      - 'tools/run_stage19_full64_v1.py'
+      - 'tools/aggregate_stage19_full64_v1.py'
+      - 'tools/render_stage19_full64_maps_v1.py'
+      - 'tools/seal_stage19_full64_evidence_v1.py'
+      - 'tools/validate_stage19_full64_control_v1.py'
+      - '.github/workflows/stage19-full64-one-time-run.yml'
+      - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
+      - 'docs/visuals/stage19-public-inference-input-decision.png'
+      - 'docs/visuals/stage19-inferred-scenario-ranges-decision.png'
+      - 'docs/visuals/stage19-m-boundary-tide-decision.png'
+      - 'docs/visuals/stage19-full64-execution-decision.png'
+      - '.github/workflows/stage19-public-inference-input-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
+      - 'config/stage19_public_inference_input_plan_v1.json'
+      - 'config/stage19_public_inference_shape_approval_v1.json'
+      - 'config/stage19_inferred_scenario_ranges_v1.json'
+      - 'config/stage19_inferred_scenario_ranges_approval_v1.json'
+      - 'config/stage19_provisional_ensemble_cases_v1.json'
+      - 'config/stage19_solver_parameter_coverage_audit_v1.json'
+      - 'config/stage19_m_boundary_tide_candidate_v1.json'
+      - 'config/stage19_m_boundary_tide_approval_v1.json'
+      - 'config/stage19_solver_integration_contract_v1.json'
+      - 'config/stage19_solver_integration_synthetic_validation_v1.json'
+      - 'config/stage19_solver_integration_zero_case_probe_v1.json'
+      - 'config/stage19_full64_execution_contract_v1.json'
+      - 'data/jma_hakata_2026_hourly_tide_QF.txt'
+      - 'config/stage17_inferred_physical_prior_v1.json'
+      - 'config/stage17_onga_office_request_submission_v1.json'
+      - 'tools/validate_stage19_public_inference_input_plan.mjs'
+      - 'tools/validate_stage19_inferred_scenario_ranges.mjs'
+      - 'onga_stage19_provisional_ensemble.mjs'
+      - 'tools/validate_stage19_provisional_ensemble.mjs'
+      - 'tools/validate_stage19_solver_parameter_coverage_audit.mjs'
+      - 'tools/validate_stage19_m_boundary_tide_candidate.mjs'
+      - 'tools/render_stage19_public_inference_decision.py'
+      - 'tools/render_stage19_inferred_ranges_decision.py'
+      - 'tools/render_stage19_m_boundary_tide_decision.py'
+      - 'tools/stage19_solver_inputs.py'
+      - 'tools/stage19_shallow_water_kernel_v1.py'
+      - 'tools/preflight_stage19_solver_integration.py'
+      - 'tools/validate_stage19_solver_integration.py'
+      - 'tools/validate_stage19_execution_readiness.py'
+      - 'tools/render_stage19_full64_execution_decision.py'
+      - 'tools/run_stage19_full64_v1.py'
+      - 'tools/aggregate_stage19_full64_v1.py'
+      - 'tools/render_stage19_full64_maps_v1.py'
+      - 'tools/seal_stage19_full64_evidence_v1.py'
+      - 'tools/validate_stage19_full64_control_v1.py'
+      - '.github/workflows/stage19-full64-one-time-run.yml'
+      - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
+      - 'docs/visuals/stage19-public-inference-input-decision.png'
+      - 'docs/visuals/stage19-inferred-scenario-ranges-decision.png'
+      - 'docs/visuals/stage19-m-boundary-tide-decision.png'
+      - 'docs/visuals/stage19-full64-execution-decision.png'
+      - '.github/workflows/stage19-public-inference-input-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public-inference-inputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+          python -m pip install --disable-pip-version-check numpy scipy matplotlib pillow
+      - name: Syntax-check validators and renderer
+        run: |
+          node --check tools/validate_stage19_public_inference_input_plan.mjs
+          node --check tools/validate_stage19_inferred_scenario_ranges.mjs
+          node --check onga_stage19_provisional_ensemble.mjs
+          node --check tools/validate_stage19_provisional_ensemble.mjs
+          node --check tools/validate_stage19_solver_parameter_coverage_audit.mjs
+          node --check tools/validate_stage19_m_boundary_tide_candidate.mjs
+          python -m py_compile tools/render_stage19_public_inference_decision.py
+          python -m py_compile tools/render_stage19_inferred_ranges_decision.py
+          python -m py_compile tools/render_stage19_m_boundary_tide_decision.py
+          python -m py_compile tools/stage19_solver_inputs.py
+          python -m py_compile tools/stage19_shallow_water_kernel_v1.py
+          python -m py_compile tools/preflight_stage19_solver_integration.py
+          python -m py_compile tools/validate_stage19_solver_integration.py
+          python -m py_compile tools/validate_stage19_execution_readiness.py
+          python -m py_compile tools/render_stage19_full64_execution_decision.py
+          python -m py_compile tools/run_stage19_full64_v1.py
+          python -m py_compile tools/aggregate_stage19_full64_v1.py
+          python -m py_compile tools/render_stage19_full64_maps_v1.py
+          python -m py_compile tools/seal_stage19_full64_evidence_v1.py
+          python -m py_compile tools/validate_stage19_full64_control_v1.py
+      - name: Validate route retirement and input plan
+        run: >-
+          node tools/validate_stage19_public_inference_input_plan.mjs
+          config/stage19_public_inference_input_plan_v1.json
+          config/stage17_physical_data_acquisition_decision_record_v3.json
+          config/stage17_external_contact_retirement_v1.json
+          stage19-public-inference-input-plan-validation.json
+      - name: Validate approved shape and proposed scenario ranges
+        run: >-
+          node tools/validate_stage19_inferred_scenario_ranges.mjs
+          config/stage19_inferred_scenario_ranges_v1.json
+          config/stage19_public_inference_shape_approval_v1.json
+          stage19-inferred-scenario-ranges-validation.json
+      - name: Validate approved deterministic 64-case package
+        run: >-
+          node tools/validate_stage19_provisional_ensemble.mjs
+          config/stage19_provisional_ensemble_cases_v1.json
+          stage19-provisional-ensemble-validation.json
+      - name: Validate legacy-kernel coverage audit
+        run: >-
+          node tools/validate_stage19_solver_parameter_coverage_audit.mjs
+          config/stage19_solver_parameter_coverage_audit_v1.json
+          stage19-solver-coverage-validation.json
+      - name: Validate proposed M-boundary tide curve
+        run: >-
+          node tools/validate_stage19_m_boundary_tide_candidate.mjs
+          config/stage19_m_boundary_tide_candidate_v1.json
+          stage19-m-boundary-tide-validation.json
+      - name: Validate Stage 19 solver integration on synthetic cells only
+        run: python tools/validate_stage19_solver_integration.py
+      - name: Validate inactive execution-readiness contracts
+        run: python tools/validate_stage19_execution_readiness.py
+      - name: Re-render normalized decision image
+        run: >-
+          python tools/render_stage19_public_inference_decision.py
+          --plan config/stage19_public_inference_input_plan_v1.json
+          --manifest data/onga_unified_water_manifest_r3.json
+          --output stage19-public-inference-input-decision.png
+      - name: Re-render candidate range decision image
+        run: >-
+          python tools/render_stage19_inferred_ranges_decision.py
+          --ranges config/stage19_inferred_scenario_ranges_v1.json
+          --manifest data/onga_unified_water_manifest_r3.json
+          --output stage19-inferred-scenario-ranges-decision.png
+      - name: Re-render M-boundary tide decision image
+        run: >-
+          python tools/render_stage19_m_boundary_tide_decision.py
+          --candidate config/stage19_m_boundary_tide_candidate_v1.json
+          --coverage config/stage19_solver_parameter_coverage_audit_v1.json
+          --output stage19-m-boundary-tide-decision.png
+      - name: Re-render full64 execution decision image
+        run: >-
+          python tools/render_stage19_full64_execution_decision.py
+          --contract config/stage19_full64_execution_contract_v1.json
+          --output stage19-full64-execution-decision.png
+      - name: Verify rendered and committed image dimensions
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          for path in (
+              'stage19-public-inference-input-decision.png',
+              'docs/visuals/stage19-public-inference-input-decision.png',
+          ):
+              with Image.open(path) as image:
+                  assert image.format == 'PNG'
+                  assert image.size == (2100, 1260)
+          for path in (
+              'stage19-full64-execution-decision.png',
+              'docs/visuals/stage19-full64-execution-decision.png',
+          ):
+              with Image.open(path) as image:
+                  assert image.format == 'PNG'
+                  assert image.size == (2100, 1350)
+          for path in (
+              'stage19-inferred-scenario-ranges-decision.png',
+              'docs/visuals/stage19-inferred-scenario-ranges-decision.png',
+          ):
+              with Image.open(path) as image:
+                  assert image.format == 'PNG'
+                  assert image.size == (2100, 1500)
+          for path in (
+              'stage19-m-boundary-tide-decision.png',
+              'docs/visuals/stage19-m-boundary-tide-decision.png',
+          ):
+              with Image.open(path) as image:
+                  assert image.format == 'PNG'
+                  assert image.size == (2100, 1260)
+          PY
+      - name: Upload validation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage19-public-inference-input-validation
+          path: |
+            stage19-public-inference-input-plan-validation.json
+            stage19-inferred-scenario-ranges-validation.json
+            stage19-provisional-ensemble-validation.json
+            stage19-solver-coverage-validation.json
+            stage19-m-boundary-tide-validation.json
+            stage19-public-inference-input-decision.png
+            stage19-inferred-scenario-ranges-decision.png
+            stage19-m-boundary-tide-decision.png
+            stage19-full64-execution-decision.png

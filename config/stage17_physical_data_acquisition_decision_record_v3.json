@@ -1,0 +1,49 @@
+{
+  "schema": "onga-stage17-physical-data-acquisition-decision-record-v3",
+  "version": "stage17-physical-data-acquisition-decision-record-v3",
+  "supersedes": {
+    "path": "config/stage17_physical_data_acquisition_decision_record_v2.json",
+    "sha256": "d4aab0086540f4bfc7cb0696753dc5efec59e0e0bad7d2214fce9afc6574fe28",
+    "reason": "The requester explicitly withdrew the official-office request route and selected public data plus declared inference for simulator development."
+  },
+  "optionId": "public_database_and_declared_inference_only",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-14",
+  "sourceStatement": "遠賀川河川事務所への資料照会はしません．公開データや推論に基づいてシミュレータを開発します．次に進める作業を教えてください．",
+  "geometryBinding": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "waterManifest": "data/onga_unified_water_manifest_r3.json",
+    "waterManifestSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+    "metricMeshVersion": "stage16-metric-fv-mesh-v2",
+    "metricMeshCellCount": 50129,
+    "metricMeshPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "geometryFrozen": true
+  },
+  "scope": {
+    "officialRequestPreparationAndSubmission": false,
+    "publicOfficialDatabaseAcquisition": true,
+    "secondaryTideReferenceAudit": true,
+    "declaredInferenceScenarioPreparation": true,
+    "visualDecisionPacketPreparation": true,
+    "automaticSolverAssignment": false,
+    "numericalScenarioRunEnablement": false,
+    "physicalValidationClaim": false,
+    "publicSimulatorConnection": false
+  },
+  "approvedActions": [
+    "download and archive publicly available official hydrology metadata and observations",
+    "extract explicitly published barrage and fishway facts from public official documents",
+    "prepare provisional inference ensembles for inputs that remain unavailable publicly",
+    "prepare maps and cross-sections for requester review before any new numerical run"
+  ],
+  "notApproved": [
+    "contacting the Onga River Office by email, form, telephone, post, or any other route",
+    "representing inferred bathymetry, discharge, roughness, gate state, or fishway hydraulics as observed fact",
+    "using a single inferred parameter set as the true state of the Onga estuary",
+    "claiming physical Validation or measured-flow reproduction",
+    "running a new numerical scenario before the visual input packet and execution scope are explicitly approved",
+    "changing the approved 680633-pixel water geometry or 50129-cell metric mesh",
+    "connecting the candidate solver to the public simulator"
+  ]
+}

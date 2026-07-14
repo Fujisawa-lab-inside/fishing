@@ -1,0 +1,141 @@
+{
+  "schema": "onga-stage19-inferred-scenario-ranges-v1",
+  "version": "stage19-inferred-scenario-ranges-v1",
+  "status": "visual_review_required_before_case_generation",
+  "asOf": "2026-07-14",
+  "shapeApproval": {
+    "path": "config/stage19_public_inference_shape_approval_v1.json",
+    "sha256": "3d35faaee7f9c0bdb063c7b3914162a9e2ac3afeb92e159387c562596eb7abb2"
+  },
+  "sourcePlan": {
+    "path": "config/stage19_public_inference_input_plan_v1.json",
+    "sha256": "6d6be78a4318cb3ceffc936c228a8e5a58eeb8f323b0d2c45acd5e831c488866"
+  },
+  "geometry": {
+    "approvedWaterPixelCount": 680633,
+    "metricMeshCellCount": 50129,
+    "frozen": true
+  },
+  "bathymetryCandidates": {
+    "shapeFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+    "sigmaCandidates": [0.28, 0.36, 0.46],
+    "mainstemMeanDepthM": {"min": 2.0, "reference": 4.0, "max": 6.0},
+    "tributaryMeanDepthM": {"min": 0.8, "reference": 1.8, "max": 3.0},
+    "verticalDatum": "relative_model_datum_only",
+    "classification": "inferred_range_not_surveyed_bathymetry",
+    "approvedForCaseGeneration": false
+  },
+  "boundaryCandidates": [
+    {
+      "boundaryId": "M",
+      "role": "河口・潮汐開境界",
+      "candidateSourceIds": ["jma_hakata_2026_astronomical_tide"],
+      "mappingBasis": "secondary astronomical-tide shape only",
+      "mappingStatus": "candidate_not_selected",
+      "parameters": {
+        "phaseShiftMinutes": {"min": -90, "reference": 0, "max": 90},
+        "amplitudeMultiplier": {"min": 0.6, "reference": 1.0, "max": 1.4},
+        "meanOffsetM": null,
+        "datum": "relative_model_datum_only"
+      },
+      "limitations": [
+        "not an observed Onga-mouth water level",
+        "no absolute water-level offset is assigned",
+        "phase and amplitude transfer remain inferred"
+      ]
+    },
+    {
+      "boundaryId": "N",
+      "role": "西川上流開境界",
+      "candidateSourceIds": ["mlit_gion_bridge_station_metadata"],
+      "mappingBasis": "same river and approximately 455 m from boundary N in the existing geometric audit",
+      "mappingStatus": "candidate_not_selected",
+      "parameters": {
+        "dischargeM3S": {"min": 0.2, "reference": 2.0, "max": 12.0}
+      },
+      "limitations": [
+        "historical series period and quality content are not yet selected",
+        "station-to-boundary storage and lateral inflow transfer remain unresolved"
+      ]
+    },
+    {
+      "boundaryId": "O",
+      "role": "遠賀川本流上流開境界",
+      "candidateSourceIds": [
+        "mlit_nakama_station_metadata",
+        "mlit_karakuma_station_metadata"
+      ],
+      "mappingBasis": "same-river main-stem candidates upstream of the model domain",
+      "mappingStatus": "candidate_not_selected",
+      "parameters": {
+        "dischargeM3S": {"min": 5.0, "reference": 35.0, "max": 180.0}
+      },
+      "limitations": [
+        "neither station is assigned automatically",
+        "historical series period, intervening inflow, and barrage relation require scenario treatment"
+      ]
+    },
+    {
+      "boundaryId": "G",
+      "role": "曲川上流開境界",
+      "candidateSourceIds": [],
+      "mappingBasis": "no direct public Magarigawa station identified",
+      "mappingStatus": "inference_only",
+      "parameters": {
+        "dischargeM3S": {"min": 0.1, "reference": 1.0, "max": 8.0}
+      },
+      "limitations": [
+        "entire discharge range is inferred",
+        "must be reported separately from public observations"
+      ]
+    }
+  ],
+  "roughnessCandidates": {
+    "parameter": "Manning_n",
+    "openChannel": {"min": 0.02, "reference": 0.03, "max": 0.045},
+    "shallowMarginMultiplier": {"min": 1.0, "reference": 1.25, "max": 1.7},
+    "structureVicinityMultiplier": {"min": 1.0, "reference": 1.15, "max": 1.5},
+    "classification": "inferred_range_not_calibrated_roughness",
+    "approvedForCaseGeneration": false
+  },
+  "structureCandidates": {
+    "barrage": {
+      "scenarios": ["fully_closed", "uniform_25_percent", "uniform_50_percent", "uniform_100_percent"],
+      "effectiveDischargeCoefficient": {"min": 0.45, "reference": 0.65, "max": 0.85},
+      "classification": "published_gate_inventory_with_inferred_operation_and_coefficient"
+    },
+    "fishway": {
+      "modes": ["disabled", "head_difference_relation_ensemble"],
+      "effectiveDischargeCoefficient": {"min": 0.35, "reference": 0.6, "max": 0.85},
+      "effectiveAreaM2": {"min": 0.2, "reference": 1.0, "max": 4.0},
+      "classification": "public_qualitative_geometry_with_inferred_hydraulics"
+    },
+    "approvedForCaseGeneration": false
+  },
+  "visualDecision": {
+    "question": "Are the proposed uncertainty ranges and candidate source-to-boundary mappings acceptable for provisional ensemble case generation?",
+    "approveTogether": [
+      "main-stem and tributary mean-depth ranges",
+      "N, O, and G discharge ranges",
+      "M tide-shape phase and amplitude ranges",
+      "Manning roughness ranges",
+      "candidate public-source mapping roles for M, N, and O",
+      "inference-only treatment of G and structure hydraulics"
+    ],
+    "doesNotApprove": [
+      "a single true parameter set",
+      "observational status for inferred values",
+      "a numerical run",
+      "physical Validation",
+      "public simulator connection"
+    ]
+  },
+  "safeguards": {
+    "externalContactPerformed": false,
+    "physicalValuesAssignedToSolver": false,
+    "casesGenerated": false,
+    "numericalRunEnabled": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

@@ -1,5 +1,7 @@
 # Stage 17 physical-data acquisition route A
 
+> Retired on 2026-07-14. The requester explicitly disabled the Onga River Office request and selected public data plus declared inference. The current route is documented in `docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md`; this file remains historical evidence only.
+
 ## Approved route
 
 The approved acquisition route is to proceed in parallel with:

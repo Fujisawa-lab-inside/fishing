@@ -1,0 +1,2749 @@
+{
+  "schema": "onga-stage19-provisional-inference-ensemble-v1",
+  "version": "stage19-provisional-inference-ensemble-v1",
+  "status": "generated_not_assigned_to_solver",
+  "generatedFrom": {
+    "ranges": {
+      "path": "config/stage19_inferred_scenario_ranges_v1.json",
+      "sha256": "b068800fbc7463e00d490f3cfcc0b80701d403b1de182f16f1f2bacf910448a4"
+    },
+    "approval": {
+      "path": "config/stage19_inferred_scenario_ranges_approval_v1.json",
+      "sha256": "c9459863e9eb812ca22b1d237f5242b7c2290b239d54eeed3be42c08db816ad4"
+    }
+  },
+  "seed": 20260714,
+  "count": 64,
+  "samplingMethod": "deterministic_stratified_marginals_with_categorical_rotation",
+  "geometry": {
+    "approvedWaterPixelCount": 680633,
+    "metricMeshCellCount": 50129,
+    "frozen": true
+  },
+  "sourceRoleBindings": {
+    "M": {
+      "mappingStatus": "candidate_not_selected",
+      "candidateSourceIds": [
+        "jma_hakata_2026_astronomical_tide"
+      ]
+    },
+    "N": {
+      "mappingStatus": "candidate_not_selected",
+      "candidateSourceIds": [
+        "mlit_gion_bridge_station_metadata"
+      ]
+    },
+    "O": {
+      "mappingStatus": "candidate_not_selected",
+      "candidateSourceIds": [
+        "mlit_nakama_station_metadata",
+        "mlit_karakuma_station_metadata"
+      ]
+    },
+    "G": {
+      "mappingStatus": "inference_only",
+      "candidateSourceIds": []
+    }
+  },
+  "casesSha256": "d25fe4f6a19dce196497bf012a8446245dcc0cf3125aaf834cb0e8c1ef78826e",
+  "safeguards": {
+    "singleBestGuessForbidden": true,
+    "inferredValuesAreObservations": false,
+    "absoluteMouthOffsetAssigned": false,
+    "physicalValuesAssignedToSolver": false,
+    "numericalRunEnabled": false,
+    "providesExecutionAuthorization": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  },
+  "cases": [
+    {
+      "caseId": "stage19-0001",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.65978954,
+        "tributaryMeanDepthM": 1.19203739,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.0391737,
+        "shallowMarginMultiplier": 1.24249306,
+        "structureVicinityMultiplier": 1.36942277
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 77.85646039,
+          "amplitudeMultiplier": 0.71631782,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 5.2492226
+        },
+        "O": {
+          "dischargeM3S": 51.5388223
+        },
+        "G": {
+          "dischargeM3S": 2.90271179
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.72661116
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.71549475,
+        "effectiveAreaM2": 2.31669968
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0002",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.54068309,
+        "tributaryMeanDepthM": 1.89374974,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04359432,
+        "shallowMarginMultiplier": 1.30408682,
+        "structureVicinityMultiplier": 1.37952706
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -26.0563788,
+          "amplitudeMultiplier": 0.97018229,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 7.0511547
+        },
+        "O": {
+          "dischargeM3S": 89.59844535
+        },
+        "G": {
+          "dischargeM3S": 7.58788114
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.53219874
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.73557172,
+        "effectiveAreaM2": 2.57741371
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0003",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 3.82115347,
+        "tributaryMeanDepthM": 1.69245506,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02684404,
+        "shallowMarginMultiplier": 1.39151602,
+        "structureVicinityMultiplier": 1.49672142
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -42.12519205,
+          "amplitudeMultiplier": 1.35852481,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.23807141
+        },
+        "O": {
+          "dischargeM3S": 112.96458201
+        },
+        "G": {
+          "dischargeM3S": 7.91027974
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.61369403
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.84141048,
+        "effectiveAreaM2": 0.97801179
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0004",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.16540136,
+        "tributaryMeanDepthM": 0.92904841,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03065796,
+        "shallowMarginMultiplier": 1.63212627,
+        "structureVicinityMultiplier": 1.20797257
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 88.53701231,
+          "amplitudeMultiplier": 0.65570319,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 5.48668738
+        },
+        "O": {
+          "dischargeM3S": 5.16451812
+        },
+        "G": {
+          "dischargeM3S": 5.65369755
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.68804491
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.42164522,
+        "effectiveAreaM2": 0.9496226
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0005",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.37413501,
+        "tributaryMeanDepthM": 1.62906661,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03300503,
+        "shallowMarginMultiplier": 1.07731683,
+        "structureVicinityMultiplier": 1.25182397
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -87.15388321,
+          "amplitudeMultiplier": 1.22952801,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.09336971
+        },
+        "O": {
+          "dischargeM3S": 132.10658678
+        },
+        "G": {
+          "dischargeM3S": 6.96646354
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.52403122
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.70210167,
+        "effectiveAreaM2": 2.72475637
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0006",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.50963704,
+        "tributaryMeanDepthM": 0.88435093,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02274823,
+        "shallowMarginMultiplier": 1.64714201,
+        "structureVicinityMultiplier": 1.04820515
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 51.49769301,
+          "amplitudeMultiplier": 1.15704108,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.32872215
+        },
+        "O": {
+          "dischargeM3S": 19.89505958
+        },
+        "G": {
+          "dischargeM3S": 3.02837966
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.73358203
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.7779784,
+        "effectiveAreaM2": 2.25751298
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0007",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 2.75859327,
+        "tributaryMeanDepthM": 2.03286811,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02614173,
+        "shallowMarginMultiplier": 1.32486675,
+        "structureVicinityMultiplier": 1.33579402
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -76.94672649,
+          "amplitudeMultiplier": 1.10128146,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.73782212
+        },
+        "O": {
+          "dischargeM3S": 117.57992753
+        },
+        "G": {
+          "dischargeM3S": 1.7965813
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.83949764
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.44943908,
+        "effectiveAreaM2": 1.25476545
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0008",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.86451903,
+        "tributaryMeanDepthM": 1.35408033,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02105329,
+        "shallowMarginMultiplier": 1.5073097,
+        "structureVicinityMultiplier": 1.48454635
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 31.21289354,
+          "amplitudeMultiplier": 1.06502303,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.47371608
+        },
+        "O": {
+          "dischargeM3S": 58.84680123
+        },
+        "G": {
+          "dischargeM3S": 0.58755468
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.49864417
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.66491434,
+        "effectiveAreaM2": 1.48039247
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0009",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 4.53003037,
+        "tributaryMeanDepthM": 2.1412542,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02473584,
+        "shallowMarginMultiplier": 1.42861409,
+        "structureVicinityMultiplier": 1.21944528
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -30.65673311,
+          "amplitudeMultiplier": 0.76034106,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 11.53038881
+        },
+        "O": {
+          "dischargeM3S": 8.59838841
+        },
+        "G": {
+          "dischargeM3S": 3.24096208
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.48286147
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.56637013,
+        "effectiveAreaM2": 2.55653102
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0010",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.24239507,
+        "tributaryMeanDepthM": 2.05136447,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02420212,
+        "shallowMarginMultiplier": 1.19786117,
+        "structureVicinityMultiplier": 1.14756265
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -54.3743048,
+          "amplitudeMultiplier": 1.1412375,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.21685637
+        },
+        "O": {
+          "dischargeM3S": 67.73471011
+        },
+        "G": {
+          "dischargeM3S": 2.56635325
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.80701863
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.69894102,
+        "effectiveAreaM2": 0.4617487
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0011",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.31298668,
+        "tributaryMeanDepthM": 1.84596325,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02365535,
+        "shallowMarginMultiplier": 1.31385123,
+        "structureVicinityMultiplier": 1.47718234
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -6.9320068,
+          "amplitudeMultiplier": 0.94000927,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 0.41098671
+        },
+        "O": {
+          "dischargeM3S": 49.17980713
+        },
+        "G": {
+          "dischargeM3S": 0.41089691
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.50646759
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.37673512,
+        "effectiveAreaM2": 3.58480897
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0012",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.38250194,
+        "tributaryMeanDepthM": 2.92903308,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03414666,
+        "shallowMarginMultiplier": 1.35878958,
+        "structureVicinityMultiplier": 1.39667778
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 35.40499938,
+          "amplitudeMultiplier": 1.24883188,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.39136068
+        },
+        "O": {
+          "dischargeM3S": 172.41247789
+        },
+        "G": {
+          "dischargeM3S": 6.19863136
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.82257598
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.64396349,
+        "effectiveAreaM2": 3.0387058
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0013",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 2.24884827,
+        "tributaryMeanDepthM": 2.82103331,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02520874,
+        "shallowMarginMultiplier": 1.13298479,
+        "structureVicinityMultiplier": 1.20094369
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -59.90868428,
+          "amplitudeMultiplier": 0.93225732,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 9.80991832
+        },
+        "O": {
+          "dischargeM3S": 80.45541094
+        },
+        "G": {
+          "dischargeM3S": 4.31792287
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.77771558
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.41611093,
+        "effectiveAreaM2": 2.4267933
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0014",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.66450129,
+        "tributaryMeanDepthM": 2.84874317,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04067652,
+        "shallowMarginMultiplier": 1.45642805,
+        "structureVicinityMultiplier": 1.46070572
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 62.82393195,
+          "amplitudeMultiplier": 1.08223698,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 9.75682708
+        },
+        "O": {
+          "dischargeM3S": 139.03292706
+        },
+        "G": {
+          "dischargeM3S": 0.98018365
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.57821033
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.51731225,
+        "effectiveAreaM2": 3.15451104
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0015",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 3.95278876,
+        "tributaryMeanDepthM": 2.98317184,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02323703,
+        "shallowMarginMultiplier": 1.15945816,
+        "structureVicinityMultiplier": 1.47046853
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -68.48888292,
+          "amplitudeMultiplier": 0.74570366,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 7.89069981
+        },
+        "O": {
+          "dischargeM3S": 41.6988271
+        },
+        "G": {
+          "dischargeM3S": 2.76120689
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.55468737
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.80067793,
+        "effectiveAreaM2": 0.88089154
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0016",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.41972564,
+        "tributaryMeanDepthM": 0.83404736,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04393229,
+        "shallowMarginMultiplier": 1.33286706,
+        "structureVicinityMultiplier": 1.27034923
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 22.74263448,
+          "amplitudeMultiplier": 1.04681168,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 5.74354984
+        },
+        "O": {
+          "dischargeM3S": 145.23642934
+        },
+        "G": {
+          "dischargeM3S": 5.30326883
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.47375596
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.75492117,
+        "effectiveAreaM2": 3.78251459
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0017",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 3.75166159,
+        "tributaryMeanDepthM": 1.57022046,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02956656,
+        "shallowMarginMultiplier": 1.00022659,
+        "structureVicinityMultiplier": 1.27779295
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -65.04522511,
+          "amplitudeMultiplier": 1.20289148,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 11.69460041
+        },
+        "O": {
+          "dischargeM3S": 18.10062613
+        },
+        "G": {
+          "dischargeM3S": 4.89101148
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.59026546
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.39085472,
+        "effectiveAreaM2": 0.82219709
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0018",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 4.49328021,
+        "tributaryMeanDepthM": 1.98499871,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04440941,
+        "shallowMarginMultiplier": 1.58997207,
+        "structureVicinityMultiplier": 1.32418854
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -19.72972267,
+          "amplitudeMultiplier": 1.13227601,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.10595582
+        },
+        "O": {
+          "dischargeM3S": 117.04431798
+        },
+        "G": {
+          "dischargeM3S": 0.63141831
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.66686067
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.40464471,
+        "effectiveAreaM2": 3.70416302
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0019",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.49835193,
+        "tributaryMeanDepthM": 1.07221388,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03844705,
+        "shallowMarginMultiplier": 1.54364682,
+        "structureVicinityMultiplier": 1.33923431
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -35.49941487,
+          "amplitudeMultiplier": 0.60108076,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 2.21192855
+        },
+        "O": {
+          "dischargeM3S": 75.88430178
+        },
+        "G": {
+          "dischargeM3S": 5.80353353
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.62008414
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.83156557,
+        "effectiveAreaM2": 2.68883475
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0020",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.49501529,
+        "tributaryMeanDepthM": 1.21576706,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03675306,
+        "shallowMarginMultiplier": 1.29091281,
+        "structureVicinityMultiplier": 1.35823632
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -82.18487204,
+          "amplitudeMultiplier": 0.98327606,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 2.66321398
+        },
+        "O": {
+          "dischargeM3S": 23.52473786
+        },
+        "G": {
+          "dischargeM3S": 7.64008875
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.79513396
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.61741597,
+        "effectiveAreaM2": 3.29838227
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0021",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.07247868,
+        "tributaryMeanDepthM": 1.73366167,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02772676,
+        "shallowMarginMultiplier": 1.21077613,
+        "structureVicinityMultiplier": 1.13769912
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -0.83930996,
+          "amplitudeMultiplier": 0.68832209,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.60190364
+        },
+        "O": {
+          "dischargeM3S": 111.44757737
+        },
+        "G": {
+          "dischargeM3S": 4.52327438
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.74461096
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.7801999,
+        "effectiveAreaM2": 3.2153801
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0022",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 2.45668682,
+        "tributaryMeanDepthM": 2.22406383,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.025849,
+        "shallowMarginMultiplier": 1.07075712,
+        "structureVicinityMultiplier": 1.06106879
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -72.16789296,
+          "amplitudeMultiplier": 1.0181367,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 9.53792655
+        },
+        "O": {
+          "dischargeM3S": 62.6880241
+        },
+        "G": {
+          "dischargeM3S": 3.89134222
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.71518511
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.67467052,
+        "effectiveAreaM2": 1.84554633
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0023",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.14063034,
+        "tributaryMeanDepthM": 1.14666962,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04166174,
+        "shallowMarginMultiplier": 1.44572637,
+        "structureVicinityMultiplier": 1.07893811
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 66.67826741,
+          "amplitudeMultiplier": 0.63107462,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 9.23474485
+        },
+        "O": {
+          "dischargeM3S": 136.359355
+        },
+        "G": {
+          "dischargeM3S": 3.15463964
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.67430544
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.73108139,
+        "effectiveAreaM2": 1.5301232
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0024",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 3.27070601,
+        "tributaryMeanDepthM": 2.43985496,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03279216,
+        "shallowMarginMultiplier": 1.48073254,
+        "structureVicinityMultiplier": 1.07615192
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 68.69515709,
+          "amplitudeMultiplier": 1.01154367,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.24176872
+        },
+        "O": {
+          "dischargeM3S": 99.32833847
+        },
+        "G": {
+          "dischargeM3S": 6.50589488
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.84397908
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.58305797,
+        "effectiveAreaM2": 3.41836652
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0025",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.04453172,
+        "tributaryMeanDepthM": 1.38872997,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02804613,
+        "shallowMarginMultiplier": 1.39600464,
+        "structureVicinityMultiplier": 1.22914439
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -75.76607579,
+          "amplitudeMultiplier": 0.7087987,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 3.61204245
+        },
+        "O": {
+          "dischargeM3S": 90.7434006
+        },
+        "G": {
+          "dischargeM3S": 3.70879655
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.76965981
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.43231587,
+        "effectiveAreaM2": 1.86862896
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0026",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.28606184,
+        "tributaryMeanDepthM": 2.49813306,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03685975,
+        "shallowMarginMultiplier": 1.37120059,
+        "structureVicinityMultiplier": 1.34840005
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 30.2300304,
+          "amplitudeMultiplier": 0.95297886,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.8159192
+        },
+        "O": {
+          "dischargeM3S": 152.80379495
+        },
+        "G": {
+          "dischargeM3S": 7.4933161
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.54778885
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.67971709,
+        "effectiveAreaM2": 0.20497053
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0027",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.31290998,
+        "tributaryMeanDepthM": 2.0731533,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.0301621,
+        "shallowMarginMultiplier": 1.67702832,
+        "structureVicinityMultiplier": 1.23667307
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 21.3439738,
+          "amplitudeMultiplier": 1.30769433,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.15998763
+        },
+        "O": {
+          "dischargeM3S": 142.5470826
+        },
+        "G": {
+          "dischargeM3S": 6.06964355
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.81394563
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.65176755,
+        "effectiveAreaM2": 3.93752239
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0028",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 5.93382244,
+        "tributaryMeanDepthM": 2.28178675,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02905155,
+        "shallowMarginMultiplier": 1.60136748,
+        "structureVicinityMultiplier": 1.44838435
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 86.14988545,
+          "amplitudeMultiplier": 0.84476534,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.92159397
+        },
+        "O": {
+          "dischargeM3S": 177.54543768
+        },
+        "G": {
+          "dischargeM3S": 1.16166336
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.79152603
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.79130621,
+        "effectiveAreaM2": 2.83109659
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0029",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.1876809,
+        "tributaryMeanDepthM": 2.1345168,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03104315,
+        "shallowMarginMultiplier": 1.6131102,
+        "structureVicinityMultiplier": 1.4378919
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 8.49403331,
+          "amplitudeMultiplier": 1.31567175,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.04237845
+        },
+        "O": {
+          "dischargeM3S": 122.10963658
+        },
+        "G": {
+          "dischargeM3S": 4.15052291
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.7506587
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.8161663,
+        "effectiveAreaM2": 1.73747938
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0030",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.81515881,
+        "tributaryMeanDepthM": 1.34059539,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04200908,
+        "shallowMarginMultiplier": 1.23565603,
+        "structureVicinityMultiplier": 1.38350598
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 58.04462332,
+          "amplitudeMultiplier": 0.89412536,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.69509565
+        },
+        "O": {
+          "dischargeM3S": 130.51521757
+        },
+        "G": {
+          "dischargeM3S": 0.93421056
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.83693379
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.84739133,
+        "effectiveAreaM2": 1.9487752
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0031",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.89027656,
+        "tributaryMeanDepthM": 2.58843665,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04329154,
+        "shallowMarginMultiplier": 1.55482551,
+        "structureVicinityMultiplier": 1.2123798
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 7.59295571,
+          "amplitudeMultiplier": 0.88559239,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.58668675
+        },
+        "O": {
+          "dischargeM3S": 72.17453959
+        },
+        "G": {
+          "dischargeM3S": 4.27325752
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.69805246
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.54429757,
+        "effectiveAreaM2": 1.77013882
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0032",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.18266726,
+        "tributaryMeanDepthM": 2.25772585,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03582364,
+        "shallowMarginMultiplier": 1.09505007,
+        "structureVicinityMultiplier": 1.00861753
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 75.40986371,
+          "amplitudeMultiplier": 1.36964716,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 11.32882614
+        },
+        "O": {
+          "dischargeM3S": 39.32784162
+        },
+        "G": {
+          "dischargeM3S": 5.11857649
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.76467682
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.36232066,
+        "effectiveAreaM2": 3.36310701
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0033",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.63328988,
+        "tributaryMeanDepthM": 0.94125555,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.0423898,
+        "shallowMarginMultiplier": 1.4986816,
+        "structureVicinityMultiplier": 1.09418715
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -43.26812587,
+          "amplitudeMultiplier": 1.02658989,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 0.93133644
+        },
+        "O": {
+          "dischargeM3S": 26.37979223
+        },
+        "G": {
+          "dischargeM3S": 6.52338263
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.47541579
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.36905912,
+        "effectiveAreaM2": 3.28458386
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0034",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 2.42144239,
+        "tributaryMeanDepthM": 0.86075086,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02171113,
+        "shallowMarginMultiplier": 1.02160233,
+        "structureVicinityMultiplier": 1.1770407
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -15.34384045,
+          "amplitudeMultiplier": 1.39392821,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 0.68438423
+        },
+        "O": {
+          "dischargeM3S": 135.30044652
+        },
+        "G": {
+          "dischargeM3S": 3.3192392
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.64859602
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.82216714,
+        "effectiveAreaM2": 2.49817587
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0035",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 3.7043455,
+        "tributaryMeanDepthM": 2.32450594,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03879905,
+        "shallowMarginMultiplier": 1.33943165,
+        "structureVicinityMultiplier": 1.26263174
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 43.72764248,
+          "amplitudeMultiplier": 1.38484638,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.88363382
+        },
+        "O": {
+          "dischargeM3S": 149.64548926
+        },
+        "G": {
+          "dischargeM3S": 4.61272045
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.60970307
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.55965606,
+        "effectiveAreaM2": 3.85139284
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0036",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.95192128,
+        "tributaryMeanDepthM": 2.7099416,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03724186,
+        "shallowMarginMultiplier": 1.46182466,
+        "structureVicinityMultiplier": 1.42234171
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 0.5461922,
+          "amplitudeMultiplier": 0.61884415,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.04481668
+        },
+        "O": {
+          "dischargeM3S": 46.92026675
+        },
+        "G": {
+          "dischargeM3S": 6.87389884
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.6858678
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.46207113,
+        "effectiveAreaM2": 2.04952772
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0037",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.06442622,
+        "tributaryMeanDepthM": 1.14189832,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03390323,
+        "shallowMarginMultiplier": 1.37328216,
+        "structureVicinityMultiplier": 1.12518497
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 49.4216474,
+          "amplitudeMultiplier": 1.29379839,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.30843761
+        },
+        "O": {
+          "dischargeM3S": 55.27562975
+        },
+        "G": {
+          "dischargeM3S": 1.41803283
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.63593223
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.35232227,
+        "effectiveAreaM2": 0.2806765
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0038",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.93316673,
+        "tributaryMeanDepthM": 1.02285895,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02121101,
+        "shallowMarginMultiplier": 1.27511131,
+        "structureVicinityMultiplier": 1.41645815
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -79.79325663,
+          "amplitudeMultiplier": 0.63754173,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.12848089
+        },
+        "O": {
+          "dischargeM3S": 10.53545791
+        },
+        "G": {
+          "dischargeM3S": 2.3712816
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.55626544
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.59690777,
+        "effectiveAreaM2": 1.20649962
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0039",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.22376041,
+        "tributaryMeanDepthM": 1.45213619,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04298288,
+        "shallowMarginMultiplier": 1.12522799,
+        "structureVicinityMultiplier": 1.09169154
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -89.93788706,
+          "amplitudeMultiplier": 0.79164919,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.71614215
+        },
+        "O": {
+          "dischargeM3S": 167.85672596
+        },
+        "G": {
+          "dischargeM3S": 4.97107174
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.58715093
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.5280684,
+        "effectiveAreaM2": 0.71813468
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0040",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.81494392,
+        "tributaryMeanDepthM": 2.41411894,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03628462,
+        "shallowMarginMultiplier": 1.10549631,
+        "structureVicinityMultiplier": 1.30219946
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 71.438718,
+          "amplitudeMultiplier": 1.17838919,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 3.82623152
+        },
+        "O": {
+          "dischargeM3S": 157.14318611
+        },
+        "G": {
+          "dischargeM3S": 7.8695284
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.46104445
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.44142499,
+        "effectiveAreaM2": 2.14280322
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0041",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.38168395,
+        "tributaryMeanDepthM": 0.98251875,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03553995,
+        "shallowMarginMultiplier": 1.68816055,
+        "structureVicinityMultiplier": 1.24277622
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 61.74377446,
+          "amplitudeMultiplier": 1.21725887,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.79970401
+        },
+        "O": {
+          "dischargeM3S": 34.22865444
+        },
+        "G": {
+          "dischargeM3S": 0.75421218
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.67588469
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.62670857,
+        "effectiveAreaM2": 0.38435749
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0042",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 5.81187361,
+        "tributaryMeanDepthM": 2.56960242,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03494434,
+        "shallowMarginMultiplier": 1.03934135,
+        "structureVicinityMultiplier": 1.15624265
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 3.30231026,
+          "amplitudeMultiplier": 0.90396165,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 5.67932677
+        },
+        "O": {
+          "dischargeM3S": 177.20743255
+        },
+        "G": {
+          "dischargeM3S": 5.28367751
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.54140563
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.74354736,
+        "effectiveAreaM2": 0.34929804
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0043",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.95333716,
+        "tributaryMeanDepthM": 1.71333453,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02635456,
+        "shallowMarginMultiplier": 1.15306416,
+        "structureVicinityMultiplier": 1.40390258
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -31.70491058,
+          "amplitudeMultiplier": 1.09638381,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 8.96554016
+        },
+        "O": {
+          "dischargeM3S": 102.99711873
+        },
+        "G": {
+          "dischargeM3S": 3.95642893
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.71033076
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.80734459,
+        "effectiveAreaM2": 1.12782582
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0044",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.988625,
+        "tributaryMeanDepthM": 2.66414463,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02838505,
+        "shallowMarginMultiplier": 1.41925837,
+        "structureVicinityMultiplier": 1.15989211
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 15.38946818,
+          "amplitudeMultiplier": 1.33134591,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 7.59472877
+        },
+        "O": {
+          "dischargeM3S": 61.28488087
+        },
+        "G": {
+          "dischargeM3S": 6.65430353
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.50207455
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.60468896,
+        "effectiveAreaM2": 3.97087363
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0045",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.6984845,
+        "tributaryMeanDepthM": 2.87583033,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04089367,
+        "shallowMarginMultiplier": 1.0511975,
+        "structureVicinityMultiplier": 1.10795123
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 11.98558961,
+          "amplitudeMultiplier": 0.85198543,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 9.17179002
+        },
+        "O": {
+          "dischargeM3S": 82.17772684
+        },
+        "G": {
+          "dischargeM3S": 2.18997926
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.56700537
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.4556163,
+        "effectiveAreaM2": 0.52753059
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0046",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.57989157,
+        "tributaryMeanDepthM": 1.94712486,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.0400177,
+        "shallowMarginMultiplier": 1.11278609,
+        "structureVicinityMultiplier": 1.4124266
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -38.56952045,
+          "amplitudeMultiplier": 0.80343963,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 6.46987971
+        },
+        "O": {
+          "dischargeM3S": 169.96750532
+        },
+        "G": {
+          "dischargeM3S": 1.86454303
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.49274937
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.65583136,
+        "effectiveAreaM2": 1.36495194
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0047",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.91086762,
+        "tributaryMeanDepthM": 1.80249805,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03200433,
+        "shallowMarginMultiplier": 1.66285143,
+        "structureVicinityMultiplier": 1.03259729
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 42.03247034,
+          "amplitudeMultiplier": 0.81885213,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.48657891
+        },
+        "O": {
+          "dischargeM3S": 44.2200889
+        },
+        "G": {
+          "dischargeM3S": 7.14704135
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.71976884
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.48778081,
+        "effectiveAreaM2": 0.6522634
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0048",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.5791061,
+        "tributaryMeanDepthM": 1.48375385,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02434173,
+        "shallowMarginMultiplier": 1.18211097,
+        "structureVicinityMultiplier": 1.18679771
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -46.19415557,
+          "amplitudeMultiplier": 1.1966133,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 7.42455001
+        },
+        "O": {
+          "dischargeM3S": 26.94992811
+        },
+        "G": {
+          "dischargeM3S": 2.29513137
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.60461737
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.77132773,
+        "effectiveAreaM2": 2.89631495
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0049",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.14589854,
+        "tributaryMeanDepthM": 2.74240166,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03759601,
+        "shallowMarginMultiplier": 1.64023385,
+        "structureVicinityMultiplier": 1.30697931
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -58.2447864,
+          "amplitudeMultiplier": 0.86755715,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.47844115
+        },
+        "O": {
+          "dischargeM3S": 161.08802984
+        },
+        "G": {
+          "dischargeM3S": 1.46150967
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.83008563
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.68884944,
+        "effectiveAreaM2": 2.01189584
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0050",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.57151092,
+        "tributaryMeanDepthM": 2.4726125,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03454599,
+        "shallowMarginMultiplier": 1.172924,
+        "structureVicinityMultiplier": 1.28887042
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 17.10401812,
+          "amplitudeMultiplier": 0.72592865,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 11.89572679
+        },
+        "O": {
+          "dischargeM3S": 85.77395158
+        },
+        "G": {
+          "dischargeM3S": 1.31832443
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.74069729
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.63226051,
+        "effectiveAreaM2": 2.75940144
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0051",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 4.71644669,
+        "tributaryMeanDepthM": 2.62872243,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03958403,
+        "shallowMarginMultiplier": 1.57762002,
+        "structureVicinityMultiplier": 1.16743285
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -62.84267008,
+          "amplitudeMultiplier": 0.99727842,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.91946328
+        },
+        "O": {
+          "dischargeM3S": 150.27980111
+        },
+        "G": {
+          "dischargeM3S": 1.58369006
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.65212684
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.54915199,
+        "effectiveAreaM2": 2.34503371
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0052",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.27409922,
+        "tributaryMeanDepthM": 1.25134834,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04480141,
+        "shallowMarginMultiplier": 1.69259592,
+        "structureVicinityMultiplier": 1.19206898
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -25.2432036,
+          "amplitudeMultiplier": 1.06161501,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 4.00896495
+        },
+        "O": {
+          "dischargeM3S": 14.20584143
+        },
+        "G": {
+          "dischargeM3S": 5.51997326
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.64195578
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.5847577,
+        "effectiveAreaM2": 2.95944128
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0053",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 4.07256678,
+        "tributaryMeanDepthM": 2.94616805,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02860513,
+        "shallowMarginMultiplier": 1.60887593,
+        "structureVicinityMultiplier": 1.12422964
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -11.20586687,
+          "amplitudeMultiplier": 1.11887007,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 0.31474308
+        },
+        "O": {
+          "dischargeM3S": 68.639114
+        },
+        "G": {
+          "dischargeM3S": 5.73744494
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.78331439
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.61140121,
+        "effectiveAreaM2": 1.6276945
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0054",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.64843269,
+        "tributaryMeanDepthM": 1.50637979,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03008861,
+        "shallowMarginMultiplier": 1.22749187,
+        "structureVicinityMultiplier": 1.31502873
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 38.91041292,
+          "amplitudeMultiplier": 1.26886394,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 3.37920191
+        },
+        "O": {
+          "dischargeM3S": 93.47943879
+        },
+        "G": {
+          "dischargeM3S": 2.62201954
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.45246604
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.71924143,
+        "effectiveAreaM2": 3.47544105
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0055",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 5.02880352,
+        "tributaryMeanDepthM": 1.52991433,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03333784,
+        "shallowMarginMultiplier": 1.56116174,
+        "structureVicinityMultiplier": 1.11636878
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -13.07150544,
+          "amplitudeMultiplier": 0.68568851,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 2.92375355
+        },
+        "O": {
+          "dischargeM3S": 123.21663173
+        },
+        "G": {
+          "dischargeM3S": 6.375151
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.66176188
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.75674068,
+        "effectiveAreaM2": 1.40452317
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0056",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 2.06267016,
+        "tributaryMeanDepthM": 1.30585441,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.0324891,
+        "shallowMarginMultiplier": 1.18986421,
+        "structureVicinityMultiplier": 1.01739809
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 84.17478004,
+          "amplitudeMultiplier": 0.83597895,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 10.93292975
+        },
+        "O": {
+          "dischargeM3S": 78.44957208
+        },
+        "G": {
+          "dischargeM3S": 6.01682105
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.52791515
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.47266397,
+        "effectiveAreaM2": 2.19518821
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0057",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.30163756,
+        "tributaryMeanDepthM": 2.17984518,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02064477,
+        "shallowMarginMultiplier": 1.26368754,
+        "structureVicinityMultiplier": 1.46707529
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 45.99229681,
+          "amplitudeMultiplier": 0.6723521,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 3.0856996
+        },
+        "O": {
+          "dischargeM3S": 125.77395741
+        },
+        "G": {
+          "dischargeM3S": 0.2688094
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.75725027
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.47706783,
+        "effectiveAreaM2": 1.28843368
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0058",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 4.78412652,
+        "tributaryMeanDepthM": 2.35516758,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03834572,
+        "shallowMarginMultiplier": 1.5181753,
+        "structureVicinityMultiplier": 1.00028323
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -3.93186136,
+          "amplitudeMultiplier": 1.17483831,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 5.09955725
+        },
+        "O": {
+          "dischargeM3S": 165.39835639
+        },
+        "G": {
+          "dischargeM3S": 4.69866249
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.62713663
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.50005346,
+        "effectiveAreaM2": 0.77990201
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0059",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 3.01292681,
+        "tributaryMeanDepthM": 2.7805415,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02195443,
+        "shallowMarginMultiplier": 1.5277096,
+        "structureVicinityMultiplier": 1.04323924
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 26.03688062,
+          "amplitudeMultiplier": 0.76720577,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 2.30516772
+        },
+        "O": {
+          "dischargeM3S": 31.76763769
+        },
+        "G": {
+          "dischargeM3S": 0.10394847
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.56947068
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.57344368,
+        "effectiveAreaM2": 1.62389027
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0060",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 3.56760505,
+        "tributaryMeanDepthM": 2.51943577,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02740904,
+        "shallowMarginMultiplier": 1.03086539,
+        "structureVicinityMultiplier": 1.06338818
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 78.85129956,
+          "amplitudeMultiplier": 1.27538237,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 7.20899895
+        },
+        "O": {
+          "dischargeM3S": 108.38434052
+        },
+        "G": {
+          "dischargeM3S": 3.59123273
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.4674054
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.53255532,
+        "effectiveAreaM2": 3.54641325
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0061",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.52337016,
+        "tributaryMeanDepthM": 1.93240354,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02009725,
+        "shallowMarginMultiplier": 1.06399024,
+        "structureVicinityMultiplier": 1.29430267
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": 55.28135128,
+          "amplitudeMultiplier": 0.78141349,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 2.43296461
+        },
+        "O": {
+          "dischargeM3S": 158.40885584
+        },
+        "G": {
+          "dischargeM3S": 1.98039234
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_50_percent",
+        "effectiveDischargeCoefficient": 0.59588736
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.40555286,
+        "effectiveAreaM2": 1.07015553
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0062",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.46,
+        "mainstemMeanDepthM": 5.7381649,
+        "tributaryMeanDepthM": 1.79096294,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.04129092,
+        "shallowMarginMultiplier": 1.48159379,
+        "structureVicinityMultiplier": 1.36406847
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -17.02255287,
+          "amplitudeMultiplier": 1.33842695,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 11.1754442
+        },
+        "O": {
+          "dischargeM3S": 103.61330495
+        },
+        "G": {
+          "dischargeM3S": 7.01611773
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_100_percent",
+        "effectiveDischargeCoefficient": 0.70346973
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.49601949,
+        "effectiveAreaM2": 0.60036745
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0063",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.28,
+        "mainstemMeanDepthM": 2.00753643,
+        "tributaryMeanDepthM": 1.62273624,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03142848,
+        "shallowMarginMultiplier": 1.41410393,
+        "structureVicinityMultiplier": 1.02886568
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -48.24943099,
+          "amplitudeMultiplier": 1.2526002,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 3.27484459
+        },
+        "O": {
+          "dischargeM3S": 37.38560196
+        },
+        "G": {
+          "dischargeM3S": 7.2759423
+        }
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.80432312
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.51135056,
+        "effectiveAreaM2": 3.65001517
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    },
+    {
+      "caseId": "stage19-0064",
+      "bathymetry": {
+        "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+        "sigma": 0.36,
+        "mainstemMeanDepthM": 3.3425607,
+        "tributaryMeanDepthM": 1.09229286,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.02263723,
+        "shallowMarginMultiplier": 1.261366,
+        "structureVicinityMultiplier": 1.43459001
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -51.14630822,
+          "amplitudeMultiplier": 0.92458898,
+          "meanOffsetM": null,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {
+          "dischargeM3S": 1.63600317
+        },
+        "O": {
+          "dischargeM3S": 97.64878196
+        },
+        "G": {
+          "dischargeM3S": 3.51670989
+        }
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.51449628
+      },
+      "fishway": {
+        "mode": "head_difference_relation_ensemble",
+        "effectiveDischargeCoefficient": 0.38877744,
+        "effectiveAreaM2": 3.10389297
+      },
+      "classification": "provisional_public_data_and_declared_inference_not_observation"
+    }
+  ]
+}

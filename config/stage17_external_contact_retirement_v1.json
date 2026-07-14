@@ -1,0 +1,27 @@
+{
+  "schema": "onga-stage17-external-contact-retirement-v1",
+  "version": "stage17-external-contact-retirement-v1",
+  "status": "external_contact_disabled_by_requester",
+  "recordedAt": "2026-07-14",
+  "governingDecision": {
+    "path": "config/stage17_physical_data_acquisition_decision_record_v3.json",
+    "sha256": "b8076332b89b33272af89c6d0fcc9182282ee59a9d06e9bf99fda8e31b2380c4"
+  },
+  "retiredSubmissionPacket": {
+    "path": "config/stage17_onga_office_request_submission_v1.json",
+    "sha256": "2bdb5c1aea1aa7e4b95e9ea9b6de2c7e2c8dcf038dd8661d0324baba9e779a71",
+    "historicalReadOnly": true,
+    "mayBeSubmitted": false
+  },
+  "requesterStatement": "遠賀川河川事務所への資料照会はしません．公開データや推論に基づいてシミュレータを開発します．次に進める作業を教えてください．",
+  "disabledContactMethods": [
+    "email",
+    "web_form",
+    "telephone",
+    "postal_mail",
+    "in_person"
+  ],
+  "externalContactPerformedBeforeRetirement": false,
+  "externalContactPerformedByThisTransition": false,
+  "reactivationPolicy": "A new explicit requester instruction and a new versioned decision record are both required. The retired submission packet and its prior digest cannot be reused."
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "onga-stage19-solver-integration-contract-v1",
+  "status": "implemented_and_synthetic_validated_awaiting_canonical_zero_case",
+  "approvedInputs": {
+    "ensemble": {
+      "path": "config/stage19_provisional_ensemble_cases_v1.json",
+      "sha256": "d970409f842382a2ef8c996f0c3866f3651095bbf2867707c4e240a4d2d80ce7",
+      "caseCount": 64,
+      "seed": 20260714
+    },
+    "tideCandidate": {
+      "path": "config/stage19_m_boundary_tide_candidate_v1.json",
+      "sha256": "a780f618089d295731dc6a87484b6a30f8a7895aac17c507876ede06c20720ea"
+    },
+    "tideApproval": {
+      "path": "config/stage19_m_boundary_tide_approval_v1.json",
+      "sha256": "964ce38825d8a55ba5599fbda2c3f7248bd5dcc276793d53026c0c1f4b5b6912",
+      "sourceStatement": "この相対潮位曲線をM境界に使用してよい"
+    }
+  },
+  "implementation": {
+    "inputBuilder": {
+      "path": "tools/stage19_solver_inputs.py",
+      "sha256": "b39ecbdaca8b7ece1cd1009d206b347fea66c8a4efde3fdd0d69a5fb874cebdd"
+    },
+    "kernel": {
+      "path": "tools/stage19_shallow_water_kernel_v1.py",
+      "sha256": "6c7fc458dd2294bfe77c43367881cea179e7355b39c31e26ca3ad8cc1c0c5b67",
+      "method": "well_balanced_finite_volume_shallow_water_with_hydrostatic_reconstruction"
+    },
+    "minimumWetDepthM": 0.05,
+    "branchClassification": "geodesic_nearest_open_boundary_M_N_O_G_on_cell_adjacency",
+    "mainstemBoundaryOwners": [
+      "M",
+      "O"
+    ],
+    "tributaryBoundaryOwners": [
+      "N",
+      "G"
+    ]
+  },
+  "parameterCoverage": {
+    "approvedDimensions": 16,
+    "active": [
+      "bathymetry.sigma",
+      "bathymetry.mainstemMeanDepthM",
+      "bathymetry.tributaryMeanDepthM",
+      "roughness.manningOpenChannel",
+      "roughness.shallowMarginMultiplier",
+      "roughness.structureVicinityMultiplier",
+      "boundaries.M.phaseShiftMinutes",
+      "boundaries.M.amplitudeMultiplier",
+      "boundaries.N.dischargeM3S",
+      "boundaries.O.dischargeM3S",
+      "boundaries.G.dischargeM3S",
+      "barrage.scenario",
+      "barrage.effectiveDischargeCoefficient",
+      "fishway.mode",
+      "fishway.effectiveDischargeCoefficient",
+      "fishway.effectiveAreaM2"
+    ],
+    "inactive": []
+  },
+  "boundaryAndStructureEquations": {
+    "M": "approved_mean_removed_hakata_hourly_curve_times_case_amplitude_with_case_phase_shift_no_absolute_offset",
+    "N_O_G": "constant_case_discharge_distributed_by_total_tagged_boundary_face_length",
+    "barrage": "transmissivity_equals_scenario_opening_fraction_times_effective_discharge_coefficient",
+    "fishway": "Q_equals_Cd_times_A_times_sqrt_2g_abs_head_with_sign_of_head"
+  },
+  "verification": {
+    "synthetic": {
+      "path": "config/stage19_solver_integration_synthetic_validation_v1.json",
+      "sha256": "04f6367191af0f5ea0edcd45eeaa5adcfbc84648c989d340da3033df69389522",
+      "status": "passed"
+    },
+    "darwinZeroCaseProbe": {
+      "path": "config/stage19_solver_integration_zero_case_probe_v1.json",
+      "sha256": "6291c42ba15b85f6ef73c376b52bdd4bd79432e54eeef7ba29722a5f233f3bcf",
+      "status": "passed",
+      "canonical": false,
+      "numericalTimeSteps": 0
+    },
+    "canonicalLinuxZeroCase": {
+      "requiredBeforeNumericalRun": true,
+      "expectedMeshSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+      "expectedCellCount": 50129,
+      "status": "not_yet_executed"
+    }
+  },
+  "interpretationLimits": {
+    "bathymetryIsInferredNotSurveyed": true,
+    "minimumWetDepthIsNumericalFloorNotObservation": true,
+    "relativeTideHasNoAbsoluteVerticalDatum": true,
+    "riverDischargesAreInferredCaseConstants": true,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false
+  },
+  "safeguards": {
+    "full64ExecutionAuthorized": false,
+    "productionMeshNumericalCaseStarted": false,
+    "automaticRunAllowed": false,
+    "automaticRetryAllowed": false,
+    "mainMergeAllowed": false,
+    "externalContactPerformed": false
+  }
+}

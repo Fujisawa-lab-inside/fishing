@@ -1,0 +1,40 @@
+{
+  "schema": "onga-stage19-inferred-scenario-ranges-approval-v1",
+  "version": "stage19-inferred-scenario-ranges-approval-v1",
+  "status": "approved_for_provisional_case_generation_only",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-14",
+  "sourceStatement": "この範囲と対応でよい．作業を進めてください．",
+  "approvedRanges": {
+    "path": "config/stage19_inferred_scenario_ranges_v1.json",
+    "sha256": "b068800fbc7463e00d490f3cfcc0b80701d403b1de182f16f1f2bacf910448a4"
+  },
+  "approvedVisual": {
+    "path": "docs/visuals/stage19-inferred-scenario-ranges-decision.png",
+    "sha256": "a61f26c61f838b89919f4dedb724fb8e1c0c7c0fe7b1126f5e61a29e6ab12082"
+  },
+  "approvalScope": [
+    "generate exactly 64 deterministic provisional inference cases",
+    "use the approved min-to-max ranges as ensemble bounds",
+    "retain M, N, and O public sources as candidate boundary roles",
+    "retain G as inference-only",
+    "retain all inferred values as non-observational"
+  ],
+  "notApproved": [
+    "a single true parameter set",
+    "automatic selection of a public station time series",
+    "assignment of an absolute mouth water-level offset",
+    "a numerical run",
+    "physical Validation",
+    "public simulator connection",
+    "main merge"
+  ],
+  "safeguards": {
+    "externalContactPerformed": false,
+    "physicalValuesAssignedToSolver": false,
+    "casesGeneratedByApprovalRecord": false,
+    "numericalRunEnabled": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

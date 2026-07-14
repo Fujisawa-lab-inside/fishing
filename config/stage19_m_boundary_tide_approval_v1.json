@@ -1,0 +1,38 @@
+{
+  "schema": "onga-stage19-m-boundary-tide-approval-v1",
+  "version": "stage19-m-boundary-tide-approval-v1",
+  "status": "approved_for_solver_integration_and_zero_case_verification_only",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-14",
+  "sourceStatement": "この相対潮位曲線をM境界に使用してよい",
+  "approvedCandidate": {
+    "path": "config/stage19_m_boundary_tide_candidate_v1.json",
+    "sha256": "a780f618089d295731dc6a87484b6a30f8a7895aac17c507876ede06c20720ea"
+  },
+  "approvedVisual": {
+    "path": "docs/visuals/stage19-m-boundary-tide-decision.png",
+    "sha256": "9359041d14f4eaddbb3c53896980c7d544ac4d754d6077ccc14422bda9d142b5"
+  },
+  "approvalScope": [
+    "use the mean-removed 2026-02-15 JMA Hakata curve as the relative M-boundary reference",
+    "apply each case phase shift and amplitude multiplier",
+    "keep the absolute M water-level offset unassigned",
+    "use constant inferred N, O, and G discharge within each 500-step case",
+    "implement all approved inputs and perform zero-case and synthetic-fixture verification"
+  ],
+  "notApproved": [
+    "an absolute Onga-mouth water level",
+    "a production-mesh numerical case",
+    "the 64-case numerical run",
+    "physical Validation",
+    "public simulator connection",
+    "main merge"
+  ],
+  "safeguards": {
+    "externalContactPerformed": false,
+    "productionMeshNumericalCaseStarted": false,
+    "full64RunEnabled": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

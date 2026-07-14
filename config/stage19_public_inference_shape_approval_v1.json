@@ -1,0 +1,47 @@
+{
+  "schema": "onga-stage19-public-inference-shape-approval-v1",
+  "version": "stage19-public-inference-shape-approval-v1",
+  "status": "approved_for_provisional_scenario_family_only",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-14",
+  "sourceStatement": "この形でよい．作業を進めてください．",
+  "approvedPlan": {
+    "path": "config/stage19_public_inference_input_plan_v1.json",
+    "sha256": "6d6be78a4318cb3ceffc936c228a8e5a58eeb8f323b0d2c45acd5e831c488866"
+  },
+  "approvedVisual": {
+    "path": "docs/visuals/stage19-public-inference-input-decision.png",
+    "sha256": "37c7a011344ece0282ccecaee32f7b4d266ec3ccd6589fb19e7519ddebd774c8"
+  },
+  "approvedShape": {
+    "family": "smooth_symmetric_inverted_normal_distribution_like_trough",
+    "sigmaCandidates": [0.28, 0.36, 0.46],
+    "referenceSigma": 0.36,
+    "retainAllCandidatesAsUncertainty": true,
+    "normalizedSpatialPatternApproved": true
+  },
+  "approvalScope": [
+    "shore-shallow and channel-centre-deep ordering",
+    "smooth symmetric inverse-normal-like cross-section family",
+    "retention of narrow, reference, and broad variants as uncertainty scenarios",
+    "normalized relative shore-distance preview pattern"
+  ],
+  "notApproved": [
+    "absolute depth in metres",
+    "vertical datum",
+    "M, N, O, or G boundary values",
+    "Manning roughness",
+    "barrage or fishway hydraulic coefficients",
+    "a numerical run",
+    "physical Validation",
+    "public simulator connection"
+  ],
+  "safeguards": {
+    "externalContactPerformed": false,
+    "approvedWaterGeometryChanged": false,
+    "metricMeshChanged": false,
+    "absolutePhysicalValuesAssignedToSolver": false,
+    "numericalRunEnabled": false,
+    "publicSimulatorConnected": false
+  }
+}

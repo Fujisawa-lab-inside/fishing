@@ -1,0 +1,93 @@
+{
+  "schema": "onga-stage19-full64-execution-contract-v1",
+  "status": "awaiting_explicit_visual_authorization",
+  "executionAuthorized": false,
+  "authorization": null,
+  "authorizationContract": {
+    "required": true,
+    "oneTime": true,
+    "maxValiditySeconds": 86400,
+    "requiredSourceStatement": "承認済み相対潮位M境界v1とStage19入力統合v1上で、この判断資料に示された64条件×500ステップを、承認後24時間以内に一回限り、完全な数値証拠と5枚の地図を作成するため実行してよい。"
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage19-full64-execution-decision.png",
+    "sha256": "f426d6c0ecadd2fbf07b1e4092fb58d13f8db969581a93a16a12661df40af88d"
+  },
+  "solverIntegration": {
+    "path": "config/stage19_solver_integration_contract_v1.json",
+    "sha256": "b406431d6c80a780adf81f8cd2b201cab53d2f6ea4e2390eae86342faaffa6a2"
+  },
+  "mesh": {
+    "path": "onga_stage16_metric_fv_mesh_v2.npz",
+    "sha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "cellCount": 50129,
+    "waterPixelCount": 680633,
+    "geometryFrozen": true
+  },
+  "run": {
+    "purpose": "provisional_numerical_stability_and_spatial_output_evidence_only",
+    "caseCount": 64,
+    "stepsPerCase": 500,
+    "totalSteps": 32000,
+    "caseSeed": 20260714,
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time"
+  },
+  "acceptance": {
+    "completedCaseCount": 64,
+    "failedCaseCount": 0,
+    "nanCountMax": 0,
+    "negativeDepthCountMax": 0,
+    "maxCflMax": 0.95,
+    "maxAbsoluteMassBalanceErrorMax": 1e-8,
+    "maxWallSeconds": 3600,
+    "maxResidentMemoryMiB": 8192
+  },
+  "expectedDuration": {
+    "planningRangeMinutes": [
+      15,
+      30
+    ],
+    "hardStopMinutes": 60,
+    "basis": "Stage18_same_mesh_64x500_completed_in_599.1_seconds_but_Stage19_kernel_and_inputs_are_new",
+    "guarantee": false
+  },
+  "requiredOutputs": {
+    "sealedNumericalEvidence": true,
+    "mapCount": 5,
+    "maps": [
+      "water_depth_median",
+      "velocity_magnitude_median",
+      "wet_probability",
+      "flow_direction_agreement",
+      "flow_direction_support"
+    ]
+  },
+  "stopConditions": [
+    "canonical_zero_case_preflight_failure",
+    "input_or_code_digest_mismatch",
+    "any_case_failure_or_nonfinite_value",
+    "negative_depth",
+    "cfl_above_0.95",
+    "mass_balance_error_above_1e-8",
+    "wall_time_above_3600_seconds",
+    "resident_memory_above_8192_MiB",
+    "approved_24_hour_M_curve_exhausted"
+  ],
+  "risks": [
+    "new_Stage19_kernel_has_only_synthetic_validation_before_the_authorized_run",
+    "bathymetry_roughness_discharge_barrage_and_fishway_inputs_are_inferred_not_observed",
+    "M_uses_Hakata_relative_tide_as_a_proxy_without_absolute_vertical_datum",
+    "the_run_can_stop_without_maps_if_any_numerical_acceptance_limit_is_exceeded"
+  ],
+  "safeguards": {
+    "canonicalZeroCaseRequiredFirst": true,
+    "automaticActivationAllowed": false,
+    "automaticRetryAllowed": false,
+    "automaticAdditionalRunsAllowed": false,
+    "failedCasesMayBeImputed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "externalContactAllowed": false
+  }
+}

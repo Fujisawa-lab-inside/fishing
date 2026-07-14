@@ -5,8 +5,11 @@ on:
     paths:
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
       - 'tools/validate_stage17_acquisition_decision.mjs'
       - 'docs/STAGE17_ACQUISITION_ROUTE_A.md'
+      - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
       - '.github/workflows/stage17-acquisition-decision-validation.yml'
   push:
     branches:
@@ -14,8 +17,11 @@ on:
     paths:
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
       - 'tools/validate_stage17_acquisition_decision.mjs'
       - 'docs/STAGE17_ACQUISITION_ROUTE_A.md'
+      - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
       - '.github/workflows/stage17-acquisition-decision-validation.yml'
   workflow_dispatch:
 
@@ -32,10 +38,10 @@ jobs:
           node-version: '22'
       - name: Syntax-check validator
         run: node --check tools/validate_stage17_acquisition_decision.mjs
-      - name: Validate approved route A and safeguards
+      - name: Validate public-data and declared-inference route
         run: |
           node tools/validate_stage17_acquisition_decision.mjs \
-            config/stage17_physical_data_acquisition_decision_record_v2.json \
+            config/stage17_physical_data_acquisition_decision_record_v3.json \
             stage17-acquisition-decision-validation.json
       - name: Upload decision evidence
         uses: actions/upload-artifact@v4

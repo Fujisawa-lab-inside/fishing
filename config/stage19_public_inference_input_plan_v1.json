@@ -1,0 +1,189 @@
+{
+  "schema": "onga-stage19-public-inference-input-plan-v1",
+  "version": "stage19-public-inference-input-plan-v1",
+  "status": "visual_input_review_required_before_scenario_generation",
+  "asOf": "2026-07-14",
+  "governingRouteDecision": {
+    "path": "config/stage17_physical_data_acquisition_decision_record_v3.json",
+    "sha256": "b8076332b89b33272af89c6d0fcc9182282ee59a9d06e9bf99fda8e31b2380c4"
+  },
+  "externalContactRetirement": "config/stage17_external_contact_retirement_v1.json",
+  "geometry": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "waterManifest": "data/onga_unified_water_manifest_r3.json",
+    "waterManifestSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+    "metricMeshVersion": "stage16-metric-fv-mesh-v2",
+    "metricMeshCellCount": 50129,
+    "metricMeshPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "frozen": true
+  },
+  "publicEvidence": [
+    {
+      "id": "mlit_gion_bridge_station_metadata",
+      "provider": "国土交通省 水文水質データベース",
+      "url": "https://www1.river.go.jp/cgi-bin/SiteInfo.exe?ID=309011289902220",
+      "facts": {
+        "station": "祇園橋",
+        "river": "西川",
+        "observationItems": "水位流量",
+        "latitude": 33.8905556,
+        "longitude": 130.6736111,
+        "latestZeroHeightTpM": -1.231
+      },
+      "useStatus": "metadata_only_time_series_content_not_yet_selected"
+    },
+    {
+      "id": "mlit_nakama_station_metadata",
+      "provider": "国土交通省 水文水質データベース",
+      "url": "https://www1.river.go.jp/cgi/SiteInfo.exe?ID=309011289902070",
+      "facts": {
+        "station": "中間",
+        "river": "遠賀川",
+        "observationItems": "水位流量",
+        "latitude": 33.8155556,
+        "longitude": 130.7072222,
+        "latestZeroHeightTpM": 0.695
+      },
+      "useStatus": "metadata_only_time_series_content_not_yet_selected"
+    },
+    {
+      "id": "mlit_karakuma_station_metadata",
+      "provider": "国土交通省 水文水質データベース",
+      "url": "https://www1.river.go.jp/cgi/SiteInfo.exe?ID=309011289902060",
+      "facts": {
+        "station": "唐熊",
+        "river": "遠賀川",
+        "observationItems": "水位流量",
+        "latitude": 33.7922222,
+        "longitude": 130.7111111,
+        "latestZeroHeightTpM": 0.5,
+        "zeroHeightHistoryChangeDocumented": true
+      },
+      "useStatus": "metadata_only_time_series_content_not_yet_selected"
+    },
+    {
+      "id": "jma_hakata_2026_astronomical_tide",
+      "provider": "気象庁",
+      "url": "https://www.data.jma.go.jp/kaiyou/db/tide/suisan/suisan.php?stn=QF&ys=2026&ye=2026",
+      "facts": {
+        "station": "博多",
+        "stationCode": "QF",
+        "kind": "astronomical_tide_prediction",
+        "hourlyTextAvailable": true,
+        "tideTableDatumElevationM": -0.936
+      },
+      "useStatus": "secondary_shape_reference_only_not_observed_onga_mouth_level"
+    },
+    {
+      "id": "mlit_onga_barrage_gate_public_facts",
+      "provider": "国土交通省九州地方整備局 遠賀川河川事務所",
+      "url": "https://www.qsr.mlit.go.jp/onga/press_files/R7_5.23_press.pdf",
+      "facts": {
+        "locationFromRiverMouthKm": 2.0,
+        "mainGateCount": 8,
+        "controlGateCount": 7,
+        "adjustmentGateCount": 1,
+        "publishedMainGateWidthM": 46.5,
+        "publishedMainGateHeightM": 6.5,
+        "fineAdjustmentGateCount": 1,
+        "fineAdjustmentGateWidthM": 10.0,
+        "fineAdjustmentGateHeightM": 2.8,
+        "fishwayGateCount": 1,
+        "fishwayGateWidthM": 3.5,
+        "fishwayGateHeightM": 1.45
+      },
+      "useStatus": "published_structure_inventory_not_effective_hydraulic_parameter"
+    },
+    {
+      "id": "mlit_onga_fishway_public_concept",
+      "provider": "国土交通省九州地方整備局 遠賀川河川事務所",
+      "url": "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki.pdf",
+      "facts": {
+        "fishwayFamilies": [
+          "shallow_gentle_nature_like",
+          "deeper_fish_passage",
+          "gentle_step_pool"
+        ],
+        "hydraulicCoefficientPublished": false,
+        "operationTimeSeriesPublished": false
+      },
+      "useStatus": "qualitative_geometry_scenario_constraint_only"
+    }
+  ],
+  "publiclyUnresolvedInputs": [
+    "domain-wide surveyed bathymetry and vertical datum",
+    "direct Magarigawa discharge series at boundary G",
+    "period-matched gate-by-gate barrage opening time series",
+    "fishway head-discharge relation and effective hydraulic coefficient",
+    "independent two-component velocity observations in the model domain"
+  ],
+  "inferenceScenario": {
+    "classification": "provisional_public_data_and_declared_inference_not_observation",
+    "sourcePrior": {
+      "path": "config/stage17_inferred_physical_prior_v1.json",
+      "sha256": "bc801566ff93f6d73ed01926fa9da195faf91d55dc5bd122905d0d5dd5e40a84",
+      "policy": "reuse_existing_ranges_but_replace_cross_section_shape_family"
+    },
+    "bathymetry": {
+      "horizontalConstraint": "approved_water_mask_only",
+      "crossSectionFamily": "smooth_symmetric_inverted_normal_distribution_like_trough",
+      "normalizedFormula": "depth_fraction=(exp(-0.5*(x_over_half_width/sigma)^2)-exp(-0.5/sigma^2))/(1-exp(-0.5/sigma^2))",
+      "sigmaCandidates": [0.28, 0.36, 0.46],
+      "referenceSigma": 0.36,
+      "mainstemMeanDepthM": {"min": 2.0, "reference": 4.0, "max": 6.0},
+      "tributaryMeanDepthM": {"min": 0.8, "reference": 1.8, "max": 3.0},
+      "verticalDatum": "relative_model_datum_only",
+      "mapPreviewUsesNormalizedDepthFractionOnly": true,
+      "absoluteDepthAssignmentApproved": false
+    },
+    "roughness": {
+      "manningOpenChannel": {"min": 0.02, "reference": 0.03, "max": 0.045},
+      "shallowMarginMultiplier": {"min": 1.0, "reference": 1.25, "max": 1.7},
+      "structureVicinityMultiplier": {"min": 1.0, "reference": 1.15, "max": 1.5},
+      "assignmentApproved": false
+    },
+    "boundaries": {
+      "M": {
+        "shapeSource": "jma_hakata_astronomical_tide_secondary_reference",
+        "phaseShiftMinutes": {"min": -90, "reference": 0, "max": 90},
+        "amplitudeMultiplier": {"min": 0.6, "reference": 1.0, "max": 1.4},
+        "datum": "relative_model_datum_only"
+      },
+      "N": {"referenceDischargeM3S": {"min": 0.2, "reference": 2.0, "max": 12.0}},
+      "O": {"referenceDischargeM3S": {"min": 5.0, "reference": 35.0, "max": 180.0}},
+      "G": {"referenceDischargeM3S": {"min": 0.1, "reference": 1.0, "max": 8.0}},
+      "assignmentApproved": false
+    },
+    "structures": {
+      "barrageScenarios": ["fully_closed", "uniform_25_percent", "uniform_50_percent", "uniform_100_percent"],
+      "fishwayModes": ["disabled", "head_difference_relation_ensemble"],
+      "hydraulicCoefficientsRemainInferred": true,
+      "assignmentApproved": false
+    },
+    "singleBestGuessForbidden": true,
+    "ensembleRequired": true
+  },
+  "visualDecision": {
+    "question": "Is the normalized inverse-normal-like cross-channel depth distribution acceptable as the provisional shape family for scenario generation?",
+    "scope": "shape family and spatial pattern only",
+    "doesNotApprove": [
+      "absolute depth in metres",
+      "boundary discharge or water-level assignment",
+      "roughness or structure coefficients",
+      "a numerical run",
+      "physical Validation",
+      "public simulator connection"
+    ]
+  },
+  "safeguards": {
+    "externalContactPerformed": false,
+    "approvedWaterGeometryChanged": false,
+    "metricMeshChanged": false,
+    "absolutePhysicalValuesAssignedToSolver": false,
+    "numericalRunEnabled": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "visualFittingToDesiredFlowForbidden": true
+  }
+}

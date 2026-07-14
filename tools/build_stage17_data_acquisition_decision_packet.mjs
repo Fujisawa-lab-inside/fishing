@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import {
   STAGE17_PHYSICAL_DATA_SOURCE_INVENTORY_VERSION,
@@ -7,65 +8,99 @@ import {
 
 const inventoryPath = process.argv[2] || 'config/stage17_physical_data_source_inventory_v2.json';
 const outputPath = process.argv[3] || 'stage17-data-acquisition-decision-packet.json';
+const decisionPath = 'config/stage17_physical_data_acquisition_decision_record_v3.json';
+const retirementPath = 'config/stage17_external_contact_retirement_v1.json';
+const inputPlanPath = 'config/stage19_public_inference_input_plan_v1.json';
+
 const inventory = await loadPhysicalDataSourceInventory(inventoryPath);
 if (inventory.version !== STAGE17_PHYSICAL_DATA_SOURCE_INVENTORY_VERSION) {
-  throw new Error('the decision packet must be built from the current v2 inventory');
+  throw new Error('the current packet must retain the v2 requirement inventory snapshot');
 }
 const report = buildPhysicalDataSourceInventoryReport(inventory);
-const recommended = inventory.nextDecision.options
-  .find(option => option.id === inventory.nextDecision.selectedOption);
+const decisionText = await fs.readFile(decisionPath, 'utf8');
+const decision = JSON.parse(decisionText);
+const retirement = JSON.parse(await fs.readFile(retirementPath, 'utf8'));
+const inputPlan = JSON.parse(await fs.readFile(inputPlanPath, 'utf8'));
+const decisionSha256 = crypto.createHash('sha256').update(decisionText).digest('hex');
 
+if (decision.optionId !== 'public_database_and_declared_inference_only'
+  || decision.scope?.officialRequestPreparationAndSubmission !== false
+  || decision.scope?.publicOfficialDatabaseAcquisition !== true
+  || decision.scope?.declaredInferenceScenarioPreparation !== true) {
+  throw new Error('the current public-data and declared-inference route is invalid');
+}
+if (retirement.governingDecision?.sha256 !== decisionSha256
+  || retirement.retiredSubmissionPacket?.mayBeSubmitted !== false) {
+  throw new Error('external-contact retirement is not bound to the current route');
+}
+if (inputPlan.governingRouteDecision?.sha256 !== decisionSha256) {
+  throw new Error('Stage 19 input plan is not bound to the current route');
+}
+
+const selectedOption = inventory.nextDecision.options.find(option => option.id === 'B_public_data_only');
 const packet = {
-  schema: 'onga-stage17-data-acquisition-decision-packet-v2',
-  version: inventory.version,
+  schema: 'onga-stage17-data-acquisition-decision-packet-v3',
+  version: 'stage17-public-data-and-inference-route-v1',
   generatedFrom: inventoryPath,
+  inventorySnapshotStatus: 'requirements_retained_route_fields_superseded_by_v3_decision',
   inventoryAsOf: inventory.asOf,
   governingEquation: inventory.governingEquation.selected,
   approvedWaterPixelCount: inventory.modelDomain.approvedWaterPixelCount,
   metricMeshCellCount: inventory.modelDomain.metricMeshCellCount,
-  report,
-  acquisitionRoute: inventory.nextDecision,
-  nextDecision: inventory.submissionDecision,
+  inventorySnapshotReport: report,
+  routeTransition: {
+    decisionRecord: decisionPath,
+    decisionSha256,
+    supersededOption: 'A_official_request_plus_public_retrieval',
+    selectedOption: 'B_public_data_only',
+    implementationOptionId: decision.optionId,
+    officialRequestEnabled: false,
+    externalContactRetirement: retirementPath,
+  },
   recommendation: {
-    optionId: recommended.id,
+    optionId: selectedOption.id,
     reason: [
-      'Surveyed bathymetry and its vertical datum cannot be reconstructed from the approved water mask.',
-      'The public water-level network does not by itself establish discharge at every model boundary，and no direct public Magarigawa station has been identified.',
-      'Gatewise barrage operation，effective geometry，fishway hydraulics，and independent velocity observations are most credibly obtained from the managing office or its official records.',
-      'Public database retrieval should proceed in parallel because it can establish station metadata，available time series，quality flags，and candidate periods before any solver assignment.'
+      'The requester explicitly disabled every official-office contact route.',
+      'Official public station metadata identifies water-level/discharge stations for Nishikawa and the Onga main stem, while station-to-boundary compatibility still requires review.',
+      'Public JMA astronomical tide can constrain timing and shape only; it is not an observed Onga-mouth boundary level.',
+      'Bathymetry, Magarigawa inflow, period-matched gate operation, fishway hydraulics, and velocity observations remain inference variables with declared uncertainty.',
+      'The cross-channel shape and broad ranges are approved and 64 cases are generated; the next approval is limited to the exact relative M-boundary tide curve for solver integration and does not authorize a run.',
     ],
-    doesNotApprove: [
-      'Any candidate source for solver use',
-      'Any bathymetry or vertical datum',
-      'Any Manning roughness value or calibration',
-      'Any M，N，O，or G boundary assignment',
-      'Any fishway or barrage hydraulic parameter',
-      'Any physical run or public release'
-    ]
+    doesNotApprove: inputPlan.visualDecision.doesNotApprove,
   },
   supportingDocuments: {
     acquisitionPlan: 'docs/STAGE17_PHYSICAL_DATA_ACQUISITION.md',
-    unsentOfficeRequestDraft: 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md'
+    currentRoute: 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md',
+    publicInferenceInputPlan: inputPlanPath,
+    approvedShape: 'config/stage19_public_inference_shape_approval_v1.json',
+    proposedScenarioRanges: 'config/stage19_inferred_scenario_ranges_v1.json',
+    approvedScenarioRanges: 'config/stage19_inferred_scenario_ranges_approval_v1.json',
+    provisionalEnsemble: 'config/stage19_provisional_ensemble_cases_v1.json',
+    solverCoverageAudit: 'config/stage19_solver_parameter_coverage_audit_v1.json',
+    proposedMBoundaryTide: 'config/stage19_m_boundary_tide_candidate_v1.json',
+    retiredRouteHistory: 'docs/STAGE17_ACQUISITION_ROUTE_A.md',
   },
   inventoryHistory: {
-    current: 'config/stage17_physical_data_source_inventory_v2.json',
-    historicalReadOnly: 'config/stage17_physical_data_source_inventory_v1.json'
+    requirementSnapshot: 'config/stage17_physical_data_source_inventory_v2.json',
+    historicalInitialSnapshot: 'config/stage17_physical_data_source_inventory_v1.json',
   },
   nextActionBoundary: {
     publicDatabaseInventoryMayProceedWithoutPhysicalParameterApproval: true,
-    acquisitionRouteDecisionAlreadyRecorded: true,
-    externalContactRequiresSubmissionReadinessAndExactRequesterApproval: true,
+    declaredInferencePreviewMayProceed: true,
+    externalContactDisabled: true,
     physicalSourceSelectionRequiresLaterPerSourceApproval: true,
-    physicalRunEnabled: false
-  }
+    visualInputReviewRequired: true,
+    numericalRunEnabled: false,
+    publicSimulatorConnected: false,
+  },
 };
 
 await fs.writeFile(outputPath, `${JSON.stringify(packet, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify({
   status: 'generated',
-  recommendation: packet.recommendation.optionId,
+  selectedOption: packet.recommendation.optionId,
   unresolvedRequirementCount: report.unresolvedRequirementCount,
-  humanDecisionRequired: report.humanDecisionRequired,
-  physicalValidationReady: report.physicalValidationReady,
+  visualInputReviewRequired: packet.nextActionBoundary.visualInputReviewRequired,
+  numericalRunEnabled: packet.nextActionBoundary.numericalRunEnabled,
   outputPath,
 }, null, 2));

@@ -6,6 +6,9 @@ on:
       - 'config/stage17_physical_data_source_inventory_v1.json'
       - 'config/stage17_physical_data_source_inventory_v2.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
+      - 'config/stage19_public_inference_input_plan_v1.json'
       - 'onga_stage17_physical_data_source_inventory.mjs'
       - 'tools/validate_stage17_physical_data_source_inventory.mjs'
       - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
@@ -19,6 +22,9 @@ on:
       - 'config/stage17_physical_data_source_inventory_v1.json'
       - 'config/stage17_physical_data_source_inventory_v2.json'
       - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v3.json'
+      - 'config/stage17_external_contact_retirement_v1.json'
+      - 'config/stage19_public_inference_input_plan_v1.json'
       - 'onga_stage17_physical_data_source_inventory.mjs'
       - 'tools/validate_stage17_physical_data_source_inventory.mjs'
       - 'tools/build_stage17_data_acquisition_decision_packet.mjs'
@@ -79,22 +85,23 @@ jobs:
           if (inventory.safeguards.physicalValuesAssigned !== false) {
             throw new Error('physical values were incorrectly assigned');
           }
-          if (packet.recommendation.optionId !== 'A_official_request_plus_public_retrieval') {
+          if (packet.recommendation.optionId !== 'B_public_data_only') {
             throw new Error('unexpected acquisition-route recommendation');
           }
-          if (packet.schema !== 'onga-stage17-data-acquisition-decision-packet-v2'
+          if (packet.schema !== 'onga-stage17-data-acquisition-decision-packet-v3'
             || packet.generatedFrom !== 'config/stage17_physical_data_source_inventory_v2.json') {
             throw new Error('decision packet is not bound to the current v2 inventory');
           }
-          if (packet.acquisitionRoute.status !== 'recorded'
-            || packet.acquisitionRoute.selectedOption !== 'A_official_request_plus_public_retrieval') {
-            throw new Error('approved route A is not the single recorded route');
+          if (packet.routeTransition.selectedOption !== 'B_public_data_only'
+            || packet.routeTransition.officialRequestEnabled !== false) {
+            throw new Error('public-data-only route is not the current transition');
           }
-          if (packet.nextActionBoundary.externalContactRequiresSubmissionReadinessAndExactRequesterApproval !== true) {
-            throw new Error('external contact is not bound to exact submission readiness');
+          if (packet.nextActionBoundary.externalContactDisabled !== true) {
+            throw new Error('external contact is not disabled');
           }
-          if (packet.nextActionBoundary.physicalRunEnabled !== false) {
-            throw new Error('physical run must remain disabled');
+          if (packet.nextActionBoundary.visualInputReviewRequired !== true
+            || packet.nextActionBoundary.numericalRunEnabled !== false) {
+            throw new Error('visual review must precede any numerical run');
           }
           NODE
       - name: Upload Stage 17 decision evidence
@@ -107,4 +114,6 @@ jobs:
             config/stage17_physical_data_source_inventory_v1.json
             config/stage17_physical_data_source_inventory_v2.json
             config/stage17_physical_data_acquisition_decision_record_v2.json
-            docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md
+            config/stage17_physical_data_acquisition_decision_record_v3.json
+            config/stage17_external_contact_retirement_v1.json
+            config/stage19_public_inference_input_plan_v1.json

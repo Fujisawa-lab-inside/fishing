@@ -1,0 +1,26 @@
+{
+  "schema": "onga-stage19-solver-integration-synthetic-validation-v1",
+  "status": "passed",
+  "checks": {
+    "lakeAtRestTransmissivity0": true,
+    "lakeAtRestTransmissivity0.3": true,
+    "lakeAtRestTransmissivity1": true,
+    "NExactPrescribedInflow": true,
+    "OExactPrescribedInflow": true,
+    "GExactPrescribedInflow": true,
+    "barrageTransmissivityChangesTransport": true,
+    "mPhaseAndAmplitudeAreActive": true,
+    "mAbsoluteOffsetRejected": true,
+    "fishwayDisabledIsZero": true,
+    "fishwayReversesWithHead": true,
+    "fishwayCoefficientAndAreaScaleFlow": true
+  },
+  "safeguards": {
+    "syntheticFixtureOnly": true,
+    "productionMeshLoaded": false,
+    "productionMeshNumericalCaseStarted": false,
+    "full64RunEnabled": false,
+    "externalContactPerformed": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

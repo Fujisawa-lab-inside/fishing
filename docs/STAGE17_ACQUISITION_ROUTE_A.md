@@ -7,7 +7,9 @@ The approved acquisition route is to proceed in parallel with:
 1. an official request to the Onga River Office for non-public or insufficiently documented hydraulic data; and
 2. acquisition and audit of publicly available official hydrology and tide-reference resources.
 
-The approval is recorded in `config/stage17_physical_data_acquisition_decision_record_v1.json`.
+The route approval was originally recorded in `config/stage17_physical_data_acquisition_decision_record_v1.json`. The current binding is `config/stage17_physical_data_acquisition_decision_record_v2.json`, which preserves that decision and rebinds it to the separately approved `v4.8.0-candidate-r3` water authority (680,633 pixels) and Linux metric mesh v2 (50,129 cells). It does not expand the approved route or authorize solver inputs.
+
+The current source inventory is `config/stage17_physical_data_source_inventory_v2.json`. The unchanged `config/stage17_physical_data_source_inventory_v1.json` remains a read-only snapshot of the superseded r2 / 50,333-cell, route-pending state and is never used to ask for the acquisition-route decision again.
 
 ## Official-request package
 

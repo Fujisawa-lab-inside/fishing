@@ -10,6 +10,7 @@ on:
       - 'config/stage18_full64_run_authorization_v3.json'
       - 'config/stage18_full64_execution_contract_v3.json'
       - 'config/stage18_full64_execution_gate_v3.json'
+      - 'config/stage18_full64_v3_result_record.json'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'data/onga_stage16_mesh_constraints_v*.json'
       - 'data/onga_unified_water_manifest_r*.json'
@@ -56,6 +57,7 @@ on:
       - 'docs/STAGE18_FULL64_RUN.md'
       - 'docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md'
       - 'docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md'
+      - 'docs/STAGE18_FULL64_V3_RESULT.md'
       - 'docs/visuals/stage18-v2-execution-decision.svg'
       - 'docs/visuals/stage18-v3-execution-decision.svg'
       - 'docs/WORK_HANDOFF.md'
@@ -75,6 +77,7 @@ on:
       - 'config/stage18_full64_run_authorization_v3.json'
       - 'config/stage18_full64_execution_contract_v3.json'
       - 'config/stage18_full64_execution_gate_v3.json'
+      - 'config/stage18_full64_v3_result_record.json'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'data/onga_stage16_mesh_constraints_v*.json'
       - 'data/onga_unified_water_manifest_r*.json'
@@ -121,6 +124,7 @@ on:
       - 'docs/STAGE18_FULL64_RUN.md'
       - 'docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md'
       - 'docs/STAGE18_FULL64_V3_RECOVERY_PLAN.md'
+      - 'docs/STAGE18_FULL64_V3_RESULT.md'
       - 'docs/visuals/stage18-v2-execution-decision.svg'
       - 'docs/visuals/stage18-v3-execution-decision.svg'
       - 'docs/WORK_HANDOFF.md'
@@ -235,8 +239,6 @@ jobs:
             > stage18-full64-v2-workflow-validation.json
       - name: Validate corrected-v3 recovery control without numerical execution
         env:
-          EXECUTION_GITHUB_RUN_ID: ${{ github.run_id }}
-          EXECUTION_GITHUB_SHA: ${{ github.sha }}
           V3_CONTROL_REPORT: ${{ runner.temp }}/stage18-full64-v3-control-validation.json
           V3_WORKFLOW_REPORT: ${{ runner.temp }}/stage18-full64-v3-workflow-validation.json
         run: |
@@ -244,77 +246,91 @@ jobs:
           python tools/validate_stage18_full64_v3_workflow.py \
             > "$V3_WORKFLOW_REPORT"
           v3_state="$(jq -er '.state' config/stage18_full64_execution_gate_v3.json)"
-          if test "$v3_state" = 'awaiting_new_explicit_authorization'; then
-            test ! -e config/stage18_full64_run_authorization_v3.json
-            python tools/validate_stage18_full64_v3_control.py \
-              --repo-root . \
-              --expect pending \
-              --output "$V3_CONTROL_REPORT"
+          test "$v3_state" = 'consumed'
+          python tools/validate_stage18_full64_v3_control.py \
+            --repo-root . \
+            --expect consumed \
+            --output "$V3_CONTROL_REPORT"
+          jq -e '
+            .status == "passed" and
+            .controlState == "consumed" and
+            .executionAuthorized == false and
+            .authorizationFilePresent == true and
+            .authorizationActive == false and
+            .authorizationConsumed == true and
+            .authorizationReusable == false and
+            .consumedWorkflowRunId == 29307047699 and
+            .numericalCasesStarted == 0 and
+            .numericalOutputsCreated == 0 and
+            .digests.authorizedExecutionGateSha256 == "43d243938d44e51fa2f39f7e9fe04f2f277470e038ce64640e1821e0e0b3c12f" and
+            .digests.resultRecordSha256 == "0e756f50d2a145a0603fb1f1342a06d12f72cbc84bc2165ee1297f56000cca46" and
+            .digests.numericEvidenceManifestSha256 == "e60287e82d1837b978ecb1c939e9e4b5f2ac075bbaf5c4563df8972da8a350f8"
+          ' "$V3_CONTROL_REPORT"
+          for mutation in contract decision-image; do
+            mutation_root="${RUNNER_TEMP}/stage18-v3-consumed-$mutation-negative"
+            test ! -e "$mutation_root"
+            mkdir -p "$mutation_root/docs"
+            cp -R config "$mutation_root/config"
+            cp -R docs/visuals "$mutation_root/docs/visuals"
+            if test "$mutation" = 'contract'; then
+              jq -c . "$mutation_root/config/stage18_full64_execution_contract_v3.json" \
+                > "$mutation_root/contract.tmp"
+              mv "$mutation_root/contract.tmp" \
+                "$mutation_root/config/stage18_full64_execution_contract_v3.json"
+            else
+              printf '\n' >> "$mutation_root/docs/visuals/stage18-v3-execution-decision.svg"
+            fi
             set +e
-            python tools/preflight_stage18_full64_v3.py \
+            python tools/validate_stage18_full64_v3_control.py \
+              --repo-root "$mutation_root" \
+              --expect consumed \
+              > "$mutation_root/control.stdout" \
+              2> "$mutation_root/control.stderr"
+            mutation_status="$?"
+            set -e
+            test "$mutation_status" -eq 2
+          done
+          manifest_test_root="${RUNNER_TEMP}/stage18-v3-consumed-manifest-negative"
+          test ! -e "$manifest_test_root"
+          mkdir -p "$manifest_test_root"
+          printf '{}\n' > "$manifest_test_root/full64-numeric-evidence-manifest.json"
+          set +e
+          python tools/seal_stage18_full64_v3_numeric_evidence.py \
+            --verify "$manifest_test_root/full64-numeric-evidence-manifest.json" \
+            --workdir "$manifest_test_root" \
+            --repo-root . \
+            > "$manifest_test_root/verify.stdout" \
+            2> "$manifest_test_root/verify.stderr"
+          manifest_status="$?"
+          set -e
+          test "$manifest_status" -eq 2
+          grep -F 'numeric-evidence manifest digest does not match the consumed result record' \
+            "$manifest_test_root/verify.stderr"
+          for entrypoint in preflight_stage18_full64_v3.py run_stage18_full64_v3.py; do
+            label="${entrypoint%.py}"
+            set +e
+            python "tools/$entrypoint" \
               missing-v3-mesh.npz \
               missing-v3-ensemble.json \
+              config/stage18_full64_run_authorization_v3.json \
               --mesh-summary missing-v3-summary.json \
-              --fields-output stage18-v3-must-not-create-fields.npz \
-              --report-output stage18-v3-must-not-create-report.json \
-              --progress-output stage18-v3-must-not-create-progress.json \
+              --fields-output "stage18-v3-$label-must-not-create-fields.npz" \
+              --report-output "stage18-v3-$label-must-not-create-report.json" \
+              --progress-output "stage18-v3-$label-must-not-create-progress.json" \
               --repo-root . \
-              > stage18-v3-pending-preflight.stdout \
-              2> stage18-v3-pending-preflight.stderr
-            preflight_status="$?"
+              > "stage18-v3-$label.stdout" \
+              2> "stage18-v3-$label.stderr"
+            entrypoint_status="$?"
             set -e
-            test "$preflight_status" -eq 2
-            grep -F 'V3 CONTROL-PLANE STOP:' stage18-v3-pending-preflight.stderr
-            grep -F 'No numerical cases were started' stage18-v3-pending-preflight.stderr
-            test ! -e stage18-v3-must-not-create-fields.npz
-            test ! -e stage18-v3-must-not-create-report.json
-            test ! -e stage18-v3-must-not-create-progress.json
-            rm -f stage18-v3-pending-preflight.stdout stage18-v3-pending-preflight.stderr
-          elif test "$v3_state" = 'authorized'; then
-            python tools/validate_stage18_full64_v3_control.py \
-              --repo-root . \
-              --expect active \
-              --output "$V3_CONTROL_REPORT"
-            active_test_root="${RUNNER_TEMP}/stage18-v3-active-control-check"
-            test ! -e "$active_test_root"
-            mkdir -p "$active_test_root"
-            git worktree add --detach "$active_test_root/repo" "$EXECUTION_GITHUB_SHA"
-            set +e
-            env \
-              GITHUB_ACTIONS=true \
-              GITHUB_ACTOR=RyusukeFujisawa \
-              GITHUB_EVENT_NAME=workflow_dispatch \
-              GITHUB_REF=refs/heads/main \
-              GITHUB_REPOSITORY=Fujisawa-lab-inside/fishing \
-              GITHUB_RUN_ATTEMPT=1 \
-              GITHUB_RUN_ID="$EXECUTION_GITHUB_RUN_ID" \
-              GITHUB_SHA="$EXECUTION_GITHUB_SHA" \
-              GITHUB_WORKFLOW='Stage 18 corrected v3 one-time full64 recovery run' \
-              GITHUB_WORKFLOW_REF='Fujisawa-lab-inside/fishing/.github/workflows/stage18-full64-v3-run.yml@refs/heads/main' \
-              python tools/preflight_stage18_full64_v3.py \
-                missing-v3-mesh.npz \
-                missing-v3-ensemble.json \
-                config/stage18_full64_run_authorization_v3.json \
-                --mesh-summary missing-v3-summary.json \
-                --fields-output "$active_test_root/must-not-create-fields.npz" \
-                --report-output "$active_test_root/must-not-create-report.json" \
-                --progress-output "$active_test_root/must-not-create-progress.json" \
-                --repo-root "$active_test_root/repo" \
-                > "$active_test_root/preflight.stdout" \
-                2> "$active_test_root/preflight.stderr"
-            active_preflight_status="$?"
-            set -e
-            test "$active_preflight_status" -eq 3
-            grep -F 'V3 PREFLIGHT STOP:' "$active_test_root/preflight.stderr"
-            grep -F 'No numerical cases were started and no outputs were created.' \
-              "$active_test_root/preflight.stderr"
-            test ! -e "$active_test_root/must-not-create-fields.npz"
-            test ! -e "$active_test_root/must-not-create-report.json"
-            test ! -e "$active_test_root/must-not-create-progress.json"
-          else
-            echo "Unsupported Stage 18 v3 execution-gate state: $v3_state" >&2
-            exit 1
-          fi
+            test "$entrypoint_status" -eq 2
+            grep -F 'V3 CONTROL-PLANE STOP:' "stage18-v3-$label.stderr"
+            grep -F 'No numerical cases were started; NumPy and numerical inputs were not loaded.' \
+              "stage18-v3-$label.stderr"
+            test ! -e "stage18-v3-$label-must-not-create-fields.npz"
+            test ! -e "stage18-v3-$label-must-not-create-report.json"
+            test ! -e "stage18-v3-$label-must-not-create-progress.json"
+            rm -f "stage18-v3-$label.stdout" "stage18-v3-$label.stderr"
+          done
           cp "$V3_CONTROL_REPORT" stage18-full64-v3-control-validation.json
           cp "$V3_WORKFLOW_REPORT" stage18-full64-v3-workflow-validation.json
       - name: Verify retired numerical CLIs reject before creating outputs

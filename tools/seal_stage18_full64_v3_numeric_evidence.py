@@ -22,6 +22,7 @@ from typing import Any
 
 import evaluate_stage18_full64_v2 as evaluator
 import run_stage18_full64_v2 as runner
+import validate_stage18_full64_v3_control as control_validator
 from stage18_full64_v3_profile import (
     AUTHORIZATION_PATH,
     CONTRACT_PATH,
@@ -103,6 +104,17 @@ def require_sha256(value: Any, label: str) -> str:
     return value
 
 
+def parse_utc_datetime(value: Any, label: str) -> dt.datetime:
+    require(isinstance(value, str) and value, f'{label} must be a timestamp')
+    normalized = f'{value[:-1]}+00:00' if value.endswith('Z') else value
+    try:
+        parsed = dt.datetime.fromisoformat(normalized)
+    except ValueError as error:
+        raise SealError(f'{label} is not an ISO-8601 timestamp: {error}') from error
+    require(parsed.tzinfo is not None, f'{label} must include a timezone')
+    return parsed.astimezone(dt.timezone.utc)
+
+
 def repo_file(repo_root: Path, raw_path: str, label: str) -> Path:
     require(isinstance(raw_path, str) and raw_path, f'{label} path is required')
     relative = Path(raw_path)
@@ -131,6 +143,7 @@ def validate_content_chain(
     repo_root: Path,
     *,
     require_original_field_path: bool,
+    allow_consumed_gate: bool,
 ) -> dict[str, Any]:
     contract_path = repo_file(repo_root, CONTRACT_PATH, 'v3 execution contract')
     gate_path = repo_file(repo_root, GATE_PATH, 'v3 execution gate')
@@ -139,9 +152,31 @@ def validate_content_chain(
     gate, gate_digest = load_json(gate_path, 'v3 execution gate')
     authorization, authorization_digest = load_json(authorization_path, 'v3 authorization')
 
+    evidence_gate_digest = gate_digest
+    consumed_binding: dict[str, Any] | None = None
     try:
         runner.validate_immutable_contract(contract)
-        active = runner.validate_active_gate(gate)
+        if allow_consumed_gate and gate.get('state') == 'consumed':
+            require(gate.get('schema') == runner.GATE_SCHEMA,
+                    'v3 consumed execution-gate schema changed')
+            control_validator.validate_consumed_previous(gate, repo_root)
+            consumed_authorization_digest, _ = control_validator.validate_consumed_v3(
+                gate, repo_root, authorization_path, contract, contract_digest,
+            )
+            require(consumed_authorization_digest == authorization_digest,
+                    'v3 consumed authorization digest differs from historical evidence')
+            consumed = gate['consumedAuthorization']
+            consumed_binding = consumed
+            active = {
+                key: consumed[key]
+                for key in ('id', 'path', 'sha256')
+            }
+            evidence_gate_digest = require_sha256(
+                consumed.get('authorizedGateSha256'),
+                'v3 historical active execution-gate digest',
+            )
+        else:
+            active = runner.validate_active_gate(gate)
         evaluator.validate_authorization(authorization, contract, contract_digest)
     except (runner.PreflightError, evaluator.ValidationError) as error:
         raise SealError(f'v3 reviewed control chain is invalid: {error}') from error
@@ -181,7 +216,7 @@ def validate_content_chain(
             'v3 execution receipt authorization digest mismatch')
     require(receipt.get('executionContractSha256') == contract_digest,
             'v3 execution receipt contract digest mismatch')
-    require(receipt.get('executionGateSha256') == gate_digest,
+    require(receipt.get('executionGateSha256') == evidence_gate_digest,
             'v3 execution receipt gate digest mismatch')
     require(receipt.get('decisionImageSha256') == decision_digest,
             'v3 execution receipt decision-image digest mismatch')
@@ -198,7 +233,7 @@ def validate_content_chain(
     require(isinstance(workflow.get('runId'), str) and workflow['runId'].isdigit(),
             'v3 execution receipt run ID is invalid')
     current_run_id = os.environ.get('GITHUB_RUN_ID')
-    if current_run_id is not None:
+    if current_run_id is not None and consumed_binding is None:
         require(current_run_id == workflow['runId'],
                 'downloaded numerical evidence belongs to a different workflow run')
     require(set(workflow) == {
@@ -212,6 +247,29 @@ def validate_content_chain(
     require(isinstance(receipt.get('reviewedCodeCommit'), str)
             and re.fullmatch(r'[0-9a-f]{40}', receipt['reviewedCodeCommit']) is not None,
             'v3 execution receipt reviewed commit is invalid')
+    require(receipt.get('reviewedCodeCommit') == authorization.get('reviewedCodeCommit'),
+            'v3 execution receipt reviewed commit differs from the authorization')
+    expected_validity = {
+        'issuedAtUtc': authorization.get('issuedAtUtc'),
+        'notAfterUtc': authorization.get('notAfterUtc'),
+        'maxValiditySeconds': 86400,
+    }
+    require(receipt.get('authorizationValidity') == expected_validity,
+            'v3 execution receipt authorization validity changed')
+    issued_at = parse_utc_datetime(authorization.get('issuedAtUtc'), 'v3 authorization issuedAtUtc')
+    not_after = parse_utc_datetime(authorization.get('notAfterUtc'), 'v3 authorization notAfterUtc')
+    receipt_created_at = parse_utc_datetime(
+        receipt.get('createdAtUtc'), 'v3 execution receipt createdAtUtc',
+    )
+    require(issued_at <= receipt_created_at <= not_after,
+            'v3 execution receipt was not created inside the authorization window')
+    if consumed_binding is not None:
+        require(workflow.get('runId') == str(consumed_binding['workflowRunId']),
+                'v3 historical evidence run ID differs from the consumed gate')
+        require(workflow.get('sha') == consumed_binding['executionCommit'],
+                'v3 historical evidence commit differs from the consumed gate')
+        require(receipt.get('executionCommit') == consumed_binding['executionCommit'],
+                'v3 historical receipt commit differs from the consumed gate')
     require(receipt.get('consumptionEvidence') == {
         'stepName': 'Consume v3 one-time recovery authorization',
         'automaticRetryAllowed': False,
@@ -342,7 +400,7 @@ def validate_content_chain(
     return {
         'authorizationId': authorization_id,
         'executionContractSha256': contract_digest,
-        'executionGateSha256': gate_digest,
+        'executionGateSha256': evidence_gate_digest,
         'authorizationSha256': authorization_digest,
         'decisionImageSha256': decision_digest,
         'executionReceiptSha256': receipt_digest,
@@ -389,7 +447,7 @@ def seal(workdir: Path, output: Path, repo_root: Path) -> dict[str, Any]:
     require(output.name == MANIFEST_NAME and output.parent.resolve() == workdir,
             f'numeric-evidence manifest must be {MANIFEST_NAME} in the work directory')
     provenance = validate_content_chain(
-        workdir, repo_root, require_original_field_path=True,
+        workdir, repo_root, require_original_field_path=True, allow_consumed_gate=False,
     )
     records = fixed_file_records(workdir)
     manifest = {
@@ -426,6 +484,17 @@ def verify(manifest_path: Path, workdir: Path, repo_root: Path) -> dict[str, Any
     require(manifest_path.name == MANIFEST_NAME and manifest_path.parent.resolve() == workdir,
             f'verified manifest must be {MANIFEST_NAME} in the work directory')
     manifest, manifest_digest = load_json(manifest_path, 'numeric-evidence manifest')
+    gate_path = repo_file(repo_root, GATE_PATH, 'v3 execution gate')
+    gate, _ = load_json(gate_path, 'v3 execution gate')
+    if gate.get('state') == 'consumed':
+        try:
+            control_validator.validate(repo_root, 'consumed')
+        except runner.PreflightError as error:
+            raise SealError(f'v3 consumed control chain is invalid: {error}') from error
+        require(
+            manifest_digest == control_validator.NUMERIC_EVIDENCE_MANIFEST_SHA256,
+            'numeric-evidence manifest digest does not match the consumed result record',
+        )
     require(set(manifest) == {
         'schema', 'status', 'authorizationId', 'createdAtUtc', 'workflow', 'provenance',
         'evidenceFiles', 'fileCount', 'checkpointFileCountIncludingManifest',
@@ -454,7 +523,7 @@ def verify(manifest_path: Path, workdir: Path, repo_root: Path) -> dict[str, Any
                 f'numeric-evidence digest mismatch: {expected_name}')
 
     provenance = validate_content_chain(
-        workdir, repo_root, require_original_field_path=False,
+        workdir, repo_root, require_original_field_path=False, allow_consumed_gate=True,
     )
     require(manifest.get('authorizationId') == provenance['authorizationId'],
             'numeric-evidence manifest authorization ID mismatch')

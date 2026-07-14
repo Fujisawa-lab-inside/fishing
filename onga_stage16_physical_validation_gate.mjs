@@ -5,6 +5,8 @@ import {
   recordGoverningEquationDecision,
 } from './onga_stage16_governing_equation_decision.mjs';
 import {
+  assertPhysicalSimulationReady,
+  loadPhysicalReadinessConfiguration,
   physicalReadinessReport,
   validatePhysicalReadinessConfiguration,
 } from './onga_stage16_physical_readiness.mjs';
@@ -12,6 +14,7 @@ import {
 export const STAGE16_PHYSICAL_VALIDATION_GATE_VERSION = 'stage16-physical-validation-gate-v1';
 export const STAGE16_SELECTED_GOVERNING_EQUATION = 'depth_averaged_shallow_water';
 export const STAGE16_SELECTED_DECISION_OPTION = 'adopt_depth_averaged_shallow_water_for_validation';
+const VERIFIED_GATE_INPUTS = new WeakSet();
 
 function blocker(code, pathName, message) {
   return Object.freeze({ code, path: pathName, message });
@@ -19,6 +22,12 @@ function blocker(code, pathName, message) {
 
 function nonempty(value) {
   return typeof value === 'string' && value.trim().length > 0;
+}
+
+function deepFreeze(value) {
+  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  for (const child of Object.values(value)) deepFreeze(child);
+  return Object.freeze(value);
 }
 
 export function governingEquationSelectionReport({
@@ -71,6 +80,11 @@ export function governingEquationSelectionReport({
   }
 
   const configured = readinessConfig?.governingEquation;
+  if (readinessConfig?.schema !== 'onga-stage16-physical-readiness-v2') blockers.push(blocker(
+    'READINESS_SCHEMA_DOWNGRADE_REJECTED',
+    'schema',
+    'Physical execution requires the current corrected v2 readiness schema; v1 is historical evidence only.',
+  ));
   if (!configured || configured.selected !== STAGE16_SELECTED_GOVERNING_EQUATION) blockers.push(blocker(
     'READINESS_GOVERNING_EQUATION_MISMATCH',
     'governingEquation.selected',
@@ -143,18 +157,24 @@ export function stage16PhysicalValidationGateReport({
 }
 
 export function assertStage16PhysicalValidationReady(inputs) {
+  if (!inputs || typeof inputs !== 'object' || !VERIFIED_GATE_INPUTS.has(inputs)) {
+    throw new Error(
+      '[stage16-physical-validation-gate] assertion requires deeply frozen inputs from the secure loader',
+    );
+  }
   const report = stage16PhysicalValidationGateReport(inputs);
   if (!report.ready) {
     throw new Error(
       `[stage16-physical-validation-gate] not ready: ${report.blockers.map(item => item.code).join(', ')}`,
     );
   }
+  assertPhysicalSimulationReady(inputs.readinessConfig);
   return report;
 }
 
 export async function loadStage16PhysicalValidationGateInputs({
   decisionInputPath = 'config/stage16_governing_equation_decision_inputs.json',
-  readinessConfigPath = 'config/onga_stage16_physical_readiness_v1.json',
+  readinessConfigPath = 'config/onga_stage16_physical_readiness_v2.json',
 } = {}) {
   const decisionInput = JSON.parse(await fs.readFile(decisionInputPath, 'utf8'));
   if (!nonempty(decisionInput.decisionRecord)) {
@@ -163,7 +183,9 @@ export async function loadStage16PhysicalValidationGateInputs({
   const decisionRecordPath = path.resolve(decisionInput.decisionRecord);
   const [decisionRecord, readinessConfig] = await Promise.all([
     fs.readFile(decisionRecordPath, 'utf8').then(JSON.parse),
-    fs.readFile(readinessConfigPath, 'utf8').then(JSON.parse),
+    loadPhysicalReadinessConfiguration(readinessConfigPath),
   ]);
-  return Object.freeze({ decisionInput, decisionRecord, readinessConfig });
+  const inputs = deepFreeze({ decisionInput, decisionRecord, readinessConfig });
+  VERIFIED_GATE_INPUTS.add(inputs);
+  return inputs;
 }

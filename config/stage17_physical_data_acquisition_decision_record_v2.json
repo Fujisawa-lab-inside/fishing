@@ -1,0 +1,48 @@
+{
+  "schema": "onga-stage17-physical-data-acquisition-decision-record-v2",
+  "version": "stage17-physical-data-acquisition-decision-record-v2",
+  "supersedes": {
+    "path": "config/stage17_physical_data_acquisition_decision_record_v1.json",
+    "sha256": "5e66568e5dbc1cda32af371f66b9521a5c5d21679e2ddea523383c2a24b68be5"
+  },
+  "optionId": "parallel_official_request_and_public_database_acquisition",
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedAt": "2026-07-13T00:00:00Z",
+  "sourceStatement": "A案で作業を進めてください",
+  "approvalInheritance": "route choice is inherited unchanged from v1; only the separately approved geometry identity is rebound",
+  "geometryBinding": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "waterManifest": "data/onga_unified_water_manifest_r3.json",
+    "waterManifestSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+    "metricMeshVersion": "stage16-metric-fv-mesh-v2",
+    "metricMeshCellCount": 50129,
+    "metricMeshPackageSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "geometryApprovedBy": "Ryusuke Fujisawa",
+    "geometryApprovedAt": "2026-07-14",
+    "geometrySourceStatement": "この形でよい",
+    "geometryApprovalScope": "corrected Linux mesh geometry only"
+  },
+  "scope": {
+    "officialRequestPreparationAndSubmission": true,
+    "publicOfficialDatabaseAcquisition": true,
+    "secondaryTideReferenceAudit": true,
+    "automaticSolverAssignment": false,
+    "physicalRunEnablement": false,
+    "publicSimulatorConnection": false
+  },
+  "approvedActions": [
+    "prepare an official data request to the Onga River Office",
+    "identify an official contact route and submit only after the recipient and exact message are verified",
+    "download and archive publicly available official hydrology metadata and observations",
+    "audit station-to-boundary hydraulic compatibility",
+    "preserve provenance, quality flags, time basis, and vertical datum metadata"
+  ],
+  "notApproved": [
+    "assigning any station directly to M, N, O, or G",
+    "using astronomical tide as observed M-boundary water level",
+    "inventing bathymetry, Manning roughness, discharge, rating curves, fishway flow, or barrage coefficients",
+    "changing the approved 680633-pixel water geometry or the 50129-cell mesh",
+    "enabling the physical solver or replacing the legacy public flow calculation"
+  ]
+}

@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'tools/validate_stage17_acquisition_decision.mjs'
       - 'docs/STAGE17_ACQUISITION_ROUTE_A.md'
       - '.github/workflows/stage17-acquisition-decision-validation.yml'
@@ -12,6 +13,7 @@ on:
       - main
     paths:
       - 'config/stage17_physical_data_acquisition_decision_record_v1.json'
+      - 'config/stage17_physical_data_acquisition_decision_record_v2.json'
       - 'tools/validate_stage17_acquisition_decision.mjs'
       - 'docs/STAGE17_ACQUISITION_ROUTE_A.md'
       - '.github/workflows/stage17-acquisition-decision-validation.yml'
@@ -33,7 +35,7 @@ jobs:
       - name: Validate approved route A and safeguards
         run: |
           node tools/validate_stage17_acquisition_decision.mjs \
-            config/stage17_physical_data_acquisition_decision_record_v1.json \
+            config/stage17_physical_data_acquisition_decision_record_v2.json \
             stage17-acquisition-decision-validation.json
       - name: Upload decision evidence
         uses: actions/upload-artifact@v4

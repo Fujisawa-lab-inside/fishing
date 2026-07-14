@@ -6,7 +6,7 @@ import {
   validatePhysicalReadinessConfiguration,
 } from '../onga_stage16_physical_readiness.mjs';
 
-const configPath = process.argv[2] || 'config/onga_stage16_physical_readiness_v1.json';
+const configPath = process.argv[2] || 'config/onga_stage16_physical_readiness_v2.json';
 const outputPath = process.argv[3] || 'stage16-physical-readiness-validation.json';
 
 function check(name, value, expected, ok) {
@@ -34,10 +34,28 @@ function expectThrow(fn) {
   }
 }
 
+function deeplyFrozen(value) {
+  return !value || typeof value !== 'object'
+    || (Object.isFrozen(value) && Object.values(value).every(deeplyFrozen));
+}
+
 const template = await loadPhysicalReadinessConfiguration(configPath);
+const defaultTemplate = await loadPhysicalReadinessConfiguration();
+const historicalV1 = await loadPhysicalReadinessConfiguration(
+  'config/onga_stage16_physical_readiness_v1.json',
+);
+const currentV2 = await loadPhysicalReadinessConfiguration(
+  'config/onga_stage16_physical_readiness_v2.json',
+);
 const templateReport = physicalReadinessReport(template);
+const currentV2Report = physicalReadinessReport(currentV2);
+const currentV2Codes = new Set(currentV2Report.blockers.map(item => item.code));
+const fixtureCellCount = Number(template.mesh.cellCount);
 const templateCodes = new Set(templateReport.blockers.map(item => item.code));
 const mandatoryTemplateCodes = [
+  ...(template.schema === 'onga-stage16-physical-readiness-v2'
+    ? ['MESH_RUNTIME_PACKAGE_UNVERIFIED']
+    : ['HISTORICAL_READINESS_SCHEMA_NOT_EXECUTABLE']),
   'BATHYMETRY_MODE_UNASSIGNED',
   'BATHYMETRY_SOURCE_UNAPPROVED',
   'BATHYMETRY_DATUM_UNASSIGNED',
@@ -55,13 +73,18 @@ const mandatoryTemplateCodes = [
 
 const fixture = clone(template);
 fixture.status = 'verification_fixture_complete';
+fixture.mesh.runtimePackage = {
+  path: 'fixture://canonical-mesh-v2.npz',
+  sha256: fixture.mesh.packageSha256,
+  approved: true,
+};
 fixture.bathymetry = {
   ...fixture.bathymetry,
   mode: 'per_cell',
   dataSource: approvedSource('bathymetry-fixture'),
   verticalDatum: 'fixture-datum',
   uncertaintyM: 0.1,
-  cellFieldResource: approvedResource('fixture://bathymetry', 50333),
+  cellFieldResource: approvedResource('fixture://bathymetry', fixtureCellCount),
 };
 fixture.roughness = {
   ...fixture.roughness,
@@ -102,7 +125,8 @@ fixture.approval = {
 fixture.simulation.physicalRunEnabled = true;
 fixture.safeguards.physicalValuesAssigned = true;
 const fixtureReport = physicalReadinessReport(fixture);
-const fixtureAsserted = assertPhysicalSimulationReady(fixture).ready;
+const fixtureCodes = new Set(fixtureReport.blockers.map(item => item.code));
+const unverifiedFixtureAssertRejected = expectThrow(() => assertPhysicalSimulationReady(fixture));
 
 const datumMismatch = clone(fixture);
 datumMismatch.boundaries.M.verticalDatum = 'different-fixture-datum';
@@ -136,17 +160,62 @@ const unapprovedResourceReport = physicalReadinessReport(unapprovedResource);
 const unapprovedResourceDetected = unapprovedResourceReport.blockers
   .some(item => item.code === 'BATHYMETRY_CELL_FIELD_MISSING');
 
+const historicalIdentityMutation = clone(historicalV1);
+historicalIdentityMutation.mesh.cellCount = currentV2.mesh.cellCount;
+const historicalIdentityMutationRejected = expectThrow(
+  () => validatePhysicalReadinessConfiguration(historicalIdentityMutation),
+);
+
+const currentIdentityMutation = clone(currentV2);
+currentIdentityMutation.mesh.packageSha256 = '0'.repeat(64);
+const currentIdentityMutationRejected = expectThrow(
+  () => validatePhysicalReadinessConfiguration(currentIdentityMutation),
+);
+
 const templateAssertRejected = expectThrow(() => assertPhysicalSimulationReady(template));
+const historicalAssertRejected = expectThrow(() => assertPhysicalSimulationReady(historicalV1));
+const fixtureExecutionIdentityStateCorrect = template.schema === 'onga-stage16-physical-readiness-v2'
+  ? (!fixtureReport.ready
+    && fixtureReport.blockerCount === 1
+    && fixtureCodes.has('MESH_RUNTIME_PACKAGE_UNVERIFIED')
+    && fixtureReport.summary.runtimeMeshPackageVerified === false)
+  : (!fixtureReport.ready
+    && fixtureReport.blockerCount === 1
+    && fixtureCodes.has('HISTORICAL_READINESS_SCHEMA_NOT_EXECUTABLE'));
 const checks = [
+  check('default readiness configuration is v2', defaultTemplate.schema,
+    'onga-stage16-physical-readiness-v2',
+    defaultTemplate.schema === 'onga-stage16-physical-readiness-v2'),
+  check('historical v1 identity remains valid', historicalV1.schema,
+    'onga-stage16-physical-readiness-v1',
+    validatePhysicalReadinessConfiguration(historicalV1)),
+  check('current v2 identity is valid', currentV2.schema,
+    'onga-stage16-physical-readiness-v2',
+    validatePhysicalReadinessConfiguration(currentV2)),
+  check('secure loader deeply freezes v2 configuration', deeplyFrozen(currentV2), true,
+    deeplyFrozen(currentV2)),
+  check('secure loader deeply freezes row-chunk bindings',
+    currentV2.mesh.waterRowChunks.every(deeplyFrozen), true,
+    currentV2.mesh.waterRowChunks.every(deeplyFrozen)),
+  check('historical v1 assertion is rejected', historicalAssertRejected, true,
+    historicalAssertRejected),
+  check('current v2 blocks an absent runtime mesh package',
+    currentV2Codes.has('MESH_RUNTIME_PACKAGE_UNVERIFIED'), true,
+    currentV2Codes.has('MESH_RUNTIME_PACKAGE_UNVERIFIED')),
+  check('historical v1 identity mutation rejected', historicalIdentityMutationRejected, true,
+    historicalIdentityMutationRejected),
+  check('current v2 digest mutation rejected', currentIdentityMutationRejected, true,
+    currentIdentityMutationRejected),
   check('template configuration valid', true, true, validatePhysicalReadinessConfiguration(template)),
   check('template physical simulation blocked', templateReport.ready, false, !templateReport.ready),
   check('template blocker count', templateReport.blockerCount, '>0', templateReport.blockerCount > 0),
   check('mandatory decisions reported', mandatoryTemplateCodes.every(code => templateCodes.has(code)), true,
     mandatoryTemplateCodes.every(code => templateCodes.has(code))),
   check('template assert-ready rejects', templateAssertRejected, true, templateAssertRejected),
-  check('complete in-memory fixture ready', fixtureReport.ready, true, fixtureReport.ready),
-  check('complete fixture blocker count', fixtureReport.blockerCount, 0, fixtureReport.blockerCount === 0),
-  check('assert-ready accepts complete fixture', fixtureAsserted, true, fixtureAsserted),
+  check('execution identity cannot be bypassed by an in-memory metadata fixture',
+    fixtureReport.ready, false, fixtureExecutionIdentityStateCorrect),
+  check('assert-ready rejects an unverified in-memory fixture', unverifiedFixtureAssertRejected, true,
+    unverifiedFixtureAssertRejected),
   check('vertical datum mismatch detected', datumMismatchDetected, true, datumMismatchDetected),
   check('physical-run disable detected', disabledRunDetected, true, disabledRunDetected),
   check('missing explicit approval detected', missingApprovalDetected, true, missingApprovalDetected),
@@ -163,6 +232,9 @@ const report = {
   schema: 'onga-stage16-physical-readiness-validation-v1',
   status: checks.every(item => item.ok) ? 'passed' : 'failed',
   template: {
+    schema: template.schema,
+    cellCount: template.mesh.cellCount,
+    approvedWaterPixelCount: template.mesh.approvedWaterPixelCount,
     ready: templateReport.ready,
     blockerCount: templateReport.blockerCount,
     blockerCodes: templateReport.blockers.map(item => item.code),
@@ -171,7 +243,7 @@ const report = {
     ready: fixtureReport.ready,
     blockerCount: fixtureReport.blockerCount,
     committed: false,
-    purpose: 'validator-only fixture，not a physical model input',
+    purpose: 'validator-only metadata fixture; v2 remains blocked without secure runtime mesh verification',
   },
   safeguards: template.safeguards,
   checks,

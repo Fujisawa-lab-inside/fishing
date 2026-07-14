@@ -1,5 +1,7 @@
 # Stage 17 inferred physical prior
 
+> Historical parameter-prior record: `config/stage17_inferred_physical_prior_v1.json` retains the superseded 679,791-pixel / 50,333-cell identity because its digest is part of completed Stage 18 provenance. The corrected Stage 18 v2 ensemble reuses only the parameter cases and binds them separately to the approved 680,633-pixel / 50,129-cell geometry. This prior is not a physical bathymetry source.
+
 ## Purpose
 
 When authoritative physical data are unavailable，the model may proceed with an explicitly provisional inference ensemble．The objective is sensitivity analysis，algorithm development，and identification of robust flow features．It is not physical Validation and must not be represented as measured reality．

@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
 
 const requestPath = process.argv[2] || 'config/stage17_onga_office_request_submission_v1.json';
-const decisionPath = process.argv[3] || 'config/stage17_physical_data_acquisition_decision_record_v1.json';
+const decisionPath = process.argv[3] || 'config/stage17_physical_data_acquisition_decision_record_v2.json';
 const outputPath = process.argv[4] || 'stage17-onga-office-request-submission-validation.json';
 
 function assert(condition, message) {
@@ -22,6 +23,10 @@ function parseDateOrNull(value) {
   return Number.isFinite(timestamp) ? timestamp : null;
 }
 
+function sha256Hex(value) {
+  return typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
+}
+
 function validateSafeguards(config) {
   const expectedFalse = [
     'approvedWaterGeometryChanged',
@@ -38,7 +43,7 @@ function validateSafeguards(config) {
 }
 
 function validateRouteDecision(decision) {
-  assert(decision?.schema === 'onga-stage17-physical-data-acquisition-decision-record-v1',
+  assert(decision?.schema === 'onga-stage17-physical-data-acquisition-decision-record-v2',
     'acquisition decision schema mismatch');
   assert(decision.optionId === 'parallel_official_request_and_public_database_acquisition',
     'route A is not selected');
@@ -50,17 +55,31 @@ function validateRouteDecision(decision) {
     'physical run enablement must remain disallowed');
 }
 
-export function buildSubmissionReadiness(config, decision) {
+export function buildSubmissionReadiness(config, decision, actualMessageSha256) {
   assert(config?.schema === 'onga-stage17-official-request-submission-v1', 'request schema mismatch');
   validateRouteDecision(decision);
   validateSafeguards(config);
-  assert(config.acquisitionDecisionRecord === 'config/stage17_physical_data_acquisition_decision_record_v1.json',
+  assert(config.acquisitionDecisionRecord === 'config/stage17_physical_data_acquisition_decision_record_v2.json',
     'decision record path mismatch');
   assert(config.recipient?.organization === '国土交通省九州地方整備局 遠賀川河川事務所',
     'recipient organization mismatch');
   assert(config.recipient?.telephone === '0949-22-1830', 'official telephone mismatch');
+  assert(config.recipient?.verifiedEmail === 'onga@qsr.mlit.go.jp', 'official email mismatch');
+  assert(config.recipient?.officialContactEvidence?.url
+    === 'https://www.qsr.mlit.go.jp/onga/access/index.html',
+  'official contact evidence URL mismatch');
+  assert(config.recipient?.officialContactEvidence?.sha256
+    === 'a42fb487de0c39c8215a9fcb70010caf056e09a2f31172035a086736aef0adee',
+  'official contact evidence SHA-256 mismatch');
   assert(config.submission?.externalContactPerformed === false,
     'committed pre-submission packet must not claim that contact was performed');
+  assert(JSON.stringify(config.submission?.allowedMethods) === JSON.stringify(['verified_email']),
+    'only the sealed official email route is currently supported');
+  assert(sha256Hex(actualMessageSha256), 'actual message SHA-256 is required');
+  assert(config.submission?.message?.path === 'docs/STAGE17_ONGA_OFFICE_DATA_REQUEST_DRAFT.md',
+    'message path mismatch');
+  assert(config.submission?.message?.currentDraftSha256 === actualMessageSha256,
+    'committed draft digest does not match the exact message file');
 
   const blockers = [];
   const requesterFields = [
@@ -117,17 +136,37 @@ export function buildSubmissionReadiness(config, decision) {
   if (!allowedMethods.has(selectedMethod)) blockers.push(blocker(
     'SUBMISSION_METHOD_UNSELECTED',
     'submission.selectedMethod',
-    '電話確認後の公式経路，確認済みメール，公式フォーム，郵送のいずれかを選択する必要がある．',
+    '現行gateでは封印済みの公式メール経路を選択する必要がある．',
   ));
-  if (config.submission?.messageApprovedByRequester !== true) blockers.push(blocker(
+  const message = config.submission?.message;
+  if (config.submission?.messageApprovedByRequester !== true
+    || message?.approvedSha256 !== actualMessageSha256
+    || message?.approvedBy !== config.requester?.fullName
+    || parseDateOrNull(message?.approvedAt) === null) blockers.push(blocker(
     'MESSAGE_NOT_APPROVED',
-    'submission.messageApprovedByRequester',
-    '送信本文の最終承認が必要である．',
+    'submission.message',
+    '送信する本文そのもののSHA-256，承認者，承認日時を固定した最終承認が必要である．',
   ));
-  if (config.submission?.recipientRouteVerified !== true) blockers.push(blocker(
+  const route = config.recipient?.routeVerification;
+  const routeCommonReady = config.submission?.recipientRouteVerified === true
+    && route?.method === selectedMethod
+    && nonempty(route?.destination)
+    && nonempty(route?.officialSourceUrl)
+    && route.officialSourceUrl.startsWith('https://')
+    && sha256Hex(route?.officialSourceSha256)
+    && parseDateOrNull(route?.verifiedAt) !== null
+    && parseDateOrNull(route?.verifiedAt)
+      >= parseDateOrNull(config.recipient?.officialContactEvidence?.retrievedAt)
+    && nonempty(route?.verifiedBy);
+  const methodRouteReady = selectedMethod === 'verified_email'
+    && nonempty(config.recipient?.verifiedEmail)
+    && route?.destination === config.recipient.verifiedEmail
+    && route?.officialSourceUrl === config.recipient.officialContactEvidence.url
+    && route?.officialSourceSha256 === config.recipient.officialContactEvidence.sha256;
+  if (!routeCommonReady || !methodRouteReady) blockers.push(blocker(
     'RECIPIENT_ROUTE_NOT_VERIFIED',
-    'submission.recipientRouteVerified',
-    '送信先が公式経路であることを送信直前に確認する必要がある．',
+    'recipient.routeVerification',
+    '選択した方法，送信先，公式確認元のSHA-256，確認者，確認日時を送信直前に固定する必要がある．',
   ));
 
   return Object.freeze({
@@ -138,12 +177,16 @@ export function buildSubmissionReadiness(config, decision) {
     routeAApproved: true,
     externalContactPerformed: false,
     physicalValuesAssigned: false,
+    exactMessageSha256: actualMessageSha256,
   });
 }
 
 const request = JSON.parse(await fs.readFile(requestPath, 'utf8'));
 const decision = JSON.parse(await fs.readFile(decisionPath, 'utf8'));
-const templateReport = buildSubmissionReadiness(request, decision);
+const actualMessageSha256 = crypto.createHash('sha256')
+  .update(await fs.readFile(request.submission.message.path))
+  .digest('hex');
+const templateReport = buildSubmissionReadiness(request, decision, actualMessageSha256);
 
 const fixture = JSON.parse(JSON.stringify(request));
 fixture.status = 'validator_only_ready_fixture';
@@ -166,16 +209,27 @@ fixture.requestedDomain.dataPeriod = {
   priorityStart: '2025-01-01',
   priorityEnd: '2026-12-31',
 };
-fixture.submission.selectedMethod = 'telephone_intake_then_verified_followup';
+fixture.recipient.routeVerification = {
+  method: 'verified_email',
+  destination: fixture.recipient.verifiedEmail,
+  officialSourceUrl: fixture.recipient.officialContactEvidence.url,
+  officialSourceSha256: fixture.recipient.officialContactEvidence.sha256,
+  verifiedAt: '2026-07-14T06:00:00Z',
+  verifiedBy: 'verification-fixture',
+};
+fixture.submission.selectedMethod = 'verified_email';
 fixture.submission.messageApprovedByRequester = true;
+fixture.submission.message.approvedSha256 = actualMessageSha256;
+fixture.submission.message.approvedBy = fixture.requester.fullName;
+fixture.submission.message.approvedAt = '2026-07-14T00:00:00Z';
 fixture.submission.recipientRouteVerified = true;
-const fixtureReport = buildSubmissionReadiness(fixture, decision);
+const fixtureReport = buildSubmissionReadiness(fixture, decision, actualMessageSha256);
 
 const alteredDecision = JSON.parse(JSON.stringify(decision));
 alteredDecision.optionId = 'public_database_only';
 let alteredDecisionRejected = false;
 try {
-  buildSubmissionReadiness(request, alteredDecision);
+  buildSubmissionReadiness(request, alteredDecision, actualMessageSha256);
 } catch (_) {
   alteredDecisionRejected = true;
 }
@@ -184,9 +238,34 @@ const alteredGeometry = JSON.parse(JSON.stringify(request));
 alteredGeometry.safeguards.approvedWaterGeometryChanged = true;
 let alteredGeometryRejected = false;
 try {
-  buildSubmissionReadiness(alteredGeometry, decision);
+  buildSubmissionReadiness(alteredGeometry, decision, actualMessageSha256);
 } catch (_) {
   alteredGeometryRejected = true;
+}
+
+const tamperedApproval = JSON.parse(JSON.stringify(fixture));
+tamperedApproval.submission.message.approvedSha256 = 'b'.repeat(64);
+const tamperedApprovalReport = buildSubmissionReadiness(
+  tamperedApproval,
+  decision,
+  actualMessageSha256,
+);
+
+const mismatchedRoute = JSON.parse(JSON.stringify(fixture));
+mismatchedRoute.recipient.routeVerification.destination = 'different@example.invalid';
+const mismatchedRouteReport = buildSubmissionReadiness(
+  mismatchedRoute,
+  decision,
+  actualMessageSha256,
+);
+
+const alteredContactEvidence = JSON.parse(JSON.stringify(request));
+alteredContactEvidence.recipient.officialContactEvidence.sha256 = 'c'.repeat(64);
+let alteredContactEvidenceRejected = false;
+try {
+  buildSubmissionReadiness(alteredContactEvidence, decision, actualMessageSha256);
+} catch (_) {
+  alteredContactEvidenceRejected = true;
 }
 
 const requiredTemplateBlockers = [
@@ -208,6 +287,9 @@ const checks = [
   { name: 'validator-only complete fixture is ready', ok: fixtureReport.readyForSubmission === true && fixtureReport.blockerCount === 0 },
   { name: 'non-A acquisition route is rejected', ok: alteredDecisionRejected },
   { name: 'approved geometry mutation is rejected', ok: alteredGeometryRejected },
+  { name: 'message approval is bound to exact digest', ok: tamperedApprovalReport.blockers.some(item => item.code === 'MESSAGE_NOT_APPROVED') },
+  { name: 'selected method is bound to the verified destination', ok: mismatchedRouteReport.blockers.some(item => item.code === 'RECIPIENT_ROUTE_NOT_VERIFIED') },
+  { name: 'official contact evidence digest is immutable', ok: alteredContactEvidenceRejected },
   { name: 'external contact remains unperformed', ok: templateReport.externalContactPerformed === false },
   { name: 'no physical value is assigned', ok: templateReport.physicalValuesAssigned === false },
 ];

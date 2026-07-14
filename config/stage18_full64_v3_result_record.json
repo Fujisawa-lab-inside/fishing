@@ -1,0 +1,83 @@
+{
+  "schema": "onga-stage18-full64-v3-result-record-v1",
+  "status": "passed",
+  "recordedDate": "2026-07-14",
+  "workflow": {
+    "name": "Stage 18 corrected v3 one-time full64 recovery run",
+    "runId": 29307047699,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699",
+    "executionCommit": "c378fb3885484ea17b39143d294ca10e41cb59b6",
+    "authorizationId": "stage18-v3-20260714t044734z-one-time",
+    "authorizationConsumed": true,
+    "authorizationReusable": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAuthorized": false
+  },
+  "numericalResult": {
+    "requestedCaseCount": 64,
+    "completedCaseCount": 64,
+    "failedCaseCount": 0,
+    "stepsPerCase": 500,
+    "nanCount": 0,
+    "negativeDepthCount": 0,
+    "maxCfl": 0.12000000000000002,
+    "maxAbsoluteMassBalanceError": 3.0134486651120407e-16,
+    "wallSeconds": 599.102227037,
+    "peakResidentMemoryMiB": 168.59765625,
+    "minimumDepthM": 1.26795059543982,
+    "evaluationPassed": true,
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time"
+  },
+  "mapPackage": {
+    "meshCellCount": 50129,
+    "representedCellCount": 50129,
+    "coverageFraction": 1.0,
+    "requiredMapCount": 5,
+    "completedMapCount": 5,
+    "completed": true,
+    "judgmentSvgSha256": "47d3d36a257f4b086f707f97748d39782c50ff77ce40d55aed001233b3b11594"
+  },
+  "numericEvidence": {
+    "sealed": true,
+    "manifestFile": "full64-numeric-evidence-manifest.json",
+    "manifestSha256": "e60287e82d1837b978ecb1c939e9e4b5f2ac075bbaf5c4563df8972da8a350f8"
+  },
+  "artifacts": [
+    {
+      "role": "results",
+      "artifactId": 8300775754,
+      "name": "stage18-full64-v3-results-29307047699",
+      "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300775754",
+      "expiresOn": "2026-10-12"
+    },
+    {
+      "role": "numericEvidence",
+      "artifactId": 8300766356,
+      "name": "stage18-full64-v3-numeric-evidence-29307047699",
+      "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300766356",
+      "expiresOn": "2026-10-12"
+    }
+  ],
+  "interpretationLimits": {
+    "classification": "provisional_full64_runtime_and_numerical_stability_evidence_only",
+    "stepMatchedComparisonOnly": true,
+    "commonPhysicalTimeComparisonAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "inferredParametersAreObservations": false,
+    "publicSimulatorConnectionEnabled": false,
+    "legacyFlowCalculationChanged": false
+  },
+  "physicalReviewNote": {
+    "recordedAt": "2026-07-14",
+    "source": "user review of the five-map judgment package",
+    "observation": "The user hypothesizes that the displayed median-depth distribution differs from actual bathymetry and that real cross-channel depth may be greater near the channel centre and shallower toward land.",
+    "status": "unverified_hypothesis_for_authoritative_bathymetry_audit",
+    "mustNotBeUsedAs": [
+      "an approved bathymetry field",
+      "a visual-fitting target",
+      "permission to alter geometry or physical inputs"
+    ],
+    "requiredResolution": "Compare against authoritative surveyed cross sections and their vertical datum before any physical model input is approved."
+  }
+}

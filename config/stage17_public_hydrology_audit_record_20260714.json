@@ -1,0 +1,147 @@
+{
+  "schema": "onga-stage17-public-hydrology-diagnostic-audit-snapshot-v1",
+  "status": "diagnostic_snapshot_sources_unselected",
+  "recordedAtUtc": "2026-07-14T05:53:29Z",
+  "evidenceClassification": {
+    "kind": "diagnostic_audit_snapshot",
+    "sealedRecord": false,
+    "authorizesSourceSelection": false
+  },
+  "approvedDomain": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "metricMeshVersion": "stage16-metric-fv-mesh-v2",
+    "metricMeshCellCount": 50129
+  },
+  "networkPolicy": {
+    "method": "HTTPS_GET_only",
+    "redirectsOutsideAllowlistRejected": true,
+    "allowedHosts": [
+      "www.data.jma.go.jp",
+      "www.qsr.mlit.go.jp",
+      "www.river.go.jp",
+      "www1.river.go.jp"
+    ]
+  },
+  "sourceReports": [
+    {
+      "role": "official_page_probe",
+      "generatedAtUtc": "2026-07-14T05:53:29Z",
+      "sha256": "6e23d6426716abdf2a531eadb436db15e52a5452b91f2f8b9d3eb66fa85d3f6b"
+    },
+    {
+      "role": "official_river_api_probe",
+      "generatedAtUtc": "2026-07-14T05:52:39Z",
+      "selectedApplicationTime": "2026-07-14T14:45:00+09:00",
+      "sha256": "bfbf8ff1232e1c32fee0e08f8a33d1e4ce5899f44f23804ed82a85076044d27f"
+    },
+    {
+      "role": "station_boundary_compatibility_audit",
+      "applicationTime": "2026-07-14T14:45:00+09:00",
+      "sha256": "6f1a6427dd685d0433a7ac09dd38e68c2c96a0d941566551c0b6636c73e15a8c"
+    }
+  ],
+  "officialContact": {
+    "organization": "国土交通省九州地方整備局 遠賀川河川事務所",
+    "page": "https://www.qsr.mlit.go.jp/onga/access/index.html",
+    "pageSha256": "a42fb487de0c39c8215a9fcb70010caf056e09a2f31172035a086736aef0adee",
+    "telephone": "0949-22-1830",
+    "email": "onga@qsr.mlit.go.jp",
+    "emailVerifiedOnOfficialPage": true,
+    "externalContactPerformed": false
+  },
+  "stationDiagnostics": [
+    {
+      "id": "gion_bridge",
+      "name": "祇園橋",
+      "river": "西川",
+      "latitude": 33.8905556,
+      "longitude": 130.6736111,
+      "geometricNearestOpenBoundary": "N",
+      "geometricNearestOpenBoundaryDistanceM": 455.17893950148,
+      "hydraulicRoleInferredFromDistance": false,
+      "insideApprovedWater": false,
+      "publicWaterLevelSeriesAvailable": true,
+      "publicDischargeFieldAvailable": false,
+      "publishedZeroHeightM": -1.231,
+      "verticalDatumMeaningResolved": false,
+      "boundaryAssignment": null,
+      "approvedForSolver": false
+    },
+    {
+      "id": "karakuma",
+      "name": "唐熊",
+      "river": "遠賀川",
+      "latitude": 33.7922222,
+      "longitude": 130.7111111,
+      "geometricNearestOpenBoundary": "G",
+      "geometricNearestOpenBoundaryDistanceM": 10773.040250386202,
+      "hydraulicRoleInferredFromDistance": false,
+      "insideApprovedWater": false,
+      "publicWaterLevelSeriesAvailable": true,
+      "publicDischargeFieldAvailable": false,
+      "publishedZeroHeightM": 0.5,
+      "verticalDatumMeaningResolved": false,
+      "boundaryAssignment": null,
+      "approvedForSolver": false
+    },
+    {
+      "id": "nakama",
+      "name": "中間",
+      "river": "遠賀川",
+      "latitude": 33.8155556,
+      "longitude": 130.7072222,
+      "geometricNearestOpenBoundary": "G",
+      "geometricNearestOpenBoundaryDistanceM": 8170.441200732165,
+      "hydraulicRoleInferredFromDistance": false,
+      "insideApprovedWater": false,
+      "publicWaterLevelSeriesAvailable": true,
+      "publicDischargeFieldAvailable": false,
+      "publishedZeroHeightM": 0.695,
+      "verticalDatumMeaningResolved": false,
+      "boundaryAssignment": null,
+      "approvedForSolver": false
+    }
+  ],
+  "physicalSourceSelection": {
+    "requirementIds": [
+      "bathymetry_and_vertical_datum",
+      "M_mouth_water_level_boundary",
+      "N_nishikawa_boundary",
+      "O_mainstem_boundary",
+      "G_magarigawa_boundary",
+      "manning_roughness",
+      "fishway_hydraulics",
+      "barrage_hydraulics_and_operation",
+      "independent_velocity_validation"
+    ],
+    "selectedRequirementIds": []
+  },
+  "summary": {
+    "stationCount": 3,
+    "stationIdentityMatchCount": 3,
+    "stationWithPublicRecentWaterLevelCount": 3,
+    "stationWithPublicDischargeFieldCount": 0,
+    "stationWithResolvedVerticalDatumCount": 0,
+    "stationInsideApprovedWaterCount": 0,
+    "physicalRequirementCount": 9,
+    "selectedPhysicalSourceCount": 0,
+    "physicalValidationReady": false
+  },
+  "bathymetryReview": {
+    "userHypothesis": "The user hypothesizes that actual bathymetry may follow a smooth, approximately symmetric, upside-down normal-distribution-like cross-channel trough: shallow near land and deepest near the channel centre, rather than the provisional Stage 18 median-depth map.",
+    "preferredIdealizedShape": "smooth_symmetric_inverted_normal_distribution_like_trough",
+    "status": "unverified",
+    "requiredEvidence": "authoritative surveyed cross sections with vertical datum",
+    "visualFittingAllowed": false,
+    "approvedForSolver": false
+  },
+  "safeguards": {
+    "stationBoundaryAssignmentPerformed": false,
+    "physicalValuesAssigned": false,
+    "physicalRunEnabled": false,
+    "externalContactPerformed": false,
+    "publicSimulatorConnected": false,
+    "legacyFlowCalculationChanged": false
+  }
+}

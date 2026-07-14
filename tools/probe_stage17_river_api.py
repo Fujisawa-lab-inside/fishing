@@ -27,6 +27,7 @@ USER_AGENT = (
 MAX_BYTES = 8 * 1024 * 1024
 ORIGIN = "https://www.river.go.jp"
 FILE_BASE = f"{ORIGIN}/kawabou/file/files"
+ALLOWED_HOSTS = frozenset({"www.river.go.jp"})
 
 STATIC_TARGETS = [
     {"id": "river_setting", "url": f"{ORIGIN}/kawabou/setting.json"},
@@ -69,7 +70,27 @@ STATIONS = [
 ]
 
 
+def require_allowed_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "https" or (parsed.hostname or "").lower() not in ALLOWED_HOSTS:
+        raise ValueError(f"URL is outside the official river.go.jp allowlist: {url}")
+    return url
+
+
+class AllowlistedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
+        require_allowed_url(newurl)
+        return super().redirect_request(request, fp, code, msg, headers, newurl)
+
+
+OPENER = urllib.request.build_opener(
+    AllowlistedRedirectHandler(),
+    urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+)
+
+
 def fetch(url: str, timeout: float = 30.0) -> dict[str, Any]:
+    require_allowed_url(url)
     request = urllib.request.Request(
         url,
         headers={
@@ -81,11 +102,7 @@ def fetch(url: str, timeout: float = 30.0) -> dict[str, Any]:
     )
     started = time.perf_counter()
     try:
-        with urllib.request.urlopen(
-            request,
-            timeout=timeout,
-            context=ssl.create_default_context(),
-        ) as response:
+        with OPENER.open(request, timeout=timeout) as response:
             body = response.read(MAX_BYTES + 1)[:MAX_BYTES]
             return {
                 "requestedUrl": url,
@@ -412,6 +429,7 @@ def main() -> None:
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "routeBasis": {
             "origin": ORIGIN,
+            "allowedHosts": sorted(ALLOWED_HOSTS),
             "jsonFileBase": "/kawabou/file/files",
             "masterStageTemplate": "/master/obs/stg/{obsFcd}.json",
             "currentStageFileTemplate": "/tmlist/stg/{YYYYMMDD}/{HHmm}/{obsFcd}.json",

@@ -1,8 +1,16 @@
 # 「領域一致の方法」からWORKへの引き継ぎ
 
-更新日: 2026-07-13
+更新日: 2026-07-14
 
-この文書はWORK移行時点の履歴スナップショットである。最新の実行契約と手順は `docs/STAGE18_FULL64_RUN.md`、最新の実装状態はGit履歴を正本とする。
+この文書の「移行時」各節は履歴スナップショットである。旧v1手順は `docs/STAGE18_FULL64_RUN.md`、補正後v2の実行候補は `docs/STAGE18_FULL64_V2_EXECUTION_PLAN.md`、最新の実装状態はGit履歴を正本とする。
+
+## 2026-07-14時点の継続状態
+
+- 芦屋橋の橋桁を水面障害物にしない補正後水域（680,633 pixel）とLinux metric mesh v2（50,129 cell）は、比較画像に対する「この形でよい」で形状承認済み。
+- この形状承認は数値実行許可ではない。実行ゲートは無効、v2 authorizationは未作成で、64-case数値計算は0 caseのまま。
+- corrected-v2専用のimmutable contract、64-case ensemble、zero-case preflight、fail-closed runner、評価・5枚の地図・判定画像、one-time workflowを事前審査用ブランチで準備中。
+- 旧v1 authorization、runner、pilot、workflowは補正後計算へ流用せず、拒否専用のままとする。
+- 利用者に提示する実行判断は、補正後v2上で64 cases × 500 stepsを承認後24時間以内に一回だけ実行してよいかに限定する。範囲・上限・STOP条件・出力・非主張事項は1枚の画像に固定し、承認レコードとgateは別のactivation commitでのみ追加する。
 
 ## 引き継ぎ元と正本
 

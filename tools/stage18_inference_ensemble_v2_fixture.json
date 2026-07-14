@@ -1,0 +1,106 @@
+{
+  "schema": "onga-stage18-inference-ensemble-v2-fixture-v1",
+  "sourcePrior": {
+    "path": "config/stage17_inferred_physical_prior_v1.json",
+    "sha256": "bc801566ff93f6d73ed01926fa9da195faf91d55dc5bd122905d0d5dd5e40a84"
+  },
+  "sourceV1Ensemble": {
+    "schema": "onga-stage18-inference-ensemble-v1",
+    "sha256": "0a926fa20d6260a6cdb113b2a7d5be6807ca87f33350ce82be32ef9e13023ef2"
+  },
+  "parameterCases": {
+    "count": 64,
+    "seed": 20260713,
+    "serialization": "JSON.stringify(value,null,2)+LF",
+    "sha256": "f139f094c154e2c62c258bbe537b438b076bd47b2ae174242c968a6f7c2db317",
+    "first": {
+      "caseId": "stage18-0001",
+      "bathymetry": {
+        "crossSectionShape": "parabolic",
+        "mainstemMeanDepthM": 2.83929669,
+        "tributaryMeanDepthM": 2.55231419,
+        "thalwegOffsetFractionOfLocalWidth": 0.10103923,
+        "longitudinalSmoothingLengthM": 114.59584011,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03181576,
+        "shallowMarginMultiplier": 1.47579291,
+        "structureVicinityMultiplier": 1.16239512
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -33.54955826,
+          "amplitudeMultiplier": 1.27982152,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {"dischargeM3S": 2.04400367},
+        "O": {"dischargeM3S": 21.10186967},
+        "G": {"dischargeM3S": 3.03131917}
+      },
+      "fishway": {
+        "mode": "head_difference_relation",
+        "effectiveDischargeCoefficient": 0.70975366,
+        "effectiveAreaM2": 1.47696002
+      },
+      "barrage": {
+        "scenario": "uniform_25_percent",
+        "effectiveDischargeCoefficient": 0.82122512,
+        "gateOpeningUncertaintyFraction": 0.2
+      },
+      "classification": "provisional_inference_case_not_observation"
+    },
+    "last": {
+      "caseId": "stage18-0064",
+      "bathymetry": {
+        "crossSectionShape": "parabolic",
+        "mainstemMeanDepthM": 4.99226555,
+        "tributaryMeanDepthM": 1.93401418,
+        "thalwegOffsetFractionOfLocalWidth": 0.15572534,
+        "longitudinalSmoothingLengthM": 31.30683545,
+        "verticalDatum": "relative_model_datum_only"
+      },
+      "roughness": {
+        "manningOpenChannel": 0.03036581,
+        "shallowMarginMultiplier": 1.20110987,
+        "structureVicinityMultiplier": 1.03615128
+      },
+      "boundaries": {
+        "M": {
+          "phaseShiftMinutes": -66.30887408,
+          "amplitudeMultiplier": 0.99760262,
+          "datum": "relative_model_datum_only"
+        },
+        "N": {"dischargeM3S": 1.98327458},
+        "O": {"dischargeM3S": 60.81977788},
+        "G": {"dischargeM3S": 0.31666267}
+      },
+      "fishway": {
+        "mode": "disabled",
+        "effectiveDischargeCoefficient": 0.54073216,
+        "effectiveAreaM2": 1.42439282
+      },
+      "barrage": {
+        "scenario": "fully_closed",
+        "effectiveDischargeCoefficient": 0.83118374,
+        "gateOpeningUncertaintyFraction": 0.2
+      },
+      "classification": "provisional_inference_case_not_observation"
+    }
+  },
+  "ensembleV2": {
+    "schema": "onga-stage18-inference-ensemble-v2",
+    "serialization": "JSON.stringify(value,null,2)+LF",
+    "sha256": "ef0fc1cd8cba91ebbdcd0921260543f829c637b3c9508ea9c2dfeff5aa766684"
+  },
+  "correctedGeometry": {
+    "waterAuthorityVersion": "v4.8.0-candidate-r3",
+    "approvedWaterPixelCount": 680633,
+    "metricMeshCellCount": 50129,
+    "frozen": true
+  },
+  "safeguards": {
+    "physicalRunEnabled": false,
+    "providesExecutionAuthorization": false
+  }
+}

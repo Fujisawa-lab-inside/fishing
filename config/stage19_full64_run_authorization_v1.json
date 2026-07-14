@@ -1,0 +1,88 @@
+{
+  "schema": "onga-stage19-full64-run-authorization-v1",
+  "authorizationId": "stage19-20260714t094418z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedDate": "2026-07-14",
+  "issuedAtUtc": "2026-07-14T09:44:18Z",
+  "notAfterUtc": "2026-07-15T09:44:18Z",
+  "sourceStatement": "承認済み相対潮位M境界v1とStage19入力統合v1上で、この判断資料に示された64条件×500ステップを、承認後24時間以内に一回限り、完全な数値証拠と5枚の地図を作成するため実行してよい。",
+  "scope": "exactly_one_stage19_run_of_64_cases_times_500_steps_for_sealed_numerical_evidence_and_five_maps",
+  "reviewedCodeCommit": "eeb7285b8c9d371fbdd1b397897316a96ab397a2",
+  "executionContract": {
+    "path": "config/stage19_full64_execution_contract_v1.json",
+    "sha256": "9ca0278fc5176e5cab8135c656e77c038a7850476ebdc053828fad0639837cac"
+  },
+  "solverIntegration": {
+    "path": "config/stage19_solver_integration_contract_v1.json",
+    "sha256": "b406431d6c80a780adf81f8cd2b201cab53d2f6ea4e2390eae86342faaffa6a2"
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage19-full64-execution-decision.png",
+    "sha256": "f426d6c0ecadd2fbf07b1e4092fb58d13f8db969581a93a16a12661df40af88d"
+  },
+  "executionCode": [
+    {
+      "path": "tools/run_stage19_full64_v1.py",
+      "sha256": "1a7284bdfd61f8f9f0d3c731250d41d69d1d9a394518a7670b4aed60c6f1f98c"
+    },
+    {
+      "path": "tools/stage19_solver_inputs.py",
+      "sha256": "b39ecbdaca8b7ece1cd1009d206b347fea66c8a4efde3fdd0d69a5fb874cebdd"
+    },
+    {
+      "path": "tools/stage19_shallow_water_kernel_v1.py",
+      "sha256": "6c7fc458dd2294bfe77c43367881cea179e7355b39c31e26ca3ad8cc1c0c5b67"
+    },
+    {
+      "path": "tools/preflight_stage19_solver_integration.py",
+      "sha256": "77844de861120980ef7242bb1acedbfbd9d28446377d98e5ecd52877a0481e7f"
+    },
+    {
+      "path": "tools/aggregate_stage19_full64_v1.py",
+      "sha256": "869f440d698dbc1340ce3b1b8f860fa75a33e0255307916187afab7a10f5f796"
+    },
+    {
+      "path": "tools/render_stage19_full64_maps_v1.py",
+      "sha256": "b62f6f40630a16f06164dc7d2154c3a23f2f939676b752ae37b72684fe191dab"
+    },
+    {
+      "path": "tools/seal_stage19_full64_evidence_v1.py",
+      "sha256": "0770300db564afa441a844102eb01a1600bd767905a34f884ce8c19c38efede2"
+    },
+    {
+      "path": "tools/validate_stage19_full64_control_v1.py",
+      "sha256": "e12153778ac63bbd0a5a97339edade06d81498430ae582c25b5f4c3b1b70bfb4"
+    },
+    {
+      "path": ".github/workflows/stage19-full64-one-time-run.yml",
+      "sha256": "cd86c2a01d40371f094119c214c7bdd0912dd9ae977d73d7139997f316eda948"
+    }
+  ],
+  "run": {
+    "caseCount": 64,
+    "stepsPerCase": 500,
+    "totalSteps": 32000,
+    "caseSeed": 20260714,
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time"
+  },
+  "acceptance": {
+    "completedCaseCount": 64,
+    "failedCaseCount": 0,
+    "nanCountMax": 0,
+    "negativeDepthCountMax": 0,
+    "maxCflMax": 0.95,
+    "maxAbsoluteMassBalanceErrorMax": 1e-8,
+    "maxWallSeconds": 3600,
+    "maxResidentMemoryMiB": 8192
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "failedCasesMayBeImputed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

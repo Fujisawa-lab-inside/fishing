@@ -1,0 +1,9 @@
+{
+  "schema": "onga-stage19-full64-execution-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage19-20260714t094418z-one-time",
+  "authorizationSha256": "02ad6166ebb06a568e2c534d2a98e23c4329596b689afbedee6bf641d4cc087c",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "mainMergeAllowed": false
+}

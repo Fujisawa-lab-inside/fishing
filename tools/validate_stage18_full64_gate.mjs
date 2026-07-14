@@ -6,9 +6,14 @@ import process from 'node:process';
 const GATE_PATH = 'config/stage18_full64_execution_gate_v1.json';
 const RETIRED_AUTHORIZATION_PATH = 'config/stage18_full64_run_authorization_v1.json';
 const CORRECTED_CONSTRAINTS_PATH = 'data/onga_stage16_mesh_constraints_v2.json';
+const CORRECTED_EXECUTION_CONTRACT_PATH = 'config/stage18_full64_execution_contract_v2.json';
+const CORRECTED_AUTHORIZATION_PATH = 'config/stage18_full64_run_authorization_v2.json';
+const CORRECTED_DECISION_IMAGE_PATH = 'docs/visuals/stage18-v2-execution-decision.svg';
 const RETIRED_AUTHORIZATION_SHA256 = 'dbe9b61c832a3d75a54acd5042b8a27843a9ea826be27b305aaaf8911a11932f';
 const RETIRED_MESH_SUMMARY_SHA256 = 'f44b1317f469e34227e83cb0910db75d75404098f0927d93a8e3316ae92060f8';
 const CORRECTED_AUTHORIZATION_SCHEMA = 'onga-stage18-full64-run-authorization-v2';
+const CORRECTED_AUTHORIZATION_SOURCE_STATEMENT =
+  '承認済み橋下補正v2上で、この判断資料に示された64条件×500ステップを、承認後24時間以内に一回限りの数値安定性確認として実行してよい。';
 const EXPECTED_VISUAL_APPROVAL = Object.freeze({
   status: 'approved',
   approvedBy: 'Ryusuke Fujisawa',
@@ -38,6 +43,33 @@ function assertExactKeys(value, expected, label) {
     JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...expected].sort()),
     `${label} keys changed`,
   );
+}
+
+function parseExactUtcTimestamp(value, label) {
+  assert(
+    typeof value === 'string' && /^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/.test(value),
+    `${label} must be an exact UTC timestamp`,
+  );
+  const milliseconds = Date.parse(value);
+  assert(Number.isFinite(milliseconds), `${label} is invalid`);
+  assert(
+    new Date(milliseconds).toISOString().replace('.000Z', 'Z') === value,
+    `${label} is not a canonical UTC timestamp`,
+  );
+  return milliseconds;
+}
+
+function validateAuthorizationValidityWindow(authorization, options = {}) {
+  const issuedAt = parseExactUtcTimestamp(authorization.issuedAtUtc, 'authorization issuedAtUtc');
+  const notAfter = parseExactUtcTimestamp(authorization.notAfterUtc, 'authorization notAfterUtc');
+  const validitySeconds = (notAfter - issuedAt) / 1000;
+  assert(validitySeconds > 0, 'authorization validity window must be positive');
+  assert(validitySeconds <= 86400, 'authorization validity window exceeds 24 hours');
+  if (options.enforceCurrentTime === true) {
+    const now = Date.now();
+    assert(now >= issuedAt, 'corrected v2 authorization is not valid yet');
+    assert(now <= notAfter, 'corrected v2 authorization has expired');
+  }
 }
 
 function validateCommonGate(gate) {
@@ -80,8 +112,8 @@ function validateActiveGateStructure(gate) {
   assertExactKeys(gate.activeAuthorization, ['id', 'path', 'sha256'], 'active authorization');
   assert(/^[a-z0-9][a-z0-9._-]{7,127}$/.test(gate.activeAuthorization.id), 'active authorization ID is invalid');
   assert(
-    /^config\/stage18_full64_run_authorization_v[2-9][0-9]*\.json$/.test(gate.activeAuthorization.path),
-    'active authorization must be a new versioned record',
+    gate.activeAuthorization.path === CORRECTED_AUTHORIZATION_PATH,
+    'active authorization must be the corrected-v2 record',
   );
   assert(/^[a-f0-9]{64}$/.test(gate.activeAuthorization.sha256), 'active authorization SHA-256 is invalid');
   assert(gate.activeAuthorization.sha256 !== RETIRED_AUTHORIZATION_SHA256, 'retired authorization cannot be reactivated');
@@ -111,7 +143,12 @@ function validateApprovedCorrectedMeshConstraints(constraints) {
   );
 }
 
-async function requireActiveAuthorization(gate) {
+function validateDecisionImageBinding(decisionImage, decisionPayload) {
+  assert(decisionImage.path === CORRECTED_DECISION_IMAGE_PATH, 'authorization decision-image path changed');
+  assert(sha256(decisionPayload) === decisionImage.sha256, 'authorization decision-image digest mismatch');
+}
+
+async function requireActiveAuthorization(gate, options = {}) {
   validateActiveGateStructure(gate);
   const resolved = path.resolve(gate.activeAuthorization.path);
   const configRoot = `${path.resolve('config')}${path.sep}`;
@@ -120,84 +157,202 @@ async function requireActiveAuthorization(gate) {
   assert(sha256(payload) === gate.activeAuthorization.sha256, 'active authorization digest mismatch');
   const authorization = JSON.parse(payload.toString('utf8'));
   const constraints = JSON.parse(await fs.readFile(CORRECTED_CONSTRAINTS_PATH, 'utf8'));
+  const contractPayload = await fs.readFile(CORRECTED_EXECUTION_CONTRACT_PATH);
+  const contract = JSON.parse(contractPayload.toString('utf8'));
   validateApprovedCorrectedMeshConstraints(constraints);
-  validateCorrectedAuthorizationMetadata(authorization, constraints);
+  validateCorrectedAuthorizationMetadata(
+    authorization,
+    contract,
+    sha256(contractPayload),
+    gate.activeAuthorization.id,
+    options,
+  );
+  const decisionPath = path.resolve(authorization.decisionImage.path);
+  const repositoryRoot = `${path.resolve('.')}${path.sep}`;
+  assert(decisionPath.startsWith(repositoryRoot), 'authorization decision image escapes the repository');
+  const decisionPayload = await fs.readFile(decisionPath);
+  validateDecisionImageBinding(authorization.decisionImage, decisionPayload);
 }
 
-function validateCorrectedAuthorizationMetadata(authorization, constraints) {
+function validateCorrectedAuthorizationMetadata(
+  authorization,
+  contract,
+  contractSha256,
+  authorizationId,
+  options = {},
+) {
+  assertExactKeys(authorization, [
+    'schema', 'authorizationId', 'authorized', 'oneTime', 'approvedBy',
+    'approvedDate', 'issuedAtUtc', 'notAfterUtc', 'sourceStatement', 'scope', 'decisionImage',
+    'executionContract', 'reviewedCodeCommit', 'geometry', 'meshExpected',
+    'ensembleExpected', 'run', 'acceptance', 'safeguards',
+  ], 'corrected authorization');
   assert(
     authorization.schema === CORRECTED_AUTHORIZATION_SCHEMA,
     'corrected v2 authorization schema required; reformatted or renamed v1 authorization is forbidden',
   );
   assert(authorization.authorized === true, 'corrected full64 authorization must be explicit');
+  assert(authorization.oneTime === true, 'corrected full64 authorization must be one-time');
+  assert(authorization.authorizationId === authorizationId, 'corrected authorization ID differs from the active gate');
   assert(authorization.approvedBy === 'Ryusuke Fujisawa', 'corrected authorization approver changed');
   assert(/^20[0-9]{2}-[0-9]{2}-[0-9]{2}$/.test(authorization.approvedDate || ''), 'corrected authorization date required');
-  assert(typeof authorization.sourceStatement === 'string' && authorization.sourceStatement.length > 0, 'corrected authorization source statement required');
+  validateAuthorizationValidityWindow(authorization, options);
+  assert(
+    authorization.sourceStatement === CORRECTED_AUTHORIZATION_SOURCE_STATEMENT,
+    'corrected authorization source statement must exactly match the visual execution decision',
+  );
   assert(
     authorization.scope === 'exactly_64_corrected_geometry_v2_cases_for_runtime_and_numerical_stability_evidence',
     'corrected authorization scope changed',
   );
-  assertExactKeys(authorization.geometry, ['approvedWaterPixelCount', 'metricMeshCellCount', 'frozen'], 'corrected geometry');
-  assert(equalJson(authorization.geometry, {
-    approvedWaterPixelCount: 680633,
-    metricMeshCellCount: 50129,
-    frozen: true,
-  }), 'corrected geometry identity mismatch');
-
-  const expectedCounts = Object.fromEntries(
-    ['vertices', 'cells', 'internalFaces', 'boundaryFaces', 'barrageFaces']
-      .map(key => [key, constraints.expected[key]]),
-  );
-  const expectedMesh = {
-    version: constraints.version,
-    artifactFile: constraints.artifactFile,
-    waterAuthority: constraints.waterAuthority,
-    counts: expectedCounts,
-    meshArrayHashes: constraints.expected.meshArrayHashes,
-    packageArrayHashes: constraints.expected.packageArrayHashes,
-    packageSha256: constraints.canonicalProbe.packageSha256,
-    sourceProbe: constraints.canonicalProbe,
-  };
-  assertExactKeys(authorization.meshExpected, Object.keys(expectedMesh), 'corrected mesh identity');
-  assert(equalJson(authorization.meshExpected, expectedMesh), 'corrected Linux mesh identity mismatch');
-  assert(authorization.run?.caseCount === 64, 'corrected authorization must remain exactly 64 cases');
+  assert(/^[a-f0-9]{40}$/.test(authorization.reviewedCodeCommit || ''), 'reviewed code commit is invalid');
+  assertExactKeys(authorization.decisionImage, ['path', 'sha256'], 'authorization decision image');
+  assert(authorization.decisionImage.path === CORRECTED_DECISION_IMAGE_PATH, 'authorization decision-image path changed');
+  assert(/^[a-f0-9]{64}$/.test(authorization.decisionImage.sha256 || ''), 'authorization decision-image digest required');
+  assert(equalJson(authorization.executionContract, {
+    path: CORRECTED_EXECUTION_CONTRACT_PATH,
+    sha256: contractSha256,
+  }), 'authorization execution-contract binding changed');
+  assert(contract.schema === 'onga-stage18-full64-execution-contract-v2', 'corrected execution-contract schema changed');
+  assert(contract.status === 'awaiting_explicit_authorization', 'immutable execution-contract status changed');
+  assert(contract.executionAuthorized === false && contract.authorization === null,
+    'immutable execution contract must not self-authorize');
+  assert(equalJson(contract.authorizationContract, {
+    schema: CORRECTED_AUTHORIZATION_SCHEMA,
+    path: CORRECTED_AUTHORIZATION_PATH,
+    required: true,
+    bindingField: 'executionContract',
+    oneTime: true,
+    requiredSourceStatement: CORRECTED_AUTHORIZATION_SOURCE_STATEMENT,
+    maxValiditySeconds: 86400,
+    scope: 'exactly_64_corrected_geometry_v2_cases_for_runtime_and_numerical_stability_evidence',
+  }), 'immutable execution-contract authorization envelope changed');
+  assert(contract.safeguards?.previousV1AuthorizationReusable === false,
+    'immutable execution contract must reject previous v1 authorization reuse');
   assert(
-    authorization.safeguards?.automaticAdditionalRunsAllowed === false,
-    'corrected authorization must forbid automatic additional runs',
+    contract.visualDecision?.executionDecisionRequired === true
+      && contract.visualDecision?.executionDecisionRecorded === false
+      && contract.visualDecision?.executionDecisionImageRequired === true,
+    'immutable execution contract must retain the pending visual execution decision',
   );
+  for (const key of ['geometry', 'meshExpected', 'ensembleExpected', 'run', 'acceptance']) {
+    assert(equalJson(authorization[key], contract[key]), `corrected authorization ${key} differs from contract`);
+  }
+  assertExactKeys(authorization.safeguards, [
+    'automaticAdditionalRunsAllowed', 'automaticRetryAllowed',
+    'inferredParametersAreObservations', 'physicalValidationClaimAllowed',
+    'sensitivityClaimAllowed', 'publicSimulatorConnectionAllowed',
+    'legacyFlowCalculationMayChange', 'failedCasesMayBeImputed',
+  ], 'authorization safeguards');
+  for (const [key, value] of Object.entries(authorization.safeguards)) {
+    assert(value === false, `corrected authorization safeguard must remain false: ${key}`);
+  }
 }
 
-async function assertReformattedRetiredAuthorizationRejected(gate) {
-  const fixturePath = 'config/stage18_full64_run_authorization_v999999.json';
-  const retired = JSON.parse(await fs.readFile(RETIRED_AUTHORIZATION_PATH, 'utf8'));
+async function assertReformattedRetiredAuthorizationRejected(contract, contractSha256) {
+  const retiredText = await fs.readFile(RETIRED_AUTHORIZATION_PATH, 'utf8');
+  const retired = JSON.parse(retiredText);
   const reformatted = `${JSON.stringify(retired, null, 4)}\n`;
   assert(sha256(reformatted) !== RETIRED_AUTHORIZATION_SHA256, 'reformatted retired fixture digest did not change');
-  await fs.writeFile(fixturePath, reformatted, { flag: 'wx' });
+  let rejection = '';
   try {
-    const candidate = structuredClone(gate);
-    candidate.state = 'authorized';
-    candidate.enabled = true;
-    candidate.replacementAuthorizationRequired = false;
-    candidate.activeAuthorization = {
-      id: 'reformatted-retired-v1',
-      path: fixturePath,
-      sha256: sha256(reformatted),
-    };
-    candidate.safeguards.consumeOneTimeAuthorizationAllowed = true;
-    candidate.safeguards.full64ExecutionAllowed = true;
-    let rejection = '';
-    try {
-      await requireActiveAuthorization(candidate);
-    } catch (error) {
-      rejection = String(error?.message || error);
-    }
-    assert(
-      rejection.includes('corrected v2 authorization schema required'),
-      'renamed and reformatted retired v1 authorization was not rejected by schema identity',
+    validateCorrectedAuthorizationMetadata(
+      retired,
+      contract,
+      contractSha256,
+      'reformatted-retired-v1',
     );
-  } finally {
-    await fs.unlink(fixturePath);
+  } catch (error) {
+    rejection = String(error?.message || error);
   }
+  assert(rejection.length > 0, 'renamed and reformatted retired v1 authorization satisfied corrected-v2 metadata');
+}
+
+function validateStaticFutureActivePath(gate, contract, contractSha256, decisionPayload) {
+  const authorizationId = 'stage18-v2-static-fixture';
+  const activeGate = structuredClone(gate);
+  activeGate.state = 'authorized';
+  activeGate.enabled = true;
+  activeGate.replacementAuthorizationRequired = false;
+  activeGate.activeAuthorization = {
+    id: authorizationId,
+    path: CORRECTED_AUTHORIZATION_PATH,
+    sha256: '0'.repeat(64),
+  };
+  activeGate.safeguards.consumeOneTimeAuthorizationAllowed = true;
+  activeGate.safeguards.full64ExecutionAllowed = true;
+  validateActiveGateStructure(activeGate);
+
+  const authorization = {
+    schema: CORRECTED_AUTHORIZATION_SCHEMA,
+    authorizationId,
+    authorized: true,
+    oneTime: true,
+    approvedBy: 'Ryusuke Fujisawa',
+    approvedDate: '2026-07-14',
+    issuedAtUtc: '2026-07-14T00:00:00Z',
+    notAfterUtc: '2026-07-15T00:00:00Z',
+    sourceStatement: CORRECTED_AUTHORIZATION_SOURCE_STATEMENT,
+    scope: 'exactly_64_corrected_geometry_v2_cases_for_runtime_and_numerical_stability_evidence',
+    decisionImage: {
+      path: CORRECTED_DECISION_IMAGE_PATH,
+      sha256: sha256(decisionPayload),
+    },
+    executionContract: {
+      path: CORRECTED_EXECUTION_CONTRACT_PATH,
+      sha256: contractSha256,
+    },
+    reviewedCodeCommit: '0'.repeat(40),
+    geometry: structuredClone(contract.geometry),
+    meshExpected: structuredClone(contract.meshExpected),
+    ensembleExpected: structuredClone(contract.ensembleExpected),
+    run: structuredClone(contract.run),
+    acceptance: structuredClone(contract.acceptance),
+    safeguards: {
+      automaticAdditionalRunsAllowed: false,
+      automaticRetryAllowed: false,
+      inferredParametersAreObservations: false,
+      physicalValidationClaimAllowed: false,
+      sensitivityClaimAllowed: false,
+      publicSimulatorConnectionAllowed: false,
+      legacyFlowCalculationMayChange: false,
+      failedCasesMayBeImputed: false,
+    },
+  };
+  const validateFixture = value => {
+    validateCorrectedAuthorizationMetadata(value, contract, contractSha256, authorizationId);
+    validateDecisionImageBinding(value.decisionImage, decisionPayload);
+  };
+  validateFixture(authorization);
+
+  const unsafeMutations = [
+    value => { value.schema = 'onga-stage18-full64-run-authorization-v1'; },
+    value => { value.authorized = false; },
+    value => { value.oneTime = false; },
+    value => { value.issuedAtUtc = '2026-07-14T00:00:00+00:00'; },
+    value => { value.notAfterUtc = '2026-07-13T23:59:59Z'; },
+    value => { value.notAfterUtc = '2026-07-15T00:00:01Z'; },
+    value => { value.sourceStatement = '進めてください'; },
+    value => { value.decisionImage.path = 'docs/visuals/other.svg'; },
+    value => { value.decisionImage.sha256 = 'f'.repeat(64); },
+    value => { value.executionContract.sha256 = 'f'.repeat(64); },
+    value => { value.reviewedCodeCommit = 'not-a-commit'; },
+    value => { value.geometry.metricMeshCellCount = 50333; },
+    value => { value.safeguards.automaticRetryAllowed = true; },
+    value => { value.unreviewedExtension = true; },
+  ];
+  let rejected = 0;
+  for (const mutate of unsafeMutations) {
+    const candidate = structuredClone(authorization);
+    mutate(candidate);
+    try {
+      validateFixture(candidate);
+    } catch {
+      rejected += 1;
+    }
+  }
+  assert(rejected === unsafeMutations.length, 'unsafe future-active authorization fixtures were not all rejected');
+  return rejected;
 }
 
 function validatePendingMutationRejection(gate) {
@@ -228,8 +383,12 @@ function validatePendingMutationRejection(gate) {
 async function assertValidationWorkflowCannotRunFull64() {
   const workflow = await fs.readFile('.github/workflows/stage18-full64-validation.yml', 'utf8');
   assert(
-    !/^\s*(?:run:\s*)?(?:python\s+)?tools\/run_stage18_full64\.py(?:\s|$)/m.test(workflow),
+    !/^\s*(?:run:\s*)?(?:python(?:3)?\s+)?tools\/run_stage18_full64\.py(?:\s|$)/m.test(workflow),
     'validation workflow must never execute the full64 runner',
+  );
+  assert(
+    !/^\s*(?:run:\s*)?(?:python(?:3)?\s+)?tools\/run_stage18_full64_v2\.py(?:\s|$)/m.test(workflow),
+    'validation workflow must never execute the corrected-v2 full64 runner',
   );
   assert(
     !/^\s*run:\s*python tools\/validate_stage18_full64_artifacts\.py\s*$/m.test(workflow),
@@ -296,18 +455,61 @@ jobs:
   assert(workflow === expected, 'retired mesh generator must remain the exact read-only rejection definition');
 }
 
-const requireActive = process.argv.slice(2).includes('--require-active');
+const cliArgs = process.argv.slice(2);
+let requireActive = false;
+let outputPath = 'stage18-full64-gate-validation.json';
+for (let index = 0; index < cliArgs.length; index += 1) {
+  const argument = cliArgs[index];
+  if (argument === '--require-active') {
+    requireActive = true;
+  } else if (argument === '--output') {
+    index += 1;
+    assert(index < cliArgs.length && !cliArgs[index].startsWith('--'), '--output requires a path');
+    outputPath = cliArgs[index];
+  } else {
+    throw new Error(`unsupported argument: ${argument}`);
+  }
+}
 const gate = JSON.parse(await fs.readFile(GATE_PATH, 'utf8'));
 const correctedConstraints = JSON.parse(await fs.readFile(CORRECTED_CONSTRAINTS_PATH, 'utf8'));
 await requireRetiredAuthorizationUnchanged(gate);
 validateApprovedCorrectedMeshConstraints(correctedConstraints);
 
 if (requireActive) {
-  await requireActiveAuthorization(gate);
-  console.log(JSON.stringify({ state: gate.state, authorizationId: gate.activeAuthorization.id }));
+  await requireActiveAuthorization(gate, { enforceCurrentTime: true });
+  const report = {
+    schema: 'onga-stage18-full64-execution-gate-validation-v1',
+    status: 'passed',
+    state: gate.state,
+    full64ExecutionAllowed: true,
+    full64Executed: false,
+    authorizationId: gate.activeAuthorization.id,
+    authorizationSha256: gate.activeAuthorization.sha256,
+    retiredAuthorizationSha256: RETIRED_AUTHORIZATION_SHA256,
+    verified: [
+      'retired authorization bytes and old mesh binding remain unchanged',
+      'active gate names only the exact corrected-v2 authorization path and digest',
+      'authorization schema, immutable contract, and one-time scope agree exactly',
+      'authorization is bound to the exact visual decision path, bytes, and source statement',
+      'authorization is currently within its exact UTC validity window of at most 24 hours',
+      'previous v1 authorization reuse, automatic retry, and additional runs remain forbidden',
+      'this validation did not start a numerical case',
+    ],
+  };
+  await fs.writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
+  console.log(JSON.stringify(report));
 } else {
   validatePendingGate(gate);
   const rejectedUnsafeMutations = validatePendingMutationRejection(gate);
+  const contractPayload = await fs.readFile(CORRECTED_EXECUTION_CONTRACT_PATH);
+  const contract = JSON.parse(contractPayload.toString('utf8'));
+  const decisionPayload = await fs.readFile(CORRECTED_DECISION_IMAGE_PATH);
+  const rejectedUnsafeActiveFixtures = validateStaticFutureActivePath(
+    gate,
+    contract,
+    sha256(contractPayload),
+    decisionPayload,
+  );
   let pendingRejectedAsActive = false;
   try {
     validateActiveGateStructure(gate);
@@ -319,20 +521,25 @@ if (requireActive) {
   await assertRetiredFull64WorkflowCannotRun();
   await assertRetiredPilotCannotRun();
   await assertRetiredMeshGeneratorCannotWrite();
-  await assertReformattedRetiredAuthorizationRejected(gate);
+  await assertReformattedRetiredAuthorizationRejected(contract, sha256(contractPayload));
   const report = {
     schema: 'onga-stage18-full64-execution-gate-validation-v1',
     status: 'passed',
     state: gate.state,
     full64ExecutionAllowed: false,
+    full64Executed: false,
     retiredAuthorizationSha256: RETIRED_AUTHORIZATION_SHA256,
     rejectedUnsafeMutations,
+    rejectedUnsafeActiveFixtures,
     verified: [
       'retired authorization bytes and old mesh binding remain unchanged',
       'corrected Linux v2 package is canonical only for the exact recorded visual approval',
       'replacement explicit authorization is required',
       'authorization consumption and full64 execution remain disabled',
       'pending state cannot satisfy the active gate',
+      'future active gate and exact corrected-v2 authorization schema are statically validated without an authorization file',
+      'authorization is bound to the exact visual decision path, bytes, and source statement',
+      'future authorization timestamps must be canonical UTC with a positive validity window of at most 24 hours',
       'validation workflow cannot invoke full64 or retired-mesh success artifact tests',
       'superseded v1 full64 workflow is read-only and rejection-only',
       'superseded v1 pilot workflow cannot generate a mesh or invoke numerical cases',
@@ -340,6 +547,6 @@ if (requireActive) {
       'renaming and reformatting retired v1 authorization cannot satisfy the corrected v2 gate',
     ],
   };
-  await fs.writeFile('stage18-full64-gate-validation.json', `${JSON.stringify(report, null, 2)}\n`);
+  await fs.writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report));
 }

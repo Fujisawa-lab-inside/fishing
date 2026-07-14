@@ -1,0 +1,79 @@
+{
+  "schema": "onga-stage20-linux-mesh-probe-result-v1",
+  "status": "passed_awaiting_visual_review",
+  "run": {
+    "id": 29338332867,
+    "attempt": 1,
+    "repository": "Fujisawa-lab-inside/fishing",
+    "ref": "refs/heads/codex/stage19-public-inference-inputs",
+    "commitSha": "889418c48539eb62f68788b3138b5d120a220a72",
+    "actor": "RyusukeFujisawa",
+    "createdAtUtc": "2026-07-14T13:52:26Z",
+    "completedAtUtc": "2026-07-14T13:53:02Z",
+    "conclusion": "success",
+    "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29338332867"
+  },
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "counts": {
+    "vertices": 28529,
+    "cells": 50339,
+    "internalFaces": 72150,
+    "boundaryFaces": 6717,
+    "barrageFaces": 79,
+    "boundaryFaceCounts": {
+      "shoreline": 6582,
+      "M": 36,
+      "N": 21,
+      "O": 54,
+      "G": 24
+    },
+    "gateFaceCounts": {
+      "1": 15,
+      "2": 7,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 17
+    },
+    "fishwayCells": [16678, 37880],
+    "fishwayComponents": [1, 0]
+  },
+  "barrageCutExtensionPixel": 2.0,
+  "checks": {
+    "authorization": "passed",
+    "waterAuthority": "passed",
+    "topologyAndSafeguards": "passed",
+    "metricSolver": "passed",
+    "shallowWater": "passed",
+    "wellBalanced": "passed",
+    "closedComponents": 2,
+    "fishwayCellsOpposite": true
+  },
+  "sha256": {
+    "mesh": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df",
+    "summary": "044de854850c635228c9189770ecd8bdc4bc9fa1375901b3168a0e804bdf677b",
+    "evidence": "8d918b22cd5afdc559373d6b479e7778a888d94f374a63e2845941f43d536eb7",
+    "metric": "a4a9c135563e726ce418140d8dd0edcb0cfeb32e9d29e340d45bde3cba721032",
+    "shallowWater": "8be1b2bdf23b5082b7a1d6232f7100ebc5b0c59278db1b0eba9af4243ff830f3",
+    "wellBalanced": "c2d0f0e269da0f69b73a34ceeb949042bbdf546a60ec5738f1236113ed7960bf"
+  },
+  "safeguards": {
+    "authorizationConsumed": true,
+    "physicalFlowRun": false,
+    "full64Run": false,
+    "published": false,
+    "mainMerged": false
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage20-linux-mesh-result-decision-v1.svg.png",
+    "sha256": "210711b782a1dc98a363f3aff2de77a1de1ed0482fdbde384e1eecbbee71e2d3",
+    "question": "このLinux候補メッシュ形状を採用するか"
+  },
+  "nextDecision": "approve_or_reject_linux_candidate_mesh_geometry"
+}

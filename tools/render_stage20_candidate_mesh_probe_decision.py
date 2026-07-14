@@ -34,6 +34,7 @@ def main() -> None:
     parser.add_argument("--metric-validation", default="stage20-mesh-probe/stage20_metric_solver_validation.json")
     parser.add_argument("--shallow-validation", default="stage20-mesh-probe/stage20_actual_mesh_shallow_water_validation.json")
     parser.add_argument("--well-balanced-validation", default="stage20-mesh-probe/stage20_actual_mesh_well_balanced_validation.json")
+    parser.add_argument("--mode", choices=("probe", "result"), default="probe")
     parser.add_argument("--water-manifest", default="data/onga_unified_water_manifest_r3.json")
     parser.add_argument("--tile-directory", default="data/external/gsi/seamlessphoto/z18")
     parser.add_argument("--svg-output", default="docs/visuals/stage20-candidate-mesh-probe-decision-v3.svg")
@@ -148,16 +149,32 @@ def main() -> None:
 
     counts = summary["counts"]
     closed_components = int(validations[0]["diagnostics"]["closedComponents"])
+    if args.mode == "result":
+        title_text = "Linux x86候補メッシュ　確認結果"
+        subtitle_text = "一回限りの確認は全工程合格。衛星・空中写真上で最終形状を判断"
+        decision_text = "次の判断：このLinux候補メッシュ形状を採用するか"
+        choice_a = "A　採用する（推奨）"
+        choice_b = "B　再調整する"
+        footer_text = "採用後は次の開発段階へ進む。物理流計算・64条件実行・公開・main反映は別判断。"
+        run_text = "Linux run 29338332867"
+    else:
+        title_text = "承認済み青線による候補メッシュ"
+        subtitle_text = "衛星・空中写真上のローカル診断。最終メッシュ同一性はLinux x86で未確定"
+        decision_text = "次の判断：岸へ2 px接続した候補をLinux x86で一回だけ作成するか"
+        choice_a = "A　この形で実行（推奨・目安5～10分）"
+        choice_b = "B　実行せず停止"
+        footer_text = "最大20分で停止。CI時間と30日保存の成果物を使う。物理流計算・64条件実行・公開・main反映は行わない。"
+        run_text = "背景：国土地理院"
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1260" viewBox="0 0 1600 1260" role="img" aria-labelledby="title desc">
-<title id="title">承認済み河口堰位置による候補メッシュとLinuxプローブ判断</title>
-<desc id="desc">国土地理院の空中写真上にローカル候補メッシュ、78の河口堰閉鎖面、2ピクセルの岸接続補正、魚道の両側セルを表示する。次に一回限りのLinux x86プローブを実行するか判断する画像。</desc>
+<title id="title">{title_text}</title>
+<desc id="desc">国土地理院の空中写真上に候補メッシュ、河口堰閉鎖面、2ピクセルの岸接続補正、魚道の上流側と河口側セルを表示する判断画像。</desc>
 <style>
 text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill:#17313d}}
 .title{{font-size:43px;font-weight:600}}.sub{{font-size:22px;fill:#48626f}}.body{{font-size:21px}}.small{{font-size:17px;fill:#48626f}}.decision{{font-size:26px;font-weight:600}}.choice{{font-size:23px;font-weight:600}}.maplabel{{font-size:18px;font-weight:600;fill:#ffffff;stroke:#70500d;stroke-width:5px;paint-order:stroke fill}}
 </style>
 <rect width="1600" height="1260" fill="#f4f7f8"/>
-<text x="50" y="62" class="title">承認済み青線による候補メッシュ</text>
-<text x="50" y="104" class="sub">衛星・空中写真上のローカル診断。最終メッシュ同一性はLinux x86で未確定</text>
+<text x="50" y="62" class="title">{title_text}</text>
+<text x="50" y="104" class="sub">{subtitle_text}</text>
 <rect x="{map_left:.0f}" y="{map_top:.0f}" width="{map_width:.0f}" height="{map_height:.0f}" rx="18" fill="#d7dcdf"/>
 <clipPath id="mapClip"><rect x="{map_left:.0f}" y="{map_top:.0f}" width="{map_width:.0f}" height="{map_height:.0f}" rx="18"/></clipPath>
 <g clip-path="url(#mapClip)">
@@ -174,12 +191,12 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
 <line x1="730" y1="971" x2="770" y2="971" stroke="#f28e2b" stroke-width="11"/><text x="788" y="979" class="body">岸へ2 px接続</text>
 <circle cx="1068" cy="971" r="9" fill="#f2b134"/><text x="1087" y="979" class="body">魚道の両側セル</text>
 <text x="80" y="1025" class="small">{counts['cells']:,}セル／閉鎖時 {closed_components}領域／形状・保存・浅水・水深勾配検査 3/3合格</text>
-<text x="1030" y="1025" class="small">背景：国土地理院</text>
+<text x="1030" y="1025" class="small">{run_text}</text>
 <rect x="50" y="1075" width="1500" height="135" rx="18" fill="#e6f2f6" stroke="#087fba" stroke-width="3"/>
-<text x="85" y="1120" class="decision">次の判断：岸へ2 px接続した候補をLinux x86で一回だけ作成するか</text>
-<text x="85" y="1168" class="choice">A　この形で実行（推奨・目安5～10分）</text>
-<text x="845" y="1168" class="choice">B　実行せず停止</text>
-<text x="85" y="1238" class="small">最大20分で停止。CI時間と30日保存の成果物を使う。物理流計算・64条件実行・公開・main反映は行わない。</text>
+<text x="85" y="1120" class="decision">{decision_text}</text>
+<text x="85" y="1168" class="choice">{choice_a}</text>
+<text x="845" y="1168" class="choice">{choice_b}</text>
+<text x="85" y="1238" class="small">{footer_text}</text>
 </svg>
 '''
     svg_output = root / args.svg_output
@@ -195,8 +212,8 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
     html_output.write_text(html, encoding="utf-8")
 
     result = {
-        "schema": "onga-stage20-candidate-mesh-probe-decision-v1",
-        "status": "awaiting_linux_probe_authorization",
+        "schema": "onga-stage20-linux-mesh-result-decision-v1" if args.mode == "result" else "onga-stage20-candidate-mesh-probe-decision-v1",
+        "status": "awaiting_linux_candidate_visual_approval" if args.mode == "result" else "awaiting_linux_probe_authorization",
         "localProbe": {
             "platform": summary["platform"],
             "mesh": args.mesh,
@@ -209,13 +226,21 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
             "barrageCutExtensionPixel": summary["barrageCutExtensionPixel"],
             "validationStatuses": [item["status"] for item in validations],
         },
-        "nextDecision": {
-            "A": "push_candidate_branch_and_run_one_linux_x86_probe_recommended",
-            "B": "stop_without_external_execution",
-            "expectedMinutes": [5, 10],
-            "timeoutMinutes": 20,
-            "doesNotAuthorize": ["physical_flow_run", "full64", "publish", "main_merge"],
-        },
+        "nextDecision": (
+            {
+                "A": "approve_linux_candidate_mesh_geometry_recommended",
+                "B": "return_to_mesh_adjustment",
+                "doesNotAuthorize": ["physical_flow_run", "full64", "publish", "main_merge"],
+            }
+            if args.mode == "result"
+            else {
+                "A": "push_candidate_branch_and_run_one_linux_x86_probe_recommended",
+                "B": "stop_without_external_execution",
+                "expectedMinutes": [5, 10],
+                "timeoutMinutes": 20,
+                "doesNotAuthorize": ["physical_flow_run", "full64", "publish", "main_merge"],
+            }
+        ),
         "outputs": {"svg": args.svg_output, "html": args.html_output},
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))

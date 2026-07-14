@@ -15,3 +15,9 @@ This approval authorizes preparation of a new candidate mesh only. It does not a
 The first local probe showed that stopping the hydraulic cut exactly at the last wet sample left a numerical endpoint path. The approved gate alignment itself was not moved. The cut test was extended by 2 image pixels into dry shoreline at both ends, after which the closed barrage produced exactly two hydraulic components and placed the two fishway transfer cells on opposite components.
 
 The Darwin arm64 diagnostic candidate contains 50,327 cells and 78 barrage faces. The conservative geometry, shallow-water algebra, and well-balanced source checks all pass. This output is diagnostic rather than canonical because Triangle output is platform-sensitive. The next gated step is one Linux x86 probe in GitHub Actions; it requires a separate authorization and does not include a physical-flow or 64-condition run.
+
+## One-time Linux x86 probe result
+
+The user authorized choice A with the exact statement `A：この形でLinux x86確認を一回実行する`. GitHub Actions run `29338332867` completed successfully on the first attempt from commit `889418c48539eb62f68788b3138b5d120a220a72`. The one-time authorization is consumed.
+
+The pinned Linux candidate contains 50,339 cells and 79 barrage faces. It forms exactly two hydraulic components when closed, places the upstream and estuary-side fishway cells on opposite components, retains the complete M opening, and passes the conservative, shallow-water, and well-balanced checks. No physical-flow case, 64-condition ensemble, publication, or `main` merge occurred. The Linux identity is pinned but remains awaiting visual geometry approval.

@@ -2,7 +2,7 @@
   "schema": "onga-stage20-mesh-constraints-v1",
   "version": "stage20-metric-fv-mesh-v1-candidate",
   "artifactFile": "onga_stage20_metric_fv_mesh_v1_candidate.npz",
-  "candidateStatus": "awaiting_linux_x86_64_canonical_probe",
+  "candidateStatus": "linux_x86_64_pinned_awaiting_visual_review",
   "waterAuthority": {
     "version": "v4.8.0-candidate-r3",
     "pixelCount": 680633,
@@ -48,5 +48,67 @@
       "endpointBImagePixel": [1767.776183219856, 1217.6454586313648]
     }
   ],
-  "fishwayApprovedImagePixel": [1111.66, 987.21]
+  "fishwayApprovedImagePixel": [1111.66, 987.21],
+  "canonicalProbe": {
+    "platform": "Linux x86_64",
+    "workflowRunId": 29338332867,
+    "workflowRunAttempt": 1,
+    "sourceCommit": "889418c48539eb62f68788b3138b5d120a220a72",
+    "artifactName": "stage20-barrage-mesh-linux-probe-29338332867",
+    "evidenceSha256": "8d918b22cd5afdc559373d6b479e7778a888d94f374a63e2845941f43d536eb7",
+    "summarySha256": "044de854850c635228c9189770ecd8bdc4bc9fa1375901b3168a0e804bdf677b",
+    "packageSha256": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df"
+  },
+  "expected": {
+    "vertices": 28529,
+    "cells": 50339,
+    "internalFaces": 72150,
+    "boundaryFaces": 6717,
+    "barrageFaces": 79,
+    "meshArrayHashes": {
+      "vertices": "7f59c8669c670ac227fe17138638bf3dea78fc82d68ad83d9042a7e1fc717452",
+      "triangles": "3fe6e95f331ad7b6a238cafe516feadd41b83cb0c4bf369851f212f8dd484f9f",
+      "segments": "d5c497bd563fb1f16adfdab9618359bbb56a60fffee3cda862196a665301d9dd",
+      "segment_markers": "046c5c44d2ac73e87ba6c72a6ddd25dbfa78f3a73cbd6dccb0f2077a9b560711"
+    },
+    "packageArrayHashes": {
+      "vertex_local_mm": "87cc57424326e42eae9040fffaf14608521bc20b7c795cb0c98f923358efa8cb",
+      "vertex_image_millipixel": "1f2a12fdbd6c9d241ed1b5ef5790b54b85adaaf5f03e8b1624bbf9263e5f47f5",
+      "triangles": "3fe6e95f331ad7b6a238cafe516feadd41b83cb0c4bf369851f212f8dd484f9f",
+      "internal_face_vertices": "630c3338d026db930cf3194afca3850ac7287ee052a777aee928cc58c0841bf6",
+      "internal_face_cells": "b49f29e13002cb693d0ce4e4e69cd5b0e1857d7bb161882978c700a10293edd2",
+      "boundary_face_vertices": "16bb7b7bc89af4c8428bfe234f0aa0d13df369d1d11b76f490fb29b851a48795",
+      "boundary_face_cell": "8228b0c8c7c5f4e042a1259eedacae4587afa8a5fa937380f1a172f3567192c4",
+      "boundary_face_tag": "9eb638f0f39630b09f7e2ec87f18567b37db348887fb611cfd3a53a20c8733cf",
+      "barrage_face_ids": "8debd7090f6f3077365f0664646785a50a083a3d843db80b554c308cf2db638c",
+      "barrage_gate_id": "28cea4fa0ab728d3d8936a38f8ea31cf3725f85596e3c64843896c92dd17244d",
+      "fishway_cells": "82bc1669f16a0288f1de9251a880e710e3c90dfc41dd0c6d1c0a47386ed3442c",
+      "fishway_components": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+    },
+    "boundaryFaceCounts": {
+      "shoreline": 6582,
+      "M": 36,
+      "N": 21,
+      "O": 54,
+      "G": 24
+    },
+    "gateFaceCounts": {
+      "1": 15,
+      "2": 7,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 17
+    },
+    "fishwayCells": [16678, 37880],
+    "fishwayComponents": [1, 0],
+    "topBoundaryM": {
+      "faceCount": 36,
+      "allTaggedM": true,
+      "endpointXSpan": [57.0, 323.0],
+      "imageLengthPixels": 266.0
+    }
+  }
 }

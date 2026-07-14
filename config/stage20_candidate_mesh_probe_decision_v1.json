@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-candidate-mesh-probe-decision-v1",
-  "status": "approved_for_one_linux_probe",
+  "status": "linux_probe_passed_awaiting_visual_review",
   "approvedBarragePosition": {
     "record": "config/stage20_barrage_coordinate_candidate_v1.json",
     "sourceStatement": "青線を採用します"
@@ -57,7 +57,7 @@
     ]
   },
   "authorization": {
-    "status": "approved",
+    "status": "consumed",
     "approvedBy": "Ryusuke Fujisawa",
     "approvedAtUtc": "2026-07-14T13:38:06Z",
     "expiresAtUtc": "2026-07-15T13:38:06Z",
@@ -70,6 +70,11 @@
     "authorizedInputs": {
       "constraintsSha256": "c531419aba536f77fd5edea50d00e01140ccfe2608c3a6d4ce942a2cb42cc187",
       "generatorSha256": "abd8b971f152c3c0b759ca7a2c229c91ae1b354a8582bcc0102041d44e209832"
-    }
+    },
+    "consumedAtUtc": "2026-07-14T13:54:20Z",
+    "consumedByRunId": 29338332867,
+    "consumedByRunAttempt": 1,
+    "consumedCommitSha": "889418c48539eb62f68788b3138b5d120a220a72",
+    "resultRecord": "config/stage20_linux_mesh_probe_result_v1.json"
   }
 }

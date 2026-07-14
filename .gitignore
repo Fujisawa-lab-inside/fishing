@@ -1,2 +1,3 @@
 .venv-stage20/
 stage20-mesh-probe/
+tools/__pycache__/

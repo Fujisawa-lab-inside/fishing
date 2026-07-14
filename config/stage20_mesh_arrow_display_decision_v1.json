@@ -1,0 +1,29 @@
+{
+  "schema": "onga-stage20-mesh-arrow-display-decision-v1",
+  "status": "awaiting_visual_decision",
+  "decisionVisual": {
+    "path": "docs/visuals/stage20-mesh-arrow-comparison-v1.png",
+    "sha256": "33f63a51aa46d9b695ed28afaef64441220d014dcac89d142126a362f46579d5",
+    "visibleCells": 73,
+    "highlightedExampleCell": 46094,
+    "background": "GSI seamlessphoto zoom 18"
+  },
+  "question": "拡大表示でどちらの対応方法を採用するか",
+  "choices": {
+    "A": "48 px区画の代表矢印を維持",
+    "B": "メッシュセル値を直接参照（推奨）"
+  },
+  "choiceBBehavior": {
+    "zoomedView": "arrow root, colour, direction, and length reference the same cell",
+    "overview": "depth-and-area-weighted aggregation of the same underlying cells",
+    "maximumZoom": "return to one-cell values"
+  },
+  "judgmentScope": "cell_to_arrow_display_correspondence_only",
+  "safeguards": {
+    "syntheticDisplayValuesOnly": true,
+    "physicalFlowRun": false,
+    "full64Run": false,
+    "published": false,
+    "mainMerged": false
+  }
+}

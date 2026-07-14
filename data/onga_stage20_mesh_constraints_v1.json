@@ -1,0 +1,52 @@
+{
+  "schema": "onga-stage20-mesh-constraints-v1",
+  "version": "stage20-metric-fv-mesh-v1-candidate",
+  "artifactFile": "onga_stage20_metric_fv_mesh_v1_candidate.npz",
+  "candidateStatus": "awaiting_linux_x86_64_canonical_probe",
+  "waterAuthority": {
+    "version": "v4.8.0-candidate-r3",
+    "pixelCount": 680633,
+    "manifest": "data/onga_unified_water_manifest_r3.json"
+  },
+  "supersedes": {
+    "meshVersion": "stage16-metric-fv-mesh-v2",
+    "reason": "The user approved the coordinate-derived barrage alignment on official GSI aerial imagery."
+  },
+  "barrageCoordinateApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "青線を採用します",
+    "approvalRecord": "config/stage20_barrage_coordinate_candidate_v1.json",
+    "decisionVisual": "docs/visuals/stage20-barrage-satellite-comparison-v2.svg.png",
+    "scope": "coordinate_derived_barrage_position_only"
+  },
+  "barrageHardConstraint": {
+    "endpoint0Pixel": [1448.9594188318715, 967.256928869151],
+    "endpoint1Pixel": [1099.042581789358, 1010.673137295994]
+  },
+  "barrageCutExtensionPixel": 2.0,
+  "referenceSections": [
+    {
+      "id": "M",
+      "endpointAImagePixel": [347.162416249502, 30.71822944336384],
+      "endpointBImagePixel": [215.54079165169975, 167.74285474201307]
+    },
+    {
+      "id": "N",
+      "endpointAImagePixel": [982.435339020629, 1171.0619421129627],
+      "endpointBImagePixel": [895.7547396179723, 1178.5100081167072]
+    },
+    {
+      "id": "O",
+      "endpointAImagePixel": [1467.1337615037185, 1155.3928335875828],
+      "endpointBImagePixel": [1137.926501005877, 1194.3136459571415]
+    },
+    {
+      "id": "G",
+      "endpointAImagePixel": [1847.2591491992032, 1142.328076048551],
+      "endpointBImagePixel": [1767.776183219856, 1217.6454586313648]
+    }
+  ],
+  "fishwayApprovedImagePixel": [1111.66, 987.21]
+}

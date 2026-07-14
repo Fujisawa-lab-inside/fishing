@@ -1,0 +1,83 @@
+{
+  "schema": "onga-stage20-barrage-coordinate-comparison-v1",
+  "status": "approved",
+  "authoritativeGeometry": {
+    "path": "public/data/onga/onga_geometry.geojson",
+    "sha256": "8593f67c5157ed1d55b717ba6ed691674694cfa499f7f7d533fc9950acdfc536",
+    "gateCount": 8,
+    "coordinateOrder": "[longitude, latitude]"
+  },
+  "frozenStage19Constraint": {
+    "path": "data/onga_stage16_mesh_constraints_v2.json",
+    "sha256": "44c629ba6b7eb7bf0c43a1863de0c4835d8d331c0d230e50d891a0b23043fb33",
+    "endpointsImagePixel": [
+      [1454.1503211781874, 981.4013738598115],
+      [1115.7533082266086, 1017.7002082685227]
+    ]
+  },
+  "coordinateDerivedCandidate": {
+    "fitMethod": "orthogonal_least_squares_through_all_eight_projected_gate_centres",
+    "lineAngleImageDegrees": -7.072871836563016,
+    "fullWetSpanImagePixel": [
+      [1099.042581789358, 1010.673137295994],
+      [1448.9594188318715, 967.256928869151]
+    ],
+    "gateResidualPixels": [
+      0.8361562641622164,
+      0.3243175864620156,
+      0.18665909843034267,
+      0.9372195695639629,
+      1.6868321157828703,
+      0.6828482946725964,
+      0.636458555142795,
+      0.33093008333749196
+    ]
+  },
+  "difference": {
+    "gateToCurrentLineOffsetM": [
+      9.961109945706047,
+      11.395141150363951,
+      12.828152209034942,
+      14.498150808970628,
+      16.167044096062263,
+      14.288731483416026,
+      15.65117444033079,
+      16.80971286591924
+    ],
+    "averageOffsetM": 13.949902124975486,
+    "maximumOffsetM": 16.80971286591924
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage20-barrage-satellite-comparison-v2.svg.png",
+    "sha256": "aad583892c9410b65ab23881abcb5f60f12b268ec465109bc62e8e08fa5f6ab5",
+    "background": {
+      "name": "国土地理院 全国最新写真（シームレス）",
+      "zoom": 18,
+      "retrievedDate": "2026-07-14",
+      "tileCount": 18,
+      "tileSetSha256": "7c1402bd677a14db6fd55995635872d273b906f4dfff3d669db26a57712b1e56"
+    },
+    "question": "青線を今後の数値メッシュ・表示・釣り制約に共通する河口堰位置として採用するか"
+  },
+  "approval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-14",
+    "sourceStatement": "青線を採用します",
+    "approvedChoice": "A",
+    "scope": "coordinate_derived_barrage_position_only",
+    "authorizes": [
+      "prepare_candidate_mesh"
+    ],
+    "doesNotAuthorize": [
+      "mesh_acceptance",
+      "numerical_run",
+      "main_merge"
+    ]
+  },
+  "approvalDoesNotAuthorize": [
+    "mesh_generation",
+    "numerical_run",
+    "main_merge"
+  ]
+}

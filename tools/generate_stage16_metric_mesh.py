@@ -82,16 +82,18 @@ def tags(m,B):
         used[s]=1; z[s]=code[x['id']]; out[x['id']]=ids[s]
     return z,out
 
-def barrage(w,M,I,c):
+def barrage(w,M,I,c,cut_extension=0.0):
     pairs=M['segments'][M['segment_markers']==3]; pts=M['vertices'][np.unique(pairs)]; o=pts.mean(0); _,E=np.linalg.eigh(np.cov(pts-o,rowvar=False)); ax=E[:,-1]
     ts=np.linspace(-1000,1000,40001); s=o+ts[:,None]*ax; x=np.floor(s[:,0]).astype(int); y=np.floor(s[:,1]).astype(int); inside=(x>=0)&(x<w.shape[1])&(y>=0)&(y<w.shape[0]); wet=np.zeros(len(s),bool);wet[inside]=w[y[inside],x[inside]].astype(bool); k=np.argmin(abs(ts));lo=hi=k
     while lo and wet[lo-1]:lo-=1
     while hi+1<len(wet) and wet[hi+1]:hi+=1
-    p0,p1=s[lo],s[hi]; v=p1-p0
+    wet_p0,wet_p1=s[lo],s[hi]; wet_v=wet_p1-wet_p0; wet_length=float(np.linalg.norm(wet_v))
+    if wet_length<=0:raise RuntimeError('empty barrage wet span')
+    unit=wet_v/wet_length; extension=max(0.0,float(cut_extension)); p0=wet_p0-extension*unit;p1=wet_p1+extension*unit;v=p1-p0
     em={tuple(sorted((int(r[0]),int(r[1])))):i for i,r in enumerate(I)}; marker=np.unique([em[tuple(sorted(map(int,e)))] for e in pairs])
     L=I[:,2].astype(int);R=I[:,3].astype(int);A=c[L];D=c[R];r=D-A; cross=lambda a,b:a[...,0]*b[...,1]-a[...,1]*b[...,0]; den=cross(r,np.broadcast_to(v,r.shape)); rel=p0-A; good=np.abs(den)>1e-12; te=np.full(len(I),np.nan);ue=te.copy();te[good]=cross(rel[good],np.broadcast_to(v,rel[good].shape))/den[good];ue[good]=cross(rel[good],r[good])/den[good]; sa=cross(v,A-p0);sb=cross(v,D-p0)
-    cut=np.where(good&(sa*sb<0)&(te>=0)&(te<=1)&(ue>=0)&(ue<=1))[0]; cut=np.union1d(marker,cut).astype(np.int32); mid=I[cut,6:8]; t=np.clip(((mid-p0)@v)/float(v@v),0,1); gate=(np.minimum((t*8).astype(int),7)+1).astype(np.uint8)
-    return cut,gate,p0,p1
+    cut=np.where(good&(sa*sb<0)&(te>=0)&(te<=1)&(ue>=0)&(ue<=1))[0]; cut=np.union1d(marker,cut).astype(np.int32); mid=I[cut,6:8]; t=np.clip(((mid-wet_p0)@wet_v)/float(wet_v@wet_v),0,1); gate=(np.minimum((t*8).astype(int),7)+1).astype(np.uint8)
+    return cut,gate,wet_p0,wet_p1,p0,p1
 
 class UF:
     def __init__(self,n):self.p=np.arange(n,dtype=np.int32)
@@ -136,7 +138,7 @@ def main():
         if set(E['meshArrayHashes'])!=set(RAW_MESH_KEYS):raise RuntimeError('mesh hash key set mismatch')
         for k,v in E['meshArrayHashes'].items():
             if h(M[k])!=v:raise RuntimeError(f'{k} hash mismatch')
-    em,I,B,c=edges(M['vertices'],M['triangles']);tag,opens=tags(m,B);cut,gate,p0,p1=barrage(w,M,I,c);fc,comp,labels=fish(m,C,I,B,opens,cut,c)
+    em,I,B,c=edges(M['vertices'],M['triangles']);tag,opens=tags(m,B);cut,gate,p0,p1,cut_p0,cut_p1=barrage(w,M,I,c,C.get('barrageCutExtensionPixel',0.0));fc,comp,labels=fish(m,C,I,B,opens,cut,c)
     boundary_vertices=B[:,:2].astype(np.int32); top=np.where(np.all(np.isclose(M['vertices'][boundary_vertices][:,:,1],0.0,atol=1e-12),axis=1))[0].astype(np.int32); top_endpoints=M['vertices'][boundary_vertices[top]]; top_length=float(np.linalg.norm(top_endpoints[:,1]-top_endpoints[:,0],axis=1).sum()); top_x=[float(top_endpoints[:,:,0].min()),float(top_endpoints[:,:,0].max())]; top_m={'faceCount':int(len(top)),'allTaggedM':bool(np.array_equal(np.sort(top),np.sort(opens['M'])) and np.all(tag[top]==1)),'endpointXSpan':top_x,'imageLengthPixels':top_length}
     world,_=coords(m['coordinateSystem']); W=np.asarray([world(x) for x in M['vertices']]); metric=np.column_stack([W[:,0],-W[:,1]]); origin=metric.mean(0); local=metric-origin; qlocal=np.rint(local*1000).astype(np.int32); qimage=np.rint(M['vertices']*1000).astype(np.int32)
     counts={'vertices':len(M['vertices']),'cells':len(M['triangles']),'internalFaces':len(I),'boundaryFaces':len(B),'barrageFaces':len(cut),'boundaryFaceCounts':{'shoreline':int(np.sum(tag==0)),'M':int(np.sum(tag==1)),'N':int(np.sum(tag==2)),'O':int(np.sum(tag==3)),'G':int(np.sum(tag==4))},'gateFaceCounts':{str(k):int(np.sum(gate==k)) for k in range(1,9)},'fishwayCells':fc.tolist(),'fishwayComponents':comp.tolist()}
@@ -169,6 +171,6 @@ def main():
     identity_pinned=bool(isinstance(E,dict) and not a.probe)
     visually_approved=bool(identity_pinned and C.get('candidateStatus')=='approved_canonical')
     approved_identity_reproduced=bool(isinstance(visual_approval,dict) and artifact_sha==visual_approval.get('reviewedPackageSha256'))
-    report={'schema':'onga-stage16-metric-mesh-summary-v2','version':C['version'],'candidateStatus':C['candidateStatus'],'status':'probe-only' if a.probe else 'passed','identityPinned':identity_pinned,'approvedIdentityReproduced':approved_identity_reproduced,'canonical':visually_approved,'visualApproval':visual_approval if visually_approved else None,'targetVisualApproval':visual_approval if a.probe else None,'platform':{'system':platform.system(),'machine':platform.machine(),'python':platform.python_version()},'inputs':{'waterManifest':a.water_manifest,'waterAuthorityVersion':m['version'],'waterPixelCount':int(m['pixelCount']),'constraints':a.constraints},'artifactFile':artifact_name,'artifactSha256':artifact_sha,'counts':counts,'topBoundaryM':top_m,'meshArrayHashes':{k:h(v) for k,v in M.items()},'packageArrayHashes':package_hashes,'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'safeguards':{'waterAuthorityModifiedDuringGeneration':False,'physicalValuesAssigned':False,'physicalExecutionAuthorized':False,'connectedToPublicSimulator':False,'calibrationPerformed':False,'previousMeshAuthorizationReusable':False}}
+    report={'schema':'onga-stage16-metric-mesh-summary-v2','version':C['version'],'candidateStatus':C['candidateStatus'],'status':'probe-only' if a.probe else 'passed','identityPinned':identity_pinned,'approvedIdentityReproduced':approved_identity_reproduced,'canonical':visually_approved,'visualApproval':visual_approval if visually_approved else None,'targetVisualApproval':visual_approval if a.probe else None,'platform':{'system':platform.system(),'machine':platform.machine(),'python':platform.python_version()},'inputs':{'waterManifest':a.water_manifest,'waterAuthorityVersion':m['version'],'waterPixelCount':int(m['pixelCount']),'constraints':a.constraints},'artifactFile':artifact_name,'artifactSha256':artifact_sha,'counts':counts,'topBoundaryM':top_m,'meshArrayHashes':{k:h(v) for k,v in M.items()},'packageArrayHashes':package_hashes,'metric':{'originEastM':float(origin[0]),'originNorthM':float(origin[1]),'totalAreaM2':float(area.sum()),'minimumCellAreaM2':float(area.min()),'maximumCellAreaM2':float(area.max()),'quantizationScaleM':.001},'barrageFullSpanImagePixel':[p0.tolist(),p1.tolist()],'barrageCutExtensionPixel':float(C.get('barrageCutExtensionPixel',0.0)),'barrageCutSpanImagePixel':[cut_p0.tolist(),cut_p1.tolist()],'safeguards':{'waterAuthorityModifiedDuringGeneration':False,'physicalValuesAssigned':False,'physicalExecutionAuthorized':False,'connectedToPublicSimulator':False,'calibrationPerformed':False,'previousMeshAuthorizationReusable':False}}
     (out/'stage16_metric_mesh_summary.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps(report,ensure_ascii=False,indent=2))
 if __name__=='__main__':main()

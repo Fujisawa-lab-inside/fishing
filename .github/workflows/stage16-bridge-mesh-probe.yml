@@ -1,23 +1,15 @@
-name: Stage 16 Ashiya bridge mesh Linux probe
+name: Stage 20 barrage mesh one-time Linux probe
 
 on:
-  pull_request:
-    paths:
-      - 'data/onga_unified_water_manifest_r3.json'
-      - 'data/onga_water_rows_r3_*.json'
-      - 'data/onga_stage16_mesh_constraints_v2.json'
-      - 'tools/generate_stage13_ashiya_bridge_r3.py'
-      - 'tools/generate_stage16_metric_mesh.py'
-      - 'tools/validate_stage13_data.mjs'
-      - 'tools/validate_stage16_metric_solver.py'
-      - 'tools/validate_stage16_actual_mesh_shallow_water.py'
-      - 'tools/validate_stage16_actual_mesh_well_balanced.py'
-      - 'tools/requirements-stage16-metric-mesh.txt'
-      - '.github/workflows/stage16-bridge-mesh-probe.yml'
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
+
+concurrency:
+  group: stage20-barrage-mesh-one-time-linux-probe
+  cancel-in-progress: false
 
 jobs:
   linux-x86-64-probe:
@@ -27,74 +19,206 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+
+      - name: Enforce exact one-time authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import platform
+          import urllib.parse
+          import urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def digest(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+          authorization_path = Path('config/stage20_candidate_mesh_probe_decision_v1.json')
+          record = json.loads(authorization_path.read_text(encoding='utf-8'))
+          authorization = record['authorization']
+          assert record['status'] == 'approved_for_one_linux_probe'
+          assert authorization['status'] == 'approved'
+          assert authorization['oneTime'] is True
+          assert authorization['sourceStatement'] == 'A：この形でLinux x86確認を一回実行する'
+          assert os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'
+          assert os.environ['GITHUB_REPOSITORY'] == authorization['expectedRepository']
+          assert os.environ['GITHUB_REF'] == authorization['expectedRef']
+          assert os.environ['GITHUB_ACTOR'] == authorization['expectedActor']
+          assert os.environ['GITHUB_RUN_ATTEMPT'] == '1'
+          now = datetime.now(timezone.utc)
+          approved = datetime.fromisoformat(authorization['approvedAtUtc'].replace('Z', '+00:00'))
+          expires = datetime.fromisoformat(authorization['expiresAtUtc'].replace('Z', '+00:00'))
+          assert approved <= now <= expires
+          expected = authorization['authorizedInputs']
+          assert digest('data/onga_stage20_mesh_constraints_v1.json') == expected['constraintsSha256']
+          assert digest('tools/generate_stage16_metric_mesh.py') == expected['generatorSha256']
+
+          repository = urllib.parse.quote(os.environ['GITHUB_REPOSITORY'], safe='/')
+          workflow = urllib.parse.quote('stage16-bridge-mesh-probe.yml', safe='')
+          branch = urllib.parse.quote(os.environ['GITHUB_REF_NAME'], safe='')
+          url = (
+              f'https://api.github.com/repos/{repository}/actions/workflows/{workflow}/runs'
+              f'?event=workflow_dispatch&branch={branch}&per_page=100'
+          )
+          request = urllib.request.Request(
+              url,
+              headers={
+                  'Accept': 'application/vnd.github+json',
+                  'Authorization': f"Bearer {os.environ['GH_TOKEN']}",
+                  'X-GitHub-Api-Version': '2022-11-28',
+              },
+          )
+          with urllib.request.urlopen(request, timeout=30) as response:
+              runs = json.load(response)['workflow_runs']
+          current_id = int(os.environ['GITHUB_RUN_ID'])
+          current_sha = os.environ['GITHUB_SHA']
+          prior_same_commit = [
+              run for run in runs
+              if int(run['id']) != current_id and run.get('head_sha') == current_sha
+          ]
+          assert not prior_same_commit, 'a prior workflow_dispatch exists for this exact authorized commit'
+          assert platform.system() == 'Linux'
+          assert platform.machine() == 'x86_64'
+          PY
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: pip
           cache-dependency-path: tools/requirements-stage16-metric-mesh.txt
+
       - name: Install pinned deterministic mesh dependencies
         run: python -m pip install -r tools/requirements-stage16-metric-mesh.txt
-      - name: Validate corrected water authority
+
+      - name: Validate approved water authority
         run: node tools/validate_stage13_data.mjs data/onga_unified_water_manifest_r3.json
-      - name: Reproduce the approved Linux mesh in probe mode
+
+      - name: Generate Stage 20 Linux candidate in probe mode
         run: >-
           python tools/generate_stage16_metric_mesh.py
           --repo-root .
           --water-manifest data/onga_unified_water_manifest_r3.json
-          --constraints data/onga_stage16_mesh_constraints_v2.json
-          --output stage16-bridge-mesh-probe
+          --constraints data/onga_stage20_mesh_constraints_v1.json
+          --output stage20-barrage-mesh-linux-probe
           --probe
-      - name: Verify probe identity and safeguards
+
+      - name: Verify candidate topology and safeguards
         run: |
           python - <<'PY'
-          import hashlib, json, platform
+          import hashlib
+          import json
+          import platform
           from pathlib import Path
-          artifact = Path('stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz')
-          report = json.loads(Path('stage16-bridge-mesh-probe/stage16_metric_mesh_summary.json').read_text())
-          constraints = json.loads(Path('data/onga_stage16_mesh_constraints_v2.json').read_text())
+
+          output = Path('stage20-barrage-mesh-linux-probe')
+          artifact = output / 'onga_stage20_metric_fv_mesh_v1_candidate.npz'
+          report = json.loads((output / 'stage16_metric_mesh_summary.json').read_text())
           assert report['status'] == 'probe-only'
-          assert report['candidateStatus'] == 'approved_canonical'
+          assert report['candidateStatus'] == 'awaiting_linux_x86_64_canonical_probe'
           assert report['identityPinned'] is False
-          assert report['approvedIdentityReproduced'] is True
           assert report['canonical'] is False
           assert report['visualApproval'] is None
-          assert report['targetVisualApproval'] == constraints['visualApproval']
-          assert report['artifactSha256'] == constraints['visualApproval']['reviewedPackageSha256']
-          assert hashlib.sha256(artifact.read_bytes()).hexdigest() == report['artifactSha256']
           assert report['inputs']['waterAuthorityVersion'] == 'v4.8.0-candidate-r3'
           assert report['inputs']['waterPixelCount'] == 680633
+          assert report['inputs']['constraints'] == 'data/onga_stage20_mesh_constraints_v1.json'
+          assert report['barrageCutExtensionPixel'] == 2.0
+          assert report['counts']['cells'] > 0
+          assert report['counts']['barrageFaces'] > 0
+          assert report['counts']['fishwayComponents'][0] != report['counts']['fishwayComponents'][1]
           assert report['topBoundaryM']['allTaggedM'] is True
           assert report['topBoundaryM']['faceCount'] == report['counts']['boundaryFaceCounts']['M']
           assert report['topBoundaryM']['endpointXSpan'] == [57.0, 323.0]
           assert abs(report['topBoundaryM']['imageLengthPixels'] - 266.0) < 1e-9
-          assert report['counts']['fishwayComponents'][0] != report['counts']['fishwayComponents'][1]
-          assert report['safeguards']['previousMeshAuthorizationReusable'] is False
           assert report['safeguards']['physicalExecutionAuthorized'] is False
+          assert report['safeguards']['connectedToPublicSimulator'] is False
+          assert report['safeguards']['previousMeshAuthorizationReusable'] is False
+          assert hashlib.sha256(artifact.read_bytes()).hexdigest() == report['artifactSha256']
           assert platform.system() == 'Linux'
           assert platform.machine() == 'x86_64'
           PY
+
       - name: Verify conservative algebra on candidate mesh
         run: >-
           python tools/validate_stage16_metric_solver.py
-          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
-          --output stage16-bridge-mesh-probe/stage16_metric_solver_validation.json
+          stage20-barrage-mesh-linux-probe/onga_stage20_metric_fv_mesh_v1_candidate.npz
+          --output stage20-barrage-mesh-linux-probe/stage20_metric_solver_validation.json
+
       - name: Verify shallow-water algebra on candidate mesh
         run: >-
           python tools/validate_stage16_actual_mesh_shallow_water.py
-          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
-          --output stage16-bridge-mesh-probe/stage16_actual_mesh_shallow_water_validation.json
+          stage20-barrage-mesh-linux-probe/onga_stage20_metric_fv_mesh_v1_candidate.npz
+          --output stage20-barrage-mesh-linux-probe/stage20_actual_mesh_shallow_water_validation.json
+
       - name: Verify well-balanced algebra on candidate mesh
         run: >-
           python tools/validate_stage16_actual_mesh_well_balanced.py
-          stage16-bridge-mesh-probe/onga_stage16_metric_fv_mesh_v2.npz
-          --output stage16-bridge-mesh-probe/stage16_actual_mesh_well_balanced_validation.json
-      - name: Upload Linux candidate and diagnostics
+          stage20-barrage-mesh-linux-probe/onga_stage20_metric_fv_mesh_v1_candidate.npz
+          --output stage20-barrage-mesh-linux-probe/stage20_actual_mesh_well_balanced_validation.json
+
+      - name: Seal Linux probe evidence
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          output = Path('stage20-barrage-mesh-linux-probe')
+          files = {
+              'mesh': output / 'onga_stage20_metric_fv_mesh_v1_candidate.npz',
+              'summary': output / 'stage16_metric_mesh_summary.json',
+              'metric': output / 'stage20_metric_solver_validation.json',
+              'shallowWater': output / 'stage20_actual_mesh_shallow_water_validation.json',
+              'wellBalanced': output / 'stage20_actual_mesh_well_balanced_validation.json',
+          }
+          payloads = {
+              key: json.loads(path.read_text())
+              for key, path in files.items()
+              if key != 'mesh'
+          }
+          assert all(payloads[key]['status'] == 'passed' for key in ('metric', 'shallowWater', 'wellBalanced'))
+          evidence = {
+              'schema': 'onga-stage20-linux-mesh-probe-evidence-v1',
+              'status': 'passed',
+              'runId': int(os.environ['GITHUB_RUN_ID']),
+              'runAttempt': int(os.environ['GITHUB_RUN_ATTEMPT']),
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'ref': os.environ['GITHUB_REF'],
+              'commitSha': os.environ['GITHUB_SHA'],
+              'actor': os.environ['GITHUB_ACTOR'],
+              'counts': payloads['summary']['counts'],
+              'barrageCutExtensionPixel': payloads['summary']['barrageCutExtensionPixel'],
+              'sha256': {
+                  key: hashlib.sha256(path.read_bytes()).hexdigest()
+                  for key, path in files.items()
+              },
+              'safeguards': {
+                  'oneTimeAuthorization': True,
+                  'physicalFlowRun': False,
+                  'full64Run': False,
+                  'published': False,
+                  'mainMerged': False,
+              },
+          }
+          (output / 'stage20_linux_probe_evidence.json').write_text(
+              json.dumps(evidence, ensure_ascii=False, indent=2),
+              encoding='utf-8',
+          )
+          print(json.dumps(evidence, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload one-time Linux candidate and diagnostics
         uses: actions/upload-artifact@v4
         with:
-          name: stage16-ashiya-bridge-linux-probe-${{ github.run_id }}
-          path: stage16-bridge-mesh-probe
+          name: stage20-barrage-mesh-linux-probe-${{ github.run_id }}
+          path: stage20-barrage-mesh-linux-probe
           if-no-files-found: error
           retention-days: 30

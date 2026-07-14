@@ -1,0 +1,75 @@
+{
+  "schema": "onga-stage20-candidate-mesh-probe-decision-v1",
+  "status": "approved_for_one_linux_probe",
+  "approvedBarragePosition": {
+    "record": "config/stage20_barrage_coordinate_candidate_v1.json",
+    "sourceStatement": "青線を採用します"
+  },
+  "candidateConstraints": {
+    "path": "data/onga_stage20_mesh_constraints_v1.json",
+    "sha256": "c531419aba536f77fd5edea50d00e01140ccfe2608c3a6d4ce942a2cb42cc187",
+    "barrageCutExtensionPixel": 2.0,
+    "purpose": "connect the approved alignment through the final dry shoreline tolerance so the closed barrage forms two hydraulic components"
+  },
+  "localDiagnosticProbe": {
+    "platform": "Darwin arm64",
+    "canonical": false,
+    "cells": 50327,
+    "barrageFaces": 78,
+    "closedComponents": 2,
+    "fishwayComponents": [1, 0],
+    "meshSha256": "d708abc1754253266f36c4dda75440b03f368e44086fe437de52268aa72189cc",
+    "summarySha256": "f5497895730532c27e2ebc456bd89e917c2e1dc3509dce972c1bc80209298f22",
+    "validation": {
+      "metricSolver": {
+        "status": "passed",
+        "sha256": "094289cbdfd65f8f5b22fefc96872445ca2df7d25c8c3edaf044ed91cca76a8b"
+      },
+      "shallowWater": {
+        "status": "passed",
+        "sha256": "3260611613ea9a7647f74d3c8f7d989c75b9cce1a77471d950cab94fa9064988"
+      },
+      "wellBalanced": {
+        "status": "passed",
+        "sha256": "b38da6a76de714301f8e99abe40f52693846832896f09c7bf483274a65b0a710"
+      }
+    }
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage20-candidate-mesh-probe-decision-v3.svg.png",
+    "sha256": "74e2a2a75f0df2cc131ade0ea43f18be771037402eb24cff2a412c674e41d242"
+  },
+  "decision": {
+    "question": "岸へ2ピクセル接続した候補をLinux x86で一回だけ作成するか",
+    "A": "push_candidate_branch_and_run_one_linux_x86_probe_recommended",
+    "B": "stop_without_external_execution",
+    "expectedMinutes": [5, 10],
+    "timeoutMinutes": 20,
+    "externalEffects": [
+      "GitHub Actions minutes are consumed",
+      "a diagnostic artifact is retained for 30 days"
+    ],
+    "doesNotAuthorize": [
+      "physical_flow_run",
+      "full64",
+      "publish",
+      "main_merge"
+    ]
+  },
+  "authorization": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedAtUtc": "2026-07-14T13:38:06Z",
+    "expiresAtUtc": "2026-07-15T13:38:06Z",
+    "sourceStatement": "A：この形でLinux x86確認を一回実行する",
+    "approvedChoice": "A",
+    "oneTime": true,
+    "expectedRepository": "Fujisawa-lab-inside/fishing",
+    "expectedRef": "refs/heads/codex/stage19-public-inference-inputs",
+    "expectedActor": "RyusukeFujisawa",
+    "authorizedInputs": {
+      "constraintsSha256": "c531419aba536f77fd5edea50d00e01140ccfe2608c3a6d4ce942a2cb42cc187",
+      "generatorSha256": "abd8b971f152c3c0b759ca7a2c229c91ae1b354a8582bcc0102041d44e209832"
+    }
+  }
+}

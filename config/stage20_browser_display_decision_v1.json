@@ -1,0 +1,35 @@
+{
+  "schema": "onga-stage20-browser-display-decision-v1",
+  "status": "awaiting_visual_decision",
+  "implementation": {
+    "mesh": "public/data/onga/stage20/mesh-v1.json",
+    "worker": "onga_stage20_reference_worker.mjs",
+    "wasm": "public/wasm/stage20-reference-kernel-v1.wasm",
+    "validation": "config/stage20_browser_reference_validation_v1.json"
+  },
+  "decisionVisual": {
+    "path": "docs/visuals/stage20-browser-display-decision-v1.png",
+    "sha256": "8e2e5d057364992096737b931df328e8c4c452fec1bcf70b3bfa8c52d1a9ac6f",
+    "background": "GSI seamlessphoto tiles retrieved 2026-07-14",
+    "overlay": "synthetic_display_sample_not_physical_flow_output"
+  },
+  "question": "この流速地図の表示方法を採用するか",
+  "choices": {
+    "A": "採用する（推奨）",
+    "B": "色・矢印・重ね方を調整する"
+  },
+  "judgmentScope": [
+    "velocity_magnitude_colour_encoding",
+    "velocity_direction_arrow_encoding",
+    "satellite_image_overlay_readability",
+    "approved_barrage_and_fishway_visibility"
+  ],
+  "notInJudgmentScope": [
+    "physical_validity_of_the_synthetic_velocity_values",
+    "physical_validity_of_the_synthetic_arrow_directions",
+    "production_flow_run",
+    "full64_run",
+    "publication",
+    "main_merge"
+  ]
+}

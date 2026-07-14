@@ -1,0 +1,51 @@
+{
+  "schema": "onga-stage20-browser-reference-validation-v1",
+  "status": "passed_awaiting_display_review",
+  "approvedMesh": {
+    "linuxPackageSha256": "c125f3c94c03c0f0b788b8ddb4338263272ab7618e7f00712394124713c228df",
+    "browserBinarySha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "manifestSha256": "c9a8cc1d63dbf3dd0699a575ad3f151a76f6e5f34773f8164540f0e7937f1f90",
+    "vertices": 28529,
+    "cells": 50339,
+    "internalFaces": 72150,
+    "boundaryFaces": 6717,
+    "barrageFaces": 79
+  },
+  "browserPath": {
+    "meshLoaderSha256": "c6d2bce3e95974c6582ee8d0fd48955be9017d5239dec81634b8056e31295e52",
+    "referenceSolverSha256": "5056312378f2cc4d5c254c271b78fd59cea7d5795dd41179c17ebf5a50e2fb4a",
+    "workerSha256": "4a8d5fbe7779abdc03f19625de1615893098a1988526538fe8decdd99ddb1623",
+    "wasmSha256": "89da23880433ca8eb179e28103f3e033db29c2107de7394491447b6ba6f9d43a",
+    "wasmBytes": 456
+  },
+  "syntheticStillWaterValidation": {
+    "depthM": 3.0,
+    "manningN": 0.03,
+    "cfl": 0.12,
+    "adaptiveStepSeconds": 0.0002092223272539986,
+    "clippedCells": 0,
+    "nonFiniteValues": 0,
+    "maximumVelocityMPerS": 2.5947374698634663e-17,
+    "maximumDepthDriftM": 0.0,
+    "localNodeElapsedMs": 17.810959000000004
+  },
+  "workerRuntimeValidation": {
+    "status": "passed",
+    "transport": "localhost_http_worker_threads_browser_api_shim",
+    "meshFetchDigestGeometryResidualWasmTotalMs": 57.320459000000014,
+    "wasmAdvanceMs": 1.648709000000025,
+    "maximumVelocityMPerS": 2.5947374698634663e-17,
+    "maximumDepthDriftM": 0.0,
+    "nonFiniteValues": 0
+  },
+  "interpretation": "actual_approved_mesh_browser_transport_and_wasm_update_connectivity_test_only",
+  "safeguards": {
+    "syntheticStillWaterOnly": true,
+    "physicalFlowRun": false,
+    "full64Run": false,
+    "publicSimulatorConnected": false,
+    "published": false,
+    "mainMerged": false
+  },
+  "nextDecision": "approve_or_adjust_satellite_flow_map_display_encoding"
+}

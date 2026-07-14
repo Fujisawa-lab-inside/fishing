@@ -113,6 +113,9 @@ export function validatePhysicalDataSourceInventory(inventory) {
     );
     assert(depthHypothesis?.status === 'unverified',
       'cross-channel depth hypothesis must remain unverified');
+    assert(depthHypothesis?.preferredIdealizedShape
+      === 'smooth_symmetric_inverted_normal_distribution_like_trough',
+      'cross-channel depth hypothesis shape must remain a smooth inverse-normal-like trough');
     assert(depthHypothesis?.verificationSourceRequired
       === 'authoritative_surveyed_cross_sections_with_vertical_datum',
     'cross-channel depth hypothesis requires authoritative surveyed sections');

@@ -24,7 +24,7 @@ The official contact page also confirmed the general office email `onga@qsr.mlit
 
 ## Bathymetry review requirement
 
-The Stage 18 v3 median-depth map is not an actual bathymetry map. The user-reviewed hypothesis that the channel is generally deeper near its centre and shallower toward land must be tested against authoritative surveyed cross sections and their vertical datum. It must not be converted into a bed field through visual fitting.
+The Stage 18 v3 median-depth map is not an actual bathymetry map. The refined user hypothesis is an idealized smooth, approximately symmetric, upside-down normal-distribution-like trough: shallow near land and deepest near the channel centre. It must be tested against authoritative surveyed cross sections and their vertical datum, including real asymmetry, thalweg offset, compound sections, and local scour. It must not be converted into a bed field through visual fitting.
 
 ## Fail-closed interpretation
 

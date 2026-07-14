@@ -11,7 +11,7 @@
 - [results artifact `8300775754`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300775754) と [numeric-evidence artifact `8300766356`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300766356) のexpiryはともに`2026-10-12`である。
 - authorization `stage18-v3-20260714t044734z-one-time` は消費済みで再利用不可。現行gateは`consumed`・無効で、authorizationファイルは履歴証拠としてのみ保持する。実行workflowはactive gateを要求するため、依存導入や数値入力読込みより前のcontrol planeで停止する。自動retry、追加run、物理Validation主張、公開シミュレータ接続は許可されない。
 - 比較はstep-matchedであり同一物理時刻ではない。結果は暫定推論入力に対する実行時間・数値安定性の証拠に限定する。詳細は `docs/STAGE18_FULL64_V3_RESULT.md`、機械可読記録は `config/stage18_full64_v3_result_record.json` を正本とする。
-- 利用者の地図レビューでは、水深中央値の分布は一般に実水深と異なり、河道中央ほど深く岸へ近づくほど浅いのではないかとの仮説が示された。これは公式横断測量で検査する未検証仮説として引き継ぎ、地図の見た目からbathymetryを作成・承認しない。
+- 利用者の地図レビューでは、水深中央値の分布は一般に実水深と異なり、理想化した局所横断面は正規分布のグラフを上下反転したような滑らかな谷形で、岸側ほど浅く河道中央が最深となる形が望ましいとの仮説が示された。これは公式横断測量で左右非対称、thalweg位置、複断面、局所洗掘を含めて検査する未検証仮説として引き継ぎ、地図の見た目からbathymetryを作成・承認しない。
 
 ## 2026-07-14 Stage 18 v2実行後・v3実行前の履歴スナップショット
 

@@ -20,7 +20,7 @@ The authorization is consumed and cannot be reused. The repository execution gat
 
 These values passed the fixed numerical acceptance checks. They are evidence of completion, numerical stability, conservation, and resource use for this run; they are not evidence of physical predictive accuracy.
 
-The user review recorded a hypothesis that the displayed median-depth distribution differs from actual bathymetry and that real cross-channel depth may be greater near the channel centre and shallower toward land. This is retained only as an unverified hypothesis for checking authoritative surveyed cross sections. It is not an approved bathymetry field and must not be used for visual fitting.
+The user review recorded a hypothesis that the displayed median-depth distribution differs from actual bathymetry. The preferred idealized cross-section was subsequently refined to a smooth, approximately symmetric, upside-down normal-distribution-like trough: shallow near land and deepest near the channel centre. This is retained only as an unverified hypothesis for checking authoritative surveyed cross sections, including departures from symmetry. It is not an approved bathymetry field and must not be used for visual fitting.
 
 ## Map and evidence package
 

@@ -129,7 +129,8 @@
     "physicalValidationReady": false
   },
   "bathymetryReview": {
-    "userHypothesis": "The user hypothesizes that actual bathymetry may be deeper near the channel centre and shallower toward land than the provisional Stage 18 median-depth map suggests.",
+    "userHypothesis": "The user hypothesizes that actual bathymetry may follow a smooth, approximately symmetric, upside-down normal-distribution-like cross-channel trough: shallow near land and deepest near the channel centre, rather than the provisional Stage 18 median-depth map.",
+    "preferredIdealizedShape": "smooth_symmetric_inverted_normal_distribution_like_trough",
     "status": "unverified",
     "requiredEvidence": "authoritative surveyed cross sections with vertical datum",
     "visualFittingAllowed": false,

@@ -135,6 +135,8 @@ const checks = [
     stations.every(item => item.verticalDatumMeaningResolved === false)),
   check('depth hypothesis remains unverified', record.bathymetryReview?.status, 'unverified',
     record.bathymetryReview?.status === 'unverified'
+      && record.bathymetryReview?.preferredIdealizedShape
+        === 'smooth_symmetric_inverted_normal_distribution_like_trough'
       && record.bathymetryReview?.visualFittingAllowed === false
       && record.bathymetryReview?.approvedForSolver === false),
   check('official email has page digest evidence', record.officialContact?.email,

@@ -157,6 +157,8 @@ const checks = [
   check('reviewed cross-channel depth pattern remains an unverified hypothesis',
     depthHypothesis.status, 'unverified',
     depthHypothesis.status === 'unverified'
+      && depthHypothesis.preferredIdealizedShape
+        === 'smooth_symmetric_inverted_normal_distribution_like_trough'
       && depthHypothesis.solverUseApproved === false
       && depthHypothesis.visualFittingAllowed === false),
   check('route A is already recorded', inventory.nextDecision.selectedOption,

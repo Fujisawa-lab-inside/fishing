@@ -4,7 +4,7 @@
 
 The one-time corrected-v3 recovery workflow completed successfully in [GitHub Actions run 29307047699](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699). The execution commit was `c378fb3885484ea17b39143d294ca10e41cb59b6`, and the consumed authorization was `stage18-v3-20260714t044734z-one-time`.
 
-The authorization is consumed and cannot be reused. This result does not authorize an automatic retry or an additional numerical run.
+The authorization is consumed and cannot be reused. The repository execution gate is now `consumed` and disabled, while the unchanged authorization file remains only as historical evidence. This result does not authorize an automatic retry or an additional numerical run. The run workflow still requires an active gate and therefore stops at the control plane before loading numerical inputs.
 
 ## Numerical result
 

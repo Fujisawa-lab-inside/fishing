@@ -148,6 +148,10 @@ def main() -> int:
     require('tools/validate_stage18_full64_v3_control.py' in preflight
             and '--expect active' in preflight,
             'active v3 control validation is missing')
+    require(preflight.count('--expect active') == 1,
+            'active v3 control validation must occur exactly once')
+    require('--expect auto' not in workflow and '--expect consumed' not in workflow,
+            'execution workflow must never relax its active-only control check')
     require('python tools/validate_stage18_full64_v2_evaluator.py --require-numeric-fixture'
             in preflight,
             'result packaging must pass its non-run numerical/raster fixture before consumption')

@@ -9,7 +9,7 @@
 - one-time v3 workflow [run `29307047699`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699) はexecution commit `c378fb3885484ea17b39143d294ca10e41cb59b6` 上で64 casesを完了し、数値評価に合格した。64/64完了、NaN 0、負水深0、最大CFL `0.12000000000000002`、最大絶対質量保存誤差 `3.0134486651120407e-16`、wall time `599.102227037`秒、peak RSS `168.59765625` MiB、最小水深 `1.26795059543982` mだった。
 - 修正済みrasterは50,129/50,129セルを表現し、5/5枚の地図を完成した。numeric-evidence manifest SHA-256は`e60287e82d1837b978ecb1c939e9e4b5f2ac075bbaf5c4563df8972da8a350f8`、judgment SVG SHA-256は`47d3d36a257f4b086f707f97748d39782c50ff77ce40d55aed001233b3b11594`である。
 - [results artifact `8300775754`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300775754) と [numeric-evidence artifact `8300766356`](https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29307047699/artifacts/8300766356) のexpiryはともに`2026-10-12`である。
-- authorization `stage18-v3-20260714t044734z-one-time` は消費済みで再利用不可。自動retry、追加run、物理Validation主張、公開シミュレータ接続は許可されない。
+- authorization `stage18-v3-20260714t044734z-one-time` は消費済みで再利用不可。現行gateは`consumed`・無効で、authorizationファイルは履歴証拠としてのみ保持する。実行workflowはactive gateを要求するため、依存導入や数値入力読込みより前のcontrol planeで停止する。自動retry、追加run、物理Validation主張、公開シミュレータ接続は許可されない。
 - 比較はstep-matchedであり同一物理時刻ではない。結果は暫定推論入力に対する実行時間・数値安定性の証拠に限定する。詳細は `docs/STAGE18_FULL64_V3_RESULT.md`、機械可読記録は `config/stage18_full64_v3_result_record.json` を正本とする。
 - 利用者の地図レビューでは、水深中央値の分布は一般に実水深と異なり、河道中央ほど深く岸へ近づくほど浅いのではないかとの仮説が示された。これは公式横断測量で検査する未検証仮説として引き継ぎ、地図の見た目からbathymetryを作成・承認しない。
 

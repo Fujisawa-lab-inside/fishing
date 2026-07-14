@@ -1,8 +1,13 @@
 {
   "schema": "onga-stage19-full64-execution-gate-v1",
-  "state": "active_one_time",
+  "state": "consumed",
   "authorizationId": "stage19-20260714t094418z-one-time",
   "authorizationSha256": "02ad6166ebb06a568e2c534d2a98e23c4329596b689afbedee6bf641d4cc087c",
+  "consumedBy": {
+    "workflowRunId": 29323240389,
+    "executionCommit": "f41bda452f8ebbe6b9492352d4eca12ad06f1323",
+    "consumedAtUtc": "2026-07-14T09:51:56Z"
+  },
   "automaticRetryAllowed": false,
   "additionalRunAllowed": false,
   "mainMergeAllowed": false

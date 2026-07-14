@@ -56,4 +56,10 @@ Synthetic two-cell tests passed for lake-at-rest preservation, all three inflow 
 
 `config/stage19_full64_execution_contract_v1.json` and `docs/visuals/stage19-full64-execution-decision.png` define the next single decision: whether to run exactly 64 cases × 500 steps once within 24 hours of explicit approval. The planning estimate is 15–30 minutes with a 60-minute hard stop. Automatic retry and additional runs are prohibited. Success requires complete numerical evidence and five maps; failure of any acceptance threshold stops the path.
 
-This execution remains inactive. No production-mesh numerical case has started. The decision does not authorize a physical-validation claim, public simulator connection, external contact, `main` merge, or automatic retry.
+Before the explicit run authorization, this execution contract was inactive and no production-mesh numerical case had started. The later one-time authorization did not authorize a physical-validation claim, public simulator connection, external contact, `main` merge, or automatic retry.
+
+## One-time execution result
+
+The requester explicitly authorized the exact visual contract, and run `29323240389` completed 64/64 cases on 2026-07-14. The canonical zero-step preflight passed, numerical thresholds passed, all 50,129 cells are represented in each of five maps, and the evidence manifest is sealed. The one-time authorization is consumed and is not reusable.
+
+The 500 adaptive steps represented only 3.25–6.09 simulated seconds. The result is therefore accepted only as numerical-stability and provisional spatial-output evidence; it is not a developed physical flow field. The next design question is the physical-time horizon and feasible staged execution needed before interpreting velocity or direction throughout the domain.

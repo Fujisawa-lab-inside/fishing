@@ -1,0 +1,90 @@
+{
+  "schema": "onga-stage19-full64-evidence-manifest-v1",
+  "status": "sealed",
+  "authorizationId": "stage19-20260714t094418z-one-time",
+  "numericalCases": 64,
+  "stepsPerCase": 500,
+  "mapCount": 5,
+  "files": [
+    {
+      "path": "onga_stage16_metric_fv_mesh_v2.npz",
+      "bytes": 1152255,
+      "sha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2"
+    },
+    {
+      "path": "stage16_metric_mesh_summary.json",
+      "bytes": 4132,
+      "sha256": "347edf0237213f8c564eea93ccd2745c211e2a255b441249a14ee1c1124d9eca"
+    },
+    {
+      "path": "canonical-zero-case-preflight.json",
+      "bytes": 1663,
+      "sha256": "ed581dfb6223739ce958121b3177d01040f8fa9f83fe66acf1fd8b782a110513"
+    },
+    {
+      "path": "full64-progress.json",
+      "bytes": 493,
+      "sha256": "647f3d0a59bb6f8e0142b1851ed97514fb079acc942f8791016cabefcacba0ed"
+    },
+    {
+      "path": "full64-report.json",
+      "bytes": 23434,
+      "sha256": "b647c075afb5cc5446b7ab1ac9fc75943109dce0a616ae34a0f9f8707e883beb"
+    },
+    {
+      "path": "full64-fields.npz",
+      "bytes": 67153936,
+      "sha256": "6946e85d1a34fb7a4f91e31bc5719c67df31aa9cfeb051d3458919b73af4f6c1"
+    },
+    {
+      "path": "full64-statistics.npz",
+      "bytes": 834159,
+      "sha256": "b8a6486fa54b8559e5fe80a2e198705a7773f81c91d202d22d15af7323775d47"
+    },
+    {
+      "path": "full64-statistics-summary.json",
+      "bytes": 1262,
+      "sha256": "42bbd708a169bdc9c94a5a0f3242d03190461c7591c8700cd1c5b8d7f4e0ae02"
+    },
+    {
+      "path": "maps/full64-depth-median.png",
+      "bytes": 785838,
+      "sha256": "1e3050937f4ab96c4caa59fe26b7f8c305c1534f22f569c3ac02f778ac522aec"
+    },
+    {
+      "path": "maps/full64-velocity-median.png",
+      "bytes": 70607,
+      "sha256": "a14feeffbf374a5028385d5f93ca7d6e3db1694316359506f010fb74aa0bf205"
+    },
+    {
+      "path": "maps/full64-wet-probability.png",
+      "bytes": 58857,
+      "sha256": "bc9cf2b3bb44fcd237ac0fb98d05a82c6c2ea59eb66e682d6e3d0204901cfcf1"
+    },
+    {
+      "path": "maps/full64-direction-agreement.png",
+      "bytes": 69100,
+      "sha256": "c67ffc954a56b51974d4503d9aa78b297fe7463182d7d8102e1c85a5c0d96c79"
+    },
+    {
+      "path": "maps/full64-direction-support.png",
+      "bytes": 81825,
+      "sha256": "59c058c095da06a225fb6a0680987174494c7d234826cf3886d6b04efea5132f"
+    },
+    {
+      "path": "maps/full64-map-manifest.json",
+      "bytes": 3597,
+      "sha256": "6e7d4e18416aa1ddf570a914fc400c4de3f07d30ccd983475368e7e18b382754"
+    }
+  ],
+  "interpretationLimits": {
+    "bathymetryIsInferredNotSurveyed": true,
+    "minimumWetDepthIsNumericalFloorNotObservation": true,
+    "relativeTideHasNoAbsoluteVerticalDatum": true,
+    "riverDischargesAreInferredCaseConstants": true,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false
+  },
+  "automaticRetryAllowed": false,
+  "additionalRunAuthorized": false
+}

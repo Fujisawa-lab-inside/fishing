@@ -1,0 +1,13 @@
+{
+  "schema": "onga-stage19-full64-progress-v1",
+  "status": "passed",
+  "authorizationId": "stage19-20260714t094418z-one-time",
+  "requestedCaseCount": 64,
+  "completedCaseCount": 64,
+  "failedCaseCount": 0,
+  "numericalCasesStarted": 64,
+  "lastCompletedCaseId": "stage19-0064",
+  "elapsedSeconds": 805.3850622509999,
+  "reportSha256": "b647c075afb5cc5446b7ab1ac9fc75943109dce0a616ae34a0f9f8707e883beb",
+  "fieldsSha256": "6946e85d1a34fb7a4f91e31bc5719c67df31aa9cfeb051d3458919b73af4f6c1"
+}

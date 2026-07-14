@@ -1,0 +1,78 @@
+{
+  "schema": "onga-stage19-full64-result-record-v1",
+  "status": "passed",
+  "recordedDate": "2026-07-14",
+  "workflow": {
+    "runId": 29323240389,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29323240389",
+    "executionCommit": "f41bda452f8ebbe6b9492352d4eca12ad06f1323",
+    "authorizationId": "stage19-20260714t094418z-one-time",
+    "authorizationConsumed": true,
+    "authorizationReusable": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAuthorized": false
+  },
+  "canonicalPreflight": {
+    "status": "passed",
+    "meshSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "cellCount": 50129,
+    "approvedInputDimensionsReached": 16,
+    "numericalTimeSteps": 0
+  },
+  "numericalResult": {
+    "requestedCaseCount": 64,
+    "completedCaseCount": 64,
+    "failedCaseCount": 0,
+    "stepsPerCase": 500,
+    "nanCount": 0,
+    "negativeDepthCount": 0,
+    "maxCfl": 0.12000000000000002,
+    "maxAbsoluteMassBalanceError": 2.547909753044614e-15,
+    "minimumDepthM": 0.010084219575417172,
+    "minimumSimulatedTimeSeconds": 3.2479783289253414,
+    "maximumSimulatedTimeSeconds": 6.090228051765682,
+    "wallSeconds": 805.3850622509999,
+    "peakResidentMemoryMiB": 396.94921875,
+    "reportSha256": "b647c075afb5cc5446b7ab1ac9fc75943109dce0a616ae34a0f9f8707e883beb",
+    "fieldArtifactSha256": "6946e85d1a34fb7a4f91e31bc5719c67df31aa9cfeb051d3458919b73af4f6c1",
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time"
+  },
+  "mapPackage": {
+    "status": "passed",
+    "mapCount": 5,
+    "cellCount": 50129,
+    "representedCellCount": 50129,
+    "coverageFraction": 1.0,
+    "pngWidth": 3840,
+    "pngHeight": 2640,
+    "maps": {
+      "waterDepthMedian": "1e3050937f4ab96c4caa59fe26b7f8c305c1534f22f569c3ac02f778ac522aec",
+      "velocityMagnitudeMedian": "a14feeffbf374a5028385d5f93ca7d6e3db1694316359506f010fb74aa0bf205",
+      "wetProbability": "bc9cf2b3bb44fcd237ac0fb98d05a82c6c2ea59eb66e682d6e3d0204901cfcf1",
+      "flowDirectionAgreement": "c67ffc954a56b51974d4503d9aa78b297fe7463182d7d8102e1c85a5c0d96c79",
+      "flowDirectionSupport": "59c058c095da06a225fb6a0680987174494c7d234826cf3886d6b04efea5132f"
+    },
+    "judgmentImageSha256": "2ee7aae917673564dde2cdcbeac94591e3f18f8ab4420e7c79890865b4b0a1dd"
+  },
+  "sealedEvidence": {
+    "status": "verified",
+    "fileCount": 14,
+    "manifestSha256": "c18e770052cb1365e77dd04d8aa73a9c6ef2d265a715b1e1d45de897a63b6961"
+  },
+  "artifact": {
+    "artifactId": 8307141009,
+    "name": "stage19-full64-results-29323240389",
+    "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29323240389/artifacts/8307141009",
+    "sizeBytes": 69923696,
+    "expiresOn": "2026-10-12"
+  },
+  "interpretationLimits": {
+    "classification": "provisional_numerical_stability_and_spatial_output_evidence_only",
+    "physicalValidationClaimAllowed": false,
+    "commonPhysicalTimeComparisonAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "reasonFlowMapsAreNotPhysicalEvidence": "500 adaptive steps represented only 3.247978 to 6.090228 simulated seconds, so interior flow development is incomplete"
+  }
+}

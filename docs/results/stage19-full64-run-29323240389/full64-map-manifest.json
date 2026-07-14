@@ -1,0 +1,107 @@
+{
+  "schema": "onga-stage19-full64-map-manifest-v1",
+  "status": "passed",
+  "classification": "provisional_step_matched_outputs_not_physical_validation",
+  "mapCount": 5,
+  "cellCount": 50129,
+  "representedCellCount": 50129,
+  "coverageFraction": 1.0,
+  "pngWidth": 3840,
+  "pngHeight": 2640,
+  "boundsLocalM": [
+    -1451.281325,
+    -881.3682546875,
+    1293.4743250000001,
+    1005.6512546875001
+  ],
+  "raster": {
+    "representedCellCount": 50129,
+    "coverageFraction": 1.0,
+    "rasterization": "deterministic_triangle_cell_index_center_sample_square_pixel",
+    "squarePixels": true,
+    "pixelSizeLocalM": 0.7147801171875,
+    "boundsExpansionLocalM": {
+      "xTotal": 0.0,
+      "yTotal": 8.356359375000011
+    }
+  },
+  "source": {
+    "meshSha256": "f18ac352604e286be395f7ced1580f654c00b29cf65f310fcbce38fb00219fe2",
+    "statisticsSha256": "b8a6486fa54b8559e5fe80a2e198705a7773f81c91d202d22d15af7323775d47",
+    "summarySha256": "42bbd708a169bdc9c94a5a0f3242d03190461c7591c8700cd1c5b8d7f4e0ae02"
+  },
+  "maps": [
+    {
+      "filename": "full64-depth-median.png",
+      "field": "water_depth_median_m",
+      "title": "water depth median",
+      "units": "m",
+      "sha256": "1e3050937f4ab96c4caa59fe26b7f8c305c1534f22f569c3ac02f778ac522aec",
+      "dataMinimum": 0.04644898248408795,
+      "dataMaximum": 11.367531676788019,
+      "colorScaleMinimum": 0.05,
+      "colorScaleMaximum": 11.367512672001402,
+      "colorScaleClipping": "p02_p98",
+      "excludedCellCount": 0
+    },
+    {
+      "filename": "full64-velocity-median.png",
+      "field": "velocity_median_ms",
+      "title": "velocity magnitude median",
+      "units": "m/s",
+      "sha256": "a14feeffbf374a5028385d5f93ca7d6e3db1694316359506f010fb74aa0bf205",
+      "dataMinimum": 0.0,
+      "dataMaximum": 1.2370463950456254,
+      "colorScaleMinimum": 3.005410097844655e-17,
+      "colorScaleMaximum": 0.01026232197087286,
+      "colorScaleClipping": "p02_p98",
+      "excludedCellCount": 0
+    },
+    {
+      "filename": "full64-wet-probability.png",
+      "field": "wet_probability",
+      "title": "wet probability",
+      "units": "fraction",
+      "sha256": "bc9cf2b3bb44fcd237ac0fb98d05a82c6c2ea59eb66e682d6e3d0204901cfcf1",
+      "dataMinimum": 0.0,
+      "dataMaximum": 1.0,
+      "colorScaleMinimum": 0.0,
+      "colorScaleMaximum": 1.0,
+      "colorScaleClipping": "fixed_0_1",
+      "excludedCellCount": 0
+    },
+    {
+      "filename": "full64-direction-agreement.png",
+      "field": "flow_direction_agreement_fraction",
+      "title": "direction agreement",
+      "units": "fraction",
+      "sha256": "c67ffc954a56b51974d4503d9aa78b297fe7463182d7d8102e1c85a5c0d96c79",
+      "dataMinimum": 0.0,
+      "dataMaximum": 1.0,
+      "colorScaleMinimum": 0.0,
+      "colorScaleMaximum": 1.0,
+      "colorScaleClipping": "fixed_0_1",
+      "excludedCellCount": 0
+    },
+    {
+      "filename": "full64-direction-support.png",
+      "field": "direction_sample_support_fraction",
+      "title": "direction sample support",
+      "units": "fraction",
+      "sha256": "59c058c095da06a225fb6a0680987174494c7d234826cf3886d6b04efea5132f",
+      "dataMinimum": 0.0,
+      "dataMaximum": 1.0,
+      "colorScaleMinimum": 0.0,
+      "colorScaleMaximum": 1.0,
+      "colorScaleClipping": "fixed_0_1",
+      "excludedCellCount": 0
+    }
+  ],
+  "interpretationLimits": {
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time",
+    "commonPhysicalTimeComparisonAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false
+  }
+}

@@ -2,12 +2,7 @@ name: Stage 19 one-time full64 run
 run-name: Stage 19 one-time full64 run ${{ github.run_id }}
 
 on:
-  push:
-    branches:
-      - codex/stage19-public-inference-inputs
-    paths:
-      - 'config/stage19_full64_run_authorization_v1.json'
-      - 'config/stage19_full64_execution_gate_v1.json'
+  workflow_dispatch:
 
 permissions:
   actions: read

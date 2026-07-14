@@ -1,0 +1,41 @@
+{
+  "schema": "onga-stage19-full64-step-matched-statistics-summary-v1",
+  "status": "generated",
+  "classification": "provisional_step_matched_outputs_not_physical_validation",
+  "sourceCaseCount": 64,
+  "cellCount": 50129,
+  "fields": {
+    "waterDepthMedianM": {
+      "minimum": 0.04644898248408795,
+      "maximum": 11.367531676788019
+    },
+    "velocityMedianMs": {
+      "minimum": 0.0,
+      "maximum": 1.2370463950456254
+    },
+    "wetProbability": {
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "flowDirectionAgreementFraction": {
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "directionSampleSupportFraction": {
+      "minimum": 0.0,
+      "maximum": 1.0
+    }
+  },
+  "source": {
+    "fieldsSha256": "6946e85d1a34fb7a4f91e31bc5719c67df31aa9cfeb051d3458919b73af4f6c1",
+    "reportSha256": "b647c075afb5cc5446b7ab1ac9fc75943109dce0a616ae34a0f9f8707e883beb",
+    "statisticsSha256": "b8a6486fa54b8559e5fe80a2e198705a7773f81c91d202d22d15af7323775d47"
+  },
+  "interpretationLimits": {
+    "comparisonBasis": "equal_step_count_not_equal_simulated_time",
+    "commonPhysicalTimeComparisonAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "sensitivityClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false
+  }
+}

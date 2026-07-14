@@ -17,6 +17,8 @@ on:
       - 'config/stage19_solver_integration_synthetic_validation_v1.json'
       - 'config/stage19_solver_integration_zero_case_probe_v1.json'
       - 'config/stage19_full64_execution_contract_v1.json'
+      - 'config/stage19_full64_result_record_v1.json'
+      - 'config/stage19_full64_execution_gate_v1.json'
       - 'data/jma_hakata_2026_hourly_tide_QF.txt'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'config/stage17_onga_office_request_submission_v1.json'
@@ -40,12 +42,18 @@ on:
       - 'tools/render_stage19_full64_maps_v1.py'
       - 'tools/seal_stage19_full64_evidence_v1.py'
       - 'tools/validate_stage19_full64_control_v1.py'
+      - 'tools/render_stage19_full64_result_judgment.py'
+      - 'tools/validate_stage19_full64_result_record.py'
       - '.github/workflows/stage19-full64-one-time-run.yml'
       - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
       - 'docs/visuals/stage19-public-inference-input-decision.png'
       - 'docs/visuals/stage19-inferred-scenario-ranges-decision.png'
       - 'docs/visuals/stage19-m-boundary-tide-decision.png'
       - 'docs/visuals/stage19-full64-execution-decision.png'
+      - 'docs/visuals/stage19-full64-result-judgment.png'
+      - 'docs/visuals/stage19-full64-results/**'
+      - 'docs/results/stage19-full64-run-29323240389/**'
+      - 'docs/STAGE19_FULL64_RESULT.md'
       - '.github/workflows/stage19-public-inference-input-validation.yml'
   push:
     branches:
@@ -65,6 +73,8 @@ on:
       - 'config/stage19_solver_integration_synthetic_validation_v1.json'
       - 'config/stage19_solver_integration_zero_case_probe_v1.json'
       - 'config/stage19_full64_execution_contract_v1.json'
+      - 'config/stage19_full64_result_record_v1.json'
+      - 'config/stage19_full64_execution_gate_v1.json'
       - 'data/jma_hakata_2026_hourly_tide_QF.txt'
       - 'config/stage17_inferred_physical_prior_v1.json'
       - 'config/stage17_onga_office_request_submission_v1.json'
@@ -88,12 +98,18 @@ on:
       - 'tools/render_stage19_full64_maps_v1.py'
       - 'tools/seal_stage19_full64_evidence_v1.py'
       - 'tools/validate_stage19_full64_control_v1.py'
+      - 'tools/render_stage19_full64_result_judgment.py'
+      - 'tools/validate_stage19_full64_result_record.py'
       - '.github/workflows/stage19-full64-one-time-run.yml'
       - 'docs/STAGE19_PUBLIC_DATA_INFERENCE_ROUTE.md'
       - 'docs/visuals/stage19-public-inference-input-decision.png'
       - 'docs/visuals/stage19-inferred-scenario-ranges-decision.png'
       - 'docs/visuals/stage19-m-boundary-tide-decision.png'
       - 'docs/visuals/stage19-full64-execution-decision.png'
+      - 'docs/visuals/stage19-full64-result-judgment.png'
+      - 'docs/visuals/stage19-full64-results/**'
+      - 'docs/results/stage19-full64-run-29323240389/**'
+      - 'docs/STAGE19_FULL64_RESULT.md'
       - '.github/workflows/stage19-public-inference-input-validation.yml'
   workflow_dispatch:
 
@@ -139,6 +155,8 @@ jobs:
           python -m py_compile tools/render_stage19_full64_maps_v1.py
           python -m py_compile tools/seal_stage19_full64_evidence_v1.py
           python -m py_compile tools/validate_stage19_full64_control_v1.py
+          python -m py_compile tools/render_stage19_full64_result_judgment.py
+          python -m py_compile tools/validate_stage19_full64_result_record.py
       - name: Validate route retirement and input plan
         run: >-
           node tools/validate_stage19_public_inference_input_plan.mjs
@@ -171,6 +189,8 @@ jobs:
         run: python tools/validate_stage19_solver_integration.py
       - name: Validate inactive execution-readiness contracts
         run: python tools/validate_stage19_execution_readiness.py
+      - name: Validate completed Stage 19 result record
+        run: python tools/validate_stage19_full64_result_record.py
       - name: Re-render normalized decision image
         run: >-
           python tools/render_stage19_public_inference_decision.py
@@ -212,6 +232,13 @@ jobs:
               with Image.open(path) as image:
                   assert image.format == 'PNG'
                   assert image.size == (2100, 1350)
+          with Image.open('docs/visuals/stage19-full64-result-judgment.png') as image:
+              assert image.format == 'PNG'
+              assert image.size == (2100, 1850)
+          for path in __import__('pathlib').Path('docs/visuals/stage19-full64-results').glob('*.png'):
+              with Image.open(path) as image:
+                  assert image.format == 'PNG'
+                  assert image.size == (3840, 2640)
           for path in (
               'stage19-inferred-scenario-ranges-decision.png',
               'docs/visuals/stage19-inferred-scenario-ranges-decision.png',

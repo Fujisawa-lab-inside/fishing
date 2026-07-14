@@ -1,9 +1,13 @@
 {
   "schema": "onga-stage18-full64-execution-gate-v3",
-  "state": "awaiting_new_explicit_authorization",
-  "enabled": false,
-  "replacementAuthorizationRequired": true,
-  "activeAuthorization": null,
+  "state": "authorized",
+  "enabled": true,
+  "replacementAuthorizationRequired": false,
+  "activeAuthorization": {
+    "id": "stage18-v3-20260714t044734z-one-time",
+    "path": "config/stage18_full64_run_authorization_v3.json",
+    "sha256": "7151a7456f48a0fdb45b4eb77c3e157c0810534a211ed66373102e832afa7861"
+  },
   "consumedPreviousAuthorization": {
     "id": "stage18-v2-20260714t015121z-one-time",
     "path": "config/stage18_full64_run_authorization_v2.json",
@@ -13,8 +17,8 @@
     "reusable": false
   },
   "safeguards": {
-    "consumeOneTimeAuthorizationAllowed": false,
-    "full64ExecutionAllowed": false,
+    "consumeOneTimeAuthorizationAllowed": true,
+    "full64ExecutionAllowed": true,
     "automaticActivationAllowed": false
   }
 }

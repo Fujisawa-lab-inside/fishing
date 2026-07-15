@@ -1,0 +1,117 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-contract-v1",
+  "status": "sealed_execution_requires_explicit_one_time_authorization",
+  "executionAuthorized": false,
+  "purpose": "measure_mesh_v2_and_kernel_v3_on_the_same_inferred_input_600_second_case",
+  "resource": {
+    "provider": "GitHub-hosted Actions",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "selfHosted": false,
+    "paidCloudProvisioning": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14",
+    "codeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
+    "codeOnlyResultSha256": "eb3e37376c2f8dc2f35c8803f167da60ef96c81b1233cd5bef8093286bd215cd",
+    "codeOnlyLinuxSpeedup": 7.922670724272694,
+    "codeOnlyMaximumRelativeStateDifference": 6.268050135875895e-16
+  },
+  "runner": {
+    "path": "tools/run_stage20_kernel_v3_physical_pilot.py",
+    "sha256": "6a9c4a6bb3df6229e9fc2cde969df69f4f8d6462991e1834a340012cf743bab3",
+    "workflowName": "Stage 20 one-time kernel v3 physical pilot",
+    "workflowPath": ".github/workflows/stage20-kernel-v3-physical-pilot.yml",
+    "workflowSha256": "38b43e715da29e6271589b1108da6000486f93ddc592e02e5c3c31d9772475eb",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "postprocessing": [
+    {
+      "path": "tools/render_stage20_hybrid_physical_pilot_views.py",
+      "sha256": "676611d3631acd37c4012cd3772a001e31e217a7d3dc83ece5a09200d26f3677"
+    },
+    {
+      "path": "tools/seal_stage20_hybrid_physical_pilot_evidence.py",
+      "sha256": "8cec38ddc9bead64050a75f7565338fb719de06bb05410df19f1a8d426dd0a4d"
+    }
+  ],
+  "scenario": {
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "barrage": {
+      "scenario": "uniform_100_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "boundaries": {
+      "M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.4, "meanOffsetM": null},
+      "N": {"dischargeM3S": 12.0},
+      "O": {"dischargeM3S": 180.0},
+      "G": {"dischargeM3S": 8.0}
+    }
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "tideCurveStartHour": 22.8,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 1200,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "acceptance": {
+    "minimumSimulatedSeconds": 600,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 10,
+    "viewCount": 4
+  },
+  "planningEstimate": {
+    "sourcePhysicalPilotV2WallSeconds": 1492.625987149,
+    "codeOnlyKernelV3Speedup": 7.922670724272694,
+    "projectedWallSeconds": 188.39934652036467,
+    "projectedWallMinutes": 3.1399891086727445,
+    "notAnExecutedKernelV3PhysicalResult": true,
+    "notAGuarantee": true
+  },
+  "outputs": [
+    "execution-receipt.json",
+    "pilot-progress.json",
+    "pilot-report.json",
+    "pilot-final-fields.npz",
+    "ten_restartable_checkpoints",
+    "four_approved_view_jpegs",
+    "pilot-evidence-manifest.json"
+  ],
+  "safeguards": {
+    "inferredInputsMayBeCalledObservations": false,
+    "physicalValidationClaimAllowed": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "elevenBasisCampaignAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

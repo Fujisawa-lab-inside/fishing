@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-kernel-v3-physical-pilot-candidate-v1",
-  "status": "awaiting_explicit_execution_decision",
+  "status": "option_a_approved_preparing_one_time_execution_control",
   "recordedDate": "2026-07-15",
   "codeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
   "resource": "GitHub-hosted Linux x86_64 runner",
@@ -46,7 +46,9 @@
     "optionA": "authorize_one_time_kernel_v3_physical_pilot_within_24_hours",
     "optionB": "do_not_run_and_keep_kernel_v3_as_code_only_candidate",
     "decisionImage": "docs/visuals/stage20-kernel-v3-result-decision.jpg",
-    "decisionImageSha256": "b01b78291f37c76bd232c98790385bd384a149398445465ad2ecca896f21bafc"
+    "decisionImageSha256": "b01b78291f37c76bd232c98790385bd384a149398445465ad2ecca896f21bafc",
+    "approvedChoice": "A",
+    "sourceStatement": "A案を進めてください"
   },
   "execution": {
     "authorized": false,

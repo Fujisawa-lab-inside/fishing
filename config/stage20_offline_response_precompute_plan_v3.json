@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-offline-response-precompute-plan-v3",
-  "status": "reference_s01_canary_passed_remaining_segments_disabled",
+  "status": "reference_s02_passed_remaining_segments_disabled",
   "replaces": "config/stage20_offline_response_precompute_plan_v2.json",
   "planningApproval": "config/stage20_kernel_v3_segmented_plan_approval_v1.json",
   "detailedPlan": "config/stage20_36h_segmented_precompute_plan_v1.json",
@@ -36,13 +36,16 @@
     "mainMergeAuthorized": false,
     "referenceS01CanaryExecuted": true,
     "referenceS01CanaryRunId": 29415527789,
+    "referenceS02Executed": true,
+    "referenceS02RunId": 29434250546,
+    "referenceS02SnapshotCount": 5,
     "remainingSegmentsAuthorized": false
   },
   "nextDecision": {
-    "candidate": "config/stage20_reference_s02_contract_v1.json",
-    "scope": "one_reference_s02_segment_only",
-    "decisionImage": "docs/visuals/stage20-reference-s01-result-decision.jpg",
-    "referenceS02Authorized": false,
+    "candidate": "config/stage20_reference_s02_result_v1.json",
+    "scope": "browser_comparison_plan_without_additional_physical_run",
+    "decisionImage": "docs/visuals/stage20-reference-s02-result-decision.jpg",
+    "comparisonPlanAuthorized": false,
     "remainingSegmentsAuthorized": false
   }
 }

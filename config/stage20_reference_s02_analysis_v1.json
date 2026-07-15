@@ -1,0 +1,196 @@
+{
+  "schema": "onga-stage20-reference-s02-analysis-v1",
+  "status": "passed_digest_chain_and_state_analysis_not_physical_validation",
+  "githubRunId": 29434250546,
+  "evidenceManifestSha256": "54f4cc4a0836948eaae7cd0a55b9a029231e08d78d6c8a5d8d8afb2678ff53d9",
+  "evidenceFilesVerified": 18,
+  "inputRestartSha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+  "s01ToS02ChainVerified": true,
+  "finalStateMatchesFieldsExactly": true,
+  "finalSnapshotMatchesFieldsExactly": true,
+  "hourly": [
+    {
+      "checkpoint": "checkpoint-01h.npz",
+      "sha256": "8052e689e8e846f387e882eb331f0b397364586e088461515f690769a4387631",
+      "elapsedSeconds": 3600.002466875932,
+      "step": 3391565,
+      "modelHour": -15,
+      "meanDepthM": 2.8730612773675643,
+      "maximumDepthM": 12.315630572428029,
+      "meanSpeedMPS": 0.0190480023600448,
+      "medianSpeedMPS": 0.00901174770039254,
+      "maximumSpeedMPS": 0.18118020408527663,
+      "rmsVelocityChangeFromPriorMPS": null
+    },
+    {
+      "checkpoint": "checkpoint-02h.npz",
+      "sha256": "29b3fa1f84e256a948ee36868440b9456d2707dd2b3796a4a025f9798f13a044",
+      "elapsedSeconds": 7200.00555916145,
+      "step": 3844798,
+      "modelHour": -14,
+      "meanDepthM": 2.8923160023329864,
+      "maximumDepthM": 12.335728696048017,
+      "meanSpeedMPS": 0.01916699308295346,
+      "medianSpeedMPS": 0.013054917281969782,
+      "maximumSpeedMPS": 0.17477286416261656,
+      "rmsVelocityChangeFromPriorMPS": 0.04457462857343175
+    },
+    {
+      "checkpoint": "checkpoint-03h.npz",
+      "sha256": "7a15d542abbbb92c763cd38fd90d4a3bba14c9ebb79844893b966d106a608bee",
+      "elapsedSeconds": 10800.007460625699,
+      "step": 4276455,
+      "modelHour": -13,
+      "meanDepthM": 2.77146928242265,
+      "maximumDepthM": 12.21797371508107,
+      "meanSpeedMPS": 0.04252448320019013,
+      "medianSpeedMPS": 0.027112579845473904,
+      "maximumSpeedMPS": 0.21898345937368008,
+      "rmsVelocityChangeFromPriorMPS": 0.035135713217455504
+    },
+    {
+      "checkpoint": "checkpoint-04h.npz",
+      "sha256": "53ba0331a4ef32f9b8599179514949d807323853c7318b996f916ca17eba8ae1",
+      "elapsedSeconds": 14400.004739745755,
+      "step": 4662088,
+      "modelHour": -12,
+      "meanDepthM": 2.5752399858946133,
+      "maximumDepthM": 12.01832137287209,
+      "meanSpeedMPS": 0.0595826555250114,
+      "medianSpeedMPS": 0.036060134370365884,
+      "maximumSpeedMPS": 0.3682093648780109,
+      "rmsVelocityChangeFromPriorMPS": 0.026115317524764797
+    },
+    {
+      "checkpoint": "checkpoint-05h.npz",
+      "sha256": "b62cf731faa0262b3b39b86b202a7db7ed5b5e83a3cadc896cb5e52e17a67f02",
+      "elapsedSeconds": 18000.001797812543,
+      "step": 5041814,
+      "modelHour": -11,
+      "meanDepthM": 2.3853083631776304,
+      "maximumDepthM": 11.80671758573206,
+      "meanSpeedMPS": 0.058719641638772184,
+      "medianSpeedMPS": 0.029427057764927496,
+      "maximumSpeedMPS": 0.6494686329450459,
+      "rmsVelocityChangeFromPriorMPS": 0.027712848118830916
+    },
+    {
+      "checkpoint": "checkpoint-06h.npz",
+      "sha256": "e8469a349199d5500117e809a8eba2edcb2cae3d583a1e582c56365915019129",
+      "elapsedSeconds": 21600.007314405626,
+      "step": 5418068,
+      "modelHour": -10,
+      "meanDepthM": 2.280547952792471,
+      "maximumDepthM": 11.645565616347422,
+      "meanSpeedMPS": 0.047694421868575754,
+      "medianSpeedMPS": 0.01975914914510859,
+      "maximumSpeedMPS": 0.7100648393118869,
+      "rmsVelocityChangeFromPriorMPS": 0.027213071442981844
+    },
+    {
+      "checkpoint": "checkpoint-07h.npz",
+      "sha256": "97c96264e0f12eca0414dc9c0396845f01341ba19358b849d1f6bbf4a8f7c340",
+      "elapsedSeconds": 25200.009151999653,
+      "step": 5792357,
+      "modelHour": -9,
+      "meanDepthM": 2.255545724860576,
+      "maximumDepthM": 11.602330175424381,
+      "meanSpeedMPS": 0.03600856294231089,
+      "medianSpeedMPS": 0.01442868523467708,
+      "maximumSpeedMPS": 0.7137096134533357,
+      "rmsVelocityChangeFromPriorMPS": 0.024188526968832055
+    },
+    {
+      "checkpoint": "checkpoint-08h.npz",
+      "sha256": "d43b6bdbd34ee2c5a8f8438e76a9e95ade064373a63c9c5317e4cbd478486461",
+      "elapsedSeconds": 28800.00668607404,
+      "step": 6167036,
+      "modelHour": -8,
+      "meanDepthM": 2.3051994977318233,
+      "maximumDepthM": 11.689780039211401,
+      "meanSpeedMPS": 0.02383895174938869,
+      "medianSpeedMPS": 0.009684342129085897,
+      "maximumSpeedMPS": 0.7050542833928914,
+      "rmsVelocityChangeFromPriorMPS": 0.026663247054596616
+    }
+  ],
+  "snapshots": [
+    {
+      "modelHour": -12,
+      "path": "snapshots/snapshotmm12hmfields.npz",
+      "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4",
+      "meanDepthM": 2.5752399858946133,
+      "maximumDepthM": 12.01832137287209,
+      "meanSpeedMPS": 0.0595826555250114,
+      "medianSpeedMPS": 0.036060134370365884,
+      "maximumSpeedMPS": 0.3682093648780109
+    },
+    {
+      "modelHour": -11,
+      "path": "snapshots/snapshotmm11hmfields.npz",
+      "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944",
+      "meanDepthM": 2.3853083631776304,
+      "maximumDepthM": 11.80671758573206,
+      "meanSpeedMPS": 0.058719641638772184,
+      "medianSpeedMPS": 0.029427057764927496,
+      "maximumSpeedMPS": 0.6494686329450459
+    },
+    {
+      "modelHour": -10,
+      "path": "snapshots/snapshotmm10hmfields.npz",
+      "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7",
+      "meanDepthM": 2.280547952792471,
+      "maximumDepthM": 11.645565616347422,
+      "meanSpeedMPS": 0.047694421868575754,
+      "medianSpeedMPS": 0.01975914914510859,
+      "maximumSpeedMPS": 0.7100648393118869
+    },
+    {
+      "modelHour": -9,
+      "path": "snapshots/snapshotmm09hmfields.npz",
+      "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e",
+      "meanDepthM": 2.255545724860576,
+      "maximumDepthM": 11.602330175424381,
+      "meanSpeedMPS": 0.03600856294231089,
+      "medianSpeedMPS": 0.01442868523467708,
+      "maximumSpeedMPS": 0.7137096134533357
+    },
+    {
+      "modelHour": -8,
+      "path": "snapshots/snapshotmm08hmfields.npz",
+      "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901",
+      "meanDepthM": 2.3051994977318233,
+      "maximumDepthM": 11.689780039211401,
+      "meanSpeedMPS": 0.02383895174938869,
+      "medianSpeedMPS": 0.009684342129085897,
+      "maximumSpeedMPS": 0.7050542833928914
+    }
+  ],
+  "resourceUpdate": {
+    "actualWallSeconds": 14366.264746911002,
+    "actualWallHours": 3.990629096364167,
+    "marginToFiveHourStopSeconds": 3633.7352530889984,
+    "differenceFromS01WallSeconds": 671.0626315300015,
+    "notAGuaranteeForLaterSegments": true
+  },
+  "interpretation": {
+    "firstRequestedDisplaySnapshotsPresent": true,
+    "snapshotHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "directSolverResultNotBrowserInterpolation": true,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  },
+  "safeguards": {
+    "additionalRunAuthorized": false,
+    "remainingSegmentsAuthorized": false,
+    "campaignAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

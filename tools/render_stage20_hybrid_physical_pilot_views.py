@@ -35,6 +35,12 @@ def main() -> None:
         "--disclaimer-label",
         default="一回限り物理パイロット／観測検証済みではない",
     )
+    parser.add_argument(
+        "--views",
+        default="estuary,barrage,confluence,fishway",
+        help="comma-separated subset of estuary,barrage,confluence,fishway",
+    )
+    parser.add_argument("--display-ceiling-mps", type=float)
     args = parser.parse_args()
     root = Path(args.repo_root).resolve()
     mesh_manifest, package = load_mesh(root / args.mesh_manifest)
@@ -46,7 +52,11 @@ def main() -> None:
     if len(depth) != mesh_manifest["counts"]["cells"] or not np.isfinite(depth).all() or not np.isfinite(speed).all():
         raise RuntimeError("physical pilot fields do not match the approved mesh")
     positive = speed[speed > 1e-8]
-    ceiling = float(np.percentile(positive, 95.0)) if len(positive) else 0.01
+    ceiling = args.display_ceiling_mps
+    if ceiling is None:
+        ceiling = float(np.percentile(positive, 95.0)) if len(positive) else 0.01
+    if not np.isfinite(ceiling) or ceiling <= 0:
+        raise RuntimeError("display ceiling must be positive and finite")
 
     water_manifest = json.loads((root / "data/onga_unified_water_manifest_r3.json").read_text(encoding="utf-8"))
     geographic = water_manifest["coordinateSystem"]["geographic"]
@@ -74,13 +84,19 @@ def main() -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     specs = [
-        ("pilot-estuary.jpg", "1／4　河口全域", 16, (56553, 26201, 56558, 26204), None, None, 68, False, ("barrage", "confluence")),
-        ("pilot-barrage.jpg", "2／4　河口堰付近", 18, (226225, 104811, 226231, 104816), "barrage", (1100, 580), 58, True, ("barrage",)),
-        ("pilot-confluence.jpg", "3／4　曲川・遠賀川合流地点付近", 18, (226224, 104808, 226231, 104814), "confluence", (1180, 625), 58, True, ("confluence",)),
-        ("pilot-fishway.jpg", "4／4　魚道付近", 18, (226224, 104812, 226231, 104816), "fishway", (1040, 550), 52, True, ("fishway", "barrage")),
+        ("estuary", "pilot-estuary.jpg", "河口全域", 16, (56553, 26201, 56558, 26204), None, None, 68, False, ("barrage", "confluence")),
+        ("barrage", "pilot-barrage.jpg", "河口堰付近", 18, (226225, 104811, 226231, 104816), "barrage", (1100, 580), 58, True, ("barrage",)),
+        ("confluence", "pilot-confluence.jpg", "曲川・遠賀川合流地点付近", 18, (226224, 104808, 226231, 104814), "confluence", (1180, 625), 58, True, ("confluence",)),
+        ("fishway", "pilot-fishway.jpg", "魚道付近", 18, (226224, 104812, 226231, 104816), "fishway", (1040, 550), 52, True, ("fishway", "barrage")),
     ]
+    selected_views = {item.strip() for item in args.views.split(",") if item.strip()}
+    valid_views = {item[0] for item in specs}
+    if not selected_views or not selected_views <= valid_views:
+        raise RuntimeError(f"invalid views: {sorted(selected_views - valid_views)}")
+    selected_specs = [item for item in specs if item[0] in selected_views]
     views = []
-    for filename, title, zoom, tile_box, centre_kind, crop_size, bins, mesh_lines, marks in specs:
+    for sequence, (_, filename, title, zoom, tile_box, centre_kind, crop_size, bins, mesh_lines, marks) in enumerate(selected_specs, start=1):
+        title = f"{sequence}／{len(selected_specs)}　{title}"
         p_vertices, p_centres, velocity_screen = projections[zoom]
         barrage_segments = p_vertices[internal_vertices[barrage_ids]]
         fish_centres = p_centres[fishway_cells]

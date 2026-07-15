@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-reference-s02-gate-v1",
-  "state": "active_one_time",
+  "state": "consumed",
   "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
   "authorizationSha256": "7dc5e34f7a0dd4c0da4e258554058edca9fdb1a472e6f0fe5bd20f925e1737a3",
   "issuedAtUtc": "2026-07-15T16:51:26Z",
@@ -8,5 +8,14 @@
   "automaticRetryAllowed": false,
   "additionalRunAllowed": false,
   "consumptionEvidence": "successful workflow step named Consume Stage 20 reference-s02 authorization",
-  "scope": "one_reference_s02_eight_physical_hour_continuation_maximum_18000_numerical_wall_seconds"
+  "scope": "one_reference_s02_eight_physical_hour_continuation_maximum_18000_numerical_wall_seconds",
+  "consumedAtUtc": "2026-07-15T16:53:23Z",
+  "consumedBy": {
+    "githubRunId": 29434250546,
+    "githubRunAttempt": 1,
+    "githubExecutionCommit": "83aa9abc9d8de07552bcd37b996556506fe393df",
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29434250546",
+    "result": "success",
+    "resultRecord": "config/stage20_reference_s02_result_v1.json"
+  }
 }

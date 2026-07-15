@@ -1,0 +1,98 @@
+{
+  "schema": "onga-stage20-reference-s02-evidence-v1",
+  "status": "sealed_complete_not_physical_validation",
+  "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
+  "files": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "byteLength": 1151278,
+      "sha256": "8052e689e8e846f387e882eb331f0b397364586e088461515f690769a4387631"
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "byteLength": 1153350,
+      "sha256": "29b3fa1f84e256a948ee36868440b9456d2707dd2b3796a4a025f9798f13a044"
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "byteLength": 1154417,
+      "sha256": "7a15d542abbbb92c763cd38fd90d4a3bba14c9ebb79844893b966d106a608bee"
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "byteLength": 1155496,
+      "sha256": "53ba0331a4ef32f9b8599179514949d807323853c7318b996f916ca17eba8ae1"
+    },
+    {
+      "path": "checkpoints/checkpoint-05h.npz",
+      "byteLength": 1163371,
+      "sha256": "b62cf731faa0262b3b39b86b202a7db7ed5b5e83a3cadc896cb5e52e17a67f02"
+    },
+    {
+      "path": "checkpoints/checkpoint-06h.npz",
+      "byteLength": 1167759,
+      "sha256": "e8469a349199d5500117e809a8eba2edcb2cae3d583a1e582c56365915019129"
+    },
+    {
+      "path": "checkpoints/checkpoint-07h.npz",
+      "byteLength": 1168795,
+      "sha256": "97c96264e0f12eca0414dc9c0396845f01341ba19358b849d1f6bbf4a8f7c340"
+    },
+    {
+      "path": "checkpoints/checkpoint-08h.npz",
+      "byteLength": 1168462,
+      "sha256": "d43b6bdbd34ee2c5a8f8438e76a9e95ade064373a63c9c5317e4cbd478486461"
+    },
+    {
+      "path": "execution-receipt.json",
+      "byteLength": 628,
+      "sha256": "f72d43434c87b59fe15cce89f8355ee053b7be7be3e9db702bbe3b9941a0681d"
+    },
+    {
+      "path": "progress.json",
+      "byteLength": 2857,
+      "sha256": "cbc19015f37b56796932e9225362990696361f4a494b9ca3d5e548975fc2c328"
+    },
+    {
+      "path": "restart-final.npz",
+      "byteLength": 1168462,
+      "sha256": "d43b6bdbd34ee2c5a8f8438e76a9e95ade064373a63c9c5317e4cbd478486461"
+    },
+    {
+      "path": "segment-final-fields.npz",
+      "byteLength": 1151527,
+      "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901"
+    },
+    {
+      "path": "segment-report.json",
+      "byteLength": 4037,
+      "sha256": "b32196cd32d473386bf553f8d2e461b4a4a6f1186bdc4b3f10af48bda498b954"
+    },
+    {
+      "path": "snapshots/snapshotmm08hmfields.npz",
+      "byteLength": 1151527,
+      "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901"
+    },
+    {
+      "path": "snapshots/snapshotmm09hmfields.npz",
+      "byteLength": 1152204,
+      "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+    },
+    {
+      "path": "snapshots/snapshotmm10hmfields.npz",
+      "byteLength": 1151799,
+      "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7"
+    },
+    {
+      "path": "snapshots/snapshotmm11hmfields.npz",
+      "byteLength": 1147784,
+      "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944"
+    },
+    {
+      "path": "snapshots/snapshotmm12hmfields.npz",
+      "byteLength": 1139220,
+      "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4"
+    }
+  ],
+  "physicalValidationClaimAllowed": false
+}

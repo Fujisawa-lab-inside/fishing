@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "reference_s01_canary_passed_awaiting_result_adoption_and_next_segment_plan",
+  "status": "reference_s02_passed_awaiting_browser_comparison_plan_decision",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -111,13 +111,13 @@
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
   },
   "nextDecision": {
-    "question": "reference-s01の検証済みrestartからreference-s02を一回だけ実行するか",
-    "optionA": "authorize_exactly_one_reference_s02_continuation",
-    "optionB": "retain_the_s01_result_without_additional_execution",
+    "question": "S02の直接計算結果を基準資料に採用し、ブラウザ補間との比較検証を作るか",
+    "optionA": "adopt_s02_as_direct_solver_reference_and_prepare_browser_comparison_without_additional_physical_run",
+    "optionB": "retain_s02_result_and_stop_without_comparison",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-reference-s01-result-decision.jpg",
-    "decisionImageSha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57",
-    "candidate": "config/stage20_reference_s02_contract_v1.json",
+    "decisionImage": "docs/visuals/stage20-reference-s02-result-decision.jpg",
+    "decisionImageSha256": "95cbeeab8287ec462aa774f6fe94d01e478b5f3d06f9d98641b4966bc96b9fa9",
+    "candidate": "config/stage20_reference_s02_result_v1.json",
     "campaignExecutionAuthorized": false
   },
   "execution": {
@@ -134,6 +134,9 @@
     "elevenBasisCampaignAuthorized": false,
     "referenceS01CanaryRunId": 29415527789,
     "referenceS01CanaryPassed": true,
+    "referenceS02RunId": 29434250546,
+    "referenceS02Passed": true,
+    "referenceS02SnapshotCount": 5,
     "remainingSegmentsAuthorized": false
   },
   "sources": [

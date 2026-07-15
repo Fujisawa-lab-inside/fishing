@@ -1,0 +1,21 @@
+{
+  "schema": "onga-stage20-reference-s02-hourly-visual-manifest-v1",
+  "status": "rendered_not_physical_validation",
+  "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+  "cellCount": 50199,
+  "displayCeilingMPS": 0.23,
+  "views": [
+    {
+      "path": "pilot-estuary.jpg",
+      "sha256": "cd1f8ce92474d64486dd5ace7bf9704cbe5bb227ab71dd24dc373d992c07bf89",
+      "visibleCells": 50199,
+      "displayArrows": 53,
+      "zoom": 16
+    }
+  ],
+  "fieldsSha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4",
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

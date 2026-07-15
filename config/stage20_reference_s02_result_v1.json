@@ -1,0 +1,108 @@
+{
+  "schema": "onga-stage20-reference-s02-result-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "recordedDate": "2026-07-16",
+  "github": {
+    "runId": 29434250546,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29434250546",
+    "executionCommit": "83aa9abc9d8de07552bcd37b996556506fe393df",
+    "conclusion": "success",
+    "createdAtUtc": "2026-07-15T16:53:07Z",
+    "completedAtUtc": "2026-07-15T20:53:21Z"
+  },
+  "artifact": {
+    "id": 8357049538,
+    "name": "stage20-reference-s02-29434250546",
+    "sizeBytes": 17351645,
+    "expiresAtUtc": "2026-10-13T16:53:07Z",
+    "retainedPath": "docs/results/stage20-reference-s02-29434250546"
+  },
+  "authorization": {
+    "id": "stage20-reference-s02-20260715t165126z-one-time",
+    "gateState": "consumed",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "chain": {
+    "predecessorJobId": "reference-s01",
+    "inputRestartSha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+    "startStep": 2979347,
+    "s01ToS02ChainVerified": true
+  },
+  "numerical": {
+    "jobId": "reference-s02",
+    "modelHourStart": -16,
+    "modelHourEnd": -8,
+    "targetPhysicalSeconds": 28800,
+    "simulatedSeconds": 28800.00668607404,
+    "stepsCompletedThisSegment": 3187689,
+    "endStep": 6167036,
+    "wallSeconds": 14366.264746911002,
+    "wallHours": 3.990629096364167,
+    "maximumCfl": 0.12000000000000002,
+    "maximumRelativeMassBalanceError": 8.63850729210785e-14,
+    "inputRestartRelativeMassError": 6.62654726039897e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 0.7139069471773594,
+    "checkpointCount": 8,
+    "snapshotHours": [-12, -11, -10, -9, -8],
+    "snapshotCount": 5,
+    "restartSha256": "d43b6bdbd34ee2c5a8f8438e76a9e95ade064373a63c9c5317e4cbd478486461",
+    "finalFieldsSha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901"
+  },
+  "evidence": {
+    "manifestSha256": "54f4cc4a0836948eaae7cd0a55b9a029231e08d78d6c8a5d8d8afb2678ff53d9",
+    "fileCount": 18,
+    "allArtifactDigestsVerified": true,
+    "finalStateMatchesFieldsExactly": true,
+    "finalSnapshotMatchesFieldsExactly": true,
+    "analysis": "config/stage20_reference_s02_analysis_v1.json",
+    "analysisSha256": "0e0fbd8ce5d258bea515cb8e4513f5a259780a26f08457ad569429d42929ca84",
+    "visualManifest": "docs/results/stage20-reference-s02-29434250546/visual-manifest.json",
+    "visualManifestSha256": "6a4a1cd072c162c94d3346c2b459d66c35c7cc21d255e46295184660b43ecddf",
+    "diagnosticMapCount": 5
+  },
+  "resourceUpdate": {
+    "s01WallSeconds": 13695.202115381,
+    "s02WallSeconds": 14366.264746911002,
+    "differenceFromS01WallSeconds": 671.0626315300015,
+    "marginToFiveHourStopSeconds": 3633.7352530889984,
+    "notAGuaranteedForLaterSegments": true
+  },
+  "interpretation": {
+    "proves": [
+      "reference_s02_reaches_eight_physical_hours_within_the_five_hour_stop",
+      "s01_restart_continues_into_s02_with_digest_verified_chain",
+      "five_requested_display_snapshots_are_complete",
+      "numerical_acceptance_checks_pass_for_this_inferred_reference_segment"
+    ],
+    "doesNotProve": [
+      "agreement_with_observed_flow",
+      "physical_validation",
+      "daily_forecast_accuracy",
+      "browser_interpolation_accuracy",
+      "remaining_segment_runtime_or_stability"
+    ]
+  },
+  "nextDecision": {
+    "question": "S02の直接計算結果を基準資料に採用し、ブラウザ補間との比較検証を作るか",
+    "optionA": "adopt_s02_as_direct_solver_reference_and_prepare_browser_comparison_without_additional_physical_run",
+    "optionB": "retain_s02_result_and_stop_without_comparison",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-reference-s02-result-decision.jpg",
+    "decisionImageSha256": "95cbeeab8287ec462aa774f6fe94d01e478b5f3d06f9d98641b4966bc96b9fa9",
+    "additionalPhysicalRunAuthorized": false
+  },
+  "safeguards": {
+    "additionalRunAuthorized": false,
+    "remainingSegmentsAuthorized": false,
+    "campaignAuthorized": false,
+    "paidResourceAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

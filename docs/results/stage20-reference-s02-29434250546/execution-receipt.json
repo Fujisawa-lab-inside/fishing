@@ -1,0 +1,11 @@
+{
+  "schema": "onga-stage20-reference-s02-receipt-v1",
+  "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
+  "authorizationSha256": "7dc5e34f7a0dd4c0da4e258554058edca9fdb1a472e6f0fe5bd20f925e1737a3",
+  "executionContractSha256": "20f68ec4e24df439ebb8ecc44f670d0d2ce47c9163f44dd0dceadc13f0731aed",
+  "decisionImageSha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57",
+  "inputRestartSha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+  "githubRunId": "29434250546",
+  "githubSha": "83aa9abc9d8de07552bcd37b996556506fe393df",
+  "automaticRetryAllowed": false
+}

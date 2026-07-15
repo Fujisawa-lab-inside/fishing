@@ -1,0 +1,54 @@
+{
+  "schema": "onga-stage20-reference-s02-five-hour-visual-manifest-v1",
+  "status": "rendered_from_exact_snapshots_not_physical_validation",
+  "githubRunId": 29434250546,
+  "displayCeilingMPS": 0.23,
+  "commonScaleAcrossViews": true,
+  "views": [
+    {
+      "modelHour": -12,
+      "fieldsSha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4",
+      "map": "maps/hour-12/pilot-estuary.jpg",
+      "mapSha256": "cd1f8ce92474d64486dd5ace7bf9704cbe5bb227ab71dd24dc373d992c07bf89",
+      "childManifest": "maps/hour-12/visual-manifest.json",
+      "childManifestSha256": "c3e438bdd11f8468082a6c5b9e283e42e8c61e164e02451e3b6b88c5e6c84e7e"
+    },
+    {
+      "modelHour": -11,
+      "fieldsSha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944",
+      "map": "maps/hour-11/pilot-estuary.jpg",
+      "mapSha256": "e6f454605a5df8614cef0bd1072e03fa0593130635d6410a71776b69dfd26ef1",
+      "childManifest": "maps/hour-11/visual-manifest.json",
+      "childManifestSha256": "14b75db3ec6df6f1faceccecbfc3a80c3e14b3c367621f104b606039515206f0"
+    },
+    {
+      "modelHour": -10,
+      "fieldsSha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7",
+      "map": "maps/hour-10/pilot-estuary.jpg",
+      "mapSha256": "46a270d35198bb3a56c19ba608e73372ccc6a829daa1214973574778cf81fdf7",
+      "childManifest": "maps/hour-10/visual-manifest.json",
+      "childManifestSha256": "7d714f24b5c40dc927bb7e537e680b742e6ef6fb5601548821e0ec01f38dec65"
+    },
+    {
+      "modelHour": -9,
+      "fieldsSha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e",
+      "map": "maps/hour-9/pilot-estuary.jpg",
+      "mapSha256": "46e5ecf03fc4a690f51ce88cd051e6e0d348a58cd0816d4c771436339f3cd48f",
+      "childManifest": "maps/hour-9/visual-manifest.json",
+      "childManifestSha256": "131aebc7906874c5f1553fb82375af732a3871b16ae18b614f2bf11ab1a28bb7"
+    },
+    {
+      "modelHour": -8,
+      "fieldsSha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901",
+      "map": "maps/hour-8/pilot-estuary.jpg",
+      "mapSha256": "504065064daf7560ae1556d9148f6d934561c3f5399126fc74f75bf95e0b94d7",
+      "childManifest": "maps/hour-8/visual-manifest.json",
+      "childManifestSha256": "8b8169b114f0e009cce17e91f156ad1ef5152c9b7ca72aececcad6c020b7c95b"
+    }
+  ],
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

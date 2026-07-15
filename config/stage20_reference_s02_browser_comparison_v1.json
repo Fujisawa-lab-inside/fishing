@@ -1,0 +1,135 @@
+{
+  "schema": "onga-stage20-reference-s02-browser-comparison-evaluation-v1",
+  "status": "exact_hourly_anchor_path_passed_missing_hour_linear_fallback_rejected",
+  "recordedDate": "2026-07-16",
+  "source": {
+    "approval": "config/stage20_reference_s02_browser_comparison_approval_v1.json",
+    "s02Result": "config/stage20_reference_s02_result_v1.json",
+    "comparisonReport": "docs/results/stage20-reference-s02-29434250546/browser-comparison/comparison-report.json",
+    "comparisonReportSha256": "f7df1ab701556aa19405ac9106603c9147ef02074546e929bcf6e6eae84435d8",
+    "timePackManifest": "docs/results/stage20-reference-s02-29434250546/browser-comparison/reference-s02-time-pack.json",
+    "timePackManifestSha256": "870ea936c52f9189866a14bbb78afd447dc82f83e91e4fe3e705d57804c40f61",
+    "timePackBinarySha256": "0445a23dc5039f002e886778dde086d7f44994e37e261f7397265af3d82f3e1d",
+    "interpolator": "onga_stage20_reference_time_interpolator.mjs",
+    "interpolatorSha256": "71e3adba1f99aa275bad8282226d6e770badfbcbf272b3000a2a66577c4dbcd1",
+    "comparisonRunner": "tools/run_stage20_reference_s02_browser_comparison.mjs",
+    "comparisonRunnerSha256": "0d77c7199eebae87ba1bfbebd475be04769e1b1749c358f1a9e866c622551f51",
+    "packBuilder": "tools/build_stage20_reference_s02_time_pack.py",
+    "packBuilderSha256": "a9dea76b6c9641a276b73b6c05251ea294f70a63a0bc6dff1ff6d73ca21c303b",
+    "evaluator": "tools/evaluate_stage20_reference_s02_browser_comparison.py",
+    "evaluatorSha256": "e71eb715d9f9a44cc461db300fbd7c6372b4e65d1f34c8cbae32a684a1dce6fe"
+  },
+  "thresholds": {
+    "maximumFloat32VelocityVectorRmseMPS": 1e-07,
+    "maximumLeaveOneOutVelocityVectorRmseMPS": 0.01,
+    "maximumLeaveOneOutSpeedMaeMPS": 0.005,
+    "maximumLeaveOneOutP95DirectionErrorDeg": 5.0
+  },
+  "exactHourlyAnchorPath": {
+    "passed": true,
+    "snapshotHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "maximumFloat32DepthErrorM": 4.767906442992853e-07,
+    "maximumFloat32VelocityVectorRmseMPS": 2.3342951471558476e-09,
+    "meaning": "browser_can_load_each_precomputed_hour_without_material_numeric_loss"
+  },
+  "missingHourLinearFallback": {
+    "passed": false,
+    "perHourAcceptance": [
+      {
+        "modelHour": -11,
+        "passed": false,
+        "checks": {
+          "velocityVectorRmse": false,
+          "speedMae": false,
+          "p95Direction": true
+        }
+      },
+      {
+        "modelHour": -10,
+        "passed": false,
+        "checks": {
+          "velocityVectorRmse": false,
+          "speedMae": false,
+          "p95Direction": true
+        }
+      },
+      {
+        "modelHour": -9,
+        "passed": true,
+        "checks": {
+          "velocityVectorRmse": true,
+          "speedMae": true,
+          "p95Direction": true
+        }
+      }
+    ],
+    "worstModelHour": -11,
+    "worstMetrics": {
+      "modelHour": -11,
+      "lowerHour": -12,
+      "upperHour": -10,
+      "weight": 0.5,
+      "prediction": "leave-one-out-m11h.bin",
+      "predictionByteLength": 602388,
+      "predictionSha256": "97f95bc3d6d8122fe3488deff4fe5bc49935fd904a25357d7dc05ccbcbb89121",
+      "depthRmseM": 0.04944397356477156,
+      "maximumAbsoluteDepthErrorM": 0.11439921238343231,
+      "velocityVectorRmseMPS": 0.016263837686711545,
+      "p95VelocityVectorErrorMPS": 0.03333312229268322,
+      "maximumVelocityVectorErrorMPS": 0.1510998546156416,
+      "speedMaeMPS": 0.009741568341395002,
+      "p95SpeedAbsoluteErrorMPS": 0.03297045773781584,
+      "directionActiveThresholdMPS": 0.02,
+      "directionComparedCellCount": 28569,
+      "medianDirectionErrorDeg": 0.2287834616823063,
+      "p95DirectionErrorDeg": 4.710871860363818
+    },
+    "meaning": "do_not_replace_a_missing_hour_with_linear_time_interpolation_when_high_flow_accuracy_is_required"
+  },
+  "worstCaseMapFields": {
+    "direct": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm11hmfields.npz",
+    "predicted": "docs/results/stage20-reference-s02-29434250546/browser-comparison/worst-predicted-fields.npz",
+    "predictedSha256": "00509431ac6723511374d1db7a99ae6a25270bb3f59c2fa7b86181cc8b2afd75",
+    "error": "docs/results/stage20-reference-s02-29434250546/browser-comparison/worst-error-fields.npz",
+    "errorSha256": "81329a9142da499ebc51172398a7602bd1aed1f1414b32b4eba914c3e74dbf98",
+    "errorDisplayCeilingMPS": 0.04
+  },
+  "architectureDecision": {
+    "retainEveryDisplayedHourlySnapshot": true,
+    "allowMissingHourLinearFallback": false,
+    "crossConditionInterpolationValidated": false,
+    "nextRequiredValidation": "compare_low_high_condition_basis_interpolation_to_a_held_out_direct_solver_condition"
+  },
+  "visualEvidence": {
+    "directMap": "docs/results/stage20-reference-s02-29434250546/maps/hour-11/pilot-estuary.jpg",
+    "directMapSha256": "e6f454605a5df8614cef0bd1072e03fa0593130635d6410a71776b69dfd26ef1",
+    "predictedMap": "docs/results/stage20-reference-s02-29434250546/browser-comparison/maps/predicted/pilot-estuary.jpg",
+    "predictedMapSha256": "1aeeef6418bba098f3e63892e0a42eae5f5ddbefb1633cf10c4d792ac99a7847",
+    "predictedManifestSha256": "0b0472a6c785b9c3a1aef4b3320a059f40132c84449ccea375226ac3ffb8b930",
+    "errorMap": "docs/results/stage20-reference-s02-29434250546/browser-comparison/maps/error/pilot-estuary.jpg",
+    "errorMapSha256": "b3035780ea2ff84ff18e789b79cef034d2bf05940c47c8554577f0c5032b46e4",
+    "errorManifestSha256": "231c82a0f334a105076114e640b4bc751e66e8f8abd35b77d67e1f094200b074",
+    "decisionImage": "docs/visuals/stage20-reference-s02-browser-comparison-decision.jpg",
+    "decisionImageSha256": "737e7490e4d101cd0c1a97c2ce5cd11bf46faae68b9199c8bc858e1d11cdf42a"
+  },
+  "nextDecision": {
+    "question": "毎時snapshotを保持し欠落時刻の直線補間を禁止する比較結果を採用するか",
+    "optionA": "adopt_exact_hourly_snapshot_policy_and_prepare_cross_condition_holdout_test_plan_only",
+    "optionB": "retain_s02_and_stop_without_adopting_the_browser_comparison",
+    "recommendedChoice": "A",
+    "additionalPhysicalRunAuthorized": false
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

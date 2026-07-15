@@ -1,0 +1,21 @@
+{
+  "schema": "onga-stage20-reference-s02-browser-error-map-v1",
+  "status": "rendered_not_physical_validation",
+  "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+  "cellCount": 50199,
+  "displayCeilingMPS": 0.04,
+  "views": [
+    {
+      "path": "pilot-estuary.jpg",
+      "sha256": "b3035780ea2ff84ff18e789b79cef034d2bf05940c47c8554577f0c5032b46e4",
+      "visibleCells": 50199,
+      "displayArrows": 32,
+      "zoom": 16
+    }
+  ],
+  "fieldsSha256": "81329a9142da499ebc51172398a7602bd1aed1f1414b32b4eba914c3e74dbf98",
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

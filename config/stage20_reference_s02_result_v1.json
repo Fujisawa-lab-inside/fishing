@@ -87,12 +87,13 @@
     ]
   },
   "nextDecision": {
-    "question": "S02の直接計算結果を基準資料に採用し、ブラウザ補間との比較検証を作るか",
-    "optionA": "adopt_s02_as_direct_solver_reference_and_prepare_browser_comparison_without_additional_physical_run",
-    "optionB": "retain_s02_result_and_stop_without_comparison",
+    "question": "毎時snapshotを保持し欠落時刻の直線補間を禁止する比較結果を採用するか",
+    "optionA": "adopt_exact_hourly_snapshot_policy_and_prepare_cross_condition_holdout_test_plan_only",
+    "optionB": "retain_s02_and_stop_without_adopting_the_browser_comparison",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-reference-s02-result-decision.jpg",
-    "decisionImageSha256": "95cbeeab8287ec462aa774f6fe94d01e478b5f3d06f9d98641b4966bc96b9fa9",
+    "decisionImage": "docs/visuals/stage20-reference-s02-browser-comparison-decision.jpg",
+    "decisionImageSha256": "737e7490e4d101cd0c1a97c2ce5cd11bf46faae68b9199c8bc858e1d11cdf42a",
+    "comparison": "config/stage20_reference_s02_browser_comparison_v1.json",
     "additionalPhysicalRunAuthorized": false
   },
   "safeguards": {

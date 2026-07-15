@@ -1,0 +1,132 @@
+{
+  "schema": "onga-stage20-reference-time-pack-candidate-v1",
+  "version": "stage20-reference-s02-time-pack-candidate-v1",
+  "status": "direct_solver_reference_candidate_not_public_simulator",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "binary": {
+    "url": "./reference-s02-time-pack.bin",
+    "byteLength": 3011940,
+    "sha256": "0445a23dc5039f002e886778dde086d7f44994e37e261f7397265af3d82f3e1d"
+  },
+  "componentOrder": [
+    "depthM",
+    "eastVelocityMPS",
+    "northVelocityMPS"
+  ],
+  "arrays": {
+    "snapshots": {
+      "dtype": "float32",
+      "shape": [
+        5,
+        3,
+        50199
+      ],
+      "byteOffset": 0,
+      "byteLength": 3011940,
+      "sha256": "0445a23dc5039f002e886778dde086d7f44994e37e261f7397265af3d82f3e1d"
+    }
+  },
+  "timeContract": {
+    "anchorHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "interpolation": "piecewise_linear_between_adjacent_direct_solver_snapshots",
+    "extrapolationAllowed": false
+  },
+  "sources": [
+    {
+      "modelHour": -12,
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm12hmfields.npz",
+      "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4"
+    },
+    {
+      "modelHour": -11,
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm11hmfields.npz",
+      "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944"
+    },
+    {
+      "modelHour": -10,
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm10hmfields.npz",
+      "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7"
+    },
+    {
+      "modelHour": -9,
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm09hmfields.npz",
+      "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+    },
+    {
+      "modelHour": -8,
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm08hmfields.npz",
+      "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901"
+    }
+  ],
+  "float32Quantization": {
+    "perSnapshot": [
+      {
+        "modelHour": -12,
+        "maximumAbsoluteDepthErrorM": 4.767330530341951e-07,
+        "velocityVectorRmseMPS": 2.203345212505662e-09,
+        "maximumVelocityVectorErrorMPS": 1.4879859532323124e-08
+      },
+      {
+        "modelHour": -11,
+        "maximumAbsoluteDepthErrorM": 4.7672413749921816e-07,
+        "velocityVectorRmseMPS": 2.3342951471558476e-09,
+        "maximumVelocityVectorErrorMPS": 2.8564847499918365e-08
+      },
+      {
+        "modelHour": -10,
+        "maximumAbsoluteDepthErrorM": 4.767906442992853e-07,
+        "velocityVectorRmseMPS": 2.2345251524629963e-09,
+        "maximumVelocityVectorErrorMPS": 3.044480977483437e-08
+      },
+      {
+        "modelHour": -9,
+        "maximumAbsoluteDepthErrorM": 4.76784498104621e-07,
+        "velocityVectorRmseMPS": 1.8315137256456605e-09,
+        "maximumVelocityVectorErrorMPS": 2.9586040602649096e-08
+      },
+      {
+        "modelHour": -8,
+        "maximumAbsoluteDepthErrorM": 4.7678747705504065e-07,
+        "velocityVectorRmseMPS": 1.4715772958048185e-09,
+        "maximumVelocityVectorErrorMPS": 2.9341414848285167e-08
+      }
+    ],
+    "maximumAbsoluteDepthErrorM": 4.767906442992853e-07,
+    "maximumVelocityVectorRmseMPS": 2.3342951471558476e-09,
+    "maximumVelocityVectorErrorMPS": 3.044480977483437e-08
+  },
+  "validationPlan": {
+    "exactAnchorReconstruction": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "leaveOneHourOutTargets": [
+      -11,
+      -10,
+      -9
+    ],
+    "leaveOneHourOutRule": "linearly_interpolate_the_two_neighboring_direct_solver_snapshots_and_compare_to_the_held_out_snapshot",
+    "testsTemporalInterpolationOnly": true,
+    "testsCrossConditionInterpolation": false
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

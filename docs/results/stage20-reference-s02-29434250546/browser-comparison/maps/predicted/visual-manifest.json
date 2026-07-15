@@ -1,0 +1,21 @@
+{
+  "schema": "onga-stage20-reference-s02-browser-predicted-map-v1",
+  "status": "rendered_not_physical_validation",
+  "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+  "cellCount": 50199,
+  "displayCeilingMPS": 0.23,
+  "views": [
+    {
+      "path": "pilot-estuary.jpg",
+      "sha256": "1aeeef6418bba098f3e63892e0a42eae5f5ddbefb1633cf10c4d792ac99a7847",
+      "visibleCells": 50199,
+      "displayArrows": 54,
+      "zoom": 16
+    }
+  ],
+  "fieldsSha256": "00509431ac6723511374d1db7a99ae6a25270bb3f59c2fa7b86181cc8b2afd75",
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

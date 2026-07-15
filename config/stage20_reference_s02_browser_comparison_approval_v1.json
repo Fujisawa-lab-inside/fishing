@@ -1,0 +1,27 @@
+{
+  "schema": "onga-stage20-reference-s02-browser-comparison-approval-v1",
+  "status": "comparison_preparation_approved_and_completed",
+  "recordedDate": "2026-07-16",
+  "userDecision": "A案で進めてください",
+  "approvedChoice": "A",
+  "approvedScope": [
+    "adopt_s02_as_the_direct_solver_reference_for_this_comparison",
+    "build_an_inactive_time_indexed_float32_candidate_pack",
+    "compare_exact_hour_loading_and_missing_hour_linear_interpolation",
+    "render_direct_predicted_and_error_maps"
+  ],
+  "doesNotAuthorize": [
+    "additional_physical_run",
+    "reference_s03",
+    "remaining_segment_campaign",
+    "public_simulator_connection",
+    "main_merge",
+    "physical_validation_claim",
+    "daily_forecast_claim"
+  ],
+  "sourceDecision": {
+    "result": "config/stage20_reference_s02_result_v1.json",
+    "image": "docs/visuals/stage20-reference-s02-result-decision.jpg",
+    "imageSha256": "95cbeeab8287ec462aa774f6fe94d01e478b5f3d06f9d98641b4966bc96b9fa9"
+  }
+}

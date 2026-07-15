@@ -18,4 +18,4 @@
 
 一回限りのgateは消費済み。自動retry、追加run、残り64 segment、公開接続、`main`反映、物理Validationの主張は承認されていない。
 
-次の判断は、S02の5 snapshotを直接solver基準として採用し、ブラウザ補間結果と誤差地図を並べる比較検証を作るかである。この判断は追加の物理計算を承認しない。判断資料は`docs/visuals/stage20-reference-s02-result-decision.jpg`。
+比較検証の作成はA案として承認され、追加の物理計算なしで完了した。毎時snapshotの読み戻しは合格したが、欠落した1時間を前後2時間から直線補間する経路は高精度基準に不合格だった。次の判断は、この比較結果を採用して条件間補間のholdout試験計画だけを作るかである。判断資料は`docs/visuals/stage20-reference-s02-browser-comparison-decision.jpg`、詳細は`docs/STAGE20_REFERENCE_S02_BROWSER_COMPARISON.md`。

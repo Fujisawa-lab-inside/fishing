@@ -1,0 +1,89 @@
+{
+  "schema": "onga-stage20-hybrid-physical-pilot-contract-v1",
+  "status": "sealed_execution_requires_authorization",
+  "executionAuthorized": false,
+  "sourceStatement": "GitHub提供Linux runnerで1条件×10分を一回だけ実行",
+  "purpose": "one_short_inferred_input_physical_time_connection_pilot_only",
+  "resource": {
+    "provider": "GitHub-hosted Actions",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "selfHosted": false,
+    "paidCloudProvisioning": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v1.json",
+    "sha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cellCount": 50339,
+    "barrageFaces": 79
+  },
+  "scenario": {
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "barrage": {
+      "scenario": "uniform_100_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "boundaries": {
+      "M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.4, "meanOffsetM": null},
+      "N": {"dischargeM3S": 12.0},
+      "O": {"dischargeM3S": 180.0},
+      "G": {"dischargeM3S": 8.0}
+    }
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "tideCurveStartHour": 22.8,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 5400,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "acceptance": {
+    "minimumSimulatedSeconds": 600,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 10,
+    "viewCount": 4
+  },
+  "workflow": {
+    "path": ".github/workflows/stage19-full64-one-time-run.yml",
+    "name": "Stage 20 one-time hybrid physical pilot",
+    "ref": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "outputs": [
+    "execution-receipt.json",
+    "pilot-progress.json",
+    "pilot-report.json",
+    "pilot-final-fields.npz",
+    "ten_restartable_checkpoints",
+    "pilot-visual-manifest.json",
+    "four_approved_view_jpegs",
+    "pilot-evidence-manifest.json"
+  ],
+  "safeguards": {
+    "inferredInputsMayBeCalledObservations": false,
+    "physicalValidationClaimAllowed": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

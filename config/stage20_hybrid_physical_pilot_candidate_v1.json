@@ -1,0 +1,82 @@
+{
+  "schema": "onga-stage20-hybrid-physical-pilot-candidate-v1",
+  "status": "approved_execution_requested_waiting_gate_seal",
+  "recordedDate": "2026-07-15",
+  "purpose": "connect one short inferred-input shallow-water result to the approved hybrid response workflow before any response-basis campaign",
+  "resource": {
+    "provider": "GitHub-hosted Actions runner",
+    "image": "ubuntu-latest",
+    "architectureRequired": "Linux x86_64",
+    "selfHostedRunnerRequired": false,
+    "paidCloudProvisioningAuthorized": false
+  },
+  "pilot": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "scenario": "three_day_rainfall_aftermath_upper_inferred_flows_barrage_fully_open_spring_tide_ebb_three_tenths",
+    "boundaryDischargeM3S": {
+      "N": 12.0,
+      "O": 180.0,
+      "G": 8.0
+    },
+    "barrage": {
+      "scenario": "uniform_100_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "tide": {
+      "amplitudeMultiplier": 1.4,
+      "startAtEbbFraction": 0.3,
+      "absoluteOngaMouthLevelAssigned": false
+    },
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "estimatedWallTime": "about 29 minutes from Stage 19 linear extrapolation; not guaranteed",
+    "maximumWallMinutes": 90,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "oneTimeOnly": true
+  },
+  "outputs": [
+    "mass_balance_cfl_positivity_and_nonfinite_diagnostics",
+    "restartable_checkpoints",
+    "full_final_cell_fields_with_sha256",
+    "four_approved_views_estuary_barrage_confluence_fishway"
+  ],
+  "decision": {
+    "question": "GitHub提供のLinux x86 runnerで、1条件10分の物理パイロットを一回だけ実行するか",
+    "optionA": "authorize_one_time_pilot_after_workflow_and_gate_are_sealed",
+    "optionB": "do_not_run_and_continue_code_only"
+  },
+  "risks": [
+    "actual runtime may exceed the estimate",
+    "the inferred input may be physically wrong",
+    "the run may stop on CFL positivity mass-balance or non-finite checks",
+    "one short case cannot validate a 36-hour response basis"
+  ],
+  "doesNotAuthorize": [
+    "eleven_job_response_basis_campaign",
+    "self_hosted_or_paid_cloud_resource",
+    "main_merge",
+    "public_simulator_connection",
+    "physical_validation_claim"
+  ],
+  "approval": {
+    "approvedOption": "authorize_one_time_pilot_after_workflow_and_gate_are_sealed",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "GitHub提供Linux runnerで1条件×10分を一回だけ実行",
+    "authorizes": "one_case_600_physical_seconds_one_time_within_24_hours",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "visual": {
+    "path": "docs/visuals/stage20-hybrid-physical-pilot-decision-v1.jpg",
+    "sha256": "067aedeccaa8fd7f1077c98ec4e91de92dbcc8fe7bda142a9281d48bc1667c7c"
+  }
+}

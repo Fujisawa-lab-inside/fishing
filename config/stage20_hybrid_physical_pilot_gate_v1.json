@@ -1,0 +1,6 @@
+{
+  "schema": "onga-stage20-hybrid-physical-pilot-gate-v1",
+  "state": "inactive_before_reviewed_code_commit",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false
+}

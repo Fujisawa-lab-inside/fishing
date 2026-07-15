@@ -303,6 +303,8 @@ def render_view(
     bin_pixels: int,
     draw_mesh: bool,
     marks: tuple[str, ...],
+    scenario_label: str = SCENARIO_JA,
+    disclaimer_label: str = DISCLAIMER_JA,
 ) -> dict:
     mosaic, world_origin = stitch_tiles(tile_root, zoom, tile_box)
     if crop_center_world is None:
@@ -321,7 +323,7 @@ def render_view(
     canvas = Image.new("RGB", (1500, 1080), (242, 246, 247))
     draw = ImageDraw.Draw(canvas)
     draw.text((50, 28), title, font=font(38, True), fill=(22, 47, 59))
-    draw.text((50, 80), SCENARIO_JA, font=font(22), fill=(62, 87, 99))
+    draw.text((50, 80), scenario_label, font=font(22), fill=(62, 87, 99))
     map_xy = np.asarray([50.0, 130.0])
     canvas.paste(resized, tuple(map_xy.astype(int)))
     map_wh = np.asarray(resized.size, dtype=np.float64)
@@ -404,7 +406,7 @@ def render_view(
     draw.text((1058, 952), "0", font=font(15), fill=(38, 61, 71))
     draw.text((1288, 952), f"{ceiling:.2f} m/s（表示上限）", font=font(15), fill=(38, 61, 71))
     draw.text((50, 894), "色・矢印は同じメッシュセル値を参照。矢印は水深×面積で集約。", font=font(18), fill=(52, 78, 90))
-    draw.text((50, 938), DISCLAIMER_JA, font=font(21, True), fill=(155, 51, 42))
+    draw.text((50, 938), disclaimer_label, font=font(21, True), fill=(155, 51, 42))
     draw.text((50, 992), "背景：国土地理院「全国最新写真（シームレス）」", font=font(16), fill=(73, 95, 105))
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, format="JPEG", quality=88, optimize=True, progressive=True)

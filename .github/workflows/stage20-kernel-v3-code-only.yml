@@ -1,0 +1,100 @@
+name: Stage 20 kernel v3 one-time code-only benchmark
+run-name: Stage 20 kernel v3 code-only benchmark ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - codex/stage19-public-inference-inputs
+    paths:
+      - '.github/workflows/stage20-kernel-v3-code-only.yml'
+      - 'config/stage20_kernel_v3_code_only_approval_v1.json'
+      - 'tools/stage20_shallow_water_kernel_v3.py'
+      - 'tools/benchmark_stage20_kernel_v3.py'
+      - 'tools/requirements-stage20-kernel-v3.txt'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage20-kernel-v3-one-time-code-only
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Validate code-only authorization before dependencies
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          approval = json.loads(Path('config/stage20_kernel_v3_code_only_approval_v1.json').read_text()) if Path('config/stage20_kernel_v3_code_only_approval_v1.json').exists() else None
+          assert approval is None, 'checkout must not occur before control-plane validation'
+          PY
+          prior_success="$(gh api --paginate \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${REPOSITORY}/actions/runs?event=push&branch=${BRANCH}&per_page=100" \
+            --jq "[.workflow_runs[] | select(.name == \"Stage 20 kernel v3 one-time code-only benchmark\" and (.id | tostring) != \"${CURRENT_RUN_ID}\" and .conclusion == \"success\")] | length")"
+          test "$prior_success" = '0'
+
+      - uses: actions/checkout@v4
+
+      - name: Revalidate immutable code-only scope
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          approval = json.loads(Path('config/stage20_kernel_v3_code_only_approval_v1.json').read_text())
+          assert approval['status'] == 'approved_for_code_only_implementation_and_synthetic_benchmark'
+          assert approval['oneTimeLinuxX86Benchmark'] is True
+          assert approval['workflowToken'] == 'RUN_STAGE20_KERNEL_V3_CODE_ONLY_20260715'
+          assert 'physical_precomputation_run' in approval['doesNotAuthorize']
+          assert 'new_physical_pilot' in approval['doesNotAuthorize']
+          assert approval['acceptance']['deterministicSteps'] == 300
+          assert approval['acceptance']['minimumKernelSpeedup'] == 5.0
+          PY
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: tools/requirements-stage20-kernel-v3.txt
+
+      - name: Install pinned compiled-kernel dependencies
+        run: python -m pip install --requirement tools/requirements-stage20-kernel-v3.txt
+
+      - name: Run sealed nonphysical 300-step equivalence and speed benchmark
+        run: |
+          python tools/benchmark_stage20_kernel_v3.py \
+            --steps 300 \
+            --repeats 5 \
+            --minimum-speedup 5.0 \
+            --output stage20-kernel-v3-linux-x86.json
+          python - <<'PY'
+          import json, platform
+          from pathlib import Path
+          result = json.loads(Path('stage20-kernel-v3-linux-x86.json').read_text())
+          assert platform.system() == 'Linux'
+          assert platform.machine() in ('x86_64', 'AMD64')
+          assert result['platform']['system'] == 'Linux'
+          assert result['platform']['machine'] in ('x86_64', 'AMD64')
+          assert result['equivalence']['passed'] is True
+          assert result['timing']['speedTargetPassed'] is True
+          assert result['safeguards']['physicalPrecomputationExecuted'] is False
+          assert result['safeguards']['newPhysicalPilotExecuted'] is False
+          PY
+
+      - name: Upload code-only benchmark evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage20-kernel-v3-linux-x86-${{ github.run_id }}
+          path: stage20-kernel-v3-linux-x86.json
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,40 @@
+{
+  "schema": "onga-stage20-kernel-v3-code-only-approval-v1",
+  "status": "approved_for_code_only_implementation_and_synthetic_benchmark",
+  "approvedDate": "2026-07-15",
+  "authorizationId": "stage20-kernel-v3-code-only-20260715-one-time-linux-x86",
+  "oneTimeLinuxX86Benchmark": true,
+  "workflowToken": "RUN_STAGE20_KERNEL_V3_CODE_ONLY_20260715",
+  "decision": {
+    "approvedChoice": "A",
+    "sourceStatement": "A案で進めてください",
+    "plan": "config/stage20_36h_response_basis_plan_candidate_v1.json"
+  },
+  "authorizes": [
+    "implement_compiled_fused_kernel_v3_on_work_branch",
+    "install_pinned_numba_in_an_ephemeral_local_test_directory",
+    "run_deterministic_300_step_nonphysical_equivalence_benchmark",
+    "run_nonphysical_speed_benchmark",
+    "run_one_github_hosted_linux_x86_nonphysical_benchmark",
+    "prepare_visual_result_for_the_next_decision"
+  ],
+  "acceptance": {
+    "deterministicSteps": 300,
+    "maximumRelativeStateDifference": 1e-12,
+    "simulatedTimeDifferenceSeconds": 1e-12,
+    "nonFiniteCount": 0,
+    "negativeDepthCount": 0,
+    "minimumKernelSpeedup": 5.0,
+    "speedupTargetIsGuarantee": false
+  },
+  "doesNotAuthorize": [
+    "physical_precomputation_run",
+    "new_physical_pilot",
+    "automatic_retry",
+    "paid_compute",
+    "public_simulator_connection",
+    "publish",
+    "main_merge",
+    "physical_validation_claim"
+  ]
+}

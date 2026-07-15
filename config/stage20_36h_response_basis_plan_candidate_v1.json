@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "route_decision_required_execution_not_authorized",
+  "status": "route_a_approved_kernel_v3_code_only_validation_in_progress",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -71,6 +71,8 @@
     "optionA": "develop_compiled_kernel_v3_first_using_code_only_equivalence_and_speed_benchmarks",
     "optionB": "keep_kernel_v2_and_accept_a_198_segment_precompute_plan",
     "recommendedChoice": "A",
+    "approvedChoice": "A",
+    "approval": "config/stage20_kernel_v3_code_only_approval_v1.json",
     "judgmentScope": "compute route only; not flow direction, input physics, or public release",
     "decisionImage": "docs/visuals/stage20-36h-precompute-strategy-decision.jpg",
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"

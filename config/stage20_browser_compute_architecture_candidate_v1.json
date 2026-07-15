@@ -1,0 +1,95 @@
+{
+  "schema": "onga-stage20-browser-compute-architecture-candidate-v1",
+  "status": "approved_for_hybrid_architecture_implementation",
+  "recordedDate": "2026-07-15",
+  "requiredProductWindow": {
+    "pastHours": 12,
+    "futureHours": 24,
+    "totalHours": 36,
+    "displayIntervalHours": 1,
+    "displaySnapshots": 37,
+    "computeResource": "page_visitors_browser",
+    "priority": [
+      "high_spatial_accuracy_of_velocity_map",
+      "short_wait_for_result",
+      "github_pages_static_hosting"
+    ]
+  },
+  "measuredEvidence": {
+    "source": "config/stage19_full64_result_record_v1.json",
+    "caseCount": 64,
+    "stepsPerCase": 500,
+    "wallSeconds": 805.3850622509999,
+    "harmonicEquivalentSimulatedSecondsPerCase": 4.290417058339247,
+    "linearOneCase36HourEstimateSeconds": 380127.3230275596,
+    "linearOneCase36HourEstimateHours": 105.59092306321101,
+    "display": "現行CPU実測の単純延長で、1条件36時間は約4.4日",
+    "browserEstimateMeasured": false,
+    "notAGuarantee": true
+  },
+  "decision": {
+    "question": "36時間を短時間で表示するため、どちらの計算方式を採用するか",
+    "optionA": {
+      "id": "hybrid_precomputed_response_browser_interpolation",
+      "recommended": true,
+      "offline": "明示承認した代表条件だけ高精度浅水方程式で事前計算し、応答基底をGitHubへ格納",
+      "browser": "利用者の端末で潮位・流量・堰状態を基底へ適用し、50,339セルの36時間表示を合成",
+      "display": "内部は細かい時間刻みを保持し、地図は1時間ごとに37枚",
+      "initialTarget": "応答パック読込後10秒以内。実測前の開発目標で保証ではない",
+      "accuracyRule": "空間メッシュと物理事前計算を維持し、基底補間誤差を別途検証"
+    },
+    "optionB": {
+      "id": "direct_full_shallow_water_in_browser",
+      "recommended": false,
+      "browser": "利用者の端末で50,339セルの浅水方程式を36時間直接積分",
+      "planningCost": "現行CPU実測の単純延長で約4.4日／1条件。ブラウザ実測は未実施",
+      "effect": "高精度計算を直接行えるが、短時間で結果を得る要求を満たせない"
+    }
+  },
+  "approvalScopeIfA": [
+    "hybrid_architecture_implementation",
+    "one_hour_display_output_contract",
+    "browser_benchmark_with_synthetic_response_pack",
+    "checkpointable_offline_precompute_runner_implementation"
+  ],
+  "excludedWithoutLaterAuthorization": [
+    "physical_precomputation_run",
+    "one_time_numerical_pilot",
+    "main_merge",
+    "public_simulator_connection",
+    "physical_validation_claim"
+  ],
+  "approval": {
+    "approvedOption": "hybrid_precomputed_response_browser_interpolation",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "推奨のA案で進めてください",
+    "authorizes": [
+      "response_pack_format_implementation",
+      "browser_side_36_hour_synthesis_implementation",
+      "one_hour_37_snapshot_output_contract",
+      "synthetic_response_pack_benchmark",
+      "checkpointable_offline_runner_implementation"
+    ],
+    "doesNotAuthorize": [
+      "physical_precomputation_run",
+      "one_time_numerical_pilot",
+      "paid_cloud_resource_provisioning",
+      "main_merge",
+      "public_simulator_connection",
+      "physical_validation_claim"
+    ]
+  },
+  "implementationStatus": {
+    "status": "synthetic_browser_path_implemented_and_passed",
+    "validation": "config/stage20_hybrid_browser_validation_v1.json",
+    "responsePackStatus": "synthetic_browser_benchmark_only",
+    "snapshotCount": 37,
+    "hourRange": [-12, 24],
+    "cellCount": 50339,
+    "physicalPrecomputationExecuted": false
+  },
+  "visual": {
+    "path": "docs/visuals/stage20-browser-compute-architecture-v1.jpg",
+    "sha256": "442cf48f36d82c7da6aca28aa2258500f9820293f378704e658ce598d68ccda5"
+  }
+}

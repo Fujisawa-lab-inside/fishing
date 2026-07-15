@@ -1,0 +1,47 @@
+{
+  "schema": "onga-stage20-offline-response-precompute-plan-v1",
+  "status": "implementation_contract_execution_not_authorized",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v1.json",
+    "sha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cellCount": 50339
+  },
+  "targetWindow": {
+    "pastHours": 12,
+    "futureHours": 24,
+    "displayIntervalHours": 1,
+    "snapshotCount": 37
+  },
+  "responseDimensions": [
+    "tideRelativeM",
+    "ongaDischargeM3S",
+    "nishiDischargeM3S",
+    "magariDischargeM3S",
+    "barrageOpeningFraction"
+  ],
+  "jobs": [
+    {"id": "reference", "dimension": "constant", "level": "reference"},
+    {"id": "tide-low", "dimension": "tideRelativeM", "level": "low"},
+    {"id": "tide-high", "dimension": "tideRelativeM", "level": "high"},
+    {"id": "onga-low", "dimension": "ongaDischargeM3S", "level": "low"},
+    {"id": "onga-high", "dimension": "ongaDischargeM3S", "level": "high"},
+    {"id": "nishi-low", "dimension": "nishiDischargeM3S", "level": "low"},
+    {"id": "nishi-high", "dimension": "nishiDischargeM3S", "level": "high"},
+    {"id": "magari-low", "dimension": "magariDischargeM3S", "level": "low"},
+    {"id": "magari-high", "dimension": "magariDischargeM3S", "level": "high"},
+    {"id": "barrage-closed", "dimension": "barrageOpeningFraction", "level": "low"},
+    {"id": "barrage-open", "dimension": "barrageOpeningFraction", "level": "high"}
+  ],
+  "checkpointContract": {
+    "atomicStatusWrite": true,
+    "outputSha256Required": true,
+    "completedJobsSkippedOnRestart": true,
+    "corruptCompletedOutputStopsRestart": true
+  },
+  "execution": {
+    "authorized": false,
+    "physicalExecutorConnected": false,
+    "syntheticFixtureValidationAllowed": true,
+    "paidResourceProvisioningAuthorized": false
+  }
+}

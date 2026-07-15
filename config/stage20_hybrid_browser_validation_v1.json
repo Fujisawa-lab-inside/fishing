@@ -1,0 +1,84 @@
+{
+  "schema": "onga-stage20-hybrid-browser-validation-v1",
+  "status": "passed_synthetic_response_path_only",
+  "validatedDate": "2026-07-15",
+  "approvedArchitecture": {
+    "record": "config/stage20_browser_compute_architecture_candidate_v1.json",
+    "option": "hybrid_precomputed_response_browser_interpolation",
+    "sourceStatement": "推奨のA案で進めてください"
+  },
+  "identity": {
+    "meshSha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cellCount": 50339,
+    "responsePackSha256": "c3f41af88ac9b91271526bd5ceab5247608460255219163fd135a606cacdf128",
+    "responsePackBytes": 3624408,
+    "outputSha256": "64255047d3bd272d07862d065aaaed6d03f0d2a2117fb8a73d8d915dc82e45a7",
+    "outputBytes": 22350516
+  },
+  "timeContract": {
+    "pastHours": 12,
+    "futureHours": 24,
+    "hourRange": [-12, 24],
+    "intervalHours": 1,
+    "snapshotCount": 37
+  },
+  "directModuleValidation": {
+    "status": "passed",
+    "firstSynthesisMs": 77.76233300000001,
+    "repeatSynthesisMs": 58.971833000000004,
+    "deterministicOutput": true,
+    "outOfEnvelopeRejected": true,
+    "presentSnapshotAccessible": true
+  },
+  "workerHttpValidation": {
+    "status": "passed",
+    "runtime": "Node_worker_threads_with_browser_Worker_API_shim_and_local_HTTP_fetch",
+    "responsePackFetchAndDigestMs": 29.206457999999998,
+    "synthesisMs": 75.013334,
+    "outputDigestMs": 10.768708000000004,
+    "totalMs": 114.9885,
+    "outputTransferValidated": true
+  },
+  "diagnostics": {
+    "minimumDepthM": 2.5818700790405273,
+    "maximumDepthM": 3.8192734718322754,
+    "maximumSpeedMPS": 1.005868328992132,
+    "nonFiniteValueCount": 0
+  },
+  "checkpointRestartValidation": {
+    "status": "passed",
+    "fixtureJobCount": 11,
+    "firstCheckpointCompleted": 3,
+    "restartSkippedCompleted": 3,
+    "completeRestartExecuted": 0,
+    "corruptCompletedOutputRejected": true
+  },
+  "implementation": {
+    "responsePackLoader": {
+      "path": "onga_stage20_response_pack.mjs",
+      "sha256": "a5c0e9674d9156f569b62befcadd673546e407d87c8c36b10a4a423bc337c564"
+    },
+    "hybridSolver": {
+      "path": "onga_stage20_hybrid_solver.mjs",
+      "sha256": "a6f20a5b255b6e2ebd4b1ab9976f5390300698eca947fc128caabb65bcc345b5"
+    },
+    "hybridWorker": {
+      "path": "onga_stage20_hybrid_worker.mjs",
+      "sha256": "3a41194a8d1a3afa12c6596a9bd105edca1734b9a3b55ade0ac4264f84d8ef57"
+    },
+    "offlineRunner": {
+      "path": "tools/stage20_offline_precompute_runner.py",
+      "sha256": "e85617b7b87d83bd6b892d722762fd638efdfacc79a4b2638719165775358d23"
+    }
+  },
+  "interpretation": "The 36-hour browser synthesis and restart control plane meet the synthetic implementation benchmark. No physical response basis has been computed or validated.",
+  "safeguards": {
+    "syntheticResponsePackOnly": true,
+    "physicalPrecomputationExecuted": false,
+    "paidResourceProvisioned": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  },
+  "nextDecision": "authorize_or_defer_one_small_physical_precompute_pilot_after_compute_resource_is_identified"
+}

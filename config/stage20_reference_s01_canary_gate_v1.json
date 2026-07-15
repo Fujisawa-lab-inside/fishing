@@ -1,0 +1,12 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage20-reference-s01-canary-20260715t122952z-one-time",
+  "authorizationSha256": "eb0c0baf419ee1c58d5995a205c46c2c0d0f919f689e867a05c2ff5fb8ac4b5c",
+  "issuedAtUtc": "2026-07-15T12:29:52Z",
+  "notAfterUtc": "2026-07-16T12:29:52Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "consumptionEvidence": "successful workflow step named Consume Stage 20 reference-s01 canary authorization",
+  "scope": "one_reference_s01_eight_physical_hour_warmup_segment_maximum_18000_numerical_wall_seconds"
+}

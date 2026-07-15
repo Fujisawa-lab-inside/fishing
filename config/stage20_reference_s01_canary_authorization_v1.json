@@ -1,0 +1,42 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-authorization-v1",
+  "authorizationId": "stage20-reference-s01-canary-20260715t122952z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedDate": "2026-07-15",
+  "issuedAtUtc": "2026-07-15T12:29:52Z",
+  "notAfterUtc": "2026-07-16T12:29:52Z",
+  "sourceStatement": "A案を進めてください",
+  "scope": "exactly_one_reference_s01_warmup_segment_model_hour_minus_24_to_minus_16_eight_physical_hours_maximum_five_numerical_wall_hours",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "decisionImage": {
+    "path": "docs/visuals/stage20-36h-canary-execution-decision.jpg",
+    "sha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707"
+  },
+  "executionContract": {
+    "path": "config/stage20_reference_s01_canary_contract_v1.json",
+    "sha256": "0a036a237b3127c1349ed79618910e7e04f075aeae9febc31548a0417e04a26d"
+  },
+  "reviewedCodeCommit": "de48bdde691207717dfb706ed08ecd8826942da5",
+  "run": {
+    "jobId": "reference-s01",
+    "modelHourStart": -24,
+    "modelHourEnd": -16,
+    "targetPhysicalSeconds": 28800,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "maximumNumericalWallSeconds": 18000,
+    "runCount": 1
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "remainingSegmentsAllowed": false,
+    "campaignAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

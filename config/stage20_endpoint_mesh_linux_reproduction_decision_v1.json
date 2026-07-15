@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-endpoint-mesh-linux-reproduction-decision-v1",
-  "status": "approved_for_one_linux_reproduction",
+  "status": "linux_reproduction_complete",
   "candidate": {
     "constraints": "data/onga_stage20_mesh_constraints_v2.json",
     "generator": "tools/generate_stage20_barrage_endpoint_patch_mesh.py",
@@ -22,7 +22,7 @@
     ]
   },
   "authorization": {
-    "status": "approved",
+    "status": "consumed",
     "approvedAtUtc": "2026-07-15T05:47:47Z",
     "expiresAtUtc": "2026-07-16T05:47:47Z",
     "expectedRepository": "Fujisawa-lab-inside/fishing",
@@ -34,6 +34,11 @@
       "baseGenerator": "f1920ab425413ce31e3f15914a85d678664925d2123372f23c92704382edadd1",
       "candidateArtifact": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
       "candidateSummary": "f29158d321d2601bd756636faa7bcca5d8f697b15c612d2b4aa87664fcbb3437"
-    }
+    },
+    "consumedAtUtc": "2026-07-15T05:51:38Z",
+    "consumedByRunId": 29392549671,
+    "consumedByRunAttempt": 1,
+    "consumedCommitSha": "e8d0d022f3180b5a382db3d4123a2078ca8a73de",
+    "resultRecord": "config/stage20_endpoint_mesh_linux_reproduction_result_v1.json"
   }
 }

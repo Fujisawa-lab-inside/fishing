@@ -1,0 +1,57 @@
+{
+  "schema": "onga-stage20-endpoint-mesh-linux-reproduction-result-v1",
+  "status": "passed_awaiting_canonical_adoption",
+  "run": {
+    "id": 29392549671,
+    "attempt": 1,
+    "repository": "Fujisawa-lab-inside/fishing",
+    "ref": "refs/heads/codex/stage19-public-inference-inputs",
+    "commitSha": "e8d0d022f3180b5a382db3d4123a2078ca8a73de",
+    "actor": "RyusukeFujisawa",
+    "createdAtUtc": "2026-07-15T05:51:28Z",
+    "completedAtUtc": "2026-07-15T05:52:03Z",
+    "durationSeconds": 32,
+    "conclusion": "success",
+    "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29392549671"
+  },
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "candidate": {
+    "artifactSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+    "arrayCount": 12,
+    "cells": 50199,
+    "changedOldCells": 164,
+    "minimumCellAreaM2": 0.5064391344240516,
+    "cellsBelow0_25M2": 0
+  },
+  "evidence": {
+    "path": "docs/results/stage20-endpoint-mesh-linux-reproduction-29392549671/stage20_endpoint_mesh_linux_reproduction_evidence.json",
+    "sha256": "c25f75f1e45f0b713a314f3729601e831db60b8af4563db546915e538a438bc1",
+    "linuxSummaryPath": "docs/results/stage20-endpoint-mesh-linux-reproduction-29392549671/linux_stage20_barrage_endpoint_patch_mesh_summary.json",
+    "linuxSummarySha256": "ef0eb209b4b97ac1d8d0760a52c0b0008134e1118028fe666e7ff1ea020778ab"
+  },
+  "checks": {
+    "exactArtifactByteMatch": true,
+    "exactArraySetMatch": true,
+    "exactArrayValueMatch": true,
+    "exactArrayHashMatch": true,
+    "exactGeometrySummaryMatch": true
+  },
+  "safeguards": {
+    "oneTimeAuthorizationConsumed": true,
+    "geometryOnly": true,
+    "physicalFlowRun": false,
+    "full64Run": false,
+    "publicSimulatorConnected": false,
+    "published": false,
+    "mainMerged": false
+  },
+  "nextDecision": {
+    "question": "Linuxで完全一致した候補をStage 20の正式なメッシュ候補として固定し、ブラウザ用メッシュv2の作成へ進めるか",
+    "A": "adopt_linux_verified_candidate_and_prepare_browser_mesh_v2",
+    "B": "stop_and_investigate_before_adoption"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "schema": "onga-stage20-barrage-endpoint-patch-mesh-result-v1",
+  "version": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+  "status": "local-darwin-arm64-candidate-not-canonical",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "source": {
+    "approvedBrowserMeshSha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "constraints": "data/onga_stage20_mesh_constraints_v2.json",
+    "waterManifest": "data/onga_unified_water_manifest_r3.json"
+  },
+  "artifact": {
+    "path": "onga_stage20_metric_fv_mesh_v2_boundary_snap_candidate.npz",
+    "sha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7"
+  },
+  "counts": {
+    "vertices": 28450,
+    "cells": 50199,
+    "internalFaces": 71949,
+    "boundaryFaces": 6699,
+    "barrageFaces": 68,
+    "boundaryFaceCounts": {
+      "shoreline": 6564,
+      "M": 36,
+      "N": 21,
+      "O": 54,
+      "G": 24
+    },
+    "gateFaceCounts": {
+      "1": 10,
+      "2": 7,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 11
+    },
+    "fishwayCells": [
+      38714,
+      38576
+    ],
+    "fishwayComponents": [
+      1,
+      0
+    ]
+  },
+  "patch": {
+    "patchRadiusPixel": 1.6,
+    "localChangeMaximumRadiusPixel": 20.0,
+    "removedVertexCount": 86,
+    "unchangedOldTriangleCount": 50175,
+    "changedOldTriangleCount": 164,
+    "changedNewTriangleCount": 24,
+    "changedOldTriangleFraction": 0.0032579113609726056,
+    "changedRegionBboxPixel": [
+      1099.0,
+      965.275,
+      1449.0,
+      1012.772
+    ],
+    "approvedEndpointsPixel": [
+      [
+        1448.9594188318715,
+        967.256928869151
+      ],
+      [
+        1099.042581789358,
+        1010.673137295994
+      ]
+    ],
+    "effectiveEndpointsPixel": [
+      [
+        1449.0,
+        967.2518937286058
+      ],
+      [
+        1099.0,
+        1010.6784206652013
+      ]
+    ],
+    "endpointShiftPixel": [
+      0.04089234460119323,
+      0.04290830659812827
+    ]
+  },
+  "quality": {
+    "totalAreaM2": 1378734.4720380777,
+    "minimumCellAreaM2": 0.5064391344240516,
+    "medianCellAreaM2": 30.92422785028866,
+    "cellsBelow0_25M2": 0,
+    "cellsBelow0_5M2": 0,
+    "minimumAreaPerimeterM": 0.21797018374094881
+  },
+  "barrage": {
+    "faceCount": 68,
+    "gateFaceCounts": {
+      "1": 10,
+      "2": 7,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 11
+    },
+    "wetSpanImagePixel": [
+      [
+        1448.9968172659776,
+        967.2522665948339
+      ],
+      [
+        1099.030359845387,
+        1010.6746246662461
+      ]
+    ],
+    "cutSpanImagePixel": [
+      [
+        1450.9815979687742,
+        967.0060033986257
+      ],
+      [
+        1097.0455791425904,
+        1010.9208878624544
+      ]
+    ]
+  },
+  "fishway": {
+    "approvedImagePixel": [
+      1111.66,
+      987.21
+    ],
+    "cellCentroidsImagePixel": [
+      [
+        1112.2453333333333,
+        1010.8620000000001
+      ],
+      [
+        1115.6446666666668,
+        985.524
+      ]
+    ],
+    "distanceToApprovedPixel": [
+      23.65924172730633,
+      4.326680534132956
+    ]
+  },
+  "packageArrayHashes": {
+    "vertex_local_mm": "71ad5b0b041770a1ad398f6e19cee1037e36f17444fc8c79fae88f83581c844b",
+    "vertex_image_millipixel": "ec875db2d884186d336fc26c41361f9db0b110d655c20d0a0b909f33c7e5079a",
+    "triangles": "b4cf268b2a1463ed2ce69b4d06d20b75f85856dd3b5caa01b8a4f93b5fb652e2",
+    "internal_face_vertices": "01d69fae703399901da6f5af7f1ce7f3f6e21a29b607cd634d741f124ac01741",
+    "internal_face_cells": "62b693c57b736d182bc93aff1bfb2e677107e7695d44e4d6b39d71fca63e5d04",
+    "boundary_face_vertices": "b063332f077e933d36c15430190656e3b30e3acfc91374bbb1aa83ee86bf3633",
+    "boundary_face_cell": "6f917c21276bb19c27ee107beff3e522b7b523b9f3787aeae6e53284342d615a",
+    "boundary_face_tag": "193d71454e6680cd153647e23265d8e1ef6973ce316faa1c6d003e579e83a8c2",
+    "barrage_face_ids": "44a989ed08dd203d29cb3965c5ccdb86fb0c674119b2d8cea5294da10259a5c5",
+    "barrage_gate_id": "bad609ffe3a3d5f5d6f62ef9c0b64f38ba30535554d0e74037b46e69c90ec7dd",
+    "fishway_cells": "07e6f19c2a706db2ff8640cf2355c4a9a5e6ee5ff3d61029acadd042d8eb8a5f",
+    "fishway_components": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+  },
+  "safeguards": {
+    "physicalValuesAssigned": false,
+    "numericalExecutionPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "linuxCanonicalProbeCompleted": false
+  }
+}

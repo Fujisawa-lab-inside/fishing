@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "route_a_kernel_v3_code_only_passed_awaiting_physical_pilot_decision",
+  "status": "route_a_kernel_v3_physical_pilot_passed_awaiting_segmented_plan_adoption",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -36,6 +36,27 @@
       "checkpoint_restart_overhead",
       "failed_segments"
     ]
+  },
+  "kernelV3PhysicalProjection": {
+    "evidence": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
+    "measuredPhysicalPilotSpeedup": 4.906689449595995,
+    "measuredWallTimeReductionPercent": 79.6196598486106,
+    "oneBasisRunnerHours": 18.25198742507835,
+    "allElevenRunnerHours": 200.77186167586189,
+    "hostedJobLimitHours": 6,
+    "safeSegmentWallHours": 5,
+    "estimatedPhysicalHoursPerSegment": 9.861939733350836,
+    "segmentsPerBasis": 4,
+    "totalSegments": 44,
+    "idealElevenChainElapsedHours": 18.25198742507835,
+    "excludes": [
+      "queue_delay",
+      "dependency_installation",
+      "artifact_transfer",
+      "checkpoint_restart_overhead",
+      "failed_segments"
+    ],
+    "notAnExecuted36HourResult": true
   },
   "physicalInterpretation": {
     "tenMinuteEndpointMayBeUsedAsStaticSteadyBasis": false,
@@ -77,13 +98,26 @@
     "decisionImage": "docs/visuals/stage20-36h-precompute-strategy-decision.jpg",
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
   },
+  "nextDecision": {
+    "question": "kernel v3を採用して36時間の44区間分割計画を作るか",
+    "optionA": "adopt_kernel_v3_and_prepare_detailed_segmented_plan_without_execution",
+    "optionB": "hold_adoption_and_continue_code_only_optimization",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-kernel-v3-physical-result-decision.jpg",
+    "decisionImageSha256": "9a28b2e6b07543929df656c0480e015a31acc4cffae47be39d70e16c1b81a815",
+    "campaignExecutionAuthorized": false
+  },
   "execution": {
     "authorized": false,
     "physicalRunAllowed": false,
     "automaticRetryAllowed": false,
     "paidResourceProvisioningAuthorized": false,
     "mainMergeAuthorized": false,
-    "kernelV3CodeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json"
+    "kernelV3CodeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
+    "kernelV3PhysicalPilotResult": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
+    "kernelV3PhysicalPilotConsumed": true,
+    "kernelV3AdoptedForCampaign": false,
+    "elevenBasisCampaignAuthorized": false
   },
   "sources": [
     "https://docs.github.com/en/actions/reference/limits",

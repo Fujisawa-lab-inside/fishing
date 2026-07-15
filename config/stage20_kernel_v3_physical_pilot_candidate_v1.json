@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-kernel-v3-physical-pilot-candidate-v1",
-  "status": "option_a_approved_preparing_one_time_execution_control",
+  "status": "one_time_physical_pilot_completed_awaiting_kernel_v3_adoption_decision",
   "recordedDate": "2026-07-15",
   "codeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
   "resource": "GitHub-hosted Linux x86_64 runner",
@@ -51,11 +51,26 @@
     "sourceStatement": "A案を進めてください"
   },
   "execution": {
-    "authorized": false,
-    "gatePresent": false,
-    "physicalRunExecuted": false,
+    "authorized": true,
+    "gatePresent": true,
+    "gateConsumed": true,
+    "physicalRunExecuted": true,
+    "githubRunId": 29411976467,
+    "result": "passed_numerical_checks_not_physical_validation",
+    "resultRecord": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
+    "comparison": "config/stage20_kernel_v3_physical_pilot_comparison_v1.json",
+    "additionalPhysicalRunAuthorized": false,
     "elevenBasisCampaignAuthorized": false,
     "publicSimulatorConnected": false,
     "mainMergeAuthorized": false
+  },
+  "nextDecision": {
+    "question": "kernel v3を採用して36時間の分割実行計画を作るか",
+    "optionA": "adopt_kernel_v3_and_prepare_the_44_segment_execution_plan_without_running_it",
+    "optionB": "do_not_adopt_and_continue_code_only_optimization",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-kernel-v3-physical-result-decision.jpg",
+    "decisionImageSha256": "9a28b2e6b07543929df656c0480e015a31acc4cffae47be39d70e16c1b81a815",
+    "elevenBasisCampaignAuthorizedByThisChoice": false
   }
 }

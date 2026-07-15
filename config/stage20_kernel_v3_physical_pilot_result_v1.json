@@ -1,0 +1,90 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-result-v1",
+  "status": "passed_equivalent_physical_result_and_speedup_not_physical_validation",
+  "recordedDate": "2026-07-15",
+  "github": {
+    "runId": 29411976467,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29411976467",
+    "executionCommit": "00852a870e8551e6ae59483bc0f24d0a19a065b4",
+    "event": "push",
+    "conclusion": "success",
+    "createdAtUtc": "2026-07-15T11:32:17Z",
+    "completedAtUtc": "2026-07-15T11:38:12Z"
+  },
+  "artifact": {
+    "id": 8341615688,
+    "expiresAtUtc": "2026-10-13T11:32:18Z",
+    "retainedPath": "docs/results/stage20-kernel-v3-physical-pilot-29411976467"
+  },
+  "authorization": {
+    "id": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
+    "gateState": "consumed",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "numerical": {
+    "meshCellCount": 50199,
+    "targetPhysicalSeconds": 600,
+    "simulatedSeconds": 600.0048578949198,
+    "steps": 81861,
+    "wallSeconds": 304.202253369,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 2.197424338222903e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 10,
+    "viewCount": 4,
+    "finalFieldsSha256": "3e8fed6ee564a34761081728aa2c1d244cdccfee8a78e9203641f2c985613c3b"
+  },
+  "comparisonWithKernelV2": {
+    "record": "config/stage20_kernel_v3_physical_pilot_comparison_v1.json",
+    "maximumRelativeDifferenceAcrossFields": 3.2708211139542698e-15,
+    "correctedMapJpegsByteIdentical": true,
+    "physicalPilotSpeedup": 4.906689449595995,
+    "wallTimeReductionPercent": 79.6196598486106
+  },
+  "updated36HourProjection": {
+    "oneBasisRunnerHours": 18.25198742507835,
+    "allElevenRunnerHours": 200.77186167586189,
+    "safeSegmentWallHours": 5,
+    "physicalHoursPerFiveHourSegment": 9.861939733350836,
+    "segmentsPerBasis": 4,
+    "totalSegments": 44,
+    "idealElevenChainElapsedHours": 18.25198742507835,
+    "queueSetupTransferAndCheckpointOverheadExcluded": true,
+    "notAnExecuted36HourResult": true
+  },
+  "evidence": {
+    "artifactEvidenceManifestSha256": "f7f008868a2a10c47fb97b3dd869a05cd3be9ccd263d2b12234966b46c504d4d",
+    "correctedLocalVisualManifestSha256": "d4d16da2b357ab4d6e934e87072e2a64d0163ff6e863e527e8fa2ae77e76fff4",
+    "comparisonSha256": "ec92cc9144084c97f7c81ffbf748bba0bcd8f4a85408f4dea69913d9afda49a0",
+    "nextDecisionImage": "docs/visuals/stage20-kernel-v3-physical-result-decision.jpg",
+    "nextDecisionImageSha256": "9a28b2e6b07543929df656c0480e015a31acc4cffae47be39d70e16c1b81a815",
+    "linuxArtifactMapsRetained": true,
+    "japaneseLabelMapsRerenderedFromExactRetainedFields": true,
+    "physicalRerunUsedForLabelCorrection": false
+  },
+  "interpretation": {
+    "proves": [
+      "kernel_v3_equivalence_to_kernel_v2_for_the_completed_ten_minute_case",
+      "kernel_v3_physical_pilot_wall_time_on_github_hosted_linux_x86_64",
+      "numerical_stability_checks_for_this_inferred_input_case"
+    ],
+    "doesNotProve": [
+      "agreement_with_observed_flow",
+      "physical_validation",
+      "thirty_six_hour_dynamics",
+      "response_basis_validity",
+      "browser_service_accuracy"
+    ]
+  },
+  "safeguards": {
+    "additionalPhysicalRunAuthorized": false,
+    "elevenBasisCampaignAuthorized": false,
+    "paidResourceAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-progress-v1",
+  "status": "complete",
+  "authorizationId": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
+  "targetPhysicalSeconds": 600.0,
+  "simulatedSeconds": 600.0048578949198,
+  "stepsCompleted": 81861,
+  "wallSeconds": 304.12221990800003,
+  "maximumCfl": 0.12000000000000001,
+  "maximumRelativeMassBalanceError": 2.197424338222903e-14,
+  "checkpoints": [
+    {
+      "path": "checkpoints/checkpoint-0060s.npz",
+      "sha256": "fbc5d3dd03aac40d0334a7ab3877f045c864b8bc2a0001e7cb0a97b7ba809b07",
+      "elapsedSeconds": 60.00151923542688,
+      "step": 7980
+    },
+    {
+      "path": "checkpoints/checkpoint-0120s.npz",
+      "sha256": "287c45462984db8eec73cfd92fd185386810e0b7e3fc9ec025166ab01d2ccfb1",
+      "elapsedSeconds": 120.00145451096184,
+      "step": 16179
+    },
+    {
+      "path": "checkpoints/checkpoint-0180s.npz",
+      "sha256": "3af43160d5092b1776935296b9068a28df56acdc5d9d2d54219e3444759bf24c",
+      "elapsedSeconds": 180.00132508592614,
+      "step": 24169
+    },
+    {
+      "path": "checkpoints/checkpoint-0240s.npz",
+      "sha256": "1a0a0a106e6b9f1618e007bd74c5e87e75be5eb9b8ac3abb52ec7e00ab7b8ac7",
+      "elapsedSeconds": 240.0053451409855,
+      "step": 32328
+    },
+    {
+      "path": "checkpoints/checkpoint-0300s.npz",
+      "sha256": "2fa032dd0a7e8412a26dac448edce4d11634d91d06fb35ed3ff4da7f05dceaaa",
+      "elapsedSeconds": 300.0039498887442,
+      "step": 40512
+    },
+    {
+      "path": "checkpoints/checkpoint-0360s.npz",
+      "sha256": "1593eece88df203b3a42f3a38e9eed0f1e8c198149aa74ba717650565b081573",
+      "elapsedSeconds": 360.0059319567108,
+      "step": 48694
+    },
+    {
+      "path": "checkpoints/checkpoint-0420s.npz",
+      "sha256": "78cd1197b6f67c52c806ae4b4f3c502a4f4494653a0e030ad10b3027ed43acbd",
+      "elapsedSeconds": 420.0044220549386,
+      "step": 56944
+    },
+    {
+      "path": "checkpoints/checkpoint-0480s.npz",
+      "sha256": "fe958d0be80e545ef8e3b1969f6a2dc6ee102da5c20b141c6bc895eed2231b40",
+      "elapsedSeconds": 480.0030180905206,
+      "step": 65216
+    },
+    {
+      "path": "checkpoints/checkpoint-0540s.npz",
+      "sha256": "a315da24626bbf284bfff0ba979f451ea5b1195a025f9c8b798ed7a11e30f90f",
+      "elapsedSeconds": 540.0057634780134,
+      "step": 73515
+    },
+    {
+      "path": "checkpoints/checkpoint-0600s.npz",
+      "sha256": "ad9823ad6f897ebda4abc0a8a7bcbc5880af49ae116ce5b9026eb811f4c9b2e8",
+      "elapsedSeconds": 600.0048578949198,
+      "step": 81861
+    }
+  ]
+}

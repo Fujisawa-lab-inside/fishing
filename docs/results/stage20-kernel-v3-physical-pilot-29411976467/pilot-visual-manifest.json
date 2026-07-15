@@ -1,0 +1,42 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-visual-manifest-v1",
+  "status": "rendered_not_physical_validation",
+  "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+  "cellCount": 50199,
+  "displayCeilingMPS": 0.2961170302357919,
+  "views": [
+    {
+      "path": "pilot-estuary.jpg",
+      "sha256": "821e47fc546e835234ae45d864bafa57fc60d5ba4864b69e9eb361bea926f8f1",
+      "visibleCells": 50199,
+      "displayArrows": 54,
+      "zoom": 16
+    },
+    {
+      "path": "pilot-barrage.jpg",
+      "sha256": "a9e1b34d584c873e7a290e31a7a3e2c18716c58464a9d28fda5e252e2aec293d",
+      "visibleCells": 5281,
+      "displayArrows": 254,
+      "zoom": 18
+    },
+    {
+      "path": "pilot-confluence.jpg",
+      "sha256": "788d3691a1dd888467369bbb90723f41b622f0454a08c37afa3329cb6ab0e968",
+      "visibleCells": 7259,
+      "displayArrows": 266,
+      "zoom": 18
+    },
+    {
+      "path": "pilot-fishway.jpg",
+      "sha256": "f9ce31a48eaef197c4df839d9c6c3a68b805f8b6122120826ff6e6a5a084f19f",
+      "visibleCells": 4978,
+      "displayArrows": 310,
+      "zoom": 18
+    }
+  ],
+  "fieldsSha256": "3e8fed6ee564a34761081728aa2c1d244cdccfee8a78e9203641f2c985613c3b",
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

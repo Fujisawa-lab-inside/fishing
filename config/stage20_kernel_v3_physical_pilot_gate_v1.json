@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-kernel-v3-physical-pilot-gate-v1",
-  "state": "active_one_time",
+  "state": "consumed",
   "authorizationId": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
   "authorizationSha256": "e747633943f07c80ca726b1bf7e69221fd0b106848ece2987000f27a3c7621dc",
   "issuedAtUtc": "2026-07-15T11:29:56Z",
@@ -8,5 +8,14 @@
   "automaticRetryAllowed": false,
   "additionalRunAllowed": false,
   "consumptionEvidence": "successful workflow step named Consume Stage 20 kernel v3 physical pilot authorization",
-  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v3_github_hosted_linux_x86_one_time_maximum_1200_wall_seconds"
+  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v3_github_hosted_linux_x86_one_time_maximum_1200_wall_seconds",
+  "consumedAtUtc": "2026-07-15T11:32:30Z",
+  "consumedBy": {
+    "githubRunId": 29411976467,
+    "githubRunAttempt": 1,
+    "githubExecutionCommit": "00852a870e8551e6ae59483bc0f24d0a19a065b4",
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29411976467",
+    "result": "success",
+    "resultRecord": "config/stage20_kernel_v3_physical_pilot_result_v1.json"
+  }
 }

@@ -1,0 +1,10 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-receipt-v1",
+  "authorizationId": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
+  "authorizationSha256": "e747633943f07c80ca726b1bf7e69221fd0b106848ece2987000f27a3c7621dc",
+  "executionContractSha256": "72d9dba9d32d81b6001fad269656e6035b802b0ad9006e768e90d4379223b927",
+  "decisionImageSha256": "b01b78291f37c76bd232c98790385bd384a149398445465ad2ecca896f21bafc",
+  "githubRunId": "29411976467",
+  "githubSha": "00852a870e8551e6ae59483bc0f24d0a19a065b4",
+  "automaticRetryAllowed": false
+}

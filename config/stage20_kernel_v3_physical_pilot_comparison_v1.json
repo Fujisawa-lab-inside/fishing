@@ -1,0 +1,62 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-comparison-v1",
+  "status": "passed_equivalent_physical_result_and_speedup",
+  "kernelV2": {
+    "runId": 29396657600,
+    "wallSeconds": 1492.6259871490001,
+    "steps": 81861,
+    "simulatedSeconds": 600.0048578949198
+  },
+  "kernelV3": {
+    "runId": 29411976467,
+    "wallSeconds": 304.202253369,
+    "steps": 81861,
+    "simulatedSeconds": 600.0048578949198
+  },
+  "equivalence": {
+    "fields": {
+      "waterDepthM": {
+        "maximumAbsoluteDifference": 3.552713678800501e-15,
+        "rootMeanSquareDifference": 4.466345668436193e-16,
+        "maximumRelativeDifference": 2.8537477345045666e-16
+      },
+      "velocityUms": {
+        "maximumAbsoluteDifference": 3.2708211139542698e-15,
+        "rootMeanSquareDifference": 4.264742875807689e-16,
+        "maximumRelativeDifference": 3.2708211139542698e-15
+      },
+      "velocityVms": {
+        "maximumAbsoluteDifference": 1.8197249262996706e-15,
+        "rootMeanSquareDifference": 3.8104891515080506e-16,
+        "maximumRelativeDifference": 1.8197249262996706e-15
+      }
+    },
+    "maximumRelativeDifferenceAcrossFields": 3.2708211139542698e-15,
+    "stepCountDifference": 0,
+    "simulatedTimeDifferenceSeconds": 0.0,
+    "maximumCflDifference": 0.0,
+    "maximumMassErrorDifference": 0.0,
+    "correctedMapJpegsByteIdentical": true
+  },
+  "speed": {
+    "physicalPilotSpeedup": 4.906689449595995,
+    "wallTimeReductionPercent": 79.6196598486106
+  },
+  "updated36HourProjection": {
+    "oneBasisRunnerHours": 18.25198742507835,
+    "allElevenRunnerHours": 200.77186167586189,
+    "physicalHoursPerFiveHourSegment": 9.861939733350836,
+    "segmentsPerBasis": 4,
+    "totalSegments": 44,
+    "idealElevenChainElapsedHours": 18.25198742507835,
+    "notAnExecuted36HourResult": true,
+    "queueSetupTransferAndCheckpointOverheadExcluded": true
+  },
+  "safeguards": {
+    "additionalPhysicalRunAuthorized": false,
+    "elevenBasisCampaignAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

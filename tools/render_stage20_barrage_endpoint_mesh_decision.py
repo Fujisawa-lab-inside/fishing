@@ -208,9 +208,20 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
     output = root / args.svg_output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(svg, encoding="utf-8")
+    result_path = output.with_suffix(".json")
+    existing = (
+        json.loads(result_path.read_text(encoding="utf-8"))
+        if result_path.is_file()
+        else {}
+    )
+    approval = existing.get("approval")
     result = {
         "schema": "onga-stage20-barrage-endpoint-mesh-decision-visual-v1",
-        "status": "awaiting_visual_decision",
+        "status": (
+            "approved_for_linux_x86_reproduction"
+            if approval
+            else "awaiting_visual_decision"
+        ),
         "svg": str(output.relative_to(root)),
         "svgSha256": hashlib.sha256(output.read_bytes()).hexdigest(),
         "candidateArtifactSha256": summary["artifact"]["sha256"],
@@ -220,7 +231,9 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
         "minimumCellAreaOldM2": old_min,
         "minimumCellAreaCandidateM2": new_min,
     }
-    output.with_suffix(".json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if approval:
+        result["approval"] = approval
+    result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

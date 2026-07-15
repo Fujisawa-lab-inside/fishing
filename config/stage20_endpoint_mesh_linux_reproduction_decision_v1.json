@@ -1,0 +1,39 @@
+{
+  "schema": "onga-stage20-endpoint-mesh-linux-reproduction-decision-v1",
+  "status": "approved_for_one_linux_reproduction",
+  "candidate": {
+    "constraints": "data/onga_stage20_mesh_constraints_v2.json",
+    "generator": "tools/generate_stage20_barrage_endpoint_patch_mesh.py",
+    "baseGenerator": "tools/generate_stage16_metric_mesh.py",
+    "artifact": "docs/results/stage20-barrage-endpoint-mesh-v2-candidate/onga_stage20_metric_fv_mesh_v2_boundary_snap_candidate.npz",
+    "summary": "docs/results/stage20-barrage-endpoint-mesh-v2-candidate/stage20_barrage_endpoint_patch_mesh_summary.json"
+  },
+  "decision": {
+    "approvedChoice": "A",
+    "sourceStatement": "A：この候補を採用し、Linux x86確認へ進める",
+    "oneTime": true,
+    "geometryOnly": true,
+    "doesNotAuthorize": [
+      "physical_flow_run",
+      "full64_run",
+      "public_simulator_connection",
+      "publish",
+      "main_merge"
+    ]
+  },
+  "authorization": {
+    "status": "approved",
+    "approvedAtUtc": "2026-07-15T05:47:47Z",
+    "expiresAtUtc": "2026-07-16T05:47:47Z",
+    "expectedRepository": "Fujisawa-lab-inside/fishing",
+    "expectedRef": "refs/heads/codex/stage19-public-inference-inputs",
+    "expectedActor": "RyusukeFujisawa",
+    "expectedSha256": {
+      "constraints": "dad2749230f10b1b15f0b54990a907130bcf9d81de79e4662e397c9e3b28a250",
+      "generator": "aaef623488a75970322177276008543deb2af26b559e6e1828c3676dcac3fcdd",
+      "baseGenerator": "f1920ab425413ce31e3f15914a85d678664925d2123372f23c92704382edadd1",
+      "candidateArtifact": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+      "candidateSummary": "f29158d321d2601bd756636faa7bcca5d8f697b15c612d2b4aa87664fcbb3437"
+    }
+  }
+}

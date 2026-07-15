@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-barrage-endpoint-mesh-decision-visual-v1",
-  "status": "awaiting_visual_decision",
+  "status": "approved_for_linux_x86_reproduction",
   "svg": "docs/visuals/stage20-barrage-endpoint-mesh-decision-v1.svg",
   "svgSha256": "54e980d03e001ca56afd16b4dfaf9a8ee9c49808a9ddd1df72526b7cce173e1f",
   "candidateArtifactSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
@@ -8,5 +8,10 @@
   "imageryTileSetSha256": "7c1402bd677a14db6fd55995635872d273b906f4dfff3d669db26a57712b1e56",
   "changedOldTriangleCount": 164,
   "minimumCellAreaOldM2": 0.0021080000000001146,
-  "minimumCellAreaCandidateM2": 0.5064475000000392
+  "minimumCellAreaCandidateM2": 0.5064475000000392,
+  "approval": {
+    "choice": "A",
+    "sourceStatement": "A：この候補を採用し、Linux x86確認へ進める",
+    "approvedAtUtc": "2026-07-15T05:47:47Z"
+  }
 }

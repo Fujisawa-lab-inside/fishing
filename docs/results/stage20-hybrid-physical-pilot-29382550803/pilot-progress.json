@@ -1,0 +1,19 @@
+{
+  "schema": "onga-stage20-hybrid-physical-pilot-progress-v1",
+  "status": "in_progress",
+  "authorizationId": "stage20-hybrid-pilot-20260715t014718z-one-time",
+  "targetPhysicalSeconds": 600.0,
+  "simulatedSeconds": 60.000225816580084,
+  "stepsCompleted": 122545,
+  "wallSeconds": 3144.269615608,
+  "maximumCfl": 0.12000000000000002,
+  "maximumRelativeMassBalanceError": 9.051295971857081e-14,
+  "checkpoints": [
+    {
+      "path": "checkpoints/checkpoint-0060s.npz",
+      "sha256": "afa2849fcb2d8c7f5f4cd038fc618c2644cd13bad564fdb403f52366afdc638e",
+      "elapsedSeconds": 60.000225816580084,
+      "step": 122545
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "onga-stage20-hybrid-physical-pilot-run-result-v1",
+  "authorizationId": "stage20-hybrid-pilot-20260715t014718z-one-time",
+  "github": {
+    "runId": 29382550803,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29382550803",
+    "jobId": 87249155570,
+    "runner": "GitHub-hosted Linux x86",
+    "numericalStartedAtUtc": "2026-07-15T01:49:31Z",
+    "numericalCompletedAtUtc": "2026-07-15T03:19:31Z",
+    "conclusion": "failure",
+    "exitCode": 124
+  },
+  "scope": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600.0,
+    "maximumWallSeconds": 5400,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "outcome": {
+    "classification": "wall_time_limit_reached",
+    "completedTarget": false,
+    "lastSealedSimulatedSeconds": 60.000225816580084,
+    "lastSealedStepsCompleted": 122545,
+    "lastSealedWallSeconds": 3144.269615608,
+    "checkpointCount": 1,
+    "requiredCheckpointCount": 10,
+    "renderedMapCount": 0,
+    "requiredMapCount": 4,
+    "retryPerformed": false
+  },
+  "lastSealedNumericalEvidence": {
+    "maximumCfl": 0.12000000000000002,
+    "maximumRelativeMassBalanceError": 9.051295971857081e-14,
+    "minimumWaterDepthM": 0.5165256074337442,
+    "maximumWaterDepthM": 12.378846974771696,
+    "negativeWaterDepthCellCount": 0,
+    "nonFiniteValueCount": 0,
+    "maximumSpeedMps": 0.6405766963949523,
+    "medianSpeedMps": 1.669007459390734e-12,
+    "speedP95Mps": 0.12376698591530332
+  },
+  "diagnosticArtifact": {
+    "artifactId": 8331532578,
+    "name": "stage20-hybrid-physical-pilot-diagnostics-29382550803",
+    "progressPath": "pilot-progress.json",
+    "progressSha256": "7330a2261959ee9514fab6ea0b4ecf55d930ca53552f342de862c9d09d602e9b",
+    "checkpointPath": "checkpoints/checkpoint-0060s.npz",
+    "checkpointSha256": "afa2849fcb2d8c7f5f4cd038fc618c2644cd13bad564fdb403f52366afdc638e"
+  },
+  "planningInference": {
+    "method": "linear extrapolation from the sealed 60-second checkpoint",
+    "estimatedWallSecondsFor600PhysicalSeconds": 31442.69615608,
+    "estimatedWallHoursFor600PhysicalSeconds": 8.734082265577778,
+    "notAnExecutedResult": true
+  },
+  "claims": {
+    "physicalValidation": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false
+  }
+}

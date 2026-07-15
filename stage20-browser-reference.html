@@ -17,14 +17,16 @@
 </head>
 <body>
   <h1>Stage 20 ブラウザ基準計算器</h1>
-  <p>承認済み50,339セルをWeb Workerへ読み込み、WASM更新核で静水保存を1ステップ確認します。物理流れの計算ではありません。</p>
+  <p>承認済み50,199セルのメッシュv2をWeb Workerへ読み込み、WASM更新核で静水保存を1ステップ確認します。物理流れの計算ではありません。</p>
   <button id="run" type="button">接続試験を実行</button>
   <p id="status" role="status">未実行</p>
   <dl id="result" hidden>
+    <dt>メッシュ版</dt><dd id="version"></dd>
     <dt>メッシュ</dt><dd id="mesh"></dd>
     <dt>WASM</dt><dd id="wasm"></dd>
     <dt>最大流速</dt><dd id="velocity"></dd>
     <dt>最大水深変化</dt><dd id="depth"></dd>
+    <dt>安定時間刻み</dt><dd id="timestep"></dd>
     <dt>計算時間</dt><dd id="time"></dd>
   </dl>
   <script type="module">
@@ -38,7 +40,7 @@
       status.textContent = '検証中…';
       worker.postMessage({
         type: 'run-still-water-benchmark',
-        meshManifestUrl: './public/data/onga/stage20/mesh-v1.json',
+        meshManifestUrl: './public/data/onga/stage20/mesh-v2.json',
         wasmUrl: './public/wasm/stage20-reference-kernel-v1.wasm',
       });
     });
@@ -46,13 +48,15 @@
       const data = event.data;
       button.disabled = false;
       status.dataset.state = data.status;
-      status.textContent = data.status === 'passed' ? '合格：ブラウザ計算経路は接続済み' : `失敗：${data.error || '数値誤差が上限超過'}`;
+      status.textContent = data.status === 'passed' ? '合格：メッシュv2のブラウザ計算経路は接続済み' : `失敗：${data.error || '数値誤差が上限超過'}`;
       if (data.status !== 'passed') return;
       result.hidden = false;
+      document.querySelector('#version').textContent = `${data.meshSchema}／${data.meshVersion}`;
       document.querySelector('#mesh').textContent = `${data.counts.cells.toLocaleString()}セル／${data.counts.barrageFaces}堰面`;
       document.querySelector('#wasm').textContent = `${data.wasmBytes.toLocaleString()} bytes`;
       document.querySelector('#velocity').textContent = `${data.maxVelocity.toExponential(3)} m/s`;
       document.querySelector('#depth').textContent = `${data.maxDepthDrift.toExponential(3)} m`;
+      document.querySelector('#timestep').textContent = `${data.dtSeconds.toFixed(6)} 秒`;
       document.querySelector('#time').textContent = `${data.timingsMs.total.toFixed(1)} ms（初回読込を含む）`;
     });
   </script>

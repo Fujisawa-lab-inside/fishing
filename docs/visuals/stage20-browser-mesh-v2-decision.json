@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-browser-mesh-v2-decision-visual-v1",
-  "status": "awaiting_reference_connection_decision",
+  "status": "reference_connection_approved_and_passed",
   "output": "docs/visuals/stage20-browser-mesh-v2-decision.png",
   "pngSha256": "288b5f9bc51214d8821ffa306adab4afa4c142a3a9b0ed3e62cefeae92f2c262",
   "meshBinarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
@@ -10,5 +10,13 @@
   "syntheticTimeStepV2Seconds": 0.0033593783763900234,
   "syntheticTimeStepRatio": 16.05650037680584,
   "physicalFlowRun": false,
-  "publicSimulatorConnected": false
+  "publicSimulatorConnected": false,
+  "connectionApproval": {
+    "approvedChoice": "A",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "A：作業ブランチのブラウザ参照をv2へ接続し、画面動作を確認する"
+  },
+  "connectionResult": "config/stage20_browser_mesh_v2_connection_result_v1.json",
+  "connectionScreenshot": "docs/visuals/stage20-browser-mesh-v2-connection.png",
+  "connectionScreenshotSha256": "37b05acc71cba37f0f77080ae028bc01618b4ba1f606cb5a48596e426107ad88"
 }

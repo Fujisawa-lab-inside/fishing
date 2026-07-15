@@ -1,0 +1,55 @@
+{
+  "schema": "onga-stage20-browser-mesh-v2-connection-result-v1",
+  "status": "passed_work_branch_only",
+  "approval": "config/stage20_browser_mesh_v2_connection_approval_v1.json",
+  "connection": {
+    "page": "stage20-browser-reference.html",
+    "pageSha256": "070601e70b7b2f9ea6199522b2f6930204e83d10ab4fb5940465b50a8852ffc9",
+    "worker": "onga_stage20_reference_worker.mjs",
+    "workerSha256": "cec797a0b9ad5d4a14cdb9781de6a8a4fddfee38c9daf3d4c5489235a89023be",
+    "meshManifest": "public/data/onga/stage20/mesh-v2.json",
+    "meshManifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+    "meshBinary": "public/data/onga/stage20/mesh-v2.bin",
+    "meshBinarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659"
+  },
+  "webkitScreenCheck": {
+    "status": "passed",
+    "capturedAtUtc": "2026-07-15T06:17:51Z",
+    "engine": "WKWebView/WebKit",
+    "pageStatus": "合格：メッシュv2のブラウザ計算経路は接続済み",
+    "meshVersion": "onga-stage20-browser-mesh-v2/stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+    "cells": 50199,
+    "barrageFaces": 68,
+    "wasmBytes": 456,
+    "stableTimeStepSeconds": 0.003359,
+    "maxVelocityMps": 2.551e-17,
+    "maxDepthDriftM": 0.0,
+    "displayedElapsedMilliseconds": 27.0,
+    "screenshot": "docs/visuals/stage20-browser-mesh-v2-connection.png",
+    "screenshotSha256": "37b05acc71cba37f0f77080ae028bc01618b4ba1f606cb5a48596e426107ad88"
+  },
+  "workerRuntimeCheck": {
+    "status": "passed",
+    "meshSchema": "onga-stage20-browser-mesh-v2",
+    "meshVersion": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+    "cells": 50199,
+    "barrageFaces": 68,
+    "stableTimeStepSeconds": 0.0033593783763900234,
+    "clippedCells": 0,
+    "maxVelocityMps": 2.5508687095583098e-17,
+    "maxDepthDriftM": 0.0,
+    "nonFinite": 0
+  },
+  "browserControlNote": {
+    "inAppControlStatus": "unavailable_due_to_runtime_bootstrap_incompatibility",
+    "fallback": "actual_local_page_loaded_clicked_and_captured_with_macos_webkit"
+  },
+  "interpretation": "synthetic_uniform_still_water_reference_test_not_a_physical_flow_run",
+  "safeguards": {
+    "workBranchOnly": true,
+    "physicalFlowRun": false,
+    "connectPublicSimulator": false,
+    "publish": false,
+    "mainMerge": false
+  }
+}

@@ -33,6 +33,8 @@ self.addEventListener('message', async event => {
     self.postMessage({
       type: 'still-water-benchmark-result',
       status: passed ? 'passed' : 'failed',
+      meshSchema: mesh.manifest.schema,
+      meshVersion: mesh.manifest.version,
       meshSha256: mesh.manifest.binary.sha256,
       counts: mesh.manifest.counts,
       wasmBytes: updater.wasmBytes,

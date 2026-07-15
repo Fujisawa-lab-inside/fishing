@@ -84,9 +84,13 @@
       "sha256": "288b5f9bc51214d8821ffa306adab4afa4c142a3a9b0ed3e62cefeae92f2c262"
     },
     "nextDecision": {
+      "status": "approved_and_completed",
+      "approvedChoice": "A",
+      "sourceStatement": "A：作業ブランチのブラウザ参照をv2へ接続し、画面動作を確認する",
       "question": "作業ブランチのブラウザ参照をメッシュv2へ接続するか",
       "A": "connect_work_branch_browser_reference_to_mesh_v2",
-      "B": "revise_before_connection"
+      "B": "revise_before_connection",
+      "result": "config/stage20_browser_mesh_v2_connection_result_v1.json"
     }
   }
 }

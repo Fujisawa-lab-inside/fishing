@@ -1,0 +1,20 @@
+{
+  "schema": "onga-stage20-browser-mesh-v2-connection-approval-v1",
+  "status": "approved_for_work_branch_connection",
+  "decision": {
+    "approvedChoice": "A",
+    "sourceStatement": "A：作業ブランチのブラウザ参照をv2へ接続し、画面動作を確認する",
+    "approvedDate": "2026-07-15",
+    "target": "stage20-browser-reference.html",
+    "meshManifest": "public/data/onga/stage20/mesh-v2.json"
+  },
+  "scope": {
+    "connectReferencePage": true,
+    "connectReferenceWorker": true,
+    "runSyntheticStillWaterBrowserCheck": true,
+    "physicalFlowRun": false,
+    "connectPublicSimulator": false,
+    "publish": false,
+    "mainMerge": false
+  }
+}

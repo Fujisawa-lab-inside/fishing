@@ -23,7 +23,7 @@ const result = await new Promise((resolveResult, reject) => {
     if (message.type === 'ready') {
       worker.postMessage({
         type: 'run-still-water-benchmark',
-        meshManifestUrl: new URL('public/data/onga/stage20/mesh-v1.json', baseUrl).href,
+        meshManifestUrl: new URL('public/data/onga/stage20/mesh-v2.json', baseUrl).href,
         wasmUrl: new URL('public/wasm/stage20-reference-kernel-v1.wasm', baseUrl).href,
       });
       return;
@@ -34,7 +34,10 @@ const result = await new Promise((resolveResult, reject) => {
 });
 await worker.terminate();
 if (result.status !== 'passed') throw new Error(result.error || 'worker benchmark failed');
-if (result.counts.cells !== 50339 || result.counts.barrageFaces !== 79) throw new Error('worker mesh identity mismatch');
+if (result.meshSchema !== 'onga-stage20-browser-mesh-v2') throw new Error('worker mesh schema mismatch');
+if (result.meshSha256 !== '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659') throw new Error('worker mesh digest mismatch');
+if (result.counts.cells !== 50199 || result.counts.barrageFaces !== 68) throw new Error('worker mesh identity mismatch');
+if (Math.abs(result.dtSeconds - 0.0033593783763900234) > 1e-15) throw new Error('worker stable timestep mismatch');
 if (result.maxVelocity > 1e-10 || result.maxDepthDrift > 1e-10 || result.nonFinite !== 0) {
   throw new Error('worker still-water invariant failed');
 }

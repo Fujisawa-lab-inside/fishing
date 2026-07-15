@@ -1,0 +1,12 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage20-physical-pilot-v2-20260715t071228z-one-time",
+  "authorizationSha256": "73d4e6c826f682b16cf7c8f41cacae7f64ac5aa1be7d687ed408c50265bd6c43",
+  "issuedAtUtc": "2026-07-15T07:12:28Z",
+  "notAfterUtc": "2026-07-16T07:12:28Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "consumptionEvidence": "successful workflow step named Consume Stage 20 physical pilot v2 authorization",
+  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v2_github_hosted_linux_x86_one_time"
+}

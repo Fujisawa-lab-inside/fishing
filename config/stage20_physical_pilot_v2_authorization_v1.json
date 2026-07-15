@@ -1,0 +1,45 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-authorization-v1",
+  "authorizationId": "stage20-physical-pilot-v2-20260715t071228z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedDate": "2026-07-15",
+  "issuedAtUtc": "2026-07-15T07:12:28Z",
+  "notAfterUtc": "2026-07-16T07:12:28Z",
+  "sourceStatement": "A：メッシュv2＋kernel v2で、1条件×物理10分を承認後24時間以内に一回だけ実行する",
+  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v2_github_hosted_linux_x86_one_time",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "decisionImage": {
+    "path": "docs/visuals/stage20-physical-pilot-v2-decision.jpg",
+    "sha256": "2b45167cf160caaae15e77a35d6485c7f61bdb4107760ad76a2f64cc44a14f81"
+  },
+  "executionContract": {
+    "path": "config/stage20_physical_pilot_v2_contract_v1.json",
+    "sha256": "17e391749ffad8dc7ef1ea4a73bca3e0d0c5a374f9f92ee532b51be84a1d8f1f"
+  },
+  "reviewedCodeCommit": "e15d3f840568fc82d655d3f1f16429f70b8351ad",
+  "mesh": {
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v2.py",
+    "sha256": "aff811b71f8e77f24a4461d8e866f8c0976dd9a1d191ae709d2abeb1f2279014"
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 3600
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "paidResourceAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

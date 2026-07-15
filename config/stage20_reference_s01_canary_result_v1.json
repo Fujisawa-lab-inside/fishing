@@ -1,0 +1,98 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-result-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "recordedDate": "2026-07-16",
+  "github": {
+    "runId": 29415527789,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29415527789",
+    "executionCommit": "a4f21d210c4aed36f3ae9cc81de9f4df77d50070",
+    "conclusion": "success",
+    "createdAtUtc": "2026-07-15T12:31:21Z",
+    "completedAtUtc": "2026-07-15T16:20:18Z"
+  },
+  "artifact": {
+    "id": 8349731517,
+    "name": "stage20-reference-s01-canary-29415527789",
+    "sizeBytes": 11623758,
+    "expiresAtUtc": "2026-10-13T12:31:21Z",
+    "retainedPath": "docs/results/stage20-reference-s01-canary-29415527789"
+  },
+  "authorization": {
+    "id": "stage20-reference-s01-canary-20260715t122952z-one-time",
+    "gateState": "consumed",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "numerical": {
+    "jobId": "reference-s01",
+    "modelHourStart": -24,
+    "modelHourEnd": -16,
+    "targetPhysicalSeconds": 28800,
+    "simulatedSeconds": 28800.001230414004,
+    "steps": 2979347,
+    "wallSeconds": 13695.202115381,
+    "wallHours": 3.8042228098280555,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 8.801659867412381e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 1.0597755062806937,
+    "checkpointCount": 8,
+    "restartSha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+    "finalFieldsSha256": "3a1f81b661a7de3beec57f47783ecdba65ae0548b7da1c8bfc134873a84eae8c"
+  },
+  "evidence": {
+    "manifestSha256": "65beb6cd807d0e2e5697ee72f3b6df2cf60951f609461e4c04a6d1487073307d",
+    "fileCount": 13,
+    "allArtifactDigestsVerified": true,
+    "finalStateMatchesFieldsExactly": true,
+    "analysis": "config/stage20_reference_s01_canary_analysis_v1.json",
+    "analysisSha256": "87d3f879f412025d6a76fc19f13fa7abd0f2260490dabd1c3e70d6c0a86c6fb7",
+    "visualManifest": "docs/results/stage20-reference-s01-canary-29415527789/visual-manifest.json",
+    "visualManifestSha256": "762a03669bc344aa0d8b3cbf5a742e512ba8bb7bbddfefe2ef2693ff4c1f30d6",
+    "diagnosticMapCount": 4
+  },
+  "resourceUpdate": {
+    "predictionWallHours": 4.055997205572967,
+    "actualWallHours": 3.8042228098280555,
+    "marginToFiveHourStopSeconds": 4304.797884619,
+    "simpleProjectionOneSixSegmentReferenceBasisRunnerHours": 22.825336858968335,
+    "simpleProjectionAllSixtySixSegmentsRunnerHours": 251.07870544865168,
+    "notAGuaranteedForOtherBasisSegments": true
+  },
+  "interpretation": {
+    "proves": [
+      "reference_s01_reaches_eight_physical_hours_within_the_five_hour_stop",
+      "hourly_restart_checkpoints_are_complete_and_digest_verified",
+      "numerical_acceptance_checks_pass_for_this_inferred_reference_segment"
+    ],
+    "doesNotProve": [
+      "warmup_is_sufficient",
+      "static_steady_state",
+      "agreement_with_observed_flow",
+      "physical_validation",
+      "remaining_segment_runtime_or_stability",
+      "browser_response_accuracy"
+    ]
+  },
+  "nextDecision": {
+    "question": "reference-s01の検証済みrestartからreference-s02を一回だけ実行するか",
+    "optionA": "authorize_exactly_one_reference_s02_continuation",
+    "optionB": "retain_the_s01_result_without_additional_execution",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-reference-s01-result-decision.jpg",
+    "decisionImageSha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57",
+    "executionContract": "config/stage20_reference_s02_contract_v1.json",
+    "executionAuthorized": false
+  },
+  "safeguards": {
+    "additionalRunAuthorized": false,
+    "remainingSegmentsAuthorized": false,
+    "campaignAuthorized": false,
+    "paidResourceAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

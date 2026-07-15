@@ -1,0 +1,87 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-reference-s01-canary-20260715t122952z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "reference-s01",
+    "modelHourStart": -24,
+    "modelHourEnd": -16,
+    "targetPhysicalSeconds": 28800.0,
+    "simulatedSeconds": 28800.001230414004,
+    "stepsCompleted": 2979347,
+    "wallSeconds": 13695.202115381
+  },
+  "diagnostics": {
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 8.801659867412381e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 1.0597755062806937
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "3a1f81b661a7de3beec57f47783ecdba65ae0548b7da1c8bfc134873a84eae8c",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "b7c251d249ad737302c803cc3c8b628ef0b96e6ae48481697eae6b745e24439f",
+        "elapsedSeconds": 3600.0080163670714,
+        "step": 374353
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "2585cd672cb2d5f6ccd70931fddd346d7fa616cf4fbbc5eb032de1ed4630cda8",
+        "elapsedSeconds": 7200.004681120056,
+        "step": 744821
+      },
+      {
+        "path": "checkpoints/checkpoint-03h.npz",
+        "sha256": "7ca5a64389104ba34b0f869025e651eb78c0bc6e91655a2ae2e8d4a96851bb3b",
+        "elapsedSeconds": 10800.005773739933,
+        "step": 1112772
+      },
+      {
+        "path": "checkpoints/checkpoint-04h.npz",
+        "sha256": "8754fc91de33721f8799594895a4ecc540672ca33590230a4ec0bdf1839481a9",
+        "elapsedSeconds": 14400.008721624637,
+        "step": 1480110
+      },
+      {
+        "path": "checkpoints/checkpoint-05h.npz",
+        "sha256": "78332994014fa109982c93c062cf55a4a961c828ffa52dd799b8c2cd0b62a1b2",
+        "elapsedSeconds": 18000.001503852563,
+        "step": 1848936
+      },
+      {
+        "path": "checkpoints/checkpoint-06h.npz",
+        "sha256": "686673fffb405f74951ec3cb8b24e87654f4de8e840f22776af943c716fd1568",
+        "elapsedSeconds": 21600.001703661663,
+        "step": 2221084
+      },
+      {
+        "path": "checkpoints/checkpoint-07h.npz",
+        "sha256": "93e7b3837f0cfdec53d60e8ac0f7e36d679465d50cd4024dae26d2cda43538c8",
+        "elapsedSeconds": 25200.004162783014,
+        "step": 2597839
+      },
+      {
+        "path": "checkpoints/checkpoint-08h.npz",
+        "sha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+        "elapsedSeconds": 28800.001230414004,
+        "step": 2979347
+      }
+    ]
+  },
+  "safeguards": {
+    "remainingSegmentsAuthorized": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

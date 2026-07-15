@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "kernel_v3_adopted_for_detailed_plan_66_segment_warmup_candidate_awaiting_canary_decision",
+  "status": "reference_s01_canary_passed_awaiting_result_adoption_and_next_segment_plan",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -111,13 +111,13 @@
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
   },
   "nextDecision": {
-    "question": "reference-s01の8物理時間を一回だけ実行するか",
-    "optionA": "authorize_exactly_one_reference_s01_warmup_canary",
-    "optionB": "keep_the_66_segment_plan_inactive_without_execution",
+    "question": "reference-s01の検証済みrestartからreference-s02を一回だけ実行するか",
+    "optionA": "authorize_exactly_one_reference_s02_continuation",
+    "optionB": "retain_the_s01_result_without_additional_execution",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-36h-canary-execution-decision.jpg",
-    "decisionImageSha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707",
-    "candidate": "config/stage20_reference_s01_canary_candidate_v1.json",
+    "decisionImage": "docs/visuals/stage20-reference-s01-result-decision.jpg",
+    "decisionImageSha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57",
+    "candidate": "config/stage20_reference_s02_contract_v1.json",
     "campaignExecutionAuthorized": false
   },
   "execution": {
@@ -131,7 +131,10 @@
     "kernelV3PhysicalPilotConsumed": true,
     "kernelV3AdoptedForDetailedPlanCandidate": true,
     "kernelV3AdoptedForCampaign": false,
-    "elevenBasisCampaignAuthorized": false
+    "elevenBasisCampaignAuthorized": false,
+    "referenceS01CanaryRunId": 29415527789,
+    "referenceS01CanaryPassed": true,
+    "remainingSegmentsAuthorized": false
   },
   "sources": [
     "https://docs.github.com/en/actions/reference/limits",

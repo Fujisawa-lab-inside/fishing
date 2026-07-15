@@ -27,6 +27,14 @@ def main() -> None:
     parser.add_argument("--manifest-output", required=True)
     parser.add_argument("--mesh-manifest", default="public/data/onga/stage20/mesh-v1.json")
     parser.add_argument("--manifest-schema", default="onga-stage20-hybrid-physical-pilot-visual-manifest-v1")
+    parser.add_argument(
+        "--scenario-label",
+        default="推論入力：雨後3日相当・河口堰全開・大潮相当・下げ三分／開始後10分",
+    )
+    parser.add_argument(
+        "--disclaimer-label",
+        default="一回限り物理パイロット／観測検証済みではない",
+    )
     args = parser.parse_args()
     root = Path(args.repo_root).resolve()
     mesh_manifest, package = load_mesh(root / args.mesh_manifest)
@@ -106,8 +114,8 @@ def main() -> None:
             bin_pixels=bins,
             draw_mesh=mesh_lines,
             marks=marks,
-            scenario_label="推論入力：雨後3日相当・河口堰全開・大潮相当・下げ三分／開始後10分",
-            disclaimer_label="一回限り物理パイロット／観測検証済みではない",
+            scenario_label=args.scenario_label,
+            disclaimer_label=args.disclaimer_label,
         )
         view["path"] = filename
         views.append(view)

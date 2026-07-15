@@ -1,0 +1,10 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-receipt-v1",
+  "authorizationId": "stage20-reference-s01-canary-20260715t122952z-one-time",
+  "authorizationSha256": "eb0c0baf419ee1c58d5995a205c46c2c0d0f919f689e867a05c2ff5fb8ac4b5c",
+  "executionContractSha256": "0a036a237b3127c1349ed79618910e7e04f075aeae9febc31548a0417e04a26d",
+  "decisionImageSha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707",
+  "githubRunId": "29415527789",
+  "githubSha": "a4f21d210c4aed36f3ae9cc81de9f4df77d50070",
+  "automaticRetryAllowed": false
+}

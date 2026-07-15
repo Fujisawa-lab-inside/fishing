@@ -1,0 +1,130 @@
+{
+  "schema": "onga-stage20-reference-s02-contract-v1",
+  "status": "sealed_execution_requires_separate_visual_authorization",
+  "executionAuthorized": false,
+  "purpose": "continue_only_the_reference_basis_from_the_verified_s01_restart_and_retain_the_first_five_requested_hourly_snapshots",
+  "plan": {
+    "path": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "sha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470"
+  },
+  "predecessorResult": {
+    "path": "config/stage20_reference_s01_canary_result_v1.json",
+    "sha256": "7b284f591dd61f7cfc3cf6b2d0c42242532e95bd54c4d2c09acb1fe42a4d5ef1",
+    "githubRunId": 29415527789
+  },
+  "inputRestart": {
+    "path": "docs/results/stage20-reference-s01-canary-29415527789/restart-final.npz",
+    "sha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10",
+    "sourceJobId": "reference-s01",
+    "sourceModelHour": -16
+  },
+  "resource": {
+    "provider": "GitHub-hosted standard Actions runner",
+    "repositoryVisibility": "PUBLIC",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "jobTimeoutMinutes": 330,
+    "maximumNumericalWallSeconds": 18000,
+    "paidCloudProvisioning": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14"
+  },
+  "runner": {
+    "path": "tools/run_stage20_reference_s02_continuation.py",
+    "sha256": "a7d7d601dbe86a06f83032e108228296959c3db35aaac08b5b0a2557d7e7567e",
+    "workflowName": "Stage 20 one-time reference s02 continuation",
+    "workflowPath": ".github/workflows/stage20-reference-s02-continuation.yml",
+    "workflowSha256": "1501f1c5516c4b5580933d5b55b93526c981b199077ef19972864baa4c5065ee",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "scenario": {
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "barrage": {
+      "scenario": "uniform_50_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "boundaries": {
+      "M": {
+        "phaseShiftMinutes": 0.0,
+        "amplitudeMultiplier": 1.0,
+        "meanOffsetM": null
+      },
+      "N": {"dischargeM3S": 2.0},
+      "O": {"dischargeM3S": 35.0},
+      "G": {"dischargeM3S": 1.0}
+    }
+  },
+  "run": {
+    "jobId": "reference-s02",
+    "caseCount": 1,
+    "modelHourStart": -16,
+    "modelHourEnd": -8,
+    "targetPhysicalSeconds": 28800,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "snapshotModelHours": [-12, -11, -10, -9, -8],
+    "maximumNumericalWallSeconds": 18000,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "acceptance": {
+    "minimumSimulatedSeconds": 28800,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 8,
+    "snapshotCount": 5,
+    "finalRestartRequired": true,
+    "finalFieldsRequired": true
+  },
+  "planningEstimate": {
+    "referenceS01ActualWallSeconds": 13695.202115381,
+    "referenceS01ActualWallHours": 3.8042228098280555,
+    "referenceS02MayDiffer": true,
+    "maximumNumericalWallSeconds": 18000,
+    "queueSetupAndArtifactUploadExcluded": true,
+    "notAGuarantee": true
+  },
+  "outputs": [
+    "execution-receipt.json",
+    "progress.json",
+    "segment-report.json",
+    "restart-final.npz",
+    "segment-final-fields.npz",
+    "eight_hourly_restart_checkpoints",
+    "five_requested_hourly_snapshots_at_minus_12_through_minus_8_hours",
+    "evidence-manifest.json"
+  ],
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "remainingSegmentsAllowed": false,
+    "campaignAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

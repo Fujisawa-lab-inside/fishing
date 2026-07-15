@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-reference-s01-canary-candidate-v1",
-  "status": "reviewed_inactive_awaiting_visual_decision",
+  "status": "one_time_canary_completed_awaiting_result_adoption_decision",
   "recordedDate": "2026-07-15",
   "decision": {
     "question": "reference-s01の8物理時間を一回だけ実行するか",
@@ -37,15 +37,30 @@
     "the_warmup_map_is_not_a_fishing_forecast"
   ],
   "execution": {
-    "authorized": false,
-    "authorizationPresent": false,
-    "gatePresent": false,
-    "activationPresent": false,
-    "workflowDormant": true,
-    "physicalRunExecuted": false,
+    "authorized": true,
+    "authorizationPresent": true,
+    "gatePresent": true,
+    "gateConsumed": true,
+    "activationPresent": true,
+    "workflowDormant": false,
+    "physicalRunExecuted": true,
+    "githubRunId": 29415527789,
+    "result": "passed_numerical_checks_not_physical_validation",
+    "resultRecord": "config/stage20_reference_s01_canary_result_v1.json",
+    "additionalRunAuthorized": false,
     "remainingSegmentsAuthorized": false,
     "campaignAuthorized": false,
     "publicSimulatorConnected": false,
     "mainMergeAuthorized": false
+  },
+  "resultDecision": {
+    "question": "reference-s01の検証済みrestartからreference-s02を一回だけ実行するか",
+    "optionA": "authorize_exactly_one_reference_s02_continuation",
+    "optionB": "retain_the_s01_result_without_additional_execution",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-reference-s01-result-decision.jpg",
+    "decisionImageSha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57",
+    "candidateContract": "config/stage20_reference_s02_contract_v1.json",
+    "referenceS02Authorized": false
   }
 }

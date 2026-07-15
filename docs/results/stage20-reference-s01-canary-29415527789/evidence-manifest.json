@@ -1,0 +1,73 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-evidence-v1",
+  "status": "sealed_complete_not_physical_validation",
+  "authorizationId": "stage20-reference-s01-canary-20260715t122952z-one-time",
+  "files": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "byteLength": 1170801,
+      "sha256": "b7c251d249ad737302c803cc3c8b628ef0b96e6ae48481697eae6b745e24439f"
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "byteLength": 1171079,
+      "sha256": "2585cd672cb2d5f6ccd70931fddd346d7fa616cf4fbbc5eb032de1ed4630cda8"
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "byteLength": 1170703,
+      "sha256": "7ca5a64389104ba34b0f869025e651eb78c0bc6e91655a2ae2e8d4a96851bb3b"
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "byteLength": 1170369,
+      "sha256": "8754fc91de33721f8799594895a4ecc540672ca33590230a4ec0bdf1839481a9"
+    },
+    {
+      "path": "checkpoints/checkpoint-05h.npz",
+      "byteLength": 1169335,
+      "sha256": "78332994014fa109982c93c062cf55a4a961c828ffa52dd799b8c2cd0b62a1b2"
+    },
+    {
+      "path": "checkpoints/checkpoint-06h.npz",
+      "byteLength": 1167060,
+      "sha256": "686673fffb405f74951ec3cb8b24e87654f4de8e840f22776af943c716fd1568"
+    },
+    {
+      "path": "checkpoints/checkpoint-07h.npz",
+      "byteLength": 1154309,
+      "sha256": "93e7b3837f0cfdec53d60e8ac0f7e36d679465d50cd4024dae26d2cda43538c8"
+    },
+    {
+      "path": "checkpoints/checkpoint-08h.npz",
+      "byteLength": 1152396,
+      "sha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10"
+    },
+    {
+      "path": "execution-receipt.json",
+      "byteLength": 550,
+      "sha256": "db4a4ada5b856fdc600f37d43d095c177dd9457c4c2c889d0cf0637e473b7ad3"
+    },
+    {
+      "path": "progress.json",
+      "byteLength": 1980,
+      "sha256": "d62eddda2561dacc5aea8750ec4d7eacb3956c15644175d30ef877fed271ae73"
+    },
+    {
+      "path": "restart-final.npz",
+      "byteLength": 1152396,
+      "sha256": "12353fa6eb8e1d0d266f40b87b0ca9a88aa11eef55329e44b684ad8b65565c10"
+    },
+    {
+      "path": "segment-final-fields.npz",
+      "byteLength": 1142274,
+      "sha256": "3a1f81b661a7de3beec57f47783ecdba65ae0548b7da1c8bfc134873a84eae8c"
+    },
+    {
+      "path": "segment-report.json",
+      "byteLength": 2999,
+      "sha256": "bb4549615c57e607ec81f804a68df3872feffd85898a59f1c40e069e757b22d6"
+    }
+  ],
+  "physicalValidationClaimAllowed": false
+}

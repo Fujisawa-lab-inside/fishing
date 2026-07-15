@@ -1,0 +1,84 @@
+{
+  "schema": "onga-stage20-hybrid-browser-v2-validation-v1",
+  "status": "passed_awaiting_visual_adoption_decision",
+  "validatedDate": "2026-07-15",
+  "approvedArchitecture": {
+    "record": "config/stage20_browser_compute_architecture_candidate_v1.json",
+    "option": "hybrid_precomputed_response_browser_interpolation",
+    "sourceStatement": "推奨のA案で進めてください"
+  },
+  "identity": {
+    "meshManifest": "public/data/onga/stage20/mesh-v2.json",
+    "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68,
+    "responsePackManifest": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+    "responsePackManifestSha256": "f7ad29902c195559ddbffca831a916c652bd3a99fbb16c39acc3e351934ceada",
+    "responsePackSha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+    "responsePackBytes": 3614328,
+    "outputSha256": "146429c21fecc13359710bb5335885258b63cd1f5750b6816f01098659135417",
+    "outputBytes": 22288356,
+    "packPlusOutputBytes": 25902684,
+    "packPlusOutputMiB": 24.70272445678711
+  },
+  "timeContract": {
+    "pastHours": 12,
+    "futureHours": 24,
+    "hourRange": [-12, 24],
+    "intervalHours": 1,
+    "snapshotCount": 37
+  },
+  "directModuleValidation": {
+    "status": "passed",
+    "firstSynthesisMs": 73.300917,
+    "repeatSynthesisMs": 55.59516599999999,
+    "deterministicOutput": true,
+    "outOfEnvelopeRejected": true,
+    "presentSnapshotAccessible": true
+  },
+  "workerHttpValidation": {
+    "status": "passed",
+    "runtime": "Node_worker_threads_with_browser_Worker_API_shim_and_local_HTTP_fetch",
+    "responsePackFetchAndDigestMs": 37.965208,
+    "synthesisMs": 75.960625,
+    "outputDigestMs": 11.62454200000002,
+    "totalMs": 125.550375,
+    "outputTransferValidated": true
+  },
+  "webkitScreenValidation": {
+    "status": "passed",
+    "runtime": "WKWebView/WebKit",
+    "capturedAtUtc": "2026-07-15T06:35:29Z",
+    "synthesisMs": 375.0,
+    "totalMs": 395.0,
+    "developmentTargetMs": 10000.0,
+    "measuredHeadroomRatio": 25.31645569620253,
+    "screen": "docs/visuals/stage20-hybrid-v2-browser-screen.png",
+    "screenSha256": "89fcb9f4134e35f8248e253ae16aa3d1181cf09b4c4c7804503f7f37ba409079"
+  },
+  "diagnostics": {
+    "minimumDepthM": 2.5818700790405273,
+    "maximumDepthM": 3.8192358016967773,
+    "maximumSpeedMPS": 1.0058421095926144,
+    "nonFiniteValueCount": 0
+  },
+  "visualEvidence": {
+    "fourViewRecord": "config/stage20_hybrid_v2_visual_validation_v1.json",
+    "decisionImage": "docs/visuals/stage20-hybrid-v2-decision.jpg",
+    "decisionImageSha256": "60ea83694adaae086183135078fc7fca388b88c5eeb1a639db4af40aa8a4f190"
+  },
+  "interpretation": "The approved 36-hour hybrid browser path is connected to browser mesh v2 and passes synthetic transport, deterministic synthesis, envelope, transfer, and actual WebKit screen checks. This is not a physical response basis.",
+  "safeguards": {
+    "syntheticResponsePackOnly": true,
+    "physicalPrecomputationExecuted": false,
+    "paidResourceProvisioned": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  },
+  "nextDecision": {
+    "question": "メッシュv2の36時間ブラウザ経路を採用するか",
+    "A": "adopt_and_proceed_to_physical_precompute_acceleration",
+    "B": "revise_path_or_display"
+  }
+}

@@ -17,10 +17,11 @@
 </head>
 <body>
   <h1>Stage 20 ハイブリッド計算経路</h1>
-  <p>合成応答パックをWeb Workerへ読み込み、50,339セルについて過去12時間から未来24時間までを1時間間隔で合成します。物理事前計算の結果ではありません。</p>
+  <p>メッシュv2用の合成応答パックをWeb Workerへ読み込み、50,199セルについて過去12時間から未来24時間までを1時間間隔で合成します。物理事前計算の結果ではありません。</p>
   <button id="run" type="button">36時間合成試験を実行</button>
   <p id="status" role="status">未実行</p>
   <dl id="result" hidden>
+    <dt>メッシュ版</dt><dd id="mesh-version"></dd>
     <dt>出力時点</dt><dd id="snapshots"></dd>
     <dt>セル数</dt><dd id="cells"></dd>
     <dt>応答パック</dt><dd id="pack"></dd>
@@ -41,7 +42,7 @@
       inputs ??= await fetch('./public/data/onga/stage20/hybrid-synthetic-input-v1.json').then(response => response.json());
       worker.postMessage({
         type: 'run-hybrid-synthesis',
-        responseManifestUrl: './public/data/onga/stage20/response-pack-synthetic-v1.json',
+        responseManifestUrl: './public/data/onga/stage20/response-pack-synthetic-v2.json',
         inputs,
         includeOutput: false,
       });
@@ -50,9 +51,10 @@
       const data = event.data;
       button.disabled = false;
       status.dataset.state = data.status;
-      status.textContent = data.status === 'passed' ? '合格：36時間のブラウザ合成経路は接続済み' : `失敗：${data.error || '検証エラー'}`;
+      status.textContent = data.status === 'passed' ? '合格：メッシュv2で36時間のブラウザ合成経路は接続済み' : `失敗：${data.error || '検証エラー'}`;
       if (data.status !== 'passed') return;
       result.hidden = false;
+      document.querySelector('#mesh-version').textContent = `${data.meshSchema}／${data.meshVersion}`;
       document.querySelector('#snapshots').textContent = `${data.snapshotCount}時点（${data.hourRange[0]}〜+${data.hourRange[1]}時間）`;
       document.querySelector('#cells').textContent = data.cellCount.toLocaleString();
       document.querySelector('#pack').textContent = `${(data.responsePackBytes / 1024 / 1024).toFixed(1)} MiB`;

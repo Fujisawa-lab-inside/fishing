@@ -12,8 +12,8 @@ function sha256(buffer) {
   return createHash('sha256').update(new Uint8Array(buffer)).digest('hex');
 }
 
-const manifest = JSON.parse(await readFile('public/data/onga/stage20/response-pack-synthetic-v1.json', 'utf8'));
-const binary = await readFile('public/data/onga/stage20/response-pack-synthetic-v1.bin');
+const manifest = JSON.parse(await readFile('public/data/onga/stage20/response-pack-synthetic-v2.json', 'utf8'));
+const binary = await readFile('public/data/onga/stage20/response-pack-synthetic-v2.bin');
 const inputs = JSON.parse(await readFile('public/data/onga/stage20/hybrid-synthetic-input-v1.json', 'utf8'));
 const buffer = binary.buffer.slice(binary.byteOffset, binary.byteOffset + binary.byteLength);
 requireValue(sha256(buffer) === manifest.binary.sha256, 'response-pack digest mismatch');
@@ -28,11 +28,13 @@ const secondDigest = sha256(second.fields.buffer);
 requireValue(firstDigest === secondDigest, 'synthesis is not deterministic');
 requireValue(first.snapshotCount === 37, 'snapshot count changed');
 requireValue(first.hours[0] === -12 && first.hours.at(-1) === 24, 'hour range changed');
-requireValue(first.cellCount === 50339, 'cell count changed');
-requireValue(first.fields.byteLength === 37 * 3 * 50339 * 4, 'output byte length changed');
+requireValue(manifest.mesh.schema === 'onga-stage20-browser-mesh-v2', 'mesh schema changed');
+requireValue(manifest.mesh.sha256 === '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659', 'mesh digest changed');
+requireValue(first.cellCount === 50199, 'cell count changed');
+requireValue(first.fields.byteLength === 37 * 3 * 50199 * 4, 'output byte length changed');
 requireValue(first.diagnostics.nonFiniteValueCount === 0, 'non-finite synthetic output');
 const present = stage20SnapshotViews(first, 12);
-requireValue(present.hour === 0 && present.depthM.length === 50339, 'present snapshot view is invalid');
+requireValue(present.hour === 0 && present.depthM.length === 50199, 'present snapshot view is invalid');
 
 let envelopeRejected = false;
 try {
@@ -45,7 +47,7 @@ try {
 requireValue(envelopeRejected, 'out-of-envelope input was accepted');
 
 console.log(JSON.stringify({
-  schema: 'onga-stage20-hybrid-browser-validation-v1',
+  schema: 'onga-stage20-hybrid-browser-validation-v2',
   status: 'passed',
   responsePackSha256: manifest.binary.sha256,
   outputSha256: firstDigest,

@@ -80,12 +80,15 @@
     ]
   },
   "implementationStatus": {
-    "status": "synthetic_browser_path_implemented_and_passed",
-    "validation": "config/stage20_hybrid_browser_validation_v1.json",
+    "status": "synthetic_browser_path_v2_implemented_passed_awaiting_visual_adoption",
+    "validation": "config/stage20_hybrid_browser_v2_validation_v1.json",
     "responsePackStatus": "synthetic_browser_benchmark_only",
     "snapshotCount": 37,
     "hourRange": [-12, 24],
-    "cellCount": 50339,
+    "cellCount": 50199,
+    "meshManifest": "public/data/onga/stage20/mesh-v2.json",
+    "responsePackManifest": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+    "webkitTotalMs": 395.0,
     "physicalPrecomputationExecuted": false
   },
   "visual": {

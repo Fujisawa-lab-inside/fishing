@@ -1,0 +1,57 @@
+{
+  "schema": "onga-stage20-hybrid-v2-visual-validation-v1",
+  "status": "rendered_synthetic_response_path_only",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cells": 50199
+  },
+  "responsePack": {
+    "manifest": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+    "binarySha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+    "snapshotHour": 0
+  },
+  "diagnostics": {
+    "minimumDepthM": 3.051391624748611,
+    "maximumDepthM": 3.7645433674528235,
+    "maximumSpeedMPS": 0.9887506509989332,
+    "speedP95MPS": 0.9288490401147876,
+    "nonFiniteValueCount": 0
+  },
+  "views": [
+    {
+      "path": "docs/visuals/stage20-hybrid-v2-estuary.jpg",
+      "sha256": "e11964d31c75ecd2faef055138b63fcbeafb1720d586042f4e6ea4d36b517f75",
+      "visibleCells": 50199,
+      "displayArrows": 54,
+      "zoom": 16
+    },
+    {
+      "path": "docs/visuals/stage20-hybrid-v2-barrage.jpg",
+      "sha256": "27b6117f1c03b82fbff725a720fb987e134e32a1bb76ca423a35f0066a54d551",
+      "visibleCells": 5281,
+      "displayArrows": 257,
+      "zoom": 18
+    },
+    {
+      "path": "docs/visuals/stage20-hybrid-v2-confluence.jpg",
+      "sha256": "a1eed51074f28d3f0148ecb4f86463341f1e82bdf978e03ec2dae64539f5a2aa",
+      "visibleCells": 7259,
+      "displayArrows": 267,
+      "zoom": 18
+    },
+    {
+      "path": "docs/visuals/stage20-hybrid-v2-fishway.jpg",
+      "sha256": "6bf5b50ea0f91dcd219146dbab18ba0a0cec45a4a6d8d6856b8fdc4ce22ee7e8",
+      "visibleCells": 4978,
+      "displayArrows": 315,
+      "zoom": 18
+    }
+  ],
+  "safeguards": {
+    "syntheticResponsePackOnly": true,
+    "physicalSolverExecuted": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

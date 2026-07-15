@@ -16,18 +16,10 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFont
-from scipy.sparse import coo_matrix
-from scipy.sparse.linalg import spsolve
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from audit_stage17_station_boundary_compatibility import image_to_latlon  # noqa: E402
 from render_stage20_barrage_satellite_comparison import lonlat_to_world_pixel  # noqa: E402
-from stage19_solver_inputs import (  # noqa: E402
-    build_case_fields,
-    classify_branch_ownership,
-    load_water_mask,
-    mesh_geometry,
-)
 
 
 TAG_NAME = {1: "M", 2: "N", 3: "O", 4: "G"}
@@ -133,6 +125,9 @@ def build_case() -> dict:
 def solve_routing_proxy(
     package: dict[str, np.ndarray], fields: dict, tide: dict[str, float]
 ) -> dict[str, np.ndarray | float | dict]:
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.linalg import spsolve
+
     geometry = fields["geometry"]
     centres = geometry["localCentroids"]
     vertices = geometry["localVertices"]
@@ -420,6 +415,13 @@ def render_view(
 
 
 def main() -> None:
+    from stage19_solver_inputs import (
+        build_case_fields,
+        classify_branch_ownership,
+        load_water_mask,
+        mesh_geometry,
+    )
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--output-dir", default="docs/visuals")

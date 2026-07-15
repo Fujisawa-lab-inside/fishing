@@ -25,7 +25,7 @@ const result = await new Promise((resolveResult, reject) => {
     if (message.type === 'ready') {
       worker.postMessage({
         type: 'run-hybrid-synthesis',
-        responseManifestUrl: new URL('public/data/onga/stage20/response-pack-synthetic-v1.json', baseUrl).href,
+        responseManifestUrl: new URL('public/data/onga/stage20/response-pack-synthetic-v2.json', baseUrl).href,
         inputs,
         includeOutput: true,
       });
@@ -38,7 +38,9 @@ const result = await new Promise((resolveResult, reject) => {
 await worker.terminate();
 if (result.status !== 'passed') throw new Error(result.error || 'hybrid worker benchmark failed');
 if (result.responsePackStatus !== 'synthetic_browser_benchmark_only') throw new Error('physical pack unexpectedly used');
-if (result.snapshotCount !== 37 || result.cellCount !== 50339) throw new Error('hybrid output identity mismatch');
+if (result.meshSchema !== 'onga-stage20-browser-mesh-v2') throw new Error('hybrid mesh schema mismatch');
+if (result.meshSha256 !== '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659') throw new Error('hybrid mesh digest mismatch');
+if (result.snapshotCount !== 37 || result.cellCount !== 50199) throw new Error('hybrid output identity mismatch');
 if (result.hourRange[0] !== -12 || result.hourRange[1] !== 24 || result.intervalHours !== 1) throw new Error('hybrid time contract mismatch');
 if (result.diagnostics.nonFiniteValueCount !== 0) throw new Error('hybrid worker output is non-finite');
 if (!(result.fields instanceof Float32Array) || result.fields.byteLength !== result.outputBytes) throw new Error('hybrid output transfer failed');

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build a deterministic synthetic response pack for browser-path validation.
 
-The generated fields exercise the approved 50,339-cell data path.  They are
+The generated fields exercise the selected browser mesh data path. They are
 not shallow-water results and must never be published as physical flow.
 """
 
@@ -54,9 +54,9 @@ def gaussian(points: np.ndarray, centre: np.ndarray, scale: float) -> np.ndarray
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mesh", default="public/data/onga/stage20/mesh-v1.json")
-    parser.add_argument("--manifest", default="public/data/onga/stage20/response-pack-synthetic-v1.json")
-    parser.add_argument("--binary", default="public/data/onga/stage20/response-pack-synthetic-v1.bin")
+    parser.add_argument("--mesh", default="public/data/onga/stage20/mesh-v2.json")
+    parser.add_argument("--manifest", default="public/data/onga/stage20/response-pack-synthetic-v2.json")
+    parser.add_argument("--binary", default="public/data/onga/stage20/response-pack-synthetic-v2.bin")
     parser.add_argument("--inputs", default="public/data/onga/stage20/hybrid-synthetic-input-v1.json")
     args = parser.parse_args()
 
@@ -109,10 +109,12 @@ def main() -> None:
     binary_path.write_bytes(payload)
     manifest = {
         "schema": "onga-stage20-response-pack-v1",
-        "version": "stage20-synthetic-response-pack-v1",
+        "version": "stage20-synthetic-response-pack-v2-mesh-v2",
         "status": "synthetic_browser_benchmark_only",
         "mesh": {
             "manifest": args.mesh,
+            "schema": mesh_manifest["schema"],
+            "version": mesh_manifest["version"],
             "sha256": mesh_manifest["binary"]["sha256"],
             "cellCount": mesh_manifest["counts"]["cells"],
         },

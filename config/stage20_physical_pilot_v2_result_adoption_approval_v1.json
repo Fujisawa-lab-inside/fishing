@@ -1,0 +1,28 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-result-adoption-approval-v1",
+  "status": "approved_for_36_hour_response_basis_precompute_planning",
+  "approvedDate": "2026-07-15",
+  "decision": {
+    "approvedChoice": "A",
+    "sourceStatement": "A：この流向表示を採用し、36時間応答基底の事前計算計画へ進む",
+    "reviewedImage": "docs/visuals/stage20-physical-pilot-v2-result-decision.jpg",
+    "reviewedImageSha256": "99891eb328977c6dd3cb02fd03f6e658c17c87ef83eb05d99e31bbb18ea14c64"
+  },
+  "authorizes": [
+    "adopt_four_view_flow_direction_display_as_stage20_v2_reference",
+    "prepare_36_hour_response_basis_precompute_plan",
+    "calculate_resource_and_segmentation_estimates_from_the_completed_pilot",
+    "prepare_the_next_binary_decision_visual",
+    "continue_code_only_nonphysical_optimization_after_a_separate_route_choice"
+  ],
+  "doesNotAuthorize": [
+    "additional_physical_execution",
+    "automatic_retry",
+    "eleven_basis_campaign",
+    "paid_compute",
+    "public_simulator_connection",
+    "publish",
+    "main_merge",
+    "physical_validation_claim"
+  ]
+}

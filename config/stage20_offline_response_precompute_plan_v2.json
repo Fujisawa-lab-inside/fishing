@@ -1,7 +1,9 @@
 {
   "schema": "onga-stage20-offline-response-precompute-plan-v2",
-  "status": "optimized_implementation_contract_execution_not_authorized",
+  "status": "physical_scope_retained_compute_route_pending_execution_not_authorized",
   "approval": "config/stage20_hybrid_v2_adoption_approval_v1.json",
+  "flowDisplayApproval": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
+  "computeRouteCandidate": "config/stage20_36h_response_basis_plan_candidate_v1.json",
   "mesh": {
     "manifest": "public/data/onga/stage20/mesh-v2.json",
     "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",

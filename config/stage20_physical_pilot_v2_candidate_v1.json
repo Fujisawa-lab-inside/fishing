@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-physical-pilot-v2-candidate-v1",
-  "status": "executed_once_awaiting_visual_result_adoption_decision",
+  "status": "executed_once_visual_result_adopted_for_36_hour_planning",
   "recordedDate": "2026-07-15",
   "contract": "config/stage20_physical_pilot_v2_contract_v1.json",
   "decisionImage": {
@@ -54,6 +54,8 @@
     "question": "この4地点の流向表示を物理事前計算v2の基準表示として採用するか",
     "optionA": "adopt_visual_result_and_proceed_to_36_hour_response_basis_precompute_planning",
     "optionB": "do_not_adopt_and_revise_inputs_flow_direction_or_display",
-    "optionADoesNotAuthorizeAdditionalPhysicalExecution": true
+    "optionADoesNotAuthorizeAdditionalPhysicalExecution": true,
+    "approvedChoice": "A",
+    "approval": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json"
   }
 }

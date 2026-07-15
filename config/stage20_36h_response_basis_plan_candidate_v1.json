@@ -1,0 +1,92 @@
+{
+  "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
+  "status": "route_decision_required_execution_not_authorized",
+  "recordedDate": "2026-07-15",
+  "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
+  "referencePilot": {
+    "githubRunId": 29396657600,
+    "physicalSeconds": 600.0048578949198,
+    "wallSeconds": 1492.625987149,
+    "wallSecondsPerPhysicalSecond": 2.4876898370219647,
+    "finalFieldsSha256": "a4421b659aabdcd7ead78b9244facfbe5d595666acf862f77f1958717ec6dca7"
+  },
+  "target": {
+    "windowHours": 36,
+    "pastHours": 12,
+    "futureHours": 24,
+    "displayIntervalHours": 1,
+    "snapshotCount": 37,
+    "basisCount": 11,
+    "basisDefinition": "reference plus low and high responses for tide, Onga, Nishi, Magari, and barrage opening"
+  },
+  "currentKernelProjection": {
+    "oneBasisRunnerHours": 89.55683413279073,
+    "allElevenRunnerHours": 985.1251754606981,
+    "hostedJobLimitHours": 6,
+    "safeSegmentWallHours": 5,
+    "estimatedPhysicalHoursPerSegment": 2.009896863181925,
+    "segmentsPerBasis": 18,
+    "totalSegments": 198,
+    "idealElevenChainElapsedHours": 89.55683413279073,
+    "idealElevenChainElapsedDays": 3.731534755532947,
+    "excludes": [
+      "queue_delay",
+      "dependency_installation",
+      "artifact_transfer",
+      "checkpoint_restart_overhead",
+      "failed_segments"
+    ]
+  },
+  "physicalInterpretation": {
+    "tenMinuteEndpointMayBeUsedAsStaticSteadyBasis": false,
+    "reason": "mean speed continued increasing through 600 seconds and the last one-minute RMS velocity change remained 0.01573 m/s",
+    "requiredModelClass": "dynamic response trajectories or a separately validated reduced-order response kernel",
+    "syntheticSixModePackIsPhysicalEvidence": false
+  },
+  "optimizationAssessment": {
+    "localTimeSteppingIdealUpperBoundSpeedup": 3.2764,
+    "localTimeSteppingAloneSufficient": false,
+    "recommendedFirstStep": "compiled_fused_cpu_kernel_v3_code_only_prototype",
+    "recommendedTechnologyCandidate": "Numba 0.66.x on Linux x86_64",
+    "numericalContractMustRemainUnchanged": [
+      "mesh_v2",
+      "numerical_flux",
+      "hydrostatic_reconstruction",
+      "boundary_conditions",
+      "friction",
+      "cfl_rule",
+      "float64"
+    ],
+    "codeOnlyAcceptance": {
+      "deterministicSteps": 300,
+      "maximumRelativeStateDifference": 1e-12,
+      "nonFiniteCount": 0,
+      "negativeDepthCount": 0,
+      "targetKernelSpeedup": 5,
+      "targetSpeedupIsGuarantee": false
+    }
+  },
+  "decision": {
+    "question": "36時間応答基底を作る前に、どちらの計算経路を採用するか",
+    "optionA": "develop_compiled_kernel_v3_first_using_code_only_equivalence_and_speed_benchmarks",
+    "optionB": "keep_kernel_v2_and_accept_a_198_segment_precompute_plan",
+    "recommendedChoice": "A",
+    "judgmentScope": "compute route only; not flow direction, input physics, or public release",
+    "decisionImage": "docs/visuals/stage20-36h-precompute-strategy-decision.jpg",
+    "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
+  },
+  "execution": {
+    "authorized": false,
+    "physicalRunAllowed": false,
+    "automaticRetryAllowed": false,
+    "paidResourceProvisioningAuthorized": false,
+    "mainMergeAuthorized": false
+  },
+  "sources": [
+    "https://docs.github.com/en/actions/reference/limits",
+    "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax",
+    "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+    "https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies",
+    "https://numba.readthedocs.io/en/stable/user/installing.html"
+  ]
+}

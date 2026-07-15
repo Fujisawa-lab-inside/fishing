@@ -1,0 +1,46 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-authorization-v1",
+  "authorizationId": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedDate": "2026-07-15",
+  "issuedAtUtc": "2026-07-15T11:29:56Z",
+  "notAfterUtc": "2026-07-16T11:29:56Z",
+  "sourceStatement": "A案を進めてください",
+  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v3_github_hosted_linux_x86_one_time_maximum_1200_wall_seconds",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "decisionImage": {
+    "path": "docs/visuals/stage20-kernel-v3-result-decision.jpg",
+    "sha256": "b01b78291f37c76bd232c98790385bd384a149398445465ad2ecca896f21bafc"
+  },
+  "executionContract": {
+    "path": "config/stage20_kernel_v3_physical_pilot_contract_v1.json",
+    "sha256": "72d9dba9d32d81b6001fad269656e6035b802b0ad9006e768e90d4379223b927"
+  },
+  "reviewedCodeCommit": "454c1efa407e67bea16ec376b4eabe5bda1c5ae8",
+  "mesh": {
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14"
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 1200
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "elevenBasisCampaignAllowed": false,
+    "paidResourceAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

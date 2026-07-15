@@ -1,0 +1,11 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-activation-v1",
+  "state": "activate_exactly_once",
+  "authorizationId": "stage20-kernel-v3-physical-pilot-20260715t112956z-one-time",
+  "authorizationSha256": "e747633943f07c80ca726b1bf7e69221fd0b106848ece2987000f27a3c7621dc",
+  "gateSha256": "ffc01e071edfab37b5cacb8dd316a49dcdbd708ff15a5816b534925c1ea92133",
+  "preparedCommit": "454c1efa407e67bea16ec376b4eabe5bda1c5ae8",
+  "trigger": "push_of_this_activation_file_on_codex_stage19_public_inference_inputs",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false
+}

@@ -1,6 +1,39 @@
 {
   "schema": "onga-stage20-hybrid-physical-pilot-authorization-v1",
-  "authorized": false,
+  "authorizationId": "stage20-hybrid-pilot-20260715t014718z-one-time",
+  "authorized": true,
   "oneTime": true,
-  "status": "placeholder_before_reviewed_code_commit"
+  "approvedBy": "Ryusuke Fujisawa",
+  "approvedDate": "2026-07-15",
+  "issuedAtUtc": "2026-07-15T01:47:18Z",
+  "notAfterUtc": "2026-07-16T01:47:18Z",
+  "sourceStatement": "GitHub提供Linux runnerで1条件×10分を一回だけ実行",
+  "scope": "one_case_600_physical_seconds_on_github_hosted_linux_x86_one_time",
+  "decisionImage": {
+    "path": "docs/visuals/stage20-hybrid-physical-pilot-decision-v1.jpg",
+    "sha256": "067aedeccaa8fd7f1077c98ec4e91de92dbcc8fe7bda142a9281d48bc1667c7c"
+  },
+  "executionContract": {
+    "path": "config/stage20_hybrid_physical_pilot_contract_v1.json",
+    "sha256": "b53ae446629c2757a9b7917e51828f6ffe768c25fc59d8be1bed8d8ea31c8fd1"
+  },
+  "reviewedCodeCommit": "62c56a368e83cc1d8823d7a1b4081d5573c16277",
+  "mesh": {
+    "sha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+    "cellCount": 50339
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 5400
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "paidResourceAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
 }

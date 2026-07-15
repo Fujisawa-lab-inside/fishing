@@ -1,6 +1,11 @@
 {
   "schema": "onga-stage20-hybrid-physical-pilot-gate-v1",
-  "state": "inactive_before_reviewed_code_commit",
+  "state": "active_one_time",
+  "authorizationId": "stage20-hybrid-pilot-20260715t014718z-one-time",
+  "authorizationSha256": "23b1e2be9d01d7596b1ba89e4e6d5832ec3f2a41c49b41c0ab2ffb3d14db5928",
+  "issuedAtUtc": "2026-07-15T01:47:18Z",
+  "notAfterUtc": "2026-07-16T01:47:18Z",
   "automaticRetryAllowed": false,
-  "additionalRunAllowed": false
+  "additionalRunAllowed": false,
+  "consumptionEvidence": "successful workflow step named Consume Stage 20 one-time physical pilot authorization"
 }

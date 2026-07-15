@@ -1,0 +1,11 @@
+{
+  "schema": "onga-stage20-reference-s02-activation-v1",
+  "state": "activate_exactly_once",
+  "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
+  "authorizationSha256": "7dc5e34f7a0dd4c0da4e258554058edca9fdb1a472e6f0fe5bd20f925e1737a3",
+  "gateSha256": "558805dbc84aa8b728a8259c4a1703868ed2c3fca6c1ed5ce0f8c5fca5741d01",
+  "preparedCommit": "a454bfdda3080e57225c1a7392f01c05da06a1aa",
+  "activatedAtUtc": "2026-07-15T16:51:26Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false
+}

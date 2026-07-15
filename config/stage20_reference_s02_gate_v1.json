@@ -1,0 +1,12 @@
+{
+  "schema": "onga-stage20-reference-s02-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
+  "authorizationSha256": "7dc5e34f7a0dd4c0da4e258554058edca9fdb1a472e6f0fe5bd20f925e1737a3",
+  "issuedAtUtc": "2026-07-15T16:51:26Z",
+  "notAfterUtc": "2026-07-16T16:51:26Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "consumptionEvidence": "successful workflow step named Consume Stage 20 reference-s02 authorization",
+  "scope": "one_reference_s02_eight_physical_hour_continuation_maximum_18000_numerical_wall_seconds"
+}

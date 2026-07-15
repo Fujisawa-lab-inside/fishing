@@ -1,0 +1,37 @@
+{
+  "schema": "onga-stage20-reference-s02-authorization-v1",
+  "authorizationId": "stage20-reference-s02-20260715t165126z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "issuedAtUtc": "2026-07-15T16:51:26Z",
+  "notAfterUtc": "2026-07-16T16:51:26Z",
+  "source": {
+    "userInstruction": "S02を進めてください",
+    "interpretedScope": "execute_exactly_one_reference_s02_continuation_only"
+  },
+  "reviewedCodeCommit": "a454bfdda3080e57225c1a7392f01c05da06a1aa",
+  "executionContract": {
+    "path": "config/stage20_reference_s02_contract_v1.json",
+    "sha256": "20f68ec4e24df439ebb8ecc44f670d0d2ce47c9163f44dd0dceadc13f0731aed"
+  },
+  "decisionImage": {
+    "path": "docs/visuals/stage20-reference-s01-result-decision.jpg",
+    "sha256": "660fea19797f12f04375f75568fc88a355dae03aaa709e17be8a4fb540f76c57"
+  },
+  "scope": {
+    "jobId": "reference-s02",
+    "modelHourStart": -16,
+    "modelHourEnd": -8,
+    "targetPhysicalSeconds": 28800,
+    "maximumNumericalWallSeconds": 18000,
+    "snapshotModelHours": [-12, -11, -10, -9, -8]
+  },
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "remainingSegmentsAllowed": false,
+  "campaignAllowed": false,
+  "paidResourceAllowed": false,
+  "publicSimulatorConnectionAllowed": false,
+  "mainMergeAllowed": false,
+  "physicalValidationClaimAllowed": false
+}

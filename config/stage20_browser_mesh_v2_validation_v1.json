@@ -1,0 +1,39 @@
+{
+  "schema": "onga-stage20-browser-mesh-v2-validation-v1",
+  "status": "passed_not_connected",
+  "approvedMesh": {
+    "linuxPackageSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+    "browserBinarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "manifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+    "vertices": 28450,
+    "cells": 50199,
+    "internalFaces": 71949,
+    "boundaryFaces": 6699,
+    "barrageFaces": 68
+  },
+  "browserPath": {
+    "schema": "onga-stage20-browser-mesh-v2",
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "wasmSha256": "89da23880433ca8eb179e28103f3e033db29c2107de7394491447b6ba6f9d43a",
+    "wasmBytes": 456
+  },
+  "syntheticStillWaterValidation": {
+    "depthM": 3,
+    "manningN": 0.03,
+    "cfl": 0.12,
+    "adaptiveStepSeconds": 0.0033593783763900234,
+    "clippedCells": 0,
+    "nonFiniteValues": 0,
+    "maximumVelocityMPerS": 2.5508687095583098e-17,
+    "maximumDepthDriftM": 0,
+    "localNodeElapsedMs": 17.693083
+  },
+  "safeguards": {
+    "syntheticStillWaterOnly": true,
+    "physicalFlowRun": false,
+    "publicSimulatorConnected": false,
+    "published": false,
+    "mainMerged": false
+  },
+  "nextDecision": "connect_browser_reference_to_mesh_v2_or_revise"
+}

@@ -1,4 +1,8 @@
 export const STAGE20_BROWSER_MESH_SCHEMA = 'onga-stage20-browser-mesh-v1';
+export const STAGE20_BROWSER_MESH_SCHEMAS = Object.freeze([
+  STAGE20_BROWSER_MESH_SCHEMA,
+  'onga-stage20-browser-mesh-v2',
+]);
 
 function assert(condition, message) {
   if (!condition) throw new Error(`[stage20-browser-mesh] ${message}`);
@@ -18,7 +22,7 @@ function product(values) {
 }
 
 export function decodeStage20BrowserMesh(manifest, buffer) {
-  assert(manifest?.schema === STAGE20_BROWSER_MESH_SCHEMA, 'manifest schema mismatch');
+  assert(STAGE20_BROWSER_MESH_SCHEMAS.includes(manifest?.schema), 'manifest schema mismatch');
   assert(manifest.status === 'approved_canonical_geometry_only', 'mesh is not approved canonical geometry');
   assert(buffer instanceof ArrayBuffer, 'mesh payload must be an ArrayBuffer');
   assert(buffer.byteLength === manifest.binary.byteLength, 'mesh payload byte length mismatch');

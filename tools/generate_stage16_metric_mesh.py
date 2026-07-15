@@ -29,10 +29,9 @@ def load_constraints(path):
     path=Path(path); raw=j(path); parent=raw.get('extends')
     if not parent:return raw
     base=load_constraints(path.parent/parent); remove=raw.get('removeInherited',[])
+    for key in remove:base.pop(key,None)
     override={k:v for k,v in raw.items() if k not in ('extends','removeInherited')}
-    result=merge_dict(base,override)
-    for key in remove:result.pop(key,None)
-    return result
+    return merge_dict(base,override)
 
 def load_water(root, path):
     m=j(path); rows=[None]*int(m['height'])

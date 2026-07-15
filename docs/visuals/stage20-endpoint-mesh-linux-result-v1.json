@@ -1,11 +1,16 @@
 {
   "schema": "onga-stage20-endpoint-mesh-linux-result-visual-v1",
-  "status": "awaiting_canonical_adoption_decision",
+  "status": "approved_for_browser_mesh_v2",
   "svg": "docs/visuals/stage20-endpoint-mesh-linux-result-v1.svg",
   "svgSha256": "cb8ff9e8991c0040d22d1489a25904715aca0758a9217a653cce74bb36165c81",
   "sourceComparisonSha256": "54e980d03e001ca56afd16b4dfaf9a8ee9c49808a9ddd1df72526b7cce173e1f",
-  "resultRecordSha256": "8c0ec5463bab4803491a9f1baadf07c514849b841e46070e269c307e55acc6f1",
+  "resultRecordSha256": "8fa9c9a594ebfd6d477b6846692bca48e3a78f3a22f8c06b666223518ca941d5",
   "evidenceSha256": "c25f75f1e45f0b713a314f3729601e831db60b8af4563db546915e538a438bc1",
   "runId": 29392549671,
-  "artifactSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7"
+  "artifactSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+  "approval": {
+    "choice": "A",
+    "sourceStatement": "A：正式候補として固定し、ブラウザ用メッシュv2を作る",
+    "approvedDate": "2026-07-15"
+  }
 }

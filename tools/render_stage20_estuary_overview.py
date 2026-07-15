@@ -208,7 +208,12 @@ def main() -> None:
     canvas = Image.new("RGB", (1600, 1260), (244, 247, 248))
     draw = ImageDraw.Draw(canvas)
     draw.text((50, 35), "遠賀川河口　計算領域の全体俯瞰", font=font(42, True), fill=(23, 49, 61))
-    draw.text((50, 91), "承認済み50,339セル全域／M・N・O・G境界／河口堰・魚道", font=font(22), fill=(72, 98, 111))
+    draw.text(
+        (50, 91),
+        f"承認済み{mesh_manifest['counts']['cells']:,}セル全域／M・N・O・G境界／河口堰・魚道",
+        font=font(22),
+        fill=(72, 98, 111),
+    )
     map_width, map_height = 1500, 950
     fitted = map_image.copy()
     fitted.thumbnail((map_width, map_height), Image.Resampling.LANCZOS)

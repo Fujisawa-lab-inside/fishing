@@ -37,7 +37,7 @@ def main() -> None:
     evidence_path = root / result["evidence"]["path"]
     evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
 
-    assert result["status"] == "passed_awaiting_canonical_adoption"
+    assert result["status"] in {"passed_awaiting_canonical_adoption", "approved_canonical"}
     assert evidence["status"] == "passed"
     assert all(evidence["checks"].values())
     assert sha256(evidence_path) == result["evidence"]["sha256"]
@@ -80,9 +80,20 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
     output = root / args.output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(svg, encoding="utf-8")
+    visual_record_path = output.with_suffix(".json")
+    existing = (
+        json.loads(visual_record_path.read_text(encoding="utf-8"))
+        if visual_record_path.is_file()
+        else {}
+    )
+    approval = existing.get("approval")
     visual_record = {
         "schema": "onga-stage20-endpoint-mesh-linux-result-visual-v1",
-        "status": "awaiting_canonical_adoption_decision",
+        "status": (
+            "approved_for_browser_mesh_v2"
+            if approval
+            else "awaiting_canonical_adoption_decision"
+        ),
         "svg": str(output.relative_to(root)),
         "svgSha256": sha256(output),
         "sourceComparisonSha256": sha256(comparison_path),
@@ -91,7 +102,9 @@ text{{font-family:"Hiragino Sans","Yu Gothic","Noto Sans CJK JP",sans-serif;fill
         "runId": run_id,
         "artifactSha256": result["candidate"]["artifactSha256"],
     }
-    output.with_suffix(".json").write_text(
+    if approval:
+        visual_record["approval"] = approval
+    visual_record_path.write_text(
         json.dumps(visual_record, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )

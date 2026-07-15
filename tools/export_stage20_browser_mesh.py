@@ -10,6 +10,8 @@ from pathlib import Path
 
 import numpy as np
 
+from generate_stage16_metric_mesh import load_constraints
+
 
 ARRAY_DTYPES = {
     "vertex_local_mm": "<i4",
@@ -44,9 +46,10 @@ def main() -> None:
     parser.add_argument("mesh", type=Path)
     parser.add_argument("--constraints", type=Path, default=Path("data/onga_stage20_mesh_constraints_v1.json"))
     parser.add_argument("--output", type=Path, default=Path("public/data/onga/stage20"))
+    parser.add_argument("--browser-version", choices=("v1", "v2"), default="v1")
     args = parser.parse_args()
 
-    constraints = json.loads(args.constraints.read_text(encoding="utf-8"))
+    constraints = load_constraints(args.constraints)
     expected_package = constraints["expected"]["packageArrayHashes"]
     expected_source = constraints["visualApproval"]["reviewedPackageSha256"]
     actual_source = sha256_file(args.mesh)
@@ -58,7 +61,7 @@ def main() -> None:
         raise RuntimeError("browser array list differs from the approved package")
 
     args.output.mkdir(parents=True, exist_ok=True)
-    binary_path = args.output / "mesh-v1.bin"
+    binary_path = args.output / f"mesh-{args.browser_version}.bin"
     arrays: dict[str, dict[str, object]] = {}
     payload = bytearray()
     with np.load(args.mesh, allow_pickle=False) as package:
@@ -83,20 +86,26 @@ def main() -> None:
             }
 
     binary_path.write_bytes(payload)
+    source = {
+        "linuxPackageSha256": actual_source,
+        "constraints": str(args.constraints),
+        "workflowRunId": constraints["canonicalProbe"]["workflowRunId"],
+    }
+    if args.browser_version == "v2":
+        source.update({
+            "workflowRunAttempt": constraints["canonicalProbe"]["workflowRunAttempt"],
+            "evidenceSha256": constraints["canonicalProbe"]["evidenceSha256"],
+        })
     manifest = {
-        "schema": "onga-stage20-browser-mesh-v1",
+        "schema": f"onga-stage20-browser-mesh-{args.browser_version}",
         "version": constraints["version"],
         "status": "approved_canonical_geometry_only",
         "binary": {
-            "url": "./mesh-v1.bin",
+            "url": f"./mesh-{args.browser_version}.bin",
             "byteLength": len(payload),
             "sha256": sha256_bytes(payload),
         },
-        "source": {
-            "linuxPackageSha256": actual_source,
-            "constraints": str(args.constraints),
-            "workflowRunId": constraints["canonicalProbe"]["workflowRunId"],
-        },
+        "source": source,
         "counts": {
             "vertices": constraints["expected"]["vertices"],
             "cells": constraints["expected"]["cells"],
@@ -111,7 +120,7 @@ def main() -> None:
             "publicSimulatorConnected": False,
         },
     }
-    (args.output / "mesh-v1.json").write_text(
+    (args.output / f"mesh-{args.browser_version}.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(json.dumps({"status": "passed", "binary": str(binary_path), "sha256": manifest["binary"]["sha256"], "bytes": len(payload)}))

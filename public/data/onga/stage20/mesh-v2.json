@@ -1,0 +1,145 @@
+{
+  "schema": "onga-stage20-browser-mesh-v2",
+  "version": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+  "status": "approved_canonical_geometry_only",
+  "binary": {
+    "url": "./mesh-v2.bin",
+    "byteLength": 2296216,
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659"
+  },
+  "source": {
+    "linuxPackageSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+    "constraints": "data/onga_stage20_mesh_constraints_v2.json",
+    "workflowRunId": 29392549671,
+    "workflowRunAttempt": 1,
+    "evidenceSha256": "c25f75f1e45f0b713a314f3729601e831db60b8af4563db546915e538a438bc1"
+  },
+  "counts": {
+    "vertices": 28450,
+    "cells": 50199,
+    "internalFaces": 71949,
+    "boundaryFaces": 6699,
+    "barrageFaces": 68
+  },
+  "arrays": {
+    "vertex_local_mm": {
+      "dtype": "int32",
+      "shape": [
+        28450,
+        2
+      ],
+      "byteOffset": 0,
+      "byteLength": 227600,
+      "sha256": "71ad5b0b041770a1ad398f6e19cee1037e36f17444fc8c79fae88f83581c844b"
+    },
+    "vertex_image_millipixel": {
+      "dtype": "int32",
+      "shape": [
+        28450,
+        2
+      ],
+      "byteOffset": 227600,
+      "byteLength": 227600,
+      "sha256": "ec875db2d884186d336fc26c41361f9db0b110d655c20d0a0b909f33c7e5079a"
+    },
+    "triangles": {
+      "dtype": "int32",
+      "shape": [
+        50199,
+        3
+      ],
+      "byteOffset": 455200,
+      "byteLength": 602388,
+      "sha256": "b4cf268b2a1463ed2ce69b4d06d20b75f85856dd3b5caa01b8a4f93b5fb652e2"
+    },
+    "internal_face_vertices": {
+      "dtype": "int32",
+      "shape": [
+        71949,
+        2
+      ],
+      "byteOffset": 1057588,
+      "byteLength": 575592,
+      "sha256": "01d69fae703399901da6f5af7f1ce7f3f6e21a29b607cd634d741f124ac01741"
+    },
+    "internal_face_cells": {
+      "dtype": "int32",
+      "shape": [
+        71949,
+        2
+      ],
+      "byteOffset": 1633180,
+      "byteLength": 575592,
+      "sha256": "62b693c57b736d182bc93aff1bfb2e677107e7695d44e4d6b39d71fca63e5d04"
+    },
+    "boundary_face_vertices": {
+      "dtype": "int32",
+      "shape": [
+        6699,
+        2
+      ],
+      "byteOffset": 2208772,
+      "byteLength": 53592,
+      "sha256": "b063332f077e933d36c15430190656e3b30e3acfc91374bbb1aa83ee86bf3633"
+    },
+    "boundary_face_cell": {
+      "dtype": "int32",
+      "shape": [
+        6699
+      ],
+      "byteOffset": 2262364,
+      "byteLength": 26796,
+      "sha256": "6f917c21276bb19c27ee107beff3e522b7b523b9f3787aeae6e53284342d615a"
+    },
+    "boundary_face_tag": {
+      "dtype": "uint8",
+      "shape": [
+        6699
+      ],
+      "byteOffset": 2289160,
+      "byteLength": 6699,
+      "sha256": "193d71454e6680cd153647e23265d8e1ef6973ce316faa1c6d003e579e83a8c2"
+    },
+    "barrage_face_ids": {
+      "dtype": "int32",
+      "shape": [
+        68
+      ],
+      "byteOffset": 2295860,
+      "byteLength": 272,
+      "sha256": "44a989ed08dd203d29cb3965c5ccdb86fb0c674119b2d8cea5294da10259a5c5"
+    },
+    "barrage_gate_id": {
+      "dtype": "uint8",
+      "shape": [
+        68
+      ],
+      "byteOffset": 2296132,
+      "byteLength": 68,
+      "sha256": "bad609ffe3a3d5f5d6f62ef9c0b64f38ba30535554d0e74037b46e69c90ec7dd"
+    },
+    "fishway_cells": {
+      "dtype": "int32",
+      "shape": [
+        2
+      ],
+      "byteOffset": 2296200,
+      "byteLength": 8,
+      "sha256": "07e6f19c2a706db2ff8640cf2355c4a9a5e6ee5ff3d61029acadd042d8eb8a5f"
+    },
+    "fishway_components": {
+      "dtype": "int32",
+      "shape": [
+        2
+      ],
+      "byteOffset": 2296208,
+      "byteLength": 8,
+      "sha256": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+    }
+  },
+  "safeguards": {
+    "physicalValuesAssigned": false,
+    "numericalExecutionAuthorizedByExport": false,
+    "publicSimulatorConnected": false
+  }
+}

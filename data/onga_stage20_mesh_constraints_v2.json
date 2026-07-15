@@ -8,7 +8,7 @@
   ],
   "version": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
   "artifactFile": "onga_stage20_metric_fv_mesh_v2_boundary_snap_candidate.npz",
-  "candidateStatus": "awaiting_linux_x86_64_canonical_probe",
+  "candidateStatus": "approved_canonical",
   "supersedes": {
     "meshVersion": "stage20-metric-fv-mesh-v1-candidate",
     "reason": "Remove the 0.04-pixel gaps between the approved barrage axis and the water boundary that created 125 timestep-limiting sliver cells."
@@ -29,5 +29,68 @@
     "approvedOption": "barrage_endpoint_local_remesh",
     "approvedDate": "2026-07-15",
     "sourceStatement": "A：河口堰両端だけを修正した候補メッシュを作成する"
+  },
+  "canonicalProbe": {
+    "platform": "Linux x86_64",
+    "workflowRunId": 29392549671,
+    "workflowRunAttempt": 1,
+    "sourceCommit": "e8d0d022f3180b5a382db3d4123a2078ca8a73de",
+    "artifactName": "stage20-endpoint-mesh-linux-reproduction-29392549671",
+    "evidenceSha256": "c25f75f1e45f0b713a314f3729601e831db60b8af4563db546915e538a438bc1",
+    "summarySha256": "ef0eb209b4b97ac1d8d0760a52c0b0008134e1118028fe666e7ff1ea020778ab",
+    "packageSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7"
+  },
+  "visualApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "A：正式候補として固定し、ブラウザ用メッシュv2を作る",
+    "scope": "linux_verified_endpoint_mesh_geometry_only_browser_export_no_public_connection",
+    "reviewedMeshVersion": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+    "reviewedPackageSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+    "comparisonImageSha256": "35fc4a8055cfafe3c9046e103be65726d2cc37c77a14d59d610d26c764e1e431",
+    "decisionRecord": "config/stage20_endpoint_mesh_linux_reproduction_result_v1.json"
+  },
+  "expected": {
+    "vertices": 28450,
+    "cells": 50199,
+    "internalFaces": 71949,
+    "boundaryFaces": 6699,
+    "barrageFaces": 68,
+    "packageArrayHashes": {
+      "vertex_local_mm": "71ad5b0b041770a1ad398f6e19cee1037e36f17444fc8c79fae88f83581c844b",
+      "vertex_image_millipixel": "ec875db2d884186d336fc26c41361f9db0b110d655c20d0a0b909f33c7e5079a",
+      "triangles": "b4cf268b2a1463ed2ce69b4d06d20b75f85856dd3b5caa01b8a4f93b5fb652e2",
+      "internal_face_vertices": "01d69fae703399901da6f5af7f1ce7f3f6e21a29b607cd634d741f124ac01741",
+      "internal_face_cells": "62b693c57b736d182bc93aff1bfb2e677107e7695d44e4d6b39d71fca63e5d04",
+      "boundary_face_vertices": "b063332f077e933d36c15430190656e3b30e3acfc91374bbb1aa83ee86bf3633",
+      "boundary_face_cell": "6f917c21276bb19c27ee107beff3e522b7b523b9f3787aeae6e53284342d615a",
+      "boundary_face_tag": "193d71454e6680cd153647e23265d8e1ef6973ce316faa1c6d003e579e83a8c2",
+      "barrage_face_ids": "44a989ed08dd203d29cb3965c5ccdb86fb0c674119b2d8cea5294da10259a5c5",
+      "barrage_gate_id": "bad609ffe3a3d5f5d6f62ef9c0b64f38ba30535554d0e74037b46e69c90ec7dd",
+      "fishway_cells": "07e6f19c2a706db2ff8640cf2355c4a9a5e6ee5ff3d61029acadd042d8eb8a5f",
+      "fishway_components": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8"
+    },
+    "boundaryFaceCounts": {
+      "shoreline": 6564,
+      "M": 36,
+      "N": 21,
+      "O": 54,
+      "G": 24
+    },
+    "gateFaceCounts": {
+      "1": 10,
+      "2": 7,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 11
+    },
+    "fishwayCells": [38714, 38576],
+    "fishwayComponents": [1, 0],
+    "minimumCellAreaM2": 0.5064391344240516,
+    "minimumAreaPerimeterM": 0.21797018374094881
   }
 }

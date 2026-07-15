@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-endpoint-mesh-linux-reproduction-result-v1",
-  "status": "passed_awaiting_canonical_adoption",
+  "status": "approved_canonical",
   "run": {
     "id": 29392549671,
     "attempt": 1,
@@ -49,9 +49,44 @@
     "published": false,
     "mainMerged": false
   },
-  "nextDecision": {
-    "question": "Linuxで完全一致した候補をStage 20の正式なメッシュ候補として固定し、ブラウザ用メッシュv2の作成へ進めるか",
-    "A": "adopt_linux_verified_candidate_and_prepare_browser_mesh_v2",
-    "B": "stop_and_investigate_before_adoption"
+  "visualApproval": {
+    "status": "approved",
+    "approvedBy": "Ryusuke Fujisawa",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "A：正式候補として固定し、ブラウザ用メッシュv2を作る",
+    "approvedChoice": "A",
+    "scope": "linux_verified_endpoint_mesh_geometry_only_browser_export_no_public_connection",
+    "reviewedPackageSha256": "284f4ff7666ecfa5bf7c605e3a133f7abd92d9f3fa2538235c8ed3c2616373f7",
+    "comparisonImageSha256": "35fc4a8055cfafe3c9046e103be65726d2cc37c77a14d59d610d26c764e1e431",
+    "doesNotAuthorize": [
+      "physical_flow_run",
+      "public_simulator_connection",
+      "publish",
+      "main_merge"
+    ]
+  },
+  "nextStep": {
+    "status": "completed",
+    "action": "prepare_browser_mesh_v2_without_public_connection",
+    "browserExport": {
+      "status": "passed_not_connected",
+      "manifest": "public/data/onga/stage20/mesh-v2.json",
+      "manifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+      "binary": "public/data/onga/stage20/mesh-v2.bin",
+      "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+      "validation": "config/stage20_browser_mesh_v2_validation_v1.json",
+      "validationSha256": "e4e64f8f25d3a1ee240acb9af40d64c8584ce128ecf92792420031b016f14e4c",
+      "cells": 50199,
+      "syntheticTimeStepImprovementRatio": 16.05650037680584
+    },
+    "decisionVisual": {
+      "path": "docs/visuals/stage20-browser-mesh-v2-decision.png",
+      "sha256": "288b5f9bc51214d8821ffa306adab4afa4c142a3a9b0ed3e62cefeae92f2c262"
+    },
+    "nextDecision": {
+      "question": "作業ブランチのブラウザ参照をメッシュv2へ接続するか",
+      "A": "connect_work_branch_browser_reference_to_mesh_v2",
+      "B": "revise_before_connection"
+    }
   }
 }

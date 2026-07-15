@@ -25,9 +25,11 @@ def main() -> None:
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--manifest-output", required=True)
+    parser.add_argument("--mesh-manifest", default="public/data/onga/stage20/mesh-v1.json")
+    parser.add_argument("--manifest-schema", default="onga-stage20-hybrid-physical-pilot-visual-manifest-v1")
     args = parser.parse_args()
     root = Path(args.repo_root).resolve()
-    mesh_manifest, package = load_mesh(root / "public/data/onga/stage20/mesh-v1.json")
+    mesh_manifest, package = load_mesh(root / args.mesh_manifest)
     geometry = mesh_geometry(package)
     data = np.load(args.fields, allow_pickle=False)
     depth = data["waterDepthM"].astype(np.float64)
@@ -110,7 +112,7 @@ def main() -> None:
         view["path"] = filename
         views.append(view)
     result = {
-        "schema": "onga-stage20-hybrid-physical-pilot-visual-manifest-v1",
+        "schema": args.manifest_schema,
         "status": "rendered_not_physical_validation",
         "meshSha256": mesh_manifest["binary"]["sha256"],
         "cellCount": mesh_manifest["counts"]["cells"],

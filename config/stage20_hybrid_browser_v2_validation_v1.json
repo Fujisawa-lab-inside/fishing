@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-hybrid-browser-v2-validation-v1",
-  "status": "passed_awaiting_visual_adoption_decision",
+  "status": "approved_for_physical_precompute_acceleration",
   "validatedDate": "2026-07-15",
   "approvedArchitecture": {
     "record": "config/stage20_browser_compute_architecture_candidate_v1.json",
@@ -67,6 +67,7 @@
     "decisionImage": "docs/visuals/stage20-hybrid-v2-decision.jpg",
     "decisionImageSha256": "60ea83694adaae086183135078fc7fca388b88c5eeb1a639db4af40aa8a4f190"
   },
+  "adoptionApproval": "config/stage20_hybrid_v2_adoption_approval_v1.json",
   "interpretation": "The approved 36-hour hybrid browser path is connected to browser mesh v2 and passes synthetic transport, deterministic synthesis, envelope, transfer, and actual WebKit screen checks. This is not a physical response basis.",
   "safeguards": {
     "syntheticResponsePackOnly": true,
@@ -77,6 +78,9 @@
     "mainMergeAuthorized": false
   },
   "nextDecision": {
+    "status": "approved_and_completed",
+    "approvedChoice": "A",
+    "sourceStatement": "A：採用し、物理事前計算の高速化へ進む",
     "question": "メッシュv2の36時間ブラウザ経路を採用するか",
     "A": "adopt_and_proceed_to_physical_precompute_acceleration",
     "B": "revise_path_or_display"

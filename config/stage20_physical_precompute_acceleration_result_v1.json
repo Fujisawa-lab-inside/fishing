@@ -1,0 +1,42 @@
+{
+  "schema": "onga-stage20-physical-precompute-acceleration-result-v1",
+  "status": "code_acceleration_complete_awaiting_one_time_physical_pilot_decision",
+  "recordedDate": "2026-07-15",
+  "approval": "config/stage20_hybrid_v2_adoption_approval_v1.json",
+  "implementation": {
+    "mesh": "public/data/onga/stage20/mesh-v2.json",
+    "kernel": "tools/stage20_shallow_water_kernel_v2.py",
+    "offlinePlan": "config/stage20_offline_response_precompute_plan_v2.json",
+    "restartableControlPlane": "tools/stage20_offline_precompute_runner.py",
+    "inactiveWorkflow": ".github/workflows/stage20-physical-pilot-v2.yml"
+  },
+  "syntheticBenchmark": {
+    "path": "config/stage20_kernel_v2_synthetic_benchmark_v1.json",
+    "steps": 300,
+    "meshSpeedup": 16.248666031549597,
+    "kernelSpeedup": 1.2216116711778646,
+    "combinedSpeedup": 19.8495600652123,
+    "maximumRelativeStateDifference": 6.406781926719436e-16,
+    "equivalenceTolerance": 1e-12,
+    "physicalRun": false
+  },
+  "planningProjection": {
+    "oldV1ProjectedWallMinutesFor600PhysicalSeconds": 524.0449359346667,
+    "candidateV2ProjectedWallMinutesFor600PhysicalSeconds": 26.4008337823613,
+    "maximumCandidateWallMinutes": 60,
+    "projectionNotGuaranteed": true
+  },
+  "nextDecision": {
+    "candidate": "config/stage20_physical_pilot_v2_candidate_v1.json",
+    "image": "docs/visuals/stage20-physical-pilot-v2-decision.jpg",
+    "optionA": "authorize_one_time_600_second_v2_pilot_within_24_hours",
+    "optionB": "do_not_run_and_continue_code_only_optimization"
+  },
+  "executionState": {
+    "physicalSolverExecuted": false,
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "workflowStarted": false,
+    "mainMerged": false
+  }
+}

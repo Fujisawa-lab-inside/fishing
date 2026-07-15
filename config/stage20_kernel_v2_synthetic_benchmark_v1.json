@@ -1,0 +1,82 @@
+{
+  "schema": "onga-stage20-kernel-v2-synthetic-benchmark-v1",
+  "status": "passed_nonphysical_fixture_only",
+  "stepsPerRun": 300,
+  "fixture": {
+    "description": "deterministic_smooth_perturbation_zero_discharge_zero_tide_disabled_fishway",
+    "physicalBoundaryInputsUsed": false,
+    "physicalSolverRunAuthorized": false
+  },
+  "meshes": {
+    "v1": {
+      "manifest": "public/data/onga/stage20/mesh-v1.json",
+      "binarySha256": "717a076b901c29763b3b565250e68e15ad72fe2b87306ebd41f35b9dd37f4347",
+      "cells": 50339,
+      "minimumCellAreaM2": 0.0021080000000001146
+    },
+    "v2": {
+      "manifest": "public/data/onga/stage20/mesh-v2.json",
+      "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+      "cells": 50199,
+      "minimumCellAreaM2": 0.5064475000000392
+    }
+  },
+  "runs": {
+    "meshV1KernelV1": {
+      "wallSeconds": 3.0616026670031715,
+      "simulatedSeconds": 0.06278986732209337,
+      "secondsPerStep": 0.010205342223343905,
+      "simulatedSecondsPerWallSecond": 0.020508823041872636,
+      "minimumTimeStepSeconds": 0.00020907297710937592,
+      "maximumTimeStepSeconds": 0.00020940087059954048,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    },
+    "meshV2KernelV1": {
+      "wallSeconds": 3.026190583012067,
+      "simulatedSeconds": 1.0084508254232407,
+      "secondsPerStep": 0.010087301943373556,
+      "simulatedSecondsPerWallSecond": 0.33324101630753755,
+      "minimumTimeStepSeconds": 0.003356168569003601,
+      "maximumTimeStepSeconds": 0.0033642140142586736,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    },
+    "meshV2KernelV2": {
+      "wallSeconds": 2.4772115840169135,
+      "simulatedSeconds": 1.0084508254232407,
+      "secondsPerStep": 0.008257371946723045,
+      "simulatedSecondsPerWallSecond": 0.407091114836461,
+      "minimumTimeStepSeconds": 0.003356168569003601,
+      "maximumTimeStepSeconds": 0.0033642140142586736,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    }
+  },
+  "equivalence": {
+    "maximumAbsoluteStateDifference": 1.932481952238163e-15,
+    "maximumRelativeStateDifference": 6.406781926719436e-16,
+    "simulatedTimeDifferenceSeconds": 0.0,
+    "tolerance": 1e-12
+  },
+  "speedup": {
+    "meshV2VersusMeshV1": 16.248666031549597,
+    "kernelV2VersusKernelV1OnMeshV2": 1.2216116711778646,
+    "combinedV2VersusV1": 19.8495600652123
+  },
+  "planningProjection": {
+    "source": "failed physical pilot sealed 60-second checkpoint extrapolation",
+    "oldEstimatedWallSecondsFor600PhysicalSeconds": 31442.69615608,
+    "syntheticSpeedupApplied": 19.8495600652123,
+    "projectedWallSecondsFor600PhysicalSeconds": 1584.050026941678,
+    "projectedWallMinutesFor600PhysicalSeconds": 26.4008337823613,
+    "notAnExecutedPhysicalResult": true,
+    "notAGuarantee": true
+  },
+  "safeguards": {
+    "physicalPrecomputationExecuted": false,
+    "newPhysicalPilotExecuted": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

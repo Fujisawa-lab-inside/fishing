@@ -13,7 +13,6 @@ import math
 from pathlib import Path
 
 import numpy as np
-from scipy.ndimage import distance_transform_edt, gaussian_filter
 
 
 GRAVITY_M_S2 = 9.80665
@@ -121,6 +120,8 @@ def _normalised_profile(x_from_centre: np.ndarray, sigma: float) -> np.ndarray:
 
 
 def shore_fields(mask: np.ndarray, sigma: float) -> tuple[np.ndarray, np.ndarray]:
+    from scipy.ndimage import distance_transform_edt, gaussian_filter
+
     require(sigma in (0.28, 0.36, 0.46), "unsupported approved sigma")
     extension = 220
     padded = np.pad(mask, ((extension, extension), (1, 1)), constant_values=False)

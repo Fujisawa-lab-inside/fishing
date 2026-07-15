@@ -1,0 +1,27 @@
+{
+  "schema": "onga-stage20-hybrid-v2-adoption-approval-v1",
+  "status": "approved_for_physical_precompute_acceleration",
+  "approvedDate": "2026-07-15",
+  "decision": {
+    "approvedChoice": "A",
+    "sourceStatement": "A：採用し、物理事前計算の高速化へ進む",
+    "reviewedImage": "docs/visuals/stage20-hybrid-v2-decision.jpg",
+    "reviewedImageSha256": "60ea83694adaae086183135078fc7fca388b88c5eeb1a639db4af40aa8a4f190"
+  },
+  "authorizes": [
+    "adopt_mesh_v2_hybrid_browser_path_on_work_branch",
+    "implement_mesh_v2_offline_precompute_plan",
+    "optimize_physical_precompute_code_without_numerical_execution",
+    "run_nonphysical_synthetic_performance_and_equivalence_benchmarks",
+    "prepare_next_execution_decision_visual"
+  ],
+  "doesNotAuthorize": [
+    "physical_precomputation_run",
+    "new_physical_pilot",
+    "paid_compute",
+    "public_simulator_connection",
+    "publish",
+    "main_merge",
+    "physical_validation_claim"
+  ]
+}

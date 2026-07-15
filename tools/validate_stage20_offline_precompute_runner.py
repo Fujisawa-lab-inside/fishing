@@ -16,7 +16,7 @@ def require(condition: bool, message: str) -> None:
 
 
 def main() -> None:
-    plan_path = Path("config/stage20_offline_response_precompute_plan_v1.json")
+    plan_path = Path("config/stage20_offline_response_precompute_plan_v2.json")
     with tempfile.TemporaryDirectory(prefix="stage20-precompute-checkpoint-") as temporary:
         checkpoint = Path(temporary)
         first = run_plan(plan_path, checkpoint, fixture=True, stop_after=3)
@@ -42,7 +42,7 @@ def main() -> None:
             corruption_rejected = "digest mismatch" in str(error)
         require(corruption_rejected, "corrupt completed output was accepted")
         print(json.dumps({
-            "schema": "onga-stage20-offline-precompute-runner-validation-v1",
+            "schema": "onga-stage20-offline-precompute-runner-validation-v2",
             "status": "passed",
             "jobCount": resumed["jobCount"],
             "firstCheckpointCompleted": first["completedJobCount"],

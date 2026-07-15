@@ -1,0 +1,114 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-contract-v1",
+  "status": "sealed_execution_requires_separate_authorization",
+  "executionAuthorized": false,
+  "purpose": "measure_mesh_v2_and_kernel_v2_on_one_inferred_input_600_second_case",
+  "resource": {
+    "provider": "GitHub-hosted Actions",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "selfHosted": false,
+    "paidCloudProvisioning": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v2.py",
+    "sha256": "aff811b71f8e77f24a4461d8e866f8c0976dd9a1d191ae709d2abeb1f2279014",
+    "syntheticBenchmark": "config/stage20_kernel_v2_synthetic_benchmark_v1.json",
+    "syntheticBenchmarkSha256": "b34314e648e27ffb5a86e69d9970afdf43f8efaf43ce4f712010f9832035aebc"
+  },
+  "runner": {
+    "path": "tools/run_stage20_physical_pilot_v2.py",
+    "sha256": "90e936d1d310cf1997ae721b1090cc154f08a8122166a001c1ac2618297d26e3",
+    "workflowName": "Stage 20 one-time physical pilot v2",
+    "workflowPath": ".github/workflows/stage20-physical-pilot-v2.yml",
+    "workflowSha256": "f461f4c9925bf4f4b3ece8c0ddeb6844b9f67c16bc9dbb74da34aed7d41ca283",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "postprocessing": [
+    {
+      "path": "tools/render_stage20_hybrid_physical_pilot_views.py",
+      "sha256": "676611d3631acd37c4012cd3772a001e31e217a7d3dc83ece5a09200d26f3677"
+    },
+    {
+      "path": "tools/seal_stage20_hybrid_physical_pilot_evidence.py",
+      "sha256": "8cec38ddc9bead64050a75f7565338fb719de06bb05410df19f1a8d426dd0a4d"
+    }
+  ],
+  "scenario": {
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "barrage": {
+      "scenario": "uniform_100_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "boundaries": {
+      "M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.4, "meanOffsetM": null},
+      "N": {"dischargeM3S": 12.0},
+      "O": {"dischargeM3S": 180.0},
+      "G": {"dischargeM3S": 8.0}
+    }
+  },
+  "run": {
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "tideCurveStartHour": 22.8,
+    "checkpointIntervalPhysicalSeconds": 60,
+    "maximumWallSeconds": 3600,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "acceptance": {
+    "minimumSimulatedSeconds": 600,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 10,
+    "viewCount": 4
+  },
+  "planningEstimate": {
+    "method": "failed_v1_physical_checkpoint_extrapolation_divided_by_nonphysical_combined_v2_speedup",
+    "oldV1EstimatedMinutes": 524.0449359346667,
+    "nonphysicalCombinedSpeedup": 19.8495600652123,
+    "v2EstimatedMinutes": 26.4008337823613,
+    "notAnExecutedPhysicalResult": true,
+    "notAGuarantee": true
+  },
+  "outputs": [
+    "execution-receipt.json",
+    "pilot-progress.json",
+    "pilot-report.json",
+    "pilot-final-fields.npz",
+    "ten_restartable_checkpoints",
+    "four_approved_view_jpegs",
+    "pilot-evidence-manifest.json"
+  ],
+  "safeguards": {
+    "inferredInputsMayBeCalledObservations": false,
+    "physicalValidationClaimAllowed": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false
+  }
+}

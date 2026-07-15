@@ -36,7 +36,10 @@ def atomic_write(path: Path, data: bytes) -> None:
 def load_plan(path: Path) -> tuple[dict, str]:
     raw = path.read_bytes()
     plan = json.loads(raw)
-    if plan.get("schema") != "onga-stage20-offline-response-precompute-plan-v1":
+    if plan.get("schema") not in {
+        "onga-stage20-offline-response-precompute-plan-v1",
+        "onga-stage20-offline-response-precompute-plan-v2",
+    }:
         raise RuntimeError("precompute plan schema mismatch")
     if plan.get("execution", {}).get("authorized") is not False:
         raise RuntimeError("implementation plan must not authorize physical execution")
@@ -122,7 +125,7 @@ def run_plan(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--plan", default="config/stage20_offline_response_precompute_plan_v1.json")
+    parser.add_argument("--plan", default="config/stage20_offline_response_precompute_plan_v2.json")
     parser.add_argument("--checkpoint-dir", required=True)
     parser.add_argument("--fixture", action="store_true")
     parser.add_argument("--stop-after", type=int)

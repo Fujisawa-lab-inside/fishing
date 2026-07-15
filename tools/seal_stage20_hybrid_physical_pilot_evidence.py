@@ -33,6 +33,8 @@ def sha256(path: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("work_dir")
+    parser.add_argument("--expected-cell-count", type=int, default=50339)
+    parser.add_argument("--manifest-schema", default="onga-stage20-hybrid-physical-pilot-evidence-v1")
     args = parser.parse_args()
     root = Path(args.work_dir)
     missing = [name for name in REQUIRED if not (root / name).is_file()]
@@ -47,14 +49,14 @@ def main() -> None:
         raise RuntimeError("pilot did not reach its physical-time target")
     if len(progress["checkpoints"]) != 10:
         raise RuntimeError("pilot checkpoint count is not ten")
-    if visual["cellCount"] != 50339 or len(visual["views"]) != 4:
+    if visual["cellCount"] != args.expected_cell_count or len(visual["views"]) != 4:
         raise RuntimeError("pilot visual coverage is incomplete")
     files = []
     for relative in REQUIRED:
         path = root / relative
         files.append({"path": relative, "byteLength": path.stat().st_size, "sha256": sha256(path)})
     manifest = {
-        "schema": "onga-stage20-hybrid-physical-pilot-evidence-v1",
+        "schema": args.manifest_schema,
         "status": "sealed_complete_not_physical_validation",
         "authorizationId": report["authorizationId"],
         "simulatedSeconds": report["run"]["simulatedSeconds"],

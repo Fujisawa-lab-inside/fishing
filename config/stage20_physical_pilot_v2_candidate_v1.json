@@ -1,0 +1,45 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-candidate-v1",
+  "status": "awaiting_visual_execution_decision",
+  "recordedDate": "2026-07-15",
+  "contract": "config/stage20_physical_pilot_v2_contract_v1.json",
+  "decisionImage": {
+    "path": "docs/visuals/stage20-physical-pilot-v2-decision.jpg",
+    "sha256": "2b45167cf160caaae15e77a35d6485c7f61bdb4107760ad76a2f64cc44a14f81"
+  },
+  "resource": "GitHub-hosted Linux x86_64 runner",
+  "scope": "one inferred-input case for 600 physical seconds, one time only, maximum wall time 60 minutes",
+  "evidence": {
+    "failedV1Run": "docs/results/stage20-hybrid-physical-pilot-29382550803/run-result.json",
+    "failedV1ReachedPhysicalSeconds": 60.000225816580084,
+    "failedV1WallMinutes": 52.40449359346667,
+    "failedV1Projected600SecondMinutes": 524.0449359346667,
+    "syntheticBenchmark": "config/stage20_kernel_v2_synthetic_benchmark_v1.json",
+    "meshSpeedup": 16.248666031549597,
+    "kernelSpeedup": 1.2216116711778646,
+    "combinedSpeedup": 19.8495600652123,
+    "projectedV2WallMinutes": 26.4008337823613,
+    "projectionNotGuaranteed": true
+  },
+  "decision": {
+    "question": "メッシュv2とkernel v2で1条件10分の物理パイロットを一回だけ実行するか",
+    "optionA": "authorize_one_time_600_second_v2_pilot_within_24_hours",
+    "optionB": "do_not_run_and_continue_code_only_optimization"
+  },
+  "risks": [
+    "the 26.4-minute estimate applies a nonphysical benchmark speedup to a prior physical checkpoint",
+    "the actual physical case may still exceed the 60-minute wall limit",
+    "the inferred boundary and bathymetry inputs may be physically wrong",
+    "the run may stop on CFL positivity mass-balance or non-finite checks",
+    "one 10-minute case cannot validate the 36-hour response basis"
+  ],
+  "doesNotAuthorize": [
+    "execution_without_a_new_explicit_authorization",
+    "automatic_retry",
+    "eleven_job_response_basis_campaign",
+    "paid_compute",
+    "main_merge",
+    "public_simulator_connection",
+    "physical_validation_claim"
+  ]
+}

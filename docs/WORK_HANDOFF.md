@@ -139,4 +139,12 @@ full64の実計算は、contract validationを通した変更がdefault branch�
 - A real WebKit page load and button click passed: zero clipped cells, zero non-finite values, zero depth drift, maximum velocity `2.551e-17 m/s`, and synthetic stable timestep `0.0033593783763900234 s`.
 - This is a synthetic uniform still-water connection check only. It does not connect the public simulator, run physical flow, publish, or merge `main`.
 - The machine-readable result is `config/stage20_browser_mesh_v2_connection_result_v1.json`; the screen evidence is `docs/visuals/stage20-browser-mesh-v2-connection.png`.
-- The 36-hour hybrid browser path has also been ported to mesh v2 using a synthetic response pack. It produced 37 hourly snapshots from hour -12 to +24 for all 50,199 cells; a real WebKit run completed in 395 ms including first load. The result is awaiting visual adoption in `docs/visuals/stage20-hybrid-v2-decision.jpg` and does not authorize physical precomputation.
+- The 36-hour hybrid browser path has also been ported to mesh v2 using a synthetic response pack. It produced 37 hourly snapshots from hour -12 to +24 for all 50,199 cells; a real WebKit run completed in 395 ms including first load. The visual in `docs/visuals/stage20-hybrid-v2-decision.jpg` was approved for the next code-only acceleration phase; that approval did not authorize a physical run.
+
+## Stage 20 physical precompute acceleration (2026-07-15)
+
+- The mesh-v2 hybrid browser path was visually approved. The next code-only phase ported the physical runner to mesh v2 and added kernel v2 without changing the numerical flux, hydrostatic reconstruction, boundary conditions, friction, or CFL rule.
+- A deterministic 300-step nonphysical benchmark measured 16.25x from mesh v2, 1.22x from kernel v2, and 19.85x combined. The maximum relative state difference between kernels on mesh v2 was `6.41e-16`, within the sealed `1e-12` tolerance.
+- Applying that synthetic multiplier to the prior failed physical checkpoint gives a planning estimate of 26.4 minutes for one 600-physical-second case. This is not a physical run result or guarantee; the candidate stops after 60 wall minutes and does not retry.
+- The next user decision is the two-way choice in `docs/visuals/stage20-physical-pilot-v2-decision.jpg`: authorize one GitHub-hosted Linux x86 run within 24 hours, or keep execution disabled and continue code-only optimization.
+- No v2 authorization or gate exists. No physical solver, workflow, public connection, `main` merge, or paid resource has been started.

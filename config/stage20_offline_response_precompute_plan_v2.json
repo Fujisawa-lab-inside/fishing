@@ -1,0 +1,65 @@
+{
+  "schema": "onga-stage20-offline-response-precompute-plan-v2",
+  "status": "optimized_implementation_contract_execution_not_authorized",
+  "approval": "config/stage20_hybrid_v2_adoption_approval_v1.json",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v2.py",
+    "reference": "tools/stage19_shallow_water_kernel_v1.py",
+    "numericalFluxChanged": false,
+    "hydrostaticReconstructionChanged": false,
+    "boundaryConditionsChanged": false,
+    "frictionChanged": false,
+    "cflRuleChanged": false,
+    "optimization": [
+      "cache_mesh_index_conversions",
+      "cache_inverse_cell_areas",
+      "replace_repeated_np_add_at_with_np_bincount_reductions"
+    ],
+    "syntheticBenchmark": "config/stage20_kernel_v2_synthetic_benchmark_v1.json"
+  },
+  "targetWindow": {
+    "pastHours": 12,
+    "futureHours": 24,
+    "displayIntervalHours": 1,
+    "snapshotCount": 37
+  },
+  "responseDimensions": [
+    "tideRelativeM",
+    "ongaDischargeM3S",
+    "nishiDischargeM3S",
+    "magariDischargeM3S",
+    "barrageOpeningFraction"
+  ],
+  "jobs": [
+    {"id": "reference", "dimension": "constant", "level": "reference"},
+    {"id": "tide-low", "dimension": "tideRelativeM", "level": "low"},
+    {"id": "tide-high", "dimension": "tideRelativeM", "level": "high"},
+    {"id": "onga-low", "dimension": "ongaDischargeM3S", "level": "low"},
+    {"id": "onga-high", "dimension": "ongaDischargeM3S", "level": "high"},
+    {"id": "nishi-low", "dimension": "nishiDischargeM3S", "level": "low"},
+    {"id": "nishi-high", "dimension": "nishiDischargeM3S", "level": "high"},
+    {"id": "magari-low", "dimension": "magariDischargeM3S", "level": "low"},
+    {"id": "magari-high", "dimension": "magariDischargeM3S", "level": "high"},
+    {"id": "barrage-closed", "dimension": "barrageOpeningFraction", "level": "low"},
+    {"id": "barrage-open", "dimension": "barrageOpeningFraction", "level": "high"}
+  ],
+  "checkpointContract": {
+    "atomicStatusWrite": true,
+    "outputSha256Required": true,
+    "completedJobsSkippedOnRestart": true,
+    "corruptCompletedOutputStopsRestart": true
+  },
+  "execution": {
+    "authorized": false,
+    "physicalExecutorConnected": false,
+    "syntheticFixtureValidationAllowed": true,
+    "paidResourceProvisioningAuthorized": false,
+    "automaticRetryAllowed": false
+  }
+}

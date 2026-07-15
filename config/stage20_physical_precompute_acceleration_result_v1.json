@@ -8,7 +8,7 @@
     "kernel": "tools/stage20_shallow_water_kernel_v2.py",
     "offlinePlan": "config/stage20_offline_response_precompute_plan_v2.json",
     "restartableControlPlane": "tools/stage20_offline_precompute_runner.py",
-    "inactiveWorkflow": ".github/workflows/stage20-physical-pilot-v2.yml"
+    "inactiveWorkflow": ".github/workflows/stage19-full64-one-time-run.yml"
   },
   "syntheticBenchmark": {
     "path": "config/stage20_kernel_v2_synthetic_benchmark_v1.json",

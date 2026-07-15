@@ -24,10 +24,10 @@
   },
   "runner": {
     "path": "tools/run_stage20_physical_pilot_v2.py",
-    "sha256": "90e936d1d310cf1997ae721b1090cc154f08a8122166a001c1ac2618297d26e3",
+    "sha256": "74ea7d017b0bcadf4d1bfbf7c2dc5ddf0c5681dde18337d48dd420ca574a9b3d",
     "workflowName": "Stage 20 one-time physical pilot v2",
-    "workflowPath": ".github/workflows/stage20-physical-pilot-v2.yml",
-    "workflowSha256": "f461f4c9925bf4f4b3ece8c0ddeb6844b9f67c16bc9dbb74da34aed7d41ca283",
+    "workflowPath": ".github/workflows/stage19-full64-one-time-run.yml",
+    "workflowSha256": "e2ffa485258385a2fc7a57a0426784da5484ff4512f91eade35f210ec095b59f",
     "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
   },
   "postprocessing": [

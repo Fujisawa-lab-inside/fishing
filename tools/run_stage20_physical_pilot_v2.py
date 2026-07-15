@@ -53,7 +53,7 @@ def validate_contract(repo_root: Path) -> dict:
     require(contract["kernel"]["syntheticBenchmarkSha256"] == sha256(repo_root / contract["kernel"]["syntheticBenchmark"]), "benchmark digest mismatch")
     require(contract["runner"]["path"] == "tools/run_stage20_physical_pilot_v2.py", "runner path mismatch")
     require(contract["runner"]["sha256"] == sha256(repo_root / contract["runner"]["path"]), "runner digest mismatch")
-    require(contract["runner"]["workflowPath"] == ".github/workflows/stage20-physical-pilot-v2.yml", "workflow path mismatch")
+    require(contract["runner"]["workflowPath"] == ".github/workflows/stage19-full64-one-time-run.yml", "workflow path mismatch")
     require(contract["runner"]["workflowSha256"] == sha256(repo_root / contract["runner"]["workflowPath"]), "workflow digest mismatch")
     for item in contract["postprocessing"]:
         require(item["sha256"] == sha256(repo_root / item["path"]), f"postprocessing digest mismatch: {item['path']}")

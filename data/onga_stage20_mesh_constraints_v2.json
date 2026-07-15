@@ -1,0 +1,33 @@
+{
+  "schema": "onga-stage20-mesh-constraints-v2",
+  "extends": "onga_stage20_mesh_constraints_v1.json",
+  "removeInherited": [
+    "expected",
+    "canonicalProbe",
+    "visualApproval"
+  ],
+  "version": "stage20-metric-fv-mesh-v2-boundary-snap-candidate",
+  "artifactFile": "onga_stage20_metric_fv_mesh_v2_boundary_snap_candidate.npz",
+  "candidateStatus": "awaiting_linux_x86_64_canonical_probe",
+  "supersedes": {
+    "meshVersion": "stage20-metric-fv-mesh-v1-candidate",
+    "reason": "Remove the 0.04-pixel gaps between the approved barrage axis and the water boundary that created 125 timestep-limiting sliver cells."
+  },
+  "barrageConstraintMode": "boundary-snap-same-axis",
+  "barrageBoundarySnapMaximumPixel": 0.25,
+  "endpointPatchRadiusPixel": 1.6,
+  "localChangeMaximumRadiusPixel": 20.0,
+  "meshQualityTarget": {
+    "scope": "barrage_endpoint_patches_only",
+    "minimumCellAreaM2": 0.25,
+    "approvedBarrageAxisChanged": false,
+    "waterBoundaryChanged": false,
+    "gateCount": 8,
+    "fishwayApprovedImagePixelChanged": false
+  },
+  "decision": {
+    "approvedOption": "barrage_endpoint_local_remesh",
+    "approvedDate": "2026-07-15",
+    "sourceStatement": "A：河口堰両端だけを修正した候補メッシュを作成する"
+  }
+}

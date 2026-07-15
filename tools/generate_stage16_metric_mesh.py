@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse, hashlib, json, math, platform
+import argparse, copy, hashlib, json, math, platform
 from pathlib import Path
 import numpy as np
 import triangle as tr
@@ -17,6 +17,22 @@ APPROVED_VISUALS={
 
 def j(path): return json.loads(Path(path).read_text(encoding='utf-8'))
 def h(a): return hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
+
+def merge_dict(base, override):
+    result=copy.deepcopy(base)
+    for key,value in override.items():
+        if isinstance(value,dict) and isinstance(result.get(key),dict):result[key]=merge_dict(result[key],value)
+        else:result[key]=copy.deepcopy(value)
+    return result
+
+def load_constraints(path):
+    path=Path(path); raw=j(path); parent=raw.get('extends')
+    if not parent:return raw
+    base=load_constraints(path.parent/parent); remove=raw.get('removeInherited',[])
+    override={k:v for k,v in raw.items() if k not in ('extends','removeInherited')}
+    result=merge_dict(base,override)
+    for key in remove:result.pop(key,None)
+    return result
 
 def load_water(root, path):
     m=j(path); rows=[None]*int(m['height'])
@@ -130,7 +146,7 @@ def main():
     ap.add_argument('--probe',action='store_true',help='emit unpinned diagnostics without accepting them as canonical')
     a=ap.parse_args();root=Path(a.repo_root).resolve();out=root/a.output;out.mkdir(parents=True,exist_ok=True)
     constraints_path=root/a.constraints;manifest_path=root/a.water_manifest
-    C=j(constraints_path);m,w=load_water(root,manifest_path);M=mesh_from_water(w,C);E=C.get('expected')
+    C=load_constraints(constraints_path);m,w=load_water(root,manifest_path);M=mesh_from_water(w,C);E=C.get('expected')
     if not a.probe and not isinstance(E,dict):raise RuntimeError('canonical expected mesh values are not pinned')
     if E is None and C.get('candidateStatus')!='awaiting_linux_x86_64_canonical_probe':raise RuntimeError('unpinned candidate status mismatch')
     if isinstance(E,dict) and C.get('candidateStatus') not in ('linux_x86_64_pinned_awaiting_visual_review','approved_canonical'):raise RuntimeError('pinned candidate status mismatch')

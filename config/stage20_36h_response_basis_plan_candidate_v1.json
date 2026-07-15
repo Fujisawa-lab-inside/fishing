@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "route_a_kernel_v3_physical_pilot_passed_awaiting_segmented_plan_adoption",
+  "status": "kernel_v3_adopted_for_detailed_plan_66_segment_warmup_candidate_awaiting_canary_decision",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -58,6 +58,18 @@
     ],
     "notAnExecuted36HourResult": true
   },
+  "detailedPlanCorrection": {
+    "approval": "config/stage20_kernel_v3_segmented_plan_approval_v1.json",
+    "plan": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "reason": "the_requested_past_12_hours_must_not_begin_from_a_cold_still_water_state",
+    "warmupHours": 12,
+    "modeledHours": 48,
+    "segmentPhysicalHours": 8,
+    "segmentsPerBasis": 6,
+    "totalSegments": 66,
+    "projectedAllElevenRunnerHours": 267.6958155678159,
+    "thisCorrectionAuthorizesExecution": false
+  },
   "physicalInterpretation": {
     "tenMinuteEndpointMayBeUsedAsStaticSteadyBasis": false,
     "reason": "mean speed continued increasing through 600 seconds and the last one-minute RMS velocity change remained 0.01573 m/s",
@@ -99,12 +111,13 @@
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
   },
   "nextDecision": {
-    "question": "kernel v3を採用して36時間の44区間分割計画を作るか",
-    "optionA": "adopt_kernel_v3_and_prepare_detailed_segmented_plan_without_execution",
-    "optionB": "hold_adoption_and_continue_code_only_optimization",
+    "question": "reference-s01の8物理時間を一回だけ実行するか",
+    "optionA": "authorize_exactly_one_reference_s01_warmup_canary",
+    "optionB": "keep_the_66_segment_plan_inactive_without_execution",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-kernel-v3-physical-result-decision.jpg",
-    "decisionImageSha256": "9a28b2e6b07543929df656c0480e015a31acc4cffae47be39d70e16c1b81a815",
+    "decisionImage": "docs/visuals/stage20-36h-canary-execution-decision.jpg",
+    "decisionImageSha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707",
+    "candidate": "config/stage20_reference_s01_canary_candidate_v1.json",
     "campaignExecutionAuthorized": false
   },
   "execution": {
@@ -116,6 +129,7 @@
     "kernelV3CodeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
     "kernelV3PhysicalPilotResult": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
     "kernelV3PhysicalPilotConsumed": true,
+    "kernelV3AdoptedForDetailedPlanCandidate": true,
     "kernelV3AdoptedForCampaign": false,
     "elevenBasisCampaignAuthorized": false
   },

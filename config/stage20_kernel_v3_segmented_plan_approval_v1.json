@@ -1,0 +1,30 @@
+{
+  "schema": "onga-stage20-kernel-v3-segmented-plan-approval-v1",
+  "status": "approved_for_detailed_planning_only",
+  "approvedDate": "2026-07-15",
+  "approvedChoice": "A",
+  "sourceStatement": "A案で進めてください",
+  "reviewedDecision": {
+    "image": "docs/visuals/stage20-kernel-v3-physical-result-decision.jpg",
+    "imageSha256": "9a28b2e6b07543929df656c0480e015a31acc4cffae47be39d70e16c1b81a815",
+    "result": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
+    "resultSha256": "05191cb837c84e85f4fb4244bec1649f19f7f9a24c06038a596676ad0c1d16b2"
+  },
+  "authorizes": [
+    "adopt_kernel_v3_as_the_detailed_precompute_plan_candidate",
+    "design_segment_dependencies_and_restart_artifacts",
+    "design_fail_closed_execution_controls",
+    "run_fixture_only_control_plane_validation",
+    "prepare_the_next_visual_execution_decision"
+  ],
+  "doesNotAuthorize": [
+    "any_physical_segment",
+    "automatic_retry_or_resume",
+    "the_eleven_basis_campaign",
+    "paid_compute",
+    "public_simulator_connection",
+    "publish",
+    "main_merge",
+    "physical_validation_claim"
+  ]
+}

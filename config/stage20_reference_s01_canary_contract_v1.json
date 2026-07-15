@@ -1,0 +1,119 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-contract-v1",
+  "status": "sealed_execution_requires_separate_visual_authorization",
+  "executionAuthorized": false,
+  "purpose": "measure_and_validate_only_the_first_eight_physical_hour_reference_warmup_segment_before_any_remaining_segment",
+  "plan": {
+    "path": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "sha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470"
+  },
+  "resource": {
+    "provider": "GitHub-hosted standard Actions runner",
+    "repositoryVisibility": "PUBLIC",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "jobTimeoutMinutes": 330,
+    "maximumNumericalWallSeconds": 18000,
+    "paidCloudProvisioning": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14",
+    "physicalPilotResult": "config/stage20_kernel_v3_physical_pilot_result_v1.json",
+    "physicalPilotSpeedup": 4.906689449595995
+  },
+  "runner": {
+    "path": "tools/run_stage20_reference_s01_canary.py",
+    "sha256": "e4a3b739b5071ad372a05ca77a4c08f483f179205cb2bbbea6f62b714c1ada51",
+    "workflowName": "Stage 20 one-time reference s01 warmup canary",
+    "workflowPath": ".github/workflows/stage20-reference-s01-canary.yml",
+    "workflowSha256": "837133c629e64831395b07aa86216b7f1bcd6e7a416c48e853b5783df0a5ce8d",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "scenario": {
+    "bathymetry": {
+      "sigma": 0.36,
+      "mainstemMeanDepthM": 4.0,
+      "tributaryMeanDepthM": 1.8
+    },
+    "roughness": {
+      "manningOpenChannel": 0.03,
+      "shallowMarginMultiplier": 1.25,
+      "structureVicinityMultiplier": 1.15
+    },
+    "barrage": {
+      "scenario": "uniform_50_percent",
+      "effectiveDischargeCoefficient": 0.65
+    },
+    "fishway": {
+      "mode": "head_difference_relation_ensemble",
+      "effectiveDischargeCoefficient": 0.6,
+      "effectiveAreaM2": 1.0
+    },
+    "boundaries": {
+      "M": {
+        "phaseShiftMinutes": 0.0,
+        "amplitudeMultiplier": 1.0,
+        "meanOffsetM": null
+      },
+      "N": {"dischargeM3S": 2.0},
+      "O": {"dischargeM3S": 35.0},
+      "G": {"dischargeM3S": 1.0}
+    }
+  },
+  "run": {
+    "jobId": "reference-s01",
+    "caseCount": 1,
+    "modelHourStart": -24,
+    "modelHourEnd": -16,
+    "targetPhysicalSeconds": 28800,
+    "tideCurveHourAtModelHourZero": 0.0,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "maximumNumericalWallSeconds": 18000,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "acceptance": {
+    "minimumSimulatedSeconds": 28800,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCount": 8,
+    "finalRestartRequired": true,
+    "finalFieldsRequired": true
+  },
+  "planningEstimate": {
+    "projectedWallSeconds": 14601.589940062682,
+    "projectedWallHours": 4.055997205572967,
+    "wallMarginToNumericalStopSeconds": 3398.410059937318,
+    "queueSetupAndArtifactUploadExcluded": true,
+    "notAGuarantee": true
+  },
+  "outputs": [
+    "execution-receipt.json",
+    "progress.json",
+    "segment-report.json",
+    "restart-final.npz",
+    "segment-final-fields.npz",
+    "eight_hourly_restart_checkpoints",
+    "evidence-manifest.json",
+    "one_local_diagnostic_map_from_the_exact_retained_final_fields"
+  ],
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "remainingSegmentsAllowed": false,
+    "campaignAllowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

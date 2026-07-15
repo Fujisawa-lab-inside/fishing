@@ -1,0 +1,63 @@
+{
+  "schema": "onga-stage20-36h-segmented-plan-validation-v1",
+  "status": "passed_fixture_only_execution_disabled",
+  "validatedDate": "2026-07-15",
+  "identity": {
+    "plan": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "planSha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470",
+    "planningApproval": "config/stage20_kernel_v3_segmented_plan_approval_v1.json",
+    "planningApprovalSha256": "e2960cabce0118ed19b4ec3efea39c703142d9403c810dcf18e9a1dd6467d215",
+    "canaryContract": "config/stage20_reference_s01_canary_contract_v1.json",
+    "canaryContractSha256": "0a036a237b3127c1349ed79618910e7e04f075aeae9febc31548a0417e04a26d",
+    "dormantWorkflow": ".github/workflows/stage20-reference-s01-canary.yml",
+    "dormantWorkflowSha256": "837133c629e64831395b07aa86216b7f1bcd6e7a416c48e853b5783df0a5ce8d",
+    "decisionImage": "docs/visuals/stage20-36h-canary-execution-decision.jpg",
+    "decisionImageSha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707"
+  },
+  "planChecks": {
+    "basisCount": 11,
+    "segmentsPerBasis": 6,
+    "totalSegments": 66,
+    "warmupHours": 12,
+    "snapshotCountPerBasis": 37,
+    "uniqueJobIdentifiers": true,
+    "completeDependencyChains": true,
+    "noDuplicateOrMissingSnapshotHours": true,
+    "exactlyOneInputDimensionVariedPerNonReferenceBasis": true
+  },
+  "controlChecks": {
+    "missingPredecessorRejectedBeforeNumericalStep": true,
+    "corruptPredecessorRejectedBeforeNumericalStep": true,
+    "contractOnlyPreflightPassed": true,
+    "contractOnlyNumericalStepCalled": false,
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "activationPresent": false,
+    "workflowTriggerFilePresent": false
+  },
+  "resourceVerification": {
+    "repositoryVisibility": "PUBLIC",
+    "runner": "GitHub-hosted standard ubuntu-latest",
+    "githubDefaultJobTimeoutMinutes": 360,
+    "plannedJobTimeoutMinutes": 330,
+    "numericalStopMinutes": 300,
+    "artifactRetentionDays": 90,
+    "checkedDate": "2026-07-15",
+    "limitsAndTermsMayChange": true,
+    "sources": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax",
+      "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/remove-workflow-artifacts",
+      "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+    ]
+  },
+  "safeguards": {
+    "physicalSolverExecuted": false,
+    "physicalSegmentAuthorized": false,
+    "campaignAuthorized": false,
+    "automaticRetryAllowed": false,
+    "paidResourceProvisioned": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

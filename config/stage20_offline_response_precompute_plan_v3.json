@@ -1,0 +1,43 @@
+{
+  "schema": "onga-stage20-offline-response-precompute-plan-v3",
+  "status": "kernel_v3_detailed_plan_ready_execution_disabled",
+  "replaces": "config/stage20_offline_response_precompute_plan_v2.json",
+  "planningApproval": "config/stage20_kernel_v3_segmented_plan_approval_v1.json",
+  "detailedPlan": "config/stage20_36h_segmented_precompute_plan_v1.json",
+  "detailedPlanSha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14",
+    "physicalPilotRunId": 29411976467,
+    "physicalPilotSpeedup": 4.906689449595995
+  },
+  "scope": {
+    "basisCount": 11,
+    "requestedHours": 36,
+    "warmupHours": 12,
+    "modeledHours": 48,
+    "segmentPhysicalHours": 8,
+    "segmentsPerBasis": 6,
+    "totalSegments": 66,
+    "hourlySnapshotsPerBasis": 37
+  },
+  "execution": {
+    "authorized": false,
+    "physicalExecutorConnected": false,
+    "workflowPresent": false,
+    "automaticRetryAllowed": false,
+    "paidResourceProvisioningAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  },
+  "nextDecision": {
+    "candidate": "config/stage20_reference_s01_canary_candidate_v1.json",
+    "scope": "one_reference_s01_segment_only",
+    "remainingSegmentsAuthorized": false
+  }
+}

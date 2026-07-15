@@ -1,0 +1,51 @@
+{
+  "schema": "onga-stage20-reference-s01-canary-candidate-v1",
+  "status": "reviewed_inactive_awaiting_visual_decision",
+  "recordedDate": "2026-07-15",
+  "decision": {
+    "question": "reference-s01の8物理時間を一回だけ実行するか",
+    "optionA": "authorize_exactly_one_reference_s01_canary_within_24_hours",
+    "optionB": "do_not_run_and_keep_the_66_segment_plan_inactive",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-36h-canary-execution-decision.jpg",
+    "decisionImageSha256": "d877de1dab9480a05a9991b65422dbffb24121f25554c6e956cf5462b3549707"
+  },
+  "executionContract": "config/stage20_reference_s01_canary_contract_v1.json",
+  "executionContractSha256": "0a036a237b3127c1349ed79618910e7e04f075aeae9febc31548a0417e04a26d",
+  "scope": {
+    "jobId": "reference-s01",
+    "basis": "reference",
+    "modelHourStart": -24,
+    "modelHourEnd": -16,
+    "physicalHours": 8,
+    "runCount": 1,
+    "executionWindowHoursAfterApproval": 24,
+    "projectedRunnerWallHours": 4.055997205572967,
+    "maximumNumericalWallHours": 5,
+    "automaticRetryAllowed": false
+  },
+  "outputs": [
+    "restart_checkpoint_with_sha256",
+    "eight_hourly_checkpoints",
+    "complete_numerical_evidence",
+    "one_diagnostic_map_at_model_hour_minus_16"
+  ],
+  "risks": [
+    "the_run_may_not_reach_eight_physical_hours_before_the_five_hour_stop",
+    "longer_dynamics_may_reveal_numerical_instability_not_seen_in_the_ten_minute_pilot",
+    "the_inferred_inputs_may_be_physically_wrong",
+    "the_warmup_map_is_not_a_fishing_forecast"
+  ],
+  "execution": {
+    "authorized": false,
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "activationPresent": false,
+    "workflowDormant": true,
+    "physicalRunExecuted": false,
+    "remainingSegmentsAuthorized": false,
+    "campaignAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

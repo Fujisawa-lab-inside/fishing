@@ -1,0 +1,61 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-run-result-v1",
+  "status": "passed_numerical_checks_awaiting_visual_adoption_not_physical_validation",
+  "recordedDate": "2026-07-15",
+  "github": {
+    "runId": 29396657600,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29396657600",
+    "executionCommit": "593e82c92c1b4111407e5fdaa213c4e89f3230eb",
+    "artifactId": 8335924320,
+    "artifactName": "stage20-physical-pilot-v2-29396657600",
+    "artifactExpiresAtUtc": "2026-10-13T07:13:46Z"
+  },
+  "scope": {
+    "mesh": "mesh-v2",
+    "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "kernel": "kernel-v2",
+    "kernelSha256": "aff811b71f8e77f24a4461d8e866f8c0976dd9a1d191ae709d2abeb1f2279014",
+    "caseCount": 1,
+    "targetPhysicalSeconds": 600,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "numericalResult": {
+    "simulatedSeconds": 600.0048578949198,
+    "stepsCompleted": 81861,
+    "wallSeconds": 1492.6259871490001,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 2.197424338222903e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "minimumDepthM": 0.45684900088537217,
+    "maximumDepthM": 12.449291280531774,
+    "maximumSpeedAcrossCheckpointsMPS": 0.7375699263122649,
+    "checkpointCount": 10,
+    "viewCount": 4
+  },
+  "evidence": {
+    "artifactEvidenceManifestSha256": "f6bd88da4082dbbbfed035e996263b0e1ae9d193bea3e9e9c562356d1c404760",
+    "finalFieldsSha256": "a4421b659aabdcd7ead78b9244facfbe5d595666acf862f77f1958717ec6dca7",
+    "correctedLocalVisualManifestSha256": "c7f757564115e466d6e1f394805cd95e45dd0eca4fc76201ea4952234262e22e",
+    "visualDecisionSha256": "99891eb328977c6dd3cb02fd03f6e658c17c87ef83eb05d99e31bbb18ea14c64",
+    "downloadedEvidenceFilesVerified": 9,
+    "checkpointDigestsVerified": 10,
+    "fieldArraysIndependentlyVerified": true
+  },
+  "presentationCorrection": {
+    "reason": "GitHub runner lacked a Japanese glyph font, so the sealed artifact maps contained missing-glyph boxes",
+    "physicalSolverRerun": false,
+    "sourceFinalFieldsSha256": "a4421b659aabdcd7ead78b9244facfbe5d595666acf862f77f1958717ec6dca7",
+    "change": "rerendered the same final fields locally with a Japanese-capable font",
+    "numericalValuesChanged": false
+  },
+  "interpretation": {
+    "numericalStabilityPassed": true,
+    "physicalValidationClaimAllowed": false,
+    "observationalAgreementClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false
+  }
+}

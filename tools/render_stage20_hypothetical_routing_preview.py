@@ -28,10 +28,15 @@ DISCLAIMER_JA = "準定常経路プレビュー／浅水方程式の物理計算
 
 
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
+    mac_hiragino = sorted(Path("/System/Library/Fonts").glob("*W6.ttc" if bold else "*W3.ttc"))
     candidates = [
+        *map(str, mac_hiragino),
         "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc"
         if bold
         else "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+        if bold
+        else "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         "/System/Library/Fonts/AppleSDGothicNeo.ttc",
         "/System/Library/Fonts/Supplemental/NotoSansGothic-Regular.ttf",
     ]

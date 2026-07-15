@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-physical-pilot-v2-candidate-v1",
-  "status": "awaiting_visual_execution_decision",
+  "status": "executed_once_awaiting_visual_result_adoption_decision",
   "recordedDate": "2026-07-15",
   "contract": "config/stage20_physical_pilot_v2_contract_v1.json",
   "decisionImage": {
@@ -41,5 +41,19 @@
     "main_merge",
     "public_simulator_connection",
     "physical_validation_claim"
-  ]
+  ],
+  "executionResult": {
+    "githubRunId": 29396657600,
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29396657600",
+    "resultRecord": "docs/results/stage20-physical-pilot-v2-29396657600/run-result.json",
+    "visualDecision": "docs/visuals/stage20-physical-pilot-v2-result-decision.jpg",
+    "visualDecisionSha256": "99891eb328977c6dd3cb02fd03f6e658c17c87ef83eb05d99e31bbb18ea14c64",
+    "additionalRunAuthorized": false
+  },
+  "resultDecision": {
+    "question": "この4地点の流向表示を物理事前計算v2の基準表示として採用するか",
+    "optionA": "adopt_visual_result_and_proceed_to_36_hour_response_basis_precompute_planning",
+    "optionB": "do_not_adopt_and_revise_inputs_flow_direction_or_display",
+    "optionADoesNotAuthorizeAdditionalPhysicalExecution": true
+  }
 }

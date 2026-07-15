@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-physical-precompute-acceleration-result-v1",
-  "status": "code_acceleration_complete_awaiting_one_time_physical_pilot_decision",
+  "status": "one_time_physical_pilot_complete_awaiting_visual_result_adoption_decision",
   "recordedDate": "2026-07-15",
   "approval": "config/stage20_hybrid_v2_adoption_approval_v1.json",
   "implementation": {
@@ -28,15 +28,19 @@
   },
   "nextDecision": {
     "candidate": "config/stage20_physical_pilot_v2_candidate_v1.json",
-    "image": "docs/visuals/stage20-physical-pilot-v2-decision.jpg",
-    "optionA": "authorize_one_time_600_second_v2_pilot_within_24_hours",
-    "optionB": "do_not_run_and_continue_code_only_optimization"
+    "image": "docs/visuals/stage20-physical-pilot-v2-result-decision.jpg",
+    "optionA": "adopt_visual_result_and_proceed_to_36_hour_response_basis_precompute_planning",
+    "optionB": "do_not_adopt_and_revise_inputs_flow_direction_or_display",
+    "additionalPhysicalExecutionAuthorized": false
   },
   "executionState": {
-    "physicalSolverExecuted": false,
-    "authorizationPresent": false,
-    "gatePresent": false,
-    "workflowStarted": false,
+    "physicalSolverExecuted": true,
+    "authorizationPresent": true,
+    "gatePresent": true,
+    "gateConsumed": true,
+    "workflowStarted": true,
+    "githubRunId": 29396657600,
+    "githubConclusion": "success",
     "mainMerged": false
   }
 }

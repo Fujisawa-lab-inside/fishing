@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-physical-pilot-v2-gate-v1",
-  "state": "active_one_time",
+  "state": "consumed",
   "authorizationId": "stage20-physical-pilot-v2-20260715t071228z-one-time",
   "authorizationSha256": "73d4e6c826f682b16cf7c8f41cacae7f64ac5aa1be7d687ed408c50265bd6c43",
   "issuedAtUtc": "2026-07-15T07:12:28Z",
@@ -8,5 +8,12 @@
   "automaticRetryAllowed": false,
   "additionalRunAllowed": false,
   "consumptionEvidence": "successful workflow step named Consume Stage 20 physical pilot v2 authorization",
-  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v2_github_hosted_linux_x86_one_time"
+  "scope": "one_case_600_physical_seconds_on_mesh_v2_kernel_v2_github_hosted_linux_x86_one_time",
+  "consumedAtUtc": "2026-07-15T07:14:20Z",
+  "consumedBy": {
+    "githubRunId": 29396657600,
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29396657600",
+    "result": "passed_numerical_checks_not_physical_validation",
+    "resultRecord": "docs/results/stage20-physical-pilot-v2-29396657600/run-result.json"
+  }
 }

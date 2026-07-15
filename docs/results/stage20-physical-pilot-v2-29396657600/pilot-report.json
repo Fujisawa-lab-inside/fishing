@@ -1,0 +1,104 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-physical-pilot-v2-20260715t071228z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "mesh": {
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v2.py",
+    "sha256": "aff811b71f8e77f24a4461d8e866f8c0976dd9a1d191ae709d2abeb1f2279014"
+  },
+  "run": {
+    "targetPhysicalSeconds": 600.0,
+    "simulatedSeconds": 600.0048578949198,
+    "stepsCompleted": 81861,
+    "wallSeconds": 1492.6259871490001
+  },
+  "diagnostics": {
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 2.197424338222903e-14,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "minimumDepthM": 0.45684900088537217,
+    "maximumDepthM": 12.449291280531774,
+    "maximumSpeedMPS": 0.7375699263122649
+  },
+  "outputs": {
+    "fields": "pilot-final-fields.npz",
+    "fieldsSha256": "a4421b659aabdcd7ead78b9244facfbe5d595666acf862f77f1958717ec6dca7",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-0060s.npz",
+        "sha256": "61742a89d03f7db5ea2b53b649d70e98a703a7e698c065502cb98646915f93b3",
+        "elapsedSeconds": 60.00151923542689,
+        "step": 7980
+      },
+      {
+        "path": "checkpoints/checkpoint-0120s.npz",
+        "sha256": "6dfc250b636442234b62a98c98f0d7e502eefd78a207caeeb62ed46dedf94684",
+        "elapsedSeconds": 120.00145451096184,
+        "step": 16179
+      },
+      {
+        "path": "checkpoints/checkpoint-0180s.npz",
+        "sha256": "0692399a31202d6a2e6fd5913eeaba342fdb7f16a161218631b0817082f60a25",
+        "elapsedSeconds": 180.0013250859262,
+        "step": 24169
+      },
+      {
+        "path": "checkpoints/checkpoint-0240s.npz",
+        "sha256": "d016c15f1c859d699cc4ae79e32c7437d9f61987b6fe889f7113d7e49d5dbfa9",
+        "elapsedSeconds": 240.00534514098555,
+        "step": 32328
+      },
+      {
+        "path": "checkpoints/checkpoint-0300s.npz",
+        "sha256": "e73b247555d9d4ae5c5a402cd2cbc648b2de1dc1c77af2efc123ef5f0a2bc4d1",
+        "elapsedSeconds": 300.0039498887443,
+        "step": 40512
+      },
+      {
+        "path": "checkpoints/checkpoint-0360s.npz",
+        "sha256": "3a45701612d2b2969a8f0a9f5c45331bf62a8e9c5b66214b02951e731f940c54",
+        "elapsedSeconds": 360.0059319567108,
+        "step": 48694
+      },
+      {
+        "path": "checkpoints/checkpoint-0420s.npz",
+        "sha256": "760a33b5be0ee0f2b20dab83da1dcc4b8dae2927c6ef4fbdff6fdf2820464bee",
+        "elapsedSeconds": 420.0044220549385,
+        "step": 56944
+      },
+      {
+        "path": "checkpoints/checkpoint-0480s.npz",
+        "sha256": "7577ef9fbec6b8d47740e61200b50b5286d8dc5684b177dc4b77d677c9a73a23",
+        "elapsedSeconds": 480.0030180905205,
+        "step": 65216
+      },
+      {
+        "path": "checkpoints/checkpoint-0540s.npz",
+        "sha256": "d6bc344cb3134fd1340730e9e447a5e0cf975dd258c90ee701bd50d9ead0c423",
+        "elapsedSeconds": 540.0057634780133,
+        "step": 73515
+      },
+      {
+        "path": "checkpoints/checkpoint-0600s.npz",
+        "sha256": "cbd665d53d676c2b62180644dc7b50d785bec949a2b4d1d62bc6623aab25d2db",
+        "elapsedSeconds": 600.0048578949198,
+        "step": 81861
+      }
+    ]
+  },
+  "safeguards": {
+    "inferredInputsOnly": true,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

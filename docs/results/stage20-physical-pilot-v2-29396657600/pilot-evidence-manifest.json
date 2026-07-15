@@ -1,0 +1,60 @@
+{
+  "schema": "onga-stage20-physical-pilot-v2-evidence-v1",
+  "status": "sealed_complete_not_physical_validation",
+  "authorizationId": "stage20-physical-pilot-v2-20260715t071228z-one-time",
+  "simulatedSeconds": 600.0048578949198,
+  "stepsCompleted": 81861,
+  "checkpointCount": 10,
+  "viewCount": 4,
+  "files": [
+    {
+      "path": "execution-receipt.json",
+      "byteLength": 544,
+      "sha256": "d0e84059dcc83a48bae48478b2b90b0facea9c42cbcea5c398dba07b2f62b10f"
+    },
+    {
+      "path": "pilot-progress.json",
+      "byteLength": 2517,
+      "sha256": "ac8ef49c09658386b9eae329daa4c581150d70d0c71d3412329eac45f0d8a6e1"
+    },
+    {
+      "path": "pilot-report.json",
+      "byteLength": 3573,
+      "sha256": "ba322418556f523a1dc56b819f263868b6cbffccd70585d7ba4ba20878b7a234"
+    },
+    {
+      "path": "pilot-final-fields.npz",
+      "byteLength": 1138710,
+      "sha256": "a4421b659aabdcd7ead78b9244facfbe5d595666acf862f77f1958717ec6dca7"
+    },
+    {
+      "path": "pilot-visual-manifest.json",
+      "byteLength": 1298,
+      "sha256": "e5de97fee7962733b9a31597e5da901eaf46424b4fbe2ad0b26085ec4d53164f"
+    },
+    {
+      "path": "maps/pilot-estuary.jpg",
+      "byteLength": 289688,
+      "sha256": "821e47fc546e835234ae45d864bafa57fc60d5ba4864b69e9eb361bea926f8f1"
+    },
+    {
+      "path": "maps/pilot-barrage.jpg",
+      "byteLength": 365203,
+      "sha256": "a9e1b34d584c873e7a290e31a7a3e2c18716c58464a9d28fda5e252e2aec293d"
+    },
+    {
+      "path": "maps/pilot-confluence.jpg",
+      "byteLength": 392626,
+      "sha256": "788d3691a1dd888467369bbb90723f41b622f0454a08c37afa3329cb6ab0e968"
+    },
+    {
+      "path": "maps/pilot-fishway.jpg",
+      "byteLength": 369273,
+      "sha256": "f9ce31a48eaef197c4df839d9c6c3a68b805f8b6122120826ff6e6a5a084f19f"
+    }
+  ],
+  "safeguards": {
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

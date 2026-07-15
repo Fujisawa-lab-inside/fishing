@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "route_a_approved_kernel_v3_code_only_validation_in_progress",
+  "status": "route_a_kernel_v3_code_only_passed_awaiting_physical_pilot_decision",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -82,7 +82,8 @@
     "physicalRunAllowed": false,
     "automaticRetryAllowed": false,
     "paidResourceProvisioningAuthorized": false,
-    "mainMergeAuthorized": false
+    "mainMergeAuthorized": false,
+    "kernelV3CodeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json"
   },
   "sources": [
     "https://docs.github.com/en/actions/reference/limits",

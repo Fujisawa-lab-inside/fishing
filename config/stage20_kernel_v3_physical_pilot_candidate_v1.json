@@ -1,0 +1,59 @@
+{
+  "schema": "onga-stage20-kernel-v3-physical-pilot-candidate-v1",
+  "status": "awaiting_explicit_execution_decision",
+  "recordedDate": "2026-07-15",
+  "codeOnlyResult": "config/stage20_kernel_v3_code_only_result_v1.json",
+  "resource": "GitHub-hosted Linux x86_64 runner",
+  "scope": {
+    "mesh": "public/data/onga/stage20/mesh-v2.json",
+    "kernel": "tools/stage20_shallow_water_kernel_v3.py",
+    "case": "the exact inferred-input condition used by physical pilot v2",
+    "physicalSeconds": 600,
+    "runCount": 1,
+    "executionWindowHoursAfterApproval": 24,
+    "maximumRunnerWallMinutes": 20,
+    "automaticRetryAllowed": false
+  },
+  "expected": {
+    "projectedNumericalWallMinutes": 3.1399891086727445,
+    "expectedResultAfterRunnerStartMinutes": "approximately 5 including setup",
+    "githubQueueDelayExcluded": true,
+    "projectionIsGuarantee": false
+  },
+  "outputs": [
+    "complete_numerical_evidence",
+    "ten_checkpoints",
+    "four_reference_flow_maps",
+    "comparison_with_the_completed_kernel_v2_pilot",
+    "updated_36_hour_resource_projection"
+  ],
+  "stopConditions": [
+    "maximum_runner_wall_time_reached",
+    "invalid_adaptive_time_step",
+    "cfl_or_mass_balance_limit_exceeded",
+    "nonfinite_state",
+    "negative_depth",
+    "output_digest_or_checkpoint_failure"
+  ],
+  "risks": [
+    "the_7_92x_synthetic_speedup_may_not_transfer_to_the_physical_input",
+    "the_inferred_bathymetry_and_boundaries_may_be_physically_wrong",
+    "the_run_may_stop_before_600_physical_seconds",
+    "one_10_minute_run_cannot_validate_the_36_hour_response_basis"
+  ],
+  "decision": {
+    "question": "kernel v3で1条件×物理10分を一回だけ再確認するか",
+    "optionA": "authorize_one_time_kernel_v3_physical_pilot_within_24_hours",
+    "optionB": "do_not_run_and_keep_kernel_v3_as_code_only_candidate",
+    "decisionImage": "docs/visuals/stage20-kernel-v3-result-decision.jpg",
+    "decisionImageSha256": "b01b78291f37c76bd232c98790385bd384a149398445465ad2ecca896f21bafc"
+  },
+  "execution": {
+    "authorized": false,
+    "gatePresent": false,
+    "physicalRunExecuted": false,
+    "elevenBasisCampaignAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "onga-stage20-kernel-v3-synthetic-benchmark-v1",
+  "status": "passed_code_only_equivalence_and_speed_target",
+  "recordedDate": "2026-07-15",
+  "authorization": "config/stage20_kernel_v3_code_only_approval_v1.json",
+  "platform": {
+    "python": "3.13.14",
+    "numpy": "2.3.5",
+    "numba": "0.66.0",
+    "machine": "x86_64",
+    "system": "Linux"
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cells": 50199,
+    "barrageFaces": 68
+  },
+  "fixture": {
+    "description": "deterministic smooth state with synthetic nonzero M N O G barrage and fishway paths",
+    "physicalBoundaryInputsUsed": false,
+    "physicalTimeCampaignExecuted": false,
+    "stepsPerRun": 300,
+    "repetitionsPerKernel": 5
+  },
+  "compilation": {
+    "compilationAndFirstStepSeconds": 1.5133559839999862,
+    "excludedFromSteadyStateTiming": true
+  },
+  "representativeRuns": {
+    "kernelV2": {
+      "wallSeconds": 8.406544280000048,
+      "simulatedSeconds": 1.0084508254232407,
+      "secondsPerStep": 0.028021814266666827,
+      "minimumTimeStepSeconds": 0.003356168569003601,
+      "maximumTimeStepSeconds": 0.0033642140142586736,
+      "maximumCfl": 0.12,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    },
+    "kernelV3": {
+      "wallSeconds": 1.0700148899999817,
+      "simulatedSeconds": 1.0084508254232407,
+      "secondsPerStep": 0.003566716299999939,
+      "minimumTimeStepSeconds": 0.0033561685690036004,
+      "maximumTimeStepSeconds": 0.0033642140142586736,
+      "maximumCfl": 0.12,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    }
+  },
+  "timing": {
+    "kernelV2WallSeconds": [
+      8.406544280000048,
+      8.504863811000007,
+      8.487283893999972,
+      8.395960480999975,
+      8.914823677000015
+    ],
+    "kernelV3WallSeconds": [
+      1.0700148899999817,
+      1.0712655099999893,
+      1.0877784730000144,
+      1.0874008569999773,
+      1.0669708150000474
+    ],
+    "kernelV2MedianWallSeconds": 8.487283893999972,
+    "kernelV3MedianWallSeconds": 1.0712655099999893,
+    "kernelV3Speedup": 7.922670724272694,
+    "minimumSpeedupTarget": 5.0,
+    "speedTargetPassed": true
+  },
+  "equivalence": {
+    "maximumAbsoluteStateDifference": 1.932481952238163e-15,
+    "maximumRelativeStateDifference": 6.268050135875895e-16,
+    "simulatedTimeDifferenceSeconds": 0.0,
+    "tolerance": 1e-12,
+    "passed": true
+  },
+  "safeguards": {
+    "physicalPrecomputationExecuted": false,
+    "newPhysicalPilotExecuted": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false
+  }
+}

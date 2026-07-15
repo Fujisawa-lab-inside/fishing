@@ -6,8 +6,6 @@ on:
     branches:
       - codex/stage19-public-inference-inputs
     paths:
-      - '.github/workflows/stage20-kernel-v3-code-only.yml'
-      - 'config/stage20_kernel_v3_code_only_approval_v1.json'
       - 'tools/stage20_shallow_water_kernel_v3.py'
       - 'tools/benchmark_stage20_kernel_v3.py'
       - 'tools/requirements-stage20-kernel-v3.txt'

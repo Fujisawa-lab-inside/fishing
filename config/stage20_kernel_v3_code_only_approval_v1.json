@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-kernel-v3-code-only-approval-v1",
-  "status": "approved_for_code_only_implementation_and_synthetic_benchmark",
+  "status": "consumed_code_only_linux_x86_benchmark_completed",
   "approvedDate": "2026-07-15",
   "authorizationId": "stage20-kernel-v3-code-only-20260715-one-time-linux-x86",
   "oneTimeLinuxX86Benchmark": true,
@@ -36,5 +36,11 @@
     "publish",
     "main_merge",
     "physical_validation_claim"
-  ]
+  ],
+  "executionResult": {
+    "githubRunId": 29410611389,
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29410611389",
+    "result": "config/stage20_kernel_v3_code_only_result_v1.json",
+    "additionalLinuxX86BenchmarkAuthorized": false
+  }
 }

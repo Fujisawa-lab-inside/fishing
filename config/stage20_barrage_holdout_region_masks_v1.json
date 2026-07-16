@@ -1,0 +1,108 @@
+{
+  "schema": "onga-stage20-barrage-holdout-region-masks-v1",
+  "status": "digest_locked_before_recovery_execution",
+  "sourceLayout": "approved_stage20_four_view_extents",
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "binary": {
+    "path": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+    "byteLength": 270868,
+    "sha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785"
+  },
+  "views": [
+    {
+      "id": "estuary",
+      "legacyAlias": "full_estuary",
+      "labelJa": "河口全域",
+      "zoom": 16,
+      "tileBox": [
+        56553,
+        26201,
+        56558,
+        26204
+      ],
+      "cropCentreKind": null,
+      "cropSizeWorldPixels": null,
+      "byteOffset": 0,
+      "byteLength": 200796,
+      "dtype": "int32-le",
+      "cellCount": 50199,
+      "sha256": "9d8f38cd2200b1e8c34eb1563f84bb5eff5ec0efb7531984272909bd269d6018"
+    },
+    {
+      "id": "barrage",
+      "legacyAlias": null,
+      "labelJa": "河口堰付近",
+      "zoom": 18,
+      "tileBox": [
+        226225,
+        104811,
+        226231,
+        104816
+      ],
+      "cropCentreKind": "barrage",
+      "cropSizeWorldPixels": [
+        1100,
+        580
+      ],
+      "byteOffset": 200796,
+      "byteLength": 21124,
+      "dtype": "int32-le",
+      "cellCount": 5281,
+      "sha256": "50461e5c7d4a2d2193bc8f9f4fd21c683c1fad06bd6ea6c52f0833789574fe88"
+    },
+    {
+      "id": "confluence",
+      "legacyAlias": null,
+      "labelJa": "曲川・遠賀川合流地点付近",
+      "zoom": 18,
+      "tileBox": [
+        226224,
+        104808,
+        226231,
+        104814
+      ],
+      "cropCentreKind": "confluence",
+      "cropSizeWorldPixels": [
+        1180,
+        625
+      ],
+      "byteOffset": 221920,
+      "byteLength": 29036,
+      "dtype": "int32-le",
+      "cellCount": 7259,
+      "sha256": "a6ca27a56d399ceec12d03865dcba8c93eb8ff367c0ed370673678279d6cb2e0"
+    },
+    {
+      "id": "fishway",
+      "legacyAlias": null,
+      "labelJa": "魚道付近",
+      "zoom": 18,
+      "tileBox": [
+        226224,
+        104812,
+        226231,
+        104816
+      ],
+      "cropCentreKind": "fishway",
+      "cropSizeWorldPixels": [
+        1040,
+        550
+      ],
+      "byteOffset": 250956,
+      "byteLength": 19912,
+      "dtype": "int32-le",
+      "cellCount": 4978,
+      "sha256": "1e8af18c25ade05af28907f9b396e88856a27e239ff1c2ee233fbb3542eb559f"
+    }
+  ],
+  "comparisonRule": "cell_centre_inside_approved_render_extent",
+  "safeguards": {
+    "resultFieldsRead": false,
+    "physicalRunPerformed": false,
+    "publicSimulatorConnected": false
+  }
+}

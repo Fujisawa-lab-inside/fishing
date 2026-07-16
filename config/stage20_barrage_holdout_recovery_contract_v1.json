@@ -1,0 +1,247 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-contract-v1",
+  "status": "sealed_inactive_execution_requires_separate_visual_authorization",
+  "executionAuthorized": false,
+  "purpose": "complete_only_the_missing_closed_and_open_barrage_endpoint_hours_without_repeating_the_five_sealed_jobs",
+  "sourceContract": {
+    "path": "config/stage20_barrage_holdout_contract_v1.json",
+    "sha256": "8e76c4f92b62ea532077bbb61f3c1cc9bce527684c77b8edd62083541d0c1114"
+  },
+  "stoppedResult": {
+    "path": "config/stage20_barrage_holdout_result_v1.json",
+    "sha256": "5b009e987144a304796b25172830179d593c27ec11e2b8a0628330afa529b9dd"
+  },
+  "stoppedAnalysis": {
+    "path": "config/stage20_barrage_holdout_analysis_v1.json",
+    "sha256": "0b3ed76e712d2934d3c680207619a59b84cb55f2cc91b20fcfbdc457cacdb071"
+  },
+  "resource": {
+    "provider": "GitHub-hosted standard Actions runner",
+    "repositoryVisibility": "PUBLIC",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "physicalJobCount": 5,
+    "maximumParallelJobs": 2,
+    "jobTimeoutMinutes": 330,
+    "maximumNumericalWallSecondsPerJob": 18000,
+    "projectedRunnerHoursRange": [14, 17],
+    "practicalElapsedEstimateHours": [12, 16],
+    "projectionIsGuarantee": false,
+    "standardPublicRunnerMinuteChargeExpectedUsd": 0,
+    "repositoryVisibilityCheckedAtAuthorization": true,
+    "paidCloudProvisioning": false,
+    "largerRunnerAllowed": false,
+    "artifactRetentionDays": 30,
+    "observedClosedTwoHourCheckpoint": {
+      "sourceRunId": 29464186133,
+      "sourceJobDatabaseId": 87579613113,
+      "sourceArtifactId": 8378028819,
+      "wallSecondsApprox": 10428,
+      "fiveHourLimitHeadroomSecondsApprox": 7572,
+      "projectionIsGuarantee": false
+    }
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14",
+    "changedFromOriginalHoldout": false
+  },
+  "runner": {
+    "path": "tools/run_stage20_barrage_holdout_recovery_segment.py",
+    "sha256": "2322d8cae89571bcb34137e164b07dc6364df3d0ce19946de35da37f942a0df2",
+    "workflowName": "Stage 20 one-time barrage holdout recovery",
+    "workflowPath": ".github/workflows/stage20-barrage-holdout-recovery.yml",
+    "workflowSha256": "ce6f6445492828378661d96ec2c4a43a77ad8511828b728346ed7b2e31838231",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "inputs": {
+    "tideCandidate": "config/stage19_m_boundary_tide_candidate_v1.json",
+    "tideCandidateSha256": "a780f618089d295731dc6a87484b6a30f8a7895aac17c507876ede06c20720ea",
+    "waterMask": "data/onga_unified_water_manifest_r3.json",
+    "waterMaskSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"
+  },
+  "basisScenarios": {
+    "barrage-closed": {
+      "bathymetry": {"sigma": 0.36, "mainstemMeanDepthM": 4.0, "tributaryMeanDepthM": 1.8},
+      "roughness": {"manningOpenChannel": 0.03, "shallowMarginMultiplier": 1.25, "structureVicinityMultiplier": 1.15},
+      "barrage": {"scenario": "fully_closed", "effectiveDischargeCoefficient": 0.65},
+      "fishway": {"mode": "head_difference_relation_ensemble", "effectiveDischargeCoefficient": 0.6, "effectiveAreaM2": 1.0},
+      "boundaries": {"M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.0, "meanOffsetM": null}, "N": {"dischargeM3S": 2.0}, "O": {"dischargeM3S": 35.0}, "G": {"dischargeM3S": 1.0}}
+    },
+    "barrage-open": {
+      "bathymetry": {"sigma": 0.36, "mainstemMeanDepthM": 4.0, "tributaryMeanDepthM": 1.8},
+      "roughness": {"manningOpenChannel": 0.03, "shallowMarginMultiplier": 1.25, "structureVicinityMultiplier": 1.15},
+      "barrage": {"scenario": "uniform_100_percent", "effectiveDischargeCoefficient": 0.65},
+      "fishway": {"mode": "head_difference_relation_ensemble", "effectiveDischargeCoefficient": 0.6, "effectiveAreaM2": 1.0},
+      "boundaries": {"M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.0, "meanOffsetM": null}, "N": {"dischargeM3S": 2.0}, "O": {"dischargeM3S": 35.0}, "G": {"dischargeM3S": 1.0}}
+    }
+  },
+  "retainedInputs": [
+    {
+      "basisId": "barrage-closed",
+      "modelHour": -16,
+      "sourceRunId": 29464186133,
+      "artifactId": 8370288791,
+      "artifactName": "barrage-closed-s02-29464186133",
+      "artifactZipSha256": "94d10c9681a5f29c6fb8d953df59f39f190d1e4b8019a4d428f37cafbd589098",
+      "directory": "docs/results/stage20-barrage-holdout-29464186133/barrage-closed-s02-29464186133",
+      "jobId": "barrage-closed-s02",
+      "restartSha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24",
+      "reportSha256": "03b4fefe335d487a85b87a6c4d6fe5e2509899cbc2ee9aa58872e76875585d63",
+      "evidenceManifestSha256": "63f696d859710a9d2eda2a40b7cc65c471464a8c5c6960a1b8b961bbac70be0a"
+    },
+    {
+      "basisId": "barrage-open",
+      "modelHour": -12,
+      "sourceRunId": 29464186133,
+      "artifactId": 8373245744,
+      "artifactName": "barrage-open-s03-29464186133",
+      "artifactZipSha256": "345edf1e5c191a43d3ec5af1f0cd00539f7c13f2b72fba35c23822e49b068d69",
+      "directory": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s03-29464186133",
+      "jobId": "barrage-open-s03",
+      "restartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+      "reportSha256": "aea2d0ba8e66c55c8742956d1b1896d719f7cf3d1bf10223b59c4bc6bf7cfefd",
+      "evidenceManifestSha256": "5d9d25ae8e2e0adbaec40db3dbd5143e21882c7ede970c7b5ab231d99dcb7619",
+      "sealedSnapshotMinus12Sha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1"
+    }
+  ],
+  "excludedPartialInput": {
+    "jobId": "barrage-closed-s03",
+    "reason": "diagnostic_only_unsealed_progress_without_final_restart_report_receipt_or_evidence_manifest",
+    "reuseAllowed": false
+  },
+  "regionalMasks": {
+    "manifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+    "manifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5",
+    "binary": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+    "binarySha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785",
+    "builder": "tools/build_stage20_barrage_holdout_region_masks.py",
+    "builderSha256": "d69ebee03f721237d96e4afb9771b03543ae20303027d24e701dd4d37dfb992e",
+    "lockedBeforeExecution": true,
+    "viewCount": 4
+  },
+  "runPolicy": {
+    "physicalJobCount": 5,
+    "closedPhysicalHoursPerJob": 2,
+    "openPhysicalHoursPerJob": 4,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "firstClosedAndOpenJobsRunInParallel": true,
+    "remainingClosedJobsRunSequentially": true,
+    "stageBarrierStopsRemainingJobsAfterAnyFailure": true,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "jobs": [
+    {
+      "id": "barrage-closed-m16-m14",
+      "basisId": "barrage-closed",
+      "modelHourStart": -16,
+      "modelHourEnd": -14,
+      "targetPhysicalSeconds": 7200,
+      "input": {"kind": "retained_sealed_restart", "jobId": "barrage-closed-s02", "restartSha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24", "evidenceManifestSha256": "63f696d859710a9d2eda2a40b7cc65c471464a8c5c6960a1b8b961bbac70be0a"},
+      "snapshotModelHours": [],
+      "maximumNumericalWallSeconds": 18000
+    },
+    {
+      "id": "barrage-closed-m14-m12",
+      "basisId": "barrage-closed",
+      "modelHourStart": -14,
+      "modelHourEnd": -12,
+      "targetPhysicalSeconds": 7200,
+      "input": {"kind": "recovery_predecessor", "jobId": "barrage-closed-m16-m14"},
+      "snapshotModelHours": [-12],
+      "maximumNumericalWallSeconds": 18000
+    },
+    {
+      "id": "barrage-closed-m12-m10",
+      "basisId": "barrage-closed",
+      "modelHourStart": -12,
+      "modelHourEnd": -10,
+      "targetPhysicalSeconds": 7200,
+      "input": {"kind": "recovery_predecessor", "jobId": "barrage-closed-m14-m12"},
+      "snapshotModelHours": [-11, -10],
+      "maximumNumericalWallSeconds": 18000
+    },
+    {
+      "id": "barrage-closed-m10-m08",
+      "basisId": "barrage-closed",
+      "modelHourStart": -10,
+      "modelHourEnd": -8,
+      "targetPhysicalSeconds": 7200,
+      "input": {"kind": "recovery_predecessor", "jobId": "barrage-closed-m12-m10"},
+      "snapshotModelHours": [-9, -8],
+      "maximumNumericalWallSeconds": 18000
+    },
+    {
+      "id": "barrage-open-m12-m08",
+      "basisId": "barrage-open",
+      "modelHourStart": -12,
+      "modelHourEnd": -8,
+      "targetPhysicalSeconds": 14400,
+      "input": {"kind": "retained_sealed_restart", "jobId": "barrage-open-s03", "restartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0", "evidenceManifestSha256": "5d9d25ae8e2e0adbaec40db3dbd5143e21882c7ede970c7b5ab231d99dcb7619"},
+      "snapshotModelHours": [-11, -10, -9, -8],
+      "maximumNumericalWallSeconds": 18000
+    }
+  ],
+  "acceptance": {
+    "minimumSimulatedSecondsMustReachJobTarget": true,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "finalRestartRequiredPerJob": true,
+    "inputRestartSha256RequiredPerJob": true,
+    "evidenceManifestRequiredPerJob": true
+  },
+  "postRunHoldoutAcceptance": {
+    "maximumVelocityVectorRmseMPS": 0.01,
+    "maximumSpeedMaeMPS": 0.005,
+    "maximumP95DirectionErrorDeg": 5.0,
+    "directionActiveThresholdMPS": 0.02,
+    "maximumDepthRmseM": 0.1,
+    "maximumAbsoluteDepthErrorM": 0.25,
+    "depthThresholdMeaning": "interpolation_consistency_only_not_actual_bathymetry_accuracy",
+    "allFiveHoursAndFourRegionsMustPass": true,
+    "notEvaluatedByTheExecutionWorkflow": true
+  },
+  "control": {
+    "authorizationPath": "config/stage20_barrage_holdout_recovery_authorization_v1.json",
+    "gatePath": "config/stage20_barrage_holdout_recovery_gate_v1.json",
+    "activationPath": "config/stage20_barrage_holdout_recovery_activation_v1.json",
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "activationPresent": false
+  },
+  "outputs": {
+    "newSegmentArtifacts": 5,
+    "newEndpointSnapshots": 9,
+    "combinedEndpointSnapshotsWithRetainedOpenMinus12": 10,
+    "postRunWithoutAdditionalPhysics": [
+      "sha256_and_numerical_stability_validation",
+      "five_hour_by_four_region_holdout_metrics",
+      "direct_interpolated_and_error_maps",
+      "visual_decision_record"
+    ]
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "partialUnsealedRestartAllowed": false,
+    "crossBasisRestartAllowed": false,
+    "otherBasisExecutionAllowed": false,
+    "referenceS03Allowed": false,
+    "paidResourceAllowed": false,
+    "largerRunnerAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

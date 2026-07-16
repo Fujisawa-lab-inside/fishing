@@ -1,0 +1,83 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-candidate-v1",
+  "status": "prepared_inactive_awaiting_visual_authorization",
+  "preparedDate": "2026-07-17",
+  "userIntent": {
+    "sourceStatement": "無料であるなら続けたい",
+    "interpretedScope": "prepare_the_free_standard_runner_recovery_path_without_starting_physical_execution",
+    "exactPhysicalExecutionAuthorized": false
+  },
+  "recovery": {
+    "retainedSealedJobsReused": 5,
+    "newPhysicalJobs": 5,
+    "newClosedJobs": 4,
+    "closedPhysicalHoursPerJob": 2,
+    "newOpenJobs": 1,
+    "openPhysicalHoursPerJob": 4,
+    "remainingRiverHours": 12,
+    "newSnapshots": 9,
+    "combinedSnapshotsAfterSuccess": 10,
+    "unsealedPartialClosedS03Reused": false
+  },
+  "resource": {
+    "repositoryVisibility": "PUBLIC",
+    "runner": "ubuntu-latest",
+    "largerRunnerAllowed": false,
+    "paidResourceAllowed": false,
+    "standardPublicRunnerMinuteChargeExpectedUsd": 0,
+    "repositoryVisibilityCheckedAtAuthorization": true,
+    "projectedRunnerHoursRange": [14, 17],
+    "practicalElapsedEstimateHours": [12, 16],
+    "projectionIsGuarantee": false,
+    "artifactRetentionDays": 30,
+    "observedClosedTwoHourWallSecondsApprox": 10428,
+    "fiveHourLimitHeadroomSecondsApprox": 7572
+  },
+  "evidenceCorrections": {
+    "regionalMasksDigestLockedBeforeExecution": true,
+    "regionalMaskManifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+    "regionalMaskManifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5",
+    "successorReceiptsWillRecordInputRestartSha256": true,
+    "maximumDepthRmseM": 0.1,
+    "maximumAbsoluteDepthErrorM": 0.25,
+    "depthThresholdMeaning": "interpolation_consistency_only_not_actual_bathymetry_accuracy"
+  },
+  "executionContract": {
+    "path": "config/stage20_barrage_holdout_recovery_contract_v1.json",
+    "sha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c",
+    "inactive": true,
+    "jobCount": 5
+  },
+  "visualDecision": {
+    "question": "残りの河口堰検証5区間を、無料の標準runnerで一回だけ実行するか",
+    "optionA": "authorize_exactly_one_five_job_recovery_run",
+    "optionB": "retain_the_stopped_result_without_recovery_execution",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-barrage-holdout-recovery-decision.jpg",
+    "decisionImageSha256": "65b2eb0fdb30f913de4df3632350be1b8c544352b3799612e79fc808c6e62b2c",
+    "renderer": "tools/render_stage20_barrage_holdout_recovery_decision.py",
+    "rendererSha256": "9ee9f46e8324e45aa80ac104018405ae668c24c6835b2b8b6dba2a5407062a14"
+  },
+  "requiredApprovalText": "承認済み河口堰holdout回復contract v1上で、閉鎖0%の2時間×4区間と開放100%の4時間×1区間を、承認後24時間以内に一回限り実行してよい。",
+  "execution": {
+    "authorizationFilePresent": false,
+    "gateFilePresent": false,
+    "activationFilePresent": false,
+    "physicalRunStarted": false,
+    "numericalStepCalled": false
+  },
+  "validation": {
+    "validator": "tools/validate_stage20_barrage_holdout_recovery_candidate.py",
+    "validatorSha256": "ea76b9fdbb10d6e9bc4bc263bdf9252d280dc1bfdeaa8a4ab4aeb572a58795a9",
+    "status": "passed_inactive_barrage_holdout_recovery_candidate_validation"
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalPhysicalRunAllowed": false,
+    "referenceS03Allowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

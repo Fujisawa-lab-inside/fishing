@@ -1,0 +1,15 @@
+# Stage 20 barrage holdout recovery plan
+
+The stopped holdout is preserved unchanged. Five sealed jobs from GitHub Actions run `29464186133` are reused; the unsealed partial closed-S03 checkpoints are retained for diagnosis only and are not used as formal restart inputs.
+
+The inactive recovery contract adds only five physical jobs. The closed-barrage path resumes from the sealed model-hour `-16` restart and is divided into four two-physical-hour jobs ending at `-14`, `-12`, `-10`, and `-8`. The open-barrage path resumes from the sealed model-hour `-12` restart and uses one four-physical-hour job ending at `-8`. The first closed job and the open job may run in parallel; the remaining closed jobs are sequential. Any failure stops downstream jobs and automatic retry remains disabled.
+
+This schedule does not change the approved mesh, numerical kernel, bathymetry inference, roughness, boundary inputs, barrage endpoints, or fishway relation. Segmenting the wall-clock work changes only checkpoint boundaries. Each job retains the five-hour numerical stop and the 330-minute GitHub job limit.
+
+The current public repository and standard `ubuntu-latest` runner are expected to incur no Actions-minute charge under the current GitHub policy. The workflow checks that the repository is still public immediately before consuming authorization. Larger runners, paid cloud resources, and self-hosted resources are forbidden by the contract. Estimated total runner use is 14–17 hours and estimated elapsed time is 12–16 hours; these are projections, not guarantees. The prior closed two-hour checkpoint took about 2 hours 54 minutes, leaving about 2 hours 06 minutes below the five-hour stop, but later intervals may run at different speeds. GitHub artifacts are retained for 30 days; required evidence and result records will be downloaded and retained on the work branch after completion.
+
+The prior evidence gaps are corrected before execution. The four approved regional cell masks are stored in a digest-locked binary and manifest. Every recovery receipt records the exact input restart SHA-256 and input evidence-manifest SHA-256. The holdout comparison also adds water-depth consistency limits of RMSE `0.10 m` and maximum absolute error `0.25 m`; these limits assess endpoint interpolation consistency and do not claim actual bathymetric accuracy.
+
+If all five jobs succeed, the nine missing endpoint snapshots combine with the retained open `-12` snapshot to produce ten snapshots. SHA-256, numerical stability, five-hour by four-region holdout metrics, direct/interpolated/error maps, and the visual result can then be completed without another physical run.
+
+The contract remains inactive. No authorization, gate, or activation file exists, and no numerical step has been called. Starting the recovery requires the exact approval text shown in `docs/visuals/stage20-barrage-holdout-recovery-decision.jpg`. Retry, other physical runs, reference S03, public simulator connection, and main merge are outside this approval.

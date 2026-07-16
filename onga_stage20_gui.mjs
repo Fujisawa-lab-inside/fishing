@@ -53,6 +53,13 @@ const VIEW_SPECS = Object.freeze({
     marks: Object.freeze(['fishway', 'barrage']),
   }),
 });
+const GATE_PRESETS = Object.freeze({
+  closed: Object.freeze([false, false, false, false, false, false, false, false]),
+  west: Object.freeze([true, true, false, false, false, false, false, false]),
+  middle: Object.freeze([false, false, false, true, true, false, false, false]),
+  east: Object.freeze([false, false, false, false, false, false, true, true]),
+  all: Object.freeze([true, true, true, true, true, true, true, true]),
+});
 
 const byId = id => document.getElementById(id);
 const elements = Object.freeze({
@@ -72,6 +79,10 @@ const elements = Object.freeze({
   metricBarrage: byId('metric-barrage'),
   metricOnga: byId('metric-onga'),
   metricSpeed: byId('metric-speed'),
+  gateSummaryBadge: byId('gate-summary-badge'),
+  gateDetail: byId('gate-detail'),
+  gateMapButton: byId('gate-map-button'),
+  mapGateLabel: byId('map-gate-label'),
   arrowToggle: byId('arrow-toggle'),
   markerToggle: byId('marker-toggle'),
   selectedCellId: byId('selected-cell-id'),
@@ -109,6 +120,7 @@ const state = {
   arrows: true,
   markers: true,
   selectedCell: null,
+  gateObservation: null,
   playing: false,
   playTimer: null,
   loadController: null,
@@ -130,6 +142,53 @@ function formatHour(hour, compact = false) {
 
 function formatNumber(value, digits, suffix = '') {
   return Number.isFinite(value) ? value.toFixed(digits) + suffix : '—';
+}
+
+function openGateNumbers() {
+  if (!state.gateObservation) return [];
+  return state.gateObservation.flatMap((open, index) => open ? [index + 1] : []);
+}
+
+function gateObservationLabel(compact = false) {
+  if (!state.gateObservation) return '未入力';
+  const open = openGateNumbers();
+  if (open.length === 0) return compact ? '全閉' : '全閉・0/8門';
+  if (open.length === 8) return compact ? '全開' : '全開・8/8門';
+  return compact ? open.join('・') + '番開' : '個別・' + open.length + '/8門';
+}
+
+function syncGateInterface() {
+  const recorded = state.gateObservation !== null;
+  const open = openGateNumbers();
+  elements.gateSummaryBadge.textContent = gateObservationLabel(false);
+  elements.gateSummaryBadge.classList.toggle('has-input', recorded);
+  for (const button of document.querySelectorAll('[data-gate]')) {
+    const gateIndex = Number(button.dataset.gate);
+    const isOpen = recorded && state.gateObservation[gateIndex];
+    button.classList.toggle('is-unset', !recorded);
+    button.classList.toggle('is-open', Boolean(isOpen));
+    button.classList.toggle('is-closed', recorded && !isOpen);
+    button.setAttribute('aria-pressed', recorded ? String(Boolean(isOpen)) : 'mixed');
+    button.setAttribute('aria-label', (gateIndex + 1) + '番水門、' + (!recorded ? '未入力' : isOpen ? '開' : '閉'));
+    button.querySelector('small').textContent = !recorded ? '未' : isOpen ? '開' : '閉';
+  }
+  if (!recorded) {
+    elements.gateDetail.textContent = '未入力です。現地で開いている番号を選択してください。';
+  } else if (open.length === 0) {
+    elements.gateDetail.textContent = '現地入力：全閉（0/8門）。';
+  } else if (open.length === 8) {
+    elements.gateDetail.textContent = '現地入力：全開（8/8門）。';
+  } else {
+    elements.gateDetail.textContent = '現地入力：西側から ' + open.join('・') + '番開（' + open.length + '/8門）。';
+  }
+  elements.mapGateLabel.textContent = '現地入力：' + gateObservationLabel(true) + '／流れの図には未反映';
+}
+
+function setGateObservation(levels) {
+  state.gateObservation = levels === null ? null : Array.from({ length: 8 }, (_, index) => Boolean(levels[index]));
+  syncGateInterface();
+  if (state.data) syncInterface();
+  scheduleRender();
 }
 
 function syncResponsiveDocumentOrder() {
@@ -306,6 +365,7 @@ function prepareGeometry(data) {
   ]);
   const areas = calculateAreas(mesh);
   const barrageFaces = mesh.arrays.barrage_face_ids;
+  const barrageGateIds = mesh.arrays.barrage_gate_id;
   const internalFaceVertices = mesh.arrays.internal_face_vertices;
   const fishwayCells = mesh.arrays.fishway_cells;
   const special = {};
@@ -314,7 +374,10 @@ function prepareGeometry(data) {
     const projection = projections.get(zoom);
     const barrageSegments = [];
     const barragePoints = [];
-    for (const faceId of barrageFaces) {
+    const gateSegments = Array.from({ length: 8 }, () => []);
+    const gatePoints = Array.from({ length: 8 }, () => []);
+    for (let barrageIndex = 0; barrageIndex < barrageFaces.length; barrageIndex += 1) {
+      const faceId = barrageFaces[barrageIndex];
       const a = internalFaceVertices[faceId * 2];
       const b = internalFaceVertices[faceId * 2 + 1];
       const segment = [
@@ -323,14 +386,25 @@ function prepareGeometry(data) {
       ];
       barrageSegments.push(segment);
       barragePoints.push(segment[0], segment[1]);
+      // The frozen mesh IDs run east -> west, while the field/legacy GUI
+      // numbers the barrage gates west -> east (1..8).
+      const gateIndex = 8 - barrageGateIds[barrageIndex];
+      gateSegments[gateIndex].push(segment);
+      gatePoints[gateIndex].push(segment[0], segment[1]);
     }
     const fishwayPoints = Array.from(fishwayCells, cell => [
       projection.centres[cell * 2],
       projection.centres[cell * 2 + 1],
     ]);
+    const gateCenters = gatePoints.map(points => averagePoints(points));
+    if (!gateCenters.every((point, index) => index === 0 || point[0] > gateCenters[index - 1][0])) {
+      throw new Error('現地水門番号が西から東へ1〜8番の順に並んでいません。');
+    }
     special[zoom] = {
       barrageSegments,
       barrageCenter: averagePoints(barragePoints),
+      gateSegments,
+      gateCenters,
       fishwayPoints,
       fishwayCenter: averagePoints(fishwayPoints),
       confluenceCenter: imageToWorld(1168, 441, geographic, zoom),
@@ -617,9 +691,60 @@ function drawPointMarker(point, transform, colour, label) {
   labelBox(label, x + 12, y - 14);
 }
 
+function drawGateInputBadge(point, transform, gateNumber, gateStatus) {
+  const x = transform.x(point[0]);
+  const lineY = transform.y(point[1]);
+  const top = lineY - 50;
+  const fill = gateStatus === 'open' ? '#f4c65a' : gateStatus === 'closed' ? '#172a33' : '#27424d';
+  const text = gateStatus === 'open' ? '#251900' : '#eef8fa';
+  context.save();
+  context.strokeStyle = gateStatus === 'open' ? 'rgba(244, 198, 90, .88)' : 'rgba(213, 235, 240, .5)';
+  context.lineWidth = 1.5;
+  context.beginPath();
+  context.moveTo(x, top + 34);
+  context.lineTo(x, lineY - 2);
+  context.stroke();
+  context.beginPath();
+  context.roundRect(x - 14, top, 28, 34, 8);
+  context.fillStyle = fill;
+  context.fill();
+  context.stroke();
+  context.fillStyle = text;
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.font = '800 11px "Hiragino Sans", "Yu Gothic", sans-serif';
+  context.fillText(String(gateNumber), x, top + 11);
+  context.font = '800 8px "Hiragino Sans", "Yu Gothic", sans-serif';
+  context.fillText(gateStatus === 'open' ? '開' : gateStatus === 'closed' ? '閉' : '未', x, top + 25);
+  context.restore();
+}
+
+function renderGateInputOverlay(view, transform) {
+  if (view.id !== 'barrage') return;
+  const recorded = state.gateObservation !== null;
+  if (recorded) {
+    context.save();
+    context.lineCap = 'round';
+    context.lineWidth = 6;
+    for (let gateIndex = 0; gateIndex < 8; gateIndex += 1) {
+      context.strokeStyle = state.gateObservation[gateIndex] ? '#f4c65a' : '#243b45';
+      context.beginPath();
+      for (const segment of view.special.gateSegments[gateIndex]) {
+        context.moveTo(transform.x(segment[0][0]), transform.y(segment[0][1]));
+        context.lineTo(transform.x(segment[1][0]), transform.y(segment[1][1]));
+      }
+      context.stroke();
+    }
+    context.restore();
+  }
+  for (let gateIndex = 0; gateIndex < 8; gateIndex += 1) {
+    const status = !recorded ? 'unset' : state.gateObservation[gateIndex] ? 'open' : 'closed';
+    drawGateInputBadge(view.special.gateCenters[gateIndex], transform, gateIndex + 1, status);
+  }
+}
+
 function renderMarkers(view, transform) {
-  if (!state.markers) return;
-  if (view.marks.includes('barrage')) {
+  if (state.markers && view.marks.includes('barrage')) {
     context.save();
     context.strokeStyle = '#57d8ed';
     context.lineWidth = view.zoom === 18 ? 4 : 3;
@@ -632,12 +757,12 @@ function renderMarkers(view, transform) {
     context.stroke();
     context.restore();
     const center = view.special.barrageCenter;
-    labelBox('河口堰', transform.x(center[0]) + 10, transform.y(center[1]) - 35);
+    labelBox('河口堰', transform.x(center[0]) + 10, transform.y(center[1]) - (view.id === 'barrage' ? 88 : 35));
   }
-  if (view.marks.includes('confluence')) {
+  if (state.markers && view.marks.includes('confluence')) {
     drawPointMarker(view.special.confluenceCenter, transform, '#ed6f9f', '曲川・遠賀川合流部');
   }
-  if (view.marks.includes('fishway')) {
+  if (state.markers && view.marks.includes('fishway')) {
     for (let index = 0; index < view.special.fishwayPoints.length; index += 1) {
       drawPointMarker(
         view.special.fishwayPoints[index],
@@ -647,6 +772,7 @@ function renderMarkers(view, transform) {
       );
     }
   }
+  renderGateInputOverlay(view, transform);
 }
 
 function renderSelected(view, transform) {
@@ -786,7 +912,8 @@ function syncInterface() {
   elements.canvas.setAttribute(
     'aria-label',
     view.label + 'の' + (state.layer === 'speed' ? '流速' : '水深') + '地図、' + formatHour(hour)
-      + '。合成データで物理予測ではありません。Enterキーで中央地点を選択できます。',
+      + '。合成データで物理予測ではありません。現地水門は' + gateObservationLabel(true)
+      + 'ですが流れの図には未反映です。Enterキーで中央地点を選択できます。',
   );
   for (const button of document.querySelectorAll('[data-layer]')) {
     const active = button.dataset.layer === state.layer;
@@ -900,6 +1027,24 @@ function bindEvents() {
   elements.play.addEventListener('click', togglePlayback);
   elements.retry.addEventListener('click', loadApplication);
   elements.canvas.addEventListener('click', selectMapCell);
+  for (const button of document.querySelectorAll('[data-gate]')) {
+    button.addEventListener('click', () => {
+      const levels = state.gateObservation ? [...state.gateObservation] : Array(8).fill(false);
+      const gateIndex = Number(button.dataset.gate);
+      levels[gateIndex] = !levels[gateIndex];
+      setGateObservation(levels);
+    });
+  }
+  for (const button of document.querySelectorAll('[data-gate-preset]')) {
+    button.addEventListener('click', () => {
+      const preset = button.dataset.gatePreset;
+      setGateObservation(preset === 'clear' ? null : GATE_PRESETS[preset]);
+    });
+  }
+  elements.gateMapButton.addEventListener('click', () => {
+    document.querySelector('[data-view="barrage"]').click();
+    elements.mapSection.scrollIntoView({ block: 'start' });
+  });
   window.addEventListener('keydown', event => {
     const target = event.target;
     if (target === elements.canvas && event.key === 'Enter') {
@@ -925,6 +1070,7 @@ function bindEvents() {
   mobileLayout.addEventListener('change', syncResponsiveDocumentOrder);
 }
 
+syncGateInterface();
 syncResponsiveDocumentOrder();
 bindEvents();
 loadApplication();

@@ -46,9 +46,10 @@ canvas:focus-visible {
 
 .app-shell {
   width: 100%;
+  height: 100vh;
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .topbar {
@@ -120,7 +121,7 @@ canvas:focus-visible {
   min-height: 0;
   padding: 16px;
   display: grid;
-  grid-template-columns: minmax(292px, 334px) minmax(0, 1fr);
+  grid-template-columns: minmax(380px, 418px) minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -163,6 +164,74 @@ canvas:focus-visible {
 .metric-item span, .selected-values span { display: block; color: var(--muted); font-size: 10px; margin-bottom: 3px; }
 .metric-item strong { display: block; overflow: hidden; text-overflow: ellipsis; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .synthetic-note { margin: 12px 0 0; color: #d7ba74; font-size: 10px; line-height: 1.65; }
+
+.gate-card { border-top-color: rgba(244, 198, 90, 0.38); scroll-margin-top: 90px; }
+.gate-heading { align-items: center; }
+.gate-summary-badge {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: #c2d7de;
+  background: rgba(4, 14, 21, 0.42);
+  font-size: 10px;
+  font-weight: 800;
+}
+.gate-summary-badge.has-input { color: #ffe9ab; border-color: rgba(244, 198, 90, 0.42); background: rgba(244, 198, 90, 0.1); }
+.gate-contract {
+  min-height: 34px;
+  margin: -2px 0 12px;
+  padding: 7px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid rgba(244, 198, 90, 0.2);
+  border-radius: 10px;
+  background: rgba(244, 198, 90, 0.06);
+  font-size: 9px;
+}
+.gate-contract span { color: var(--amber); font-weight: 800; }
+.gate-contract strong { color: #d7ba74; font-size: 9px; }
+.gate-axis { margin-bottom: 6px; display: grid; grid-template-columns: 1fr auto 1fr; color: var(--muted); font-size: 9px; }
+.gate-axis span:nth-child(2) { color: #c7dde3; font-weight: 800; letter-spacing: 0.12em; }
+.gate-axis span:last-child { text-align: right; }
+.gate-buttons { display: grid; grid-template-columns: repeat(8, minmax(44px, 1fr)); gap: 4px; }
+.gate-button {
+  min-width: 44px;
+  min-height: 48px;
+  padding: 4px 2px;
+  display: grid;
+  place-content: center;
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  color: #b7cbd2;
+  background: rgba(4, 14, 21, 0.52);
+  cursor: pointer;
+}
+.gate-button strong { font-size: 13px; line-height: 1; }
+.gate-button small { color: var(--muted); font-size: 8px; font-weight: 800; line-height: 1; }
+.gate-button.is-open { color: #241900; border-color: rgba(255, 236, 179, 0.8); background: linear-gradient(180deg, #f8d66f, #e8a936); box-shadow: 0 8px 20px rgba(244, 198, 90, 0.18); }
+.gate-button.is-open small { color: #493200; }
+.gate-button.is-closed { color: #e1ecef; border-color: rgba(151, 201, 217, 0.22); background: rgba(25, 43, 51, 0.86); }
+.gate-button.is-closed small { color: #94aab2; }
+.gate-button.is-unset { border-style: dashed; }
+.gate-presets { margin-top: 8px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.gate-presets button, .gate-map-button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: #d5e6ea;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+}
+.gate-presets button:hover, .gate-map-button:hover { border-color: var(--line-strong); background: rgba(25, 56, 70, 0.58); }
+.gate-detail { margin: 10px 0 0; color: #dcebef; font-size: 10px; line-height: 1.55; }
+.gate-disclaimer { margin: 7px 0 0; color: #d7ba74; font-size: 9px; line-height: 1.55; }
+.gate-map-button { width: 100%; margin-top: 9px; color: #bcebf2; border-color: rgba(87, 216, 237, 0.26); background: rgba(87, 216, 237, 0.07); }
 
 .segmented-control { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin-bottom: 12px; }
 .segment-button {
@@ -280,6 +349,7 @@ canvas:focus-visible {
 .top-left { top: 13px; left: 13px; }
 .top-right { top: 13px; right: 13px; }
 .map-hud span, .map-hud strong { display: block; }
+.map-hud small { display: block; margin-top: 5px; color: #d7ba74; font-size: 8px; line-height: 1.35; }
 .hud-label { color: var(--cyan); font-size: 9px; font-weight: 800; letter-spacing: 0.12em; }
 .map-hud strong { margin-top: 3px; font-size: 14px; }
 .warning-hud { display: flex; align-items: center; gap: 7px; color: #eed69a; font-size: 10px; }
@@ -364,6 +434,7 @@ canvas:focus-visible {
 @media (max-width: 980px) {
   .workspace { grid-template-columns: 280px minmax(0, 1fr); padding: 10px; gap: 10px; }
   .panel-card { padding: 14px; }
+  .gate-buttons { grid-template-columns: repeat(4, minmax(44px, 1fr)); gap: 6px; }
   .map-section { grid-template-rows: auto minmax(380px, 1fr) auto; }
   .timeline-dock { grid-template-columns: 1fr; gap: 9px; }
   .playback-controls { justify-content: center; }
@@ -371,8 +442,14 @@ canvas:focus-visible {
 
 @media (max-width: 760px) {
   body { overflow: auto; }
-  .app-shell { min-height: 100dvh; display: block; }
-  .topbar { min-height: 66px; padding: 10px 13px; gap: 10px; }
+  .app-shell { height: auto; min-height: 100dvh; display: block; }
+  .topbar {
+    min-height: 66px;
+    padding: 10px 13px;
+    gap: 10px;
+    background: var(--bg-deep);
+    backdrop-filter: none;
+  }
   .brand-mark { width: 36px; height: 36px; border-radius: 10px; }
   .brand-block { gap: 9px; }
   .brand-block h1 { font-size: 16px; }
@@ -391,7 +468,7 @@ canvas:focus-visible {
     border: 0;
   }
   .workspace { display: flex; flex-direction: column; padding: 8px; gap: 8px; }
-  .map-section { order: 1; display: block; border-radius: 18px; }
+  .map-section { order: 1; display: block; border-radius: 18px; scroll-margin-top: 74px; }
   .control-panel { order: 2; overflow: visible; padding: 0; }
   .view-tabs { min-height: 54px; padding: 7px; }
   .view-tab { min-width: 104px; min-height: 44px; padding: 6px 10px; font-size: 11px; }
@@ -400,6 +477,7 @@ canvas:focus-visible {
   .playback-controls { margin-bottom: 9px; }
   .timeline-caption { margin-bottom: 0; }
   .panel-card { margin-bottom: 8px; border-radius: 16px; }
+  .gate-card { scroll-margin-top: 74px; }
   .intro-card { margin-top: 0; }
   .map-hud { padding: 8px 9px; }
   .top-left { top: 9px; left: 9px; }

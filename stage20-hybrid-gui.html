@@ -42,7 +42,7 @@
               <strong id="metric-tide">—</strong>
             </div>
             <div class="metric-item">
-              <span>河口堰</span>
+              <span>河口堰（合成開度）</span>
               <strong id="metric-barrage">—</strong>
             </div>
             <div class="metric-item">
@@ -55,6 +55,44 @@
             </div>
           </div>
           <p class="synthetic-note">画面・操作の確認用に生成した値です。観測値や物理予測ではありません。</p>
+        </section>
+
+        <section class="panel-card gate-card" id="gate-input-card" aria-labelledby="gate-input-title">
+          <div class="section-heading compact gate-heading">
+            <div>
+              <p class="section-kicker">FIELD GATES</p>
+              <h2 id="gate-input-title">現地の開門入力</h2>
+            </div>
+            <span class="gate-summary-badge" id="gate-summary-badge">未入力</span>
+          </div>
+          <div class="gate-contract">
+            <span>入力メモ</span>
+            <strong>流れの図には未反映</strong>
+          </div>
+          <div class="gate-axis" aria-hidden="true">
+            <span>西</span><span>1 → 8</span><span>東</span>
+          </div>
+          <div class="gate-buttons" role="group" aria-label="西側から1番から8番の水門">
+            <button type="button" class="gate-button is-unset" data-gate="0" aria-pressed="mixed" aria-label="1番水門、未入力"><strong>1</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="1" aria-pressed="mixed" aria-label="2番水門、未入力"><strong>2</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="2" aria-pressed="mixed" aria-label="3番水門、未入力"><strong>3</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="3" aria-pressed="mixed" aria-label="4番水門、未入力"><strong>4</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="4" aria-pressed="mixed" aria-label="5番水門、未入力"><strong>5</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="5" aria-pressed="mixed" aria-label="6番水門、未入力"><strong>6</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="6" aria-pressed="mixed" aria-label="7番水門、未入力"><strong>7</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="7" aria-pressed="mixed" aria-label="8番水門、未入力"><strong>8</strong><small>未</small></button>
+          </div>
+          <div class="gate-presets" role="group" aria-label="水門入力プリセット">
+            <button type="button" data-gate-preset="closed">全閉</button>
+            <button type="button" data-gate-preset="west">西1–2</button>
+            <button type="button" data-gate-preset="middle">中央4–5</button>
+            <button type="button" data-gate-preset="east">東7–8</button>
+            <button type="button" data-gate-preset="all">全開</button>
+            <button type="button" data-gate-preset="clear">入力解除</button>
+          </div>
+          <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">未入力です。現地で開いている番号を選択してください。</p>
+          <p class="gate-disclaimer">この入力はこの画面限りで、再読み込みすると解除されます。番号は地図上の水門表示だけに反映し、流速・水深・表示時刻とは連動しません。</p>
+          <button type="button" class="gate-map-button" id="gate-map-button">河口堰を地図で確認</button>
         </section>
 
         <section class="panel-card">
@@ -144,6 +182,7 @@
           <div class="map-hud top-left">
             <span class="hud-label" id="map-view-label">河口全域</span>
             <strong id="map-time-label">現在相当・0時間</strong>
+            <small id="map-gate-label">現地入力：未入力／流れの図には未反映</small>
           </div>
           <div class="map-hud top-right warning-hud">
             <span class="warning-dot"></span>

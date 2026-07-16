@@ -104,6 +104,9 @@ export async function loadStage20GuiData(options = {}) {
   assert(mesh.manifest.schema === 'onga-stage20-browser-mesh-v2', 'mesh-v2 is required');
   assert(mesh.manifest.counts.cells === 50199, 'mesh-v2 cell count changed');
   assert(mesh.manifest.binary.sha256 === EXPECTED_MESH_SHA256, 'approved mesh-v2 identity changed');
+  assert(mesh.arrays.barrage_gate_id?.length === mesh.arrays.barrage_face_ids.length, 'eight-gate barrage mapping is missing');
+  assert(Array.from(mesh.arrays.barrage_gate_id).every(gate => gate >= 1 && gate <= 8), 'barrage gate id is outside 1 through 8');
+  assert(new Set(mesh.arrays.barrage_gate_id).size === 8, 'barrage mapping does not contain all eight gates');
   assert(responseManifest.schema === 'onga-stage20-response-pack-v1', 'response manifest schema mismatch');
   assert(responseManifest.status === 'synthetic_browser_benchmark_only', 'GUI prototype accepts the synthetic fixture only');
   assert(responseManifest.version === 'stage20-synthetic-response-pack-v2-mesh-v2', 'response-pack v2 is required');

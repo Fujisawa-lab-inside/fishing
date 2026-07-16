@@ -9,6 +9,7 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
     private let webView: WKWebView
     private let screenshotURL: URL
     private let resultURL: URL
+    private let scrollTarget: String?
     private var attempts = 0
 
     init(
@@ -17,11 +18,13 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
         screenshotURL: URL,
         resultURL: URL,
         width: Int,
-        height: Int
+        height: Int,
+        scrollTarget: String?
     ) {
         self.application = application
         self.screenshotURL = screenshotURL
         self.resultURL = resultURL
+        self.scrollTarget = scrollTarget
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .nonPersistent()
         configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
@@ -88,19 +91,38 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
     private func exerciseInterface() {
         let script = """
         (() => {
+          const gateButtons = [...document.querySelectorAll('[data-gate]')];
+          const initiallyUnset = document.querySelector('#gate-summary-badge').textContent.trim() === '未入力'
+            && gateButtons.every(button => button.getAttribute('aria-pressed') === 'mixed');
+          const fieldValuesBefore = ['metric-speed', 'metric-barrage', 'timeline-current']
+            .map(id => document.querySelector(`#${id}`).textContent.trim()).join('|');
+          document.querySelector('[data-gate-preset="closed"]').click();
+          for (const gate of ['0', '3', '7']) document.querySelector(`[data-gate="${gate}"]`).click();
+          const gateInputWorked = gateButtons
+            .filter(button => button.getAttribute('aria-pressed') === 'true')
+            .map(button => Number(button.dataset.gate) + 1)
+            .join(',') === '1,4,8';
+          const fieldValuesAfter = ['metric-speed', 'metric-barrage', 'timeline-current']
+            .map(id => document.querySelector(`#${id}`).textContent.trim()).join('|');
+          const fieldValuesUnchanged = fieldValuesBefore === fieldValuesAfter;
+          document.documentElement.dataset.gateFieldsUnchanged = String(fieldValuesUnchanged);
           document.querySelector('[data-view="barrage"]').click();
           document.querySelector('[data-layer="depth"]').click();
           const slider = document.querySelector('#time-slider');
           slider.value = '35';
           slider.dispatchEvent(new Event('input', { bubbles: true }));
           document.querySelector('#play-button').click();
-          return true;
+          return initiallyUnset && gateInputWorked && fieldValuesUnchanged;
         })()
         """
-        webView.evaluateJavaScript(script) { [weak self] _, error in
+        webView.evaluateJavaScript(script) { [weak self] value, error in
             guard let self else { return }
             if let error {
                 self.finishWithError("GUI setup interaction failed: \(error)")
+                return
+            }
+            guard value as? Bool == true else {
+                self.finishWithError("GUI gate input did not transition from unset to 1,4,8 open")
                 return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -212,6 +234,8 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
           const warning = document.querySelector('.warning-hud');
           const slider = document.querySelector('#time-slider');
           const workspace = document.querySelector('#workspace');
+          const gateButtons = [...document.querySelectorAll('[data-gate]')];
+          const gateContract = document.querySelector('.gate-contract');
           const mobile = matchMedia('(max-width: 760px)').matches;
           const isVisible = element => {
             const style = getComputedStyle(element);
@@ -230,6 +254,13 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             frameCount: document.querySelector('#frame-count').textContent.trim(),
             selectedCell: document.querySelector('#selected-cell-id').textContent.trim(),
             selectionMethod: canvas.dataset.captureSelectionMethod || '',
+            gateCount: gateButtons.length,
+            openGates: gateButtons.filter(button => button.getAttribute('aria-pressed') === 'true').map(button => Number(button.dataset.gate) + 1).join(','),
+            gateSummary: document.querySelector('#gate-summary-badge').textContent.trim(),
+            gateContract: gateContract.textContent.replace(/\\s+/g, ' ').trim(),
+            gateContractVisible: isVisible(gateContract),
+            mapGateLabel: document.querySelector('#map-gate-label').textContent.trim(),
+            gateFieldsUnchanged: document.documentElement.dataset.gateFieldsUnchanged === 'true',
             canvasWidth: Math.round(rect.width),
             canvasHeight: Math.round(rect.height),
             canvasAria: canvas.getAttribute('aria-label'),
@@ -264,6 +295,14 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
                   record["sliderAriaValueText"] as? String == "6時間後",
                   record["selectedCell"] as? String != "未選択",
                   record["selectionMethod"] as? String == "keyboard",
+                  record["gateCount"] as? Int == 8,
+                  record["openGates"] as? String == "1,4,8",
+                  record["gateSummary"] as? String == "個別・3/8門",
+                  (record["gateContract"] as? String)?.contains("流れの図には未反映") == true,
+                  record["gateContractVisible"] as? Bool == true,
+                  (record["mapGateLabel"] as? String)?.contains("1・4・8番開") == true,
+                  (record["mapGateLabel"] as? String)?.contains("流れの図には未反映") == true,
+                  record["gateFieldsUnchanged"] as? Bool == true,
                   (record["sourceBadge"] as? String)?.contains("合成データ") == true,
                   record["sourceBadgeVisible"] as? Bool == true,
                   record["warning"] as? String == "物理予測ではありません",
@@ -279,6 +318,23 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             record["capturedAt"] = ISO8601DateFormatter().string(from: Date())
             record["screenshot"] = screenshotURL.path
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                self.prepareCapture(record: record)
+            }
+        }
+    }
+
+    private func prepareCapture(record: [String: Any]) {
+        guard scrollTarget == "gate" else {
+            capture(record: record)
+            return
+        }
+        webView.evaluateJavaScript("document.querySelector('#gate-input-card').scrollIntoView({ block: 'start' }); true") { [weak self] _, error in
+            guard let self else { return }
+            if let error {
+                self.finishWithError("GUI gate-card scroll failed: \(error)")
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.capture(record: record)
             }
         }
@@ -322,12 +378,12 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
 }
 
 let arguments = CommandLine.arguments
-guard arguments.count == 6,
+guard (arguments.count == 6 || arguments.count == 7),
       let pageURL = URL(string: arguments[1]),
       let width = Int(arguments[4]),
       let height = Int(arguments[5]) else {
     FileHandle.standardError.write(
-        Data("usage: capture_stage20_hybrid_gui.swift PAGE_URL SCREENSHOT RESULT_JSON WIDTH HEIGHT\n".utf8)
+        Data("usage: capture_stage20_hybrid_gui.swift PAGE_URL SCREENSHOT RESULT_JSON WIDTH HEIGHT [gate]\n".utf8)
     )
     exit(2)
 }
@@ -341,7 +397,8 @@ let controller = MainActor.assumeIsolated {
         screenshotURL: URL(fileURLWithPath: arguments[2]),
         resultURL: URL(fileURLWithPath: arguments[3]),
         width: width,
-        height: height
+        height: height,
+        scrollTarget: arguments.count == 7 ? arguments[6] : nil
     )
 }
 withExtendedLifetime(controller) {

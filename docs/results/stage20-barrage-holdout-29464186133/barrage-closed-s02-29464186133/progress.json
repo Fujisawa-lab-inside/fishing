@@ -1,0 +1,35 @@
+{
+  "schema": "onga-stage20-barrage-holdout-progress-v1",
+  "status": "complete",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "jobId": "barrage-closed-s02",
+  "simulatedSeconds": 14400.002218741978,
+  "wallSeconds": 17976.121276228,
+  "checkpoints": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "sha256": "c482e53bfba7f540224e0f0ea0ac3422e21a28288c9cfc5ab95dae4d700c3ebb",
+      "elapsedSeconds": 3600.000786465036,
+      "step": 3056272
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "sha256": "8b26f3d15ec58bf7ec48338ce83f50c3c48e418fcb339aab2cafc1f6d6782230",
+      "elapsedSeconds": 7200.000040356462,
+      "step": 3984073
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "sha256": "ad7bb7b9d4c2a0bd97d39b533147fcfd80fc075222ddc96538b3622a7484af06",
+      "elapsedSeconds": 10800.000836164982,
+      "step": 4990973
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "sha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24",
+      "elapsedSeconds": 14400.002218741978,
+      "step": 6070516
+    }
+  ],
+  "snapshots": []
+}

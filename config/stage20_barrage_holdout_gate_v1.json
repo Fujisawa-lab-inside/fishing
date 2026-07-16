@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-barrage-holdout-gate-v1",
-  "state": "active_one_time",
+  "state": "consumed",
   "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
   "authorizationSha256": "986fbd71a8f04acb6d0c49d788c6ef2107de3b2b98a8acc03ba3703499339476",
   "issuedAtUtc": "2026-07-16T01:26:10Z",
@@ -8,5 +8,14 @@
   "automaticRetryAllowed": false,
   "additionalRunAllowed": false,
   "consumptionEvidence": "successful workflow step named Consume Stage 20 barrage holdout authorization",
-  "scope": "one_barrage_closed_open_eight_job_holdout_workflow_maximum_18000_numerical_wall_seconds_per_job"
+  "scope": "one_barrage_closed_open_eight_job_holdout_workflow_maximum_18000_numerical_wall_seconds_per_job",
+  "consumedAtUtc": "2026-07-16T01:28:25Z",
+  "consumedBy": {
+    "githubRunId": 29464186133,
+    "githubRunAttempt": 1,
+    "githubExecutionCommit": "3b2cba242b2da1205121d9dbf2e231f0b081b49a",
+    "githubRunUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29464186133",
+    "result": "failure_external_timeout_incomplete_holdout",
+    "resultRecord": "config/stage20_barrage_holdout_result_v1.json"
+  }
 }

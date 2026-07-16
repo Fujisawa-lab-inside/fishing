@@ -220,3 +220,14 @@ full64の実計算は、contract validationを通した変更がdefault branch�
 - A stage barrier requires both conditions to pass before either proceeds. Every job stops after five numerical wall hours; workflow reruns, automatic retries, cross-basis restarts, and continuation after a failed stage are forbidden.
 - The runner and activation-only workflow pass inactive contract validation. Authorization, gate, and activation files are absent, so no numerical step has run.
 - The next visual decision is whether to authorize exactly this eight-job run once within 24 hours. Expected elapsed time is about 8–10 hours and total resource about 15.6 runner-hours, neither guaranteed.
+
+## Stage 20 barrage holdout stopped result (2026-07-16)
+
+- The explicitly authorized one-time barrage holdout was consumed by GitHub Actions run `29464186133` on execution commit `3b2cba242b2da1205121d9dbf2e231f0b081b49a`.
+- Five of eight numerical jobs completed and passed the available numerical checks. The maximum CFL was `0.12`, maximum relative mass-balance error was `2.4024e-13`, and non-finite and negative-depth counts were zero.
+- `barrage-closed-s03` was externally terminated with exit code `124` at the fixed five-hour wall limit. Its last retained checkpoint reached three of four physical hours with no numerical-threshold failure; it did not produce a sealed final restart or the required model-hour `-12` snapshot.
+- The stage barrier worked: both S04 jobs were skipped. Automatic retry and additional execution remain forbidden, and the one-time gate is consumed.
+- Only one of ten required endpoint snapshots is sealed, so the 50:50 interpolation, five-hour metric comparison, and four-region direct/interpolated/error maps are not evaluable. This is `not_evaluable`, not an interpolation failure.
+- The five complete artifacts and one partial diagnostic artifact are retained under `docs/results/stage20-barrage-holdout-29464186133`. All complete evidence manifests, file digests, arrays, final restarts, final fields, and the available snapshot were verified.
+- The audit also found that the plan required regional-mask digests before execution but no literal mask file/digest was recorded, and no water-depth acceptance threshold was defined. The pre-existing approved view definitions remain reproducible, but these limitations must be corrected before a strict recovery comparison.
+- The next visual decision is A: adopt the stopped result and prepare code-only acceleration plus an inactive recovery plan, or B: retain the evidence and end this holdout path. A does not authorize another physical run.

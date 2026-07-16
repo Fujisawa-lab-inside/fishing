@@ -1,0 +1,54 @@
+{
+  "schema": "onga-stage20-barrage-holdout-segment-evidence-v1",
+  "status": "sealed_complete_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "jobId": "barrage-closed-s02",
+  "files": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "byteLength": 1167001,
+      "sha256": "c482e53bfba7f540224e0f0ea0ac3422e21a28288c9cfc5ab95dae4d700c3ebb"
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "byteLength": 1165262,
+      "sha256": "8b26f3d15ec58bf7ec48338ce83f50c3c48e418fcb339aab2cafc1f6d6782230"
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "byteLength": 1152751,
+      "sha256": "ad7bb7b9d4c2a0bd97d39b533147fcfd80fc075222ddc96538b3622a7484af06"
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "byteLength": 1150537,
+      "sha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24"
+    },
+    {
+      "path": "execution-receipt.json",
+      "byteLength": 625,
+      "sha256": "b193fe675d826ac7f1e05d41485a88a6c70432f1fb2e3b12b391c8aad6948d09"
+    },
+    {
+      "path": "progress.json",
+      "byteLength": 1150,
+      "sha256": "fd4b9d460fed39f9cc81d29bdfe04c4bdce477fa2fc27bc6309babc364e5327b"
+    },
+    {
+      "path": "restart-final.npz",
+      "byteLength": 1150537,
+      "sha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24"
+    },
+    {
+      "path": "segment-final-fields.npz",
+      "byteLength": 1140657,
+      "sha256": "86417718b5001e62328fb4d8c834f176d64ddf8919862cbf748a72caac06fbb8"
+    },
+    {
+      "path": "segment-report.json",
+      "byteLength": 2202,
+      "sha256": "03b4fefe335d487a85b87a6c4d6fe5e2509899cbc2ee9aa58872e76875585d63"
+    }
+  ],
+  "physicalValidationClaimAllowed": false
+}

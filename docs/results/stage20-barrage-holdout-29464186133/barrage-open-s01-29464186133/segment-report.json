@@ -1,0 +1,66 @@
+{
+  "schema": "onga-stage20-barrage-holdout-segment-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "barrage-open-s01",
+    "basisId": "barrage-open",
+    "modelHourStart": -24,
+    "modelHourEnd": -20,
+    "simulatedSeconds": 14400.006017397403,
+    "startStep": 0,
+    "endStep": 1477091,
+    "wallSeconds": 6641.414356196
+  },
+  "diagnostics": {
+    "inputRestartRelativeMassError": 0.0,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 1.421320672369224e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 1.0597755062806937
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "070a5324d8bac3636e18bcbab2c81e90ec7186a854c7f28abf5cf1826ae5ae82",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "e9b443d41e2f46088d65e0addef25f57591b3726585b483255310cb81c13f3b3",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "419688e55a2b75338f04a42653923f60877dbb491879aef02c5fba1a80a03f79",
+        "elapsedSeconds": 3600.00040443151,
+        "step": 373640
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "2cc1436f0e4fe0d3afec9255a5a8c79ca57805e7858af1745a5762651e60cf83",
+        "elapsedSeconds": 7200.000452610493,
+        "step": 743284
+      },
+      {
+        "path": "checkpoints/checkpoint-03h.npz",
+        "sha256": "c5fa988e029b7b0de6834ae799513942352437cd4c3ea2ae7f1bd49428f7e40c",
+        "elapsedSeconds": 10800.006390664781,
+        "step": 1110457
+      },
+      {
+        "path": "checkpoints/checkpoint-04h.npz",
+        "sha256": "070a5324d8bac3636e18bcbab2c81e90ec7186a854c7f28abf5cf1826ae5ae82",
+        "elapsedSeconds": 14400.006017397403,
+        "step": 1477091
+      }
+    ],
+    "snapshots": []
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

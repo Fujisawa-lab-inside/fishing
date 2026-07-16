@@ -1,0 +1,72 @@
+{
+  "schema": "onga-stage20-barrage-holdout-segment-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "barrage-open-s03",
+    "basisId": "barrage-open",
+    "modelHourStart": -16,
+    "modelHourEnd": -12,
+    "simulatedSeconds": 14400.007216054673,
+    "startStep": 2974388,
+    "endStep": 4632753,
+    "wallSeconds": 7274.764532418
+  },
+  "diagnostics": {
+    "inputRestartRelativeMassError": 4.691775937972626e-14,
+    "maximumCfl": 0.12000000000000002,
+    "maximumRelativeMassBalanceError": 1.2061927903528052e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 0.4213944212922896
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "08047f4618ef5b3d4c54d21b70e20329f1d2e2d3fa36fa39b6c0f8e9c10eb786",
+        "elapsedSeconds": 3600.002823726007,
+        "step": 3380953
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "61c1eb08a2335ce99c99a755c71ac12607e1213795745182f4416cffad5b8759",
+        "elapsedSeconds": 7200.0076926901775,
+        "step": 3827284
+      },
+      {
+        "path": "checkpoints/checkpoint-03h.npz",
+        "sha256": "5b965d476ced5afed5ef802de979e35e93ee49b836070ecf8696ff7c1744192a",
+        "elapsedSeconds": 10800.004415115807,
+        "step": 4249593
+      },
+      {
+        "path": "checkpoints/checkpoint-04h.npz",
+        "sha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+        "elapsedSeconds": 14400.007216054673,
+        "step": 4632753
+      }
+    ],
+    "snapshots": [
+      {
+        "modelHour": -12,
+        "path": "snapshots/snapshotmm12hmfields.npz",
+        "sha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1"
+      }
+    ]
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

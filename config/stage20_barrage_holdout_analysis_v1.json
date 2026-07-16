@@ -1,0 +1,418 @@
+{
+  "schema": "onga-stage20-barrage-holdout-analysis-v1",
+  "status": "stopped_external_timeout_incomplete_holdout_not_evaluable",
+  "recordedDate": "2026-07-16",
+  "github": {
+    "runId": 29464186133,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29464186133",
+    "executionCommit": "3b2cba242b2da1205121d9dbf2e231f0b081b49a",
+    "status": "completed",
+    "conclusion": "failure",
+    "createdAtUtc": "2026-07-16T01:28:09Z",
+    "completedAtUtc": "2026-07-16T14:03:57Z",
+    "jobConclusions": {
+      "preflight": "success",
+      "authorize": "success",
+      "closed_s01": "success",
+      "open_s01": "success",
+      "closed_s02": "success",
+      "open_s02": "success",
+      "closed_s03": "failure",
+      "open_s03": "success",
+      "closed_s04": "skipped",
+      "open_s04": "skipped"
+    }
+  },
+  "authorization": {
+    "id": "stage20-barrage-holdout-20260716t012610z-one-time",
+    "contractSha256": "8e76c4f92b62ea532077bbb61f3c1cc9bce527684c77b8edd62083541d0c1114",
+    "authorizationSha256": "986fbd71a8f04acb6d0c49d788c6ef2107de3b2b98a8acc03ba3703499339476",
+    "consumed": true,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "artifactInventory": {
+    "expectedJobCount": 8,
+    "successfulCompleteJobCount": 5,
+    "partialStoppedJobCount": 1,
+    "skippedJobCount": 2,
+    "downloadedArtifactCount": 6,
+    "completeArtifacts": [
+      {
+        "name": "barrage-closed-s01-29464186133",
+        "artifactId": 8364565029,
+        "sizeBytes": 7001056,
+        "expiresAtUtc": "2026-10-14T01:28:09Z"
+      },
+      {
+        "name": "barrage-closed-s02-29464186133",
+        "artifactId": 8370288791,
+        "sizeBytes": 6929641,
+        "expiresAtUtc": "2026-10-14T01:28:09Z"
+      },
+      {
+        "name": "barrage-open-s01-29464186133",
+        "artifactId": 8363957405,
+        "sizeBytes": 7008979,
+        "expiresAtUtc": "2026-10-14T01:28:09Z"
+      },
+      {
+        "name": "barrage-open-s02-29464186133",
+        "artifactId": 8366333924,
+        "sizeBytes": 6940306,
+        "expiresAtUtc": "2026-10-14T01:28:09Z"
+      },
+      {
+        "name": "barrage-open-s03-29464186133",
+        "artifactId": 8373245744,
+        "sizeBytes": 8051836,
+        "expiresAtUtc": "2026-10-14T01:28:09Z"
+      }
+    ],
+    "partialArtifact": {
+      "name": "barrage-closed-s03-29464186133",
+      "artifactId": 8378028819,
+      "sizeBytes": 3457668,
+      "expiresAtUtc": "2026-10-14T01:28:09Z"
+    },
+    "absentSkippedArtifacts": [
+      "barrage-closed-s04-29464186133",
+      "barrage-open-s04-29464186133"
+    ],
+    "retainedPath": "docs/results/stage20-barrage-holdout-29464186133"
+  },
+  "completedSegments": [
+    {
+      "jobId": "barrage-closed-s01",
+      "basisId": "barrage-closed",
+      "modelHourStart": -24,
+      "modelHourEnd": -20,
+      "startStep": 0,
+      "endStep": 2216163,
+      "simulatedSeconds": 14400.003409321445,
+      "wallSeconds": 9268.265415815,
+      "diagnostics": {
+        "inputRestartRelativeMassError": 0.0,
+        "maximumCfl": 0.12000000000000002,
+        "maximumRelativeMassBalanceError": 2.0467017682116827e-13,
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0,
+        "maximumSpeedMPS": 1.0597755062806937
+      },
+      "checkpointCount": 4,
+      "snapshotHours": [],
+      "restartSha256": "910a60b6e4c924c033eeb4663bb6d886f463ac238ec691fac649ebc484e41714",
+      "fieldsSha256": "b0700305415986826f2283324c5d66ae8c5bebda88687074a7e2fce0de991f94",
+      "manifest": {
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-closed-s01-29464186133/evidence-manifest.json",
+        "sha256": "e21819b3ab498fcf7b21eb030afde26a6b0ff1612fdbb85208150f9616492bb0",
+        "fileCount": 9,
+        "allFileLengthsAndDigestsVerified": true
+      },
+      "finalCheckpointMatchesRestartExactly": true,
+      "finalFieldsMatchRestartExactly": true,
+      "finalSnapshotMatchesFieldsExactly": null
+    },
+    {
+      "jobId": "barrage-closed-s02",
+      "basisId": "barrage-closed",
+      "modelHourStart": -20,
+      "modelHourEnd": -16,
+      "startStep": 2216163,
+      "endStep": 6070516,
+      "simulatedSeconds": 14400.002218741978,
+      "wallSeconds": 17976.253233654,
+      "diagnostics": {
+        "inputRestartRelativeMassError": 1.9244023096142778e-13,
+        "maximumCfl": 0.12000000000000002,
+        "maximumRelativeMassBalanceError": 2.4024123051501584e-13,
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0,
+        "maximumSpeedMPS": 0.7887627505237053
+      },
+      "checkpointCount": 4,
+      "snapshotHours": [],
+      "restartSha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24",
+      "fieldsSha256": "86417718b5001e62328fb4d8c834f176d64ddf8919862cbf748a72caac06fbb8",
+      "manifest": {
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-closed-s02-29464186133/evidence-manifest.json",
+        "sha256": "63f696d859710a9d2eda2a40b7cc65c471464a8c5c6960a1b8b961bbac70be0a",
+        "fileCount": 9,
+        "allFileLengthsAndDigestsVerified": true
+      },
+      "finalCheckpointMatchesRestartExactly": true,
+      "finalFieldsMatchRestartExactly": true,
+      "finalSnapshotMatchesFieldsExactly": null
+    },
+    {
+      "jobId": "barrage-open-s01",
+      "basisId": "barrage-open",
+      "modelHourStart": -24,
+      "modelHourEnd": -20,
+      "startStep": 0,
+      "endStep": 1477091,
+      "simulatedSeconds": 14400.006017397403,
+      "wallSeconds": 6641.414356196,
+      "diagnostics": {
+        "inputRestartRelativeMassError": 0.0,
+        "maximumCfl": 0.12000000000000001,
+        "maximumRelativeMassBalanceError": 1.421320672369224e-13,
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0,
+        "maximumSpeedMPS": 1.0597755062806937
+      },
+      "checkpointCount": 4,
+      "snapshotHours": [],
+      "restartSha256": "070a5324d8bac3636e18bcbab2c81e90ec7186a854c7f28abf5cf1826ae5ae82",
+      "fieldsSha256": "e9b443d41e2f46088d65e0addef25f57591b3726585b483255310cb81c13f3b3",
+      "manifest": {
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s01-29464186133/evidence-manifest.json",
+        "sha256": "cf5b164924eae7956b144446df1c5b1eec69a76c4ff8d74dcf58623e92505854",
+        "fileCount": 9,
+        "allFileLengthsAndDigestsVerified": true
+      },
+      "finalCheckpointMatchesRestartExactly": true,
+      "finalFieldsMatchRestartExactly": true,
+      "finalSnapshotMatchesFieldsExactly": null
+    },
+    {
+      "jobId": "barrage-open-s02",
+      "basisId": "barrage-open",
+      "modelHourStart": -20,
+      "modelHourEnd": -16,
+      "startStep": 1477091,
+      "endStep": 2974388,
+      "simulatedSeconds": 14400.005374431255,
+      "wallSeconds": 6902.331056064,
+      "diagnostics": {
+        "inputRestartRelativeMassError": 1.2005770925051718e-13,
+        "maximumCfl": 0.12000000000000001,
+        "maximumRelativeMassBalanceError": 1.5450905190501343e-13,
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0,
+        "maximumSpeedMPS": 0.9301288912356812
+      },
+      "checkpointCount": 4,
+      "snapshotHours": [],
+      "restartSha256": "7ce6624760e5d8f478c91093ab27e35071ac34094772fdd52105ef761d499918",
+      "fieldsSha256": "32d06efef81ac15b3aaaef8e2a50fcaa0e6a95349dcda136854a95fcadead47a",
+      "manifest": {
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s02-29464186133/evidence-manifest.json",
+        "sha256": "265f96cd5579328c8f414696981489cc6fab0c2dfe95d314543fb07a57c83d40",
+        "fileCount": 9,
+        "allFileLengthsAndDigestsVerified": true
+      },
+      "finalCheckpointMatchesRestartExactly": true,
+      "finalFieldsMatchRestartExactly": true,
+      "finalSnapshotMatchesFieldsExactly": null
+    },
+    {
+      "jobId": "barrage-open-s03",
+      "basisId": "barrage-open",
+      "modelHourStart": -16,
+      "modelHourEnd": -12,
+      "startStep": 2974388,
+      "endStep": 4632753,
+      "simulatedSeconds": 14400.007216054673,
+      "wallSeconds": 7274.764532418,
+      "diagnostics": {
+        "inputRestartRelativeMassError": 4.691775937972626e-14,
+        "maximumCfl": 0.12000000000000002,
+        "maximumRelativeMassBalanceError": 1.2061927903528052e-13,
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0,
+        "maximumSpeedMPS": 0.4213944212922896
+      },
+      "checkpointCount": 4,
+      "snapshotHours": [
+        -12
+      ],
+      "restartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+      "fieldsSha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1",
+      "manifest": {
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s03-29464186133/evidence-manifest.json",
+        "sha256": "5d9d25ae8e2e0adbaec40db3dbd5143e21882c7ede970c7b5ab231d99dcb7619",
+        "fileCount": 10,
+        "allFileLengthsAndDigestsVerified": true
+      },
+      "finalCheckpointMatchesRestartExactly": true,
+      "finalFieldsMatchRestartExactly": true,
+      "finalSnapshotMatchesFieldsExactly": true
+    }
+  ],
+  "stoppedSegment": {
+    "jobId": "barrage-closed-s03",
+    "basisId": "barrage-closed",
+    "status": "externally_terminated_at_five_wall_hours",
+    "exitCode": 124,
+    "externalTimeoutConfirmedFromGitHubLog": true,
+    "lastRetainedSimulatedSeconds": 10800.002664235397,
+    "targetSimulatedSeconds": 14400,
+    "lastRetainedCompletionFraction": 0.750000185016347,
+    "lastRetainedWallSeconds": 15998.125725614,
+    "lastRetainedStep": 9697059,
+    "checkpointCount": 3,
+    "maximumCflAtLastCheckpoint": 0.12000000000000001,
+    "maximumRelativeMassBalanceErrorAtLastCheckpoint": 2.974534006725866e-13,
+    "nonFiniteValueCountAtRetainedCheckpoints": 0,
+    "negativeDepthCountAtRetainedCheckpoints": 0,
+    "progressPath": "docs/results/stage20-barrage-holdout-29464186133/barrage-closed-s03-29464186133/progress.json",
+    "progressSha256": "ea8b93e1bca2b11f2840626fd7e11d2e00c4d292989f365eef1d79a0d1ea129c",
+    "sealedEvidenceManifestPresent": false,
+    "finalRestartPresent": false,
+    "requiredMinus12SnapshotPresent": false
+  },
+  "chainEvidence": {
+    "completedStepChains": [
+      {
+        "basisId": "barrage-closed",
+        "previousJobId": "barrage-closed-s01",
+        "currentJobId": "barrage-closed-s02",
+        "stepChainVerified": true
+      },
+      {
+        "basisId": "barrage-open",
+        "previousJobId": "barrage-open-s01",
+        "currentJobId": "barrage-open-s02",
+        "stepChainVerified": true
+      },
+      {
+        "basisId": "barrage-open",
+        "previousJobId": "barrage-open-s02",
+        "currentJobId": "barrage-open-s03",
+        "stepChainVerified": true
+      }
+    ],
+    "partialStepAdvancedFromClosedS02": true,
+    "cryptographicInputRestartDigestRecordedBySuccessor": false,
+    "limitation": "workflow source identity, predecessor ids, downloaded artifact names, and step continuity verify the chain operationally; successor receipts do not record the input restart SHA-256"
+  },
+  "numericalSummary": {
+    "completedSegmentsPassedContractChecks": true,
+    "maximumCflAcrossCompletedSegments": 0.12000000000000002,
+    "maximumRelativeMassBalanceErrorAcrossCompletedSegments": 2.4024123051501584e-13,
+    "maximumInputRestartRelativeMassErrorAcrossCompletedSegments": 1.9244023096142778e-13,
+    "nonFiniteValueCountAcrossCompletedSegments": 0,
+    "negativeDepthCountAcrossCompletedSegments": 0,
+    "partialRetainedCheckpointsPassedAvailableChecks": true,
+    "externalTimeoutWasNotANumericalThresholdFailure": true
+  },
+  "snapshotInventory": {
+    "expectedCount": 10,
+    "availableSealedCount": 1,
+    "available": [
+      {
+        "basisId": "barrage-open",
+        "modelHour": -12
+      }
+    ],
+    "missingCount": 9,
+    "missing": [
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -12
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -11
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -10
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -9
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -8
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -11
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -10
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -9
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -8
+      }
+    ]
+  },
+  "heldOutReference": {
+    "root": "docs/results/stage20-reference-s02-29434250546",
+    "evidenceManifestSha256": "54f4cc4a0836948eaae7cd0a55b9a029231e08d78d6c8a5d8d8afb2678ff53d9",
+    "evidenceFileCount": 18,
+    "allEvidenceDigestsVerified": true,
+    "snapshots": [
+      {
+        "modelHour": -12,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm12hmfields.npz",
+        "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4"
+      },
+      {
+        "modelHour": -11,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm11hmfields.npz",
+        "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944"
+      },
+      {
+        "modelHour": -10,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm10hmfields.npz",
+        "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7"
+      },
+      {
+        "modelHour": -9,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+      },
+      {
+        "modelHour": -8,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm08hmfields.npz",
+        "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901"
+      }
+    ]
+  },
+  "postRunHoldout": {
+    "evaluable": false,
+    "reason": "both endpoint bases are required at all five hours; only the open basis at minus 12 hours is sealed",
+    "interpolatedFieldsCreated": false,
+    "metricComparisonPerformed": false,
+    "directInterpolatedErrorMapsCreated": false,
+    "acceptanceResult": "not_evaluable_not_failed"
+  },
+  "resourceDiagnosis": {
+    "closedS01WallSeconds": 9268.265415815,
+    "openS01WallSeconds": 6641.414356196,
+    "closedS02WallSeconds": 17976.253233654,
+    "openS02WallSeconds": 6902.331056064,
+    "openS03WallSeconds": 7274.764532418,
+    "closedS02MarginToNumericalLimitSeconds": 23.746766346001095,
+    "closedS03LastRetainedThreePhysicalHoursWallSeconds": 15998.125725614,
+    "closedS03LinearFourHourProjectionWallSeconds": 21330.834300818668,
+    "closedS03LinearProjectionExcessOverLimitSeconds": 3330.8343008186675,
+    "interpretation": "fully closed barrage requires materially more solver steps and exceeded the fixed five-hour external wall limit before the minus 12 hour snapshot"
+  },
+  "contractGapsObserved": {
+    "regionalMasksDigestLockedBeforeExecution": false,
+    "regionalViewDefinitionsExistedBeforeExecution": true,
+    "waterDepthAcceptanceThresholdDefined": false,
+    "impact": "even a complete run would require these limitations to be disclosed in any strict four-region acceptance claim"
+  },
+  "safeguards": {
+    "retryPerformed": false,
+    "additionalPhysicalRunPerformed": false,
+    "referenceS03RunPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

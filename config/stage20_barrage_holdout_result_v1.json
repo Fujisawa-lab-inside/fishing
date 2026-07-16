@@ -1,0 +1,109 @@
+{
+  "schema": "onga-stage20-barrage-holdout-result-v1",
+  "status": "stopped_external_timeout_incomplete_holdout_not_evaluable",
+  "recordedDate": "2026-07-16",
+  "github": {
+    "runId": 29464186133,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29464186133",
+    "executionCommit": "3b2cba242b2da1205121d9dbf2e231f0b081b49a",
+    "conclusion": "failure",
+    "createdAtUtc": "2026-07-16T01:28:09Z",
+    "completedAtUtc": "2026-07-16T14:03:57Z"
+  },
+  "authorization": {
+    "id": "stage20-barrage-holdout-20260716t012610z-one-time",
+    "gateState": "consumed",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "artifact": {
+    "retainedPath": "docs/results/stage20-barrage-holdout-29464186133",
+    "downloadedArtifactCount": 6,
+    "completeSealedArtifactCount": 5,
+    "partialDiagnosticArtifactCount": 1,
+    "skippedArtifactCount": 2,
+    "runMetadata": "docs/results/stage20-barrage-holdout-29464186133/run-metadata.json",
+    "runMetadataSha256": "7c57509491d344d536046694d133513df48bd23a362d0e8a39dba449284cd27e",
+    "artifactInventory": "docs/results/stage20-barrage-holdout-29464186133/artifact-inventory.json",
+    "artifactInventorySha256": "e4715075afd3326258c16653fb0730548b2c6a489d99890488885315ca97d1e3"
+  },
+  "execution": {
+    "successfulJobCount": 5,
+    "failedJobCount": 1,
+    "skippedJobCount": 2,
+    "failedJobId": "barrage-closed-s03",
+    "failureCause": "external_five_wall_hour_timeout_exit_124",
+    "lastRetainedClosedS03PhysicalSeconds": 10800.002664235397,
+    "closedS03TargetPhysicalSeconds": 14400,
+    "lastRetainedClosedS03CompletionFraction": 0.750000185016347,
+    "closedS03FinalRestartPresent": false,
+    "closedS03SealedEvidencePresent": false,
+    "downstreamStageBarrierWorked": true
+  },
+  "numericalEvidence": {
+    "completedSegmentsPassedContractChecks": true,
+    "maximumCfl": 0.12000000000000002,
+    "maximumRelativeMassBalanceError": 2.4024123051501584e-13,
+    "maximumInputRestartRelativeMassError": 1.9244023096142778e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "partialRetainedCheckpointsPassedAvailableChecks": true,
+    "externalTimeoutWasNotANumericalThresholdFailure": true,
+    "analysis": "config/stage20_barrage_holdout_analysis_v1.json",
+    "analysisSha256": "0b3ed76e712d2934d3c680207619a59b84cb55f2cc91b20fcfbdc457cacdb071",
+    "analyzer": "tools/analyze_stage20_barrage_holdout_result.py",
+    "analyzerSha256": "4b411bd1d0a901fa669cb095493295636b56459d9dd148a0c522654ef3a642dd"
+  },
+  "snapshotEvidence": {
+    "expectedCount": 10,
+    "availableSealedCount": 1,
+    "missingCount": 9,
+    "availableBasis": "barrage-open",
+    "availableModelHour": -12
+  },
+  "holdoutComparison": {
+    "evaluable": false,
+    "acceptanceResult": "not_evaluable_not_failed",
+    "interpolatedFieldsCreated": false,
+    "metricComparisonPerformed": false,
+    "directInterpolatedErrorMapsCreated": false,
+    "reason": "both endpoint bases are required at all five hours; only the open basis at minus 12 hours is sealed"
+  },
+  "auditLimitations": {
+    "successorReceiptRecordsInputRestartSha256": false,
+    "regionalMasksDigestLockedBeforeExecution": false,
+    "regionalViewDefinitionsExistedBeforeExecution": true,
+    "waterDepthAcceptanceThresholdDefined": false
+  },
+  "decision": {
+    "question": "停止結果を採用し、高速化と再開計画だけを作るか",
+    "optionA": "adopt_stop_result_and_prepare_code_only_acceleration_plus_inactive_recovery_plan",
+    "optionB": "retain_evidence_and_end_the_holdout_path",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-barrage-holdout-stop-decision.jpg",
+    "decisionImageSha256": "e899b93dab266e9b59463def6b80956d5db8e63f2b2f47c42dc86792692a8ffa",
+    "renderer": "tools/render_stage20_barrage_holdout_stop_decision.py",
+    "rendererSha256": "9a115feba0f1e10f04c065dcf49f2fa3fed39d8f98f25b43d2dbcb2d8859b2ed",
+    "choiceAStartsPhysicalRun": false
+  },
+  "validation": {
+    "validator": "tools/validate_stage20_barrage_holdout_result.py",
+    "validatorSha256": "3c1d54e4c744f85d75309abe6e25ebe47eb7ffb389a981da49a8f80ade16d8c0",
+    "status": "passed_stopped_holdout_result_validation"
+  },
+  "documentation": {
+    "resultDocument": "docs/STAGE20_BARRAGE_HOLDOUT_RESULT.md",
+    "resultDocumentSha256": "442a02017923f4f3413923b67d6d80a95bac74dbbb6ee95a1eb68a11ac5575f0",
+    "handoff": "docs/WORK_HANDOFF.md"
+  },
+  "safeguards": {
+    "retryPerformed": false,
+    "additionalPhysicalRunPerformed": false,
+    "referenceS03RunPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

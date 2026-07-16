@@ -1,0 +1,125 @@
+{
+  "total_count": 6,
+  "artifacts": [
+    {
+      "id": 8378028819,
+      "node_id": "MDg6QXJ0aWZhY3Q4Mzc4MDI4ODE5",
+      "name": "barrage-closed-s03-29464186133",
+      "size_in_bytes": 3457668,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8378028819",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8378028819/zip",
+      "expired": false,
+      "digest": "sha256:7174399802f665761da948e018a69ccb349acd7a6d32a5f89f383a751fa7f4bd",
+      "created_at": "2026-07-16T14:03:55Z",
+      "updated_at": "2026-07-16T14:03:55Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    },
+    {
+      "id": 8373245744,
+      "node_id": "MDg6QXJ0aWZhY3Q4MzczMjQ1NzQ0",
+      "name": "barrage-open-s03-29464186133",
+      "size_in_bytes": 8051836,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8373245744",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8373245744/zip",
+      "expired": false,
+      "digest": "sha256:345edf1e5c191a43d3ec5af1f0cd00539f7c13f2b72fba35c23822e49b068d69",
+      "created_at": "2026-07-16T11:05:16Z",
+      "updated_at": "2026-07-16T11:05:16Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    },
+    {
+      "id": 8370288791,
+      "node_id": "MDg6QXJ0aWZhY3Q4MzcwMjg4Nzkx",
+      "name": "barrage-closed-s02-29464186133",
+      "size_in_bytes": 6929641,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8370288791",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8370288791/zip",
+      "expired": false,
+      "digest": "sha256:94d10c9681a5f29c6fb8d953df59f39f190d1e4b8019a4d428f37cafbd589098",
+      "created_at": "2026-07-16T09:03:29Z",
+      "updated_at": "2026-07-16T09:03:29Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    },
+    {
+      "id": 8366333924,
+      "node_id": "MDg6QXJ0aWZhY3Q4MzY2MzMzOTI0",
+      "name": "barrage-open-s02-29464186133",
+      "size_in_bytes": 6940306,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8366333924",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8366333924/zip",
+      "expired": false,
+      "digest": "sha256:ba42ea64aebadd8a8ecff198b20311b060178f46105438592d2b97ec2bb25301",
+      "created_at": "2026-07-16T05:58:54Z",
+      "updated_at": "2026-07-16T05:58:54Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    },
+    {
+      "id": 8364565029,
+      "node_id": "MDg6QXJ0aWZhY3Q4MzY0NTY1MDI5",
+      "name": "barrage-closed-s01-29464186133",
+      "size_in_bytes": 7001056,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8364565029",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8364565029/zip",
+      "expired": false,
+      "digest": "sha256:fd962af9e2656cc040c474e5495f62f85133c637249637242669ee674067b464",
+      "created_at": "2026-07-16T04:03:23Z",
+      "updated_at": "2026-07-16T04:03:23Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    },
+    {
+      "id": 8363957405,
+      "node_id": "MDg6QXJ0aWZhY3Q4MzYzOTU3NDA1",
+      "name": "barrage-open-s01-29464186133",
+      "size_in_bytes": 7008979,
+      "url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8363957405",
+      "archive_download_url": "https://api.github.com/repos/Fujisawa-lab-inside/fishing/actions/artifacts/8363957405/zip",
+      "expired": false,
+      "digest": "sha256:411aaeb04d04c3f0fe760b473ec96a54697056a677d8d20167fe24bb0427cb36",
+      "created_at": "2026-07-16T03:19:37Z",
+      "updated_at": "2026-07-16T03:19:37Z",
+      "expires_at": "2026-10-14T01:28:09Z",
+      "workflow_run": {
+        "id": 29464186133,
+        "repository_id": 1289680780,
+        "head_repository_id": 1289680780,
+        "head_branch": "codex/stage19-public-inference-inputs",
+        "head_sha": "3b2cba242b2da1205121d9dbf2e231f0b081b49a"
+      }
+    }
+  ]
+}

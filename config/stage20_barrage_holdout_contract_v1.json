@@ -1,0 +1,144 @@
+{
+  "schema": "onga-stage20-barrage-holdout-contract-v1",
+  "status": "sealed_inactive_execution_requires_separate_visual_authorization",
+  "executionAuthorized": false,
+  "purpose": "test_whether_linear_interpolation_between_fully_closed_and_fully_open_barrage_trajectories_reconstructs_the_existing_50_percent_reference_s02",
+  "scopeApproval": {
+    "path": "config/stage20_cross_condition_holdout_scope_approval_v1.json",
+    "sha256": "0c08ec9eb00b6bc909efaeb48b03c7e1aa0d854d450b429b9f54ee3625f41a49"
+  },
+  "holdoutPlan": {
+    "path": "config/stage20_cross_condition_holdout_plan_candidate_v1.json",
+    "sha256": "bdf742cad257c4ac79133c2d8bc6924db595f65c42fe5ede99c3355493c1d94e"
+  },
+  "basisPlan": {
+    "path": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "sha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470"
+  },
+  "resource": {
+    "provider": "GitHub-hosted standard Actions runner",
+    "repositoryVisibility": "PUBLIC",
+    "runner": "ubuntu-latest",
+    "requiredPlatform": "Linux x86_64",
+    "parallelBasisChains": 2,
+    "jobTimeoutMinutes": 330,
+    "maximumNumericalWallSecondsPerJob": 18000,
+    "projectedRunnerHoursTotal": 15.589703812801112,
+    "projectedElapsedHoursWithTwoParallelChains": 7.794851906400556,
+    "practicalElapsedEstimateHours": [8, 10],
+    "paidCloudProvisioning": false,
+    "projectionIsGuarantee": false
+  },
+  "mesh": {
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "barrageFaces": 68
+  },
+  "kernel": {
+    "path": "tools/stage20_shallow_water_kernel_v3.py",
+    "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14"
+  },
+  "runner": {
+    "path": "tools/run_stage20_barrage_holdout_segment.py",
+    "sha256": "80bc66ecfab85b69a39e20acff3d8ad462e3086991190736c58935e11266819d",
+    "workflowName": "Stage 20 one-time barrage holdout",
+    "workflowPath": ".github/workflows/stage20-barrage-holdout.yml",
+    "workflowSha256": "fd1a78d09dddb50f3e8c8d1d8ac213e33c3f3c8528123bf2db068032c1436ce2",
+    "workflowRef": "refs/heads/codex/stage19-public-inference-inputs"
+  },
+  "inputs": {
+    "tideCandidate": "config/stage19_m_boundary_tide_candidate_v1.json",
+    "tideCandidateSha256": "a780f618089d295731dc6a87484b6a30f8a7895aac17c507876ede06c20720ea",
+    "waterMask": "data/onga_unified_water_manifest_r3.json",
+    "waterMaskSha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"
+  },
+  "basisScenarios": {
+    "barrage-closed": {
+      "bathymetry": {"sigma": 0.36, "mainstemMeanDepthM": 4.0, "tributaryMeanDepthM": 1.8},
+      "roughness": {"manningOpenChannel": 0.03, "shallowMarginMultiplier": 1.25, "structureVicinityMultiplier": 1.15},
+      "barrage": {"scenario": "fully_closed", "effectiveDischargeCoefficient": 0.65},
+      "fishway": {"mode": "head_difference_relation_ensemble", "effectiveDischargeCoefficient": 0.6, "effectiveAreaM2": 1.0},
+      "boundaries": {"M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.0, "meanOffsetM": null}, "N": {"dischargeM3S": 2.0}, "O": {"dischargeM3S": 35.0}, "G": {"dischargeM3S": 1.0}}
+    },
+    "barrage-open": {
+      "bathymetry": {"sigma": 0.36, "mainstemMeanDepthM": 4.0, "tributaryMeanDepthM": 1.8},
+      "roughness": {"manningOpenChannel": 0.03, "shallowMarginMultiplier": 1.25, "structureVicinityMultiplier": 1.15},
+      "barrage": {"scenario": "uniform_100_percent", "effectiveDischargeCoefficient": 0.65},
+      "fishway": {"mode": "head_difference_relation_ensemble", "effectiveDischargeCoefficient": 0.6, "effectiveAreaM2": 1.0},
+      "boundaries": {"M": {"phaseShiftMinutes": 0.0, "amplitudeMultiplier": 1.0, "meanOffsetM": null}, "N": {"dischargeM3S": 2.0}, "O": {"dischargeM3S": 35.0}, "G": {"dischargeM3S": 1.0}}
+    }
+  },
+  "heldOutReference": {
+    "openingFraction": 0.5,
+    "s01RunId": 29415527789,
+    "s02RunId": 29434250546,
+    "snapshotHours": [-12, -11, -10, -9, -8],
+    "usedToFitInterpolation": false
+  },
+  "runPolicy": {
+    "basisCount": 2,
+    "segmentsPerBasis": 4,
+    "totalJobs": 8,
+    "physicalHoursPerSegment": 4,
+    "checkpointIntervalPhysicalSeconds": 3600,
+    "stageBarrierStopsBothChainsAfterAnyFailure": true,
+    "oneTime": true,
+    "automaticRetryAllowed": false
+  },
+  "jobs": [
+    {"id": "barrage-closed-s01", "basisId": "barrage-closed", "segmentIndex": 1, "modelHourStart": -24, "modelHourEnd": -20, "targetPhysicalSeconds": 14400, "predecessorJobId": null, "snapshotModelHours": [], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-closed-s02", "basisId": "barrage-closed", "segmentIndex": 2, "modelHourStart": -20, "modelHourEnd": -16, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-closed-s01", "snapshotModelHours": [], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-closed-s03", "basisId": "barrage-closed", "segmentIndex": 3, "modelHourStart": -16, "modelHourEnd": -12, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-closed-s02", "snapshotModelHours": [-12], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-closed-s04", "basisId": "barrage-closed", "segmentIndex": 4, "modelHourStart": -12, "modelHourEnd": -8, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-closed-s03", "snapshotModelHours": [-11, -10, -9, -8], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-open-s01", "basisId": "barrage-open", "segmentIndex": 1, "modelHourStart": -24, "modelHourEnd": -20, "targetPhysicalSeconds": 14400, "predecessorJobId": null, "snapshotModelHours": [], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-open-s02", "basisId": "barrage-open", "segmentIndex": 2, "modelHourStart": -20, "modelHourEnd": -16, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-open-s01", "snapshotModelHours": [], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-open-s03", "basisId": "barrage-open", "segmentIndex": 3, "modelHourStart": -16, "modelHourEnd": -12, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-open-s02", "snapshotModelHours": [-12], "maximumNumericalWallSeconds": 18000},
+    {"id": "barrage-open-s04", "basisId": "barrage-open", "segmentIndex": 4, "modelHourStart": -12, "modelHourEnd": -8, "targetPhysicalSeconds": 14400, "predecessorJobId": "barrage-open-s03", "snapshotModelHours": [-11, -10, -9, -8], "maximumNumericalWallSeconds": 18000}
+  ],
+  "acceptance": {
+    "minimumSimulatedSecondsPerJob": 14400,
+    "maximumCfl": 0.95,
+    "maximumRelativeMassBalanceError": 1e-8,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "checkpointCountPerJob": 4,
+    "snapshotCountPerBasis": 5,
+    "finalRestartRequiredPerJob": true,
+    "evidenceManifestRequiredPerJob": true
+  },
+  "postRunHoldoutAcceptance": {
+    "maximumVelocityVectorRmseMPS": 0.01,
+    "maximumSpeedMaeMPS": 0.005,
+    "maximumP95DirectionErrorDeg": 5.0,
+    "directionActiveThresholdMPS": 0.02,
+    "allFiveHoursAndFourRegionsMustPass": true,
+    "notEvaluatedByTheExecutionWorkflow": true
+  },
+  "control": {
+    "authorizationPath": "config/stage20_barrage_holdout_authorization_v1.json",
+    "gatePath": "config/stage20_barrage_holdout_gate_v1.json",
+    "activationPath": "config/stage20_barrage_holdout_activation_v1.json",
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "activationPresent": false
+  },
+  "outputs": [
+    "eight_segment_artifacts",
+    "eight_restart_final_files",
+    "ten_endpoint_snapshot_files_across_two_bases",
+    "eight_segment_reports",
+    "eight_evidence_manifests"
+  ],
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "crossBasisRestartAllowed": false,
+    "otherBasisExecutionAllowed": false,
+    "referenceS03Allowed": false,
+    "paidResourceAllowed": false,
+    "publicSimulatorConnectionAllowed": false,
+    "mainMergeAllowed": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

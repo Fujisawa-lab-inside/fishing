@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-offline-response-precompute-plan-v3",
-  "status": "exact_hourly_policy_adopted_holdout_scope_planned_remaining_segments_disabled",
+  "status": "barrage_first_holdout_contract_prepared_execution_disabled",
   "replaces": "config/stage20_offline_response_precompute_plan_v2.json",
   "planningApproval": "config/stage20_kernel_v3_segmented_plan_approval_v1.json",
   "detailedPlan": "config/stage20_36h_segmented_precompute_plan_v1.json",
@@ -42,9 +42,9 @@
     "remainingSegmentsAuthorized": false
   },
   "nextDecision": {
-    "candidate": "config/stage20_cross_condition_holdout_plan_candidate_v1.json",
-    "scope": "choose_barrage_first_eight_job_or_all_dimension_forty_job_inactive_contract",
-    "decisionImage": "docs/visuals/stage20-cross-condition-holdout-plan-decision.jpg",
+    "candidate": "config/stage20_barrage_holdout_execution_candidate_v1.json",
+    "scope": "authorize_exactly_one_barrage_closed_open_eight_job_run_within_24_hours_or_stop",
+    "decisionImage": "docs/visuals/stage20-barrage-holdout-execution-decision.jpg",
     "comparisonPlanAuthorized": true,
     "comparisonCompleted": true,
     "crossConditionHoldoutPlanAuthorized": true,

@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-36h-response-basis-plan-candidate-v1",
-  "status": "exact_hourly_policy_adopted_cross_condition_holdout_scope_planned",
+  "status": "barrage_first_holdout_contract_prepared_awaiting_execution_decision",
   "recordedDate": "2026-07-15",
   "approvalToPlan": "config/stage20_physical_pilot_v2_result_adoption_approval_v1.json",
   "referencePilot": {
@@ -111,13 +111,13 @@
     "decisionImageSha256": "427b82be271e151017cacd637572802637e3965163631a32c5da89b3ba874e95"
   },
   "nextDecision": {
-    "question": "条件間補間を河口堰だけ先に検証するか5入力を一括検証するか",
-    "optionA": "prepare_inactive_eight_job_barrage_first_holdout_contract",
-    "optionB": "prepare_inactive_forty_job_all_five_dimension_holdout_contract",
+    "question": "河口堰0%・100%の8 jobを一回限り実行するか",
+    "optionA": "authorize_exactly_one_eight_job_run_within_24_hours",
+    "optionB": "keep_execution_disabled",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-cross-condition-holdout-plan-decision.jpg",
-    "decisionImageSha256": "162b866317209811e534d9b64f17dd87b41ae249f6d55cb8e68cd5029dd54f0e",
-    "candidate": "config/stage20_cross_condition_holdout_plan_candidate_v1.json",
+    "decisionImage": "docs/visuals/stage20-barrage-holdout-execution-decision.jpg",
+    "decisionImageSha256": "9c9d38c1b3c076bb5a1a62238605f9f57e2ac4b270feecb6f038933b65794777",
+    "candidate": "config/stage20_barrage_holdout_execution_candidate_v1.json",
     "campaignExecutionAuthorized": false
   },
   "execution": {

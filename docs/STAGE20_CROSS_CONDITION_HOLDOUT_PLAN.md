@@ -38,4 +38,4 @@ reference S01+S02実績からの単純換算は合計約15.6 runner時間、2系
 - A（推奨）: 河口堰だけを先に検証する8-jobの停止状態contractを作り、実行承認は別に判断する。
 - B: 5入力すべてを一括検証する40-jobの停止状態contractを作り、実行承認は別に判断する。
 
-現段階ではcontractもworkflowも作成しておらず、物理計算、S03、公開接続、`main`反映は承認されていない。
+A案が採用され、河口堰だけの8-job contract、fail-closed runner、activation専用workflow、実行判断画像を停止状態で準備した。authorization、gate、activationは存在せず、数値計算は0 stepである。次の判断は、この8 jobを承認後24時間以内に一回限り実行するかである。物理計算、S03、公開接続、`main`反映はまだ承認されていない。

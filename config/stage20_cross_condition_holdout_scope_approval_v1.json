@@ -1,0 +1,24 @@
+{
+  "schema": "onga-stage20-cross-condition-holdout-scope-approval-v1",
+  "status": "barrage_first_eight_job_contract_preparation_approved",
+  "recordedDate": "2026-07-16",
+  "userDecision": "A案で進めてください．",
+  "approvedChoice": "A",
+  "approvedScope": "prepare_inactive_eight_job_barrage_first_holdout_contract_runner_workflow_and_execution_decision_material",
+  "source": {
+    "plan": "config/stage20_cross_condition_holdout_plan_candidate_v1.json",
+    "planSha256": "bdf742cad257c4ac79133c2d8bc6924db595f65c42fe5ede99c3355493c1d94e",
+    "decisionImage": "docs/visuals/stage20-cross-condition-holdout-plan-decision.jpg",
+    "decisionImageSha256": "162b866317209811e534d9b64f17dd87b41ae249f6d55cb8e68cd5029dd54f0e"
+  },
+  "doesNotAuthorize": [
+    "physical_run",
+    "authorization_gate_activation_files",
+    "automatic_retry",
+    "additional_run",
+    "other_eight_extreme_bases",
+    "reference_s03",
+    "public_simulator_connection",
+    "main_merge"
+  ]
+}

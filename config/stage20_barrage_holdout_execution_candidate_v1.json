@@ -1,0 +1,54 @@
+{
+  "schema": "onga-stage20-barrage-holdout-execution-candidate-v1",
+  "status": "prepared_inactive_awaiting_one_time_execution_decision",
+  "recordedDate": "2026-07-16",
+  "contract": {
+    "path": "config/stage20_barrage_holdout_contract_v1.json",
+    "sha256": "8e76c4f92b62ea532077bbb61f3c1cc9bce527684c77b8edd62083541d0c1114"
+  },
+  "prepared": {
+    "physicalJobCount": 8,
+    "basisChains": ["barrage-closed", "barrage-open"],
+    "modelHourRange": [-24, -8],
+    "snapshotHoursPerBasis": [-12, -11, -10, -9, -8],
+    "runner": "tools/run_stage20_barrage_holdout_segment.py",
+    "workflow": ".github/workflows/stage20-barrage-holdout.yml",
+    "workflowHasManualDispatch": false,
+    "authorizationPresent": false,
+    "gatePresent": false,
+    "activationPresent": false
+  },
+  "resource": {
+    "projectedRunnerHours": 15.589703812801112,
+    "projectedElapsedHours": [8, 10],
+    "maximumNumericalWallHoursPerJob": 5,
+    "projectionIsGuarantee": false
+  },
+  "decision": {
+    "question": "河口堰0%・100%の8 jobを一回限り実行するか",
+    "optionA": "authorize_exactly_one_eight_job_run_within_24_hours",
+    "optionAText": "承認済み河口堰holdout contract v1上で、0%・100%の8 jobを、承認後24時間以内に一回限り実行してよい。",
+    "optionB": "keep_execution_disabled",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-barrage-holdout-execution-decision.jpg",
+    "decisionImageSha256": "9c9d38c1b3c076bb5a1a62238605f9f57e2ac4b270feecb6f038933b65794777",
+    "renderer": "tools/render_stage20_barrage_holdout_execution_decision.py",
+    "rendererSha256": "2ad35465e976bd7f9456a8109a82b0419465b6122ddfc44949c3e4d36998dd5d"
+  },
+  "postSuccess": {
+    "additionalPhysicalRunRequiredForHoldoutEvaluation": false,
+    "createFiftyPercentInterpolatedSnapshots": true,
+    "compareAgainstExistingReferenceS02": true,
+    "renderDirectInterpolatedAndErrorMapsForFourViews": true
+  },
+  "safeguards": {
+    "physicalRunAuthorized": false,
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false,
+    "otherEightExtremeBasesAllowed": false,
+    "referenceS03Allowed": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false
+  }
+}

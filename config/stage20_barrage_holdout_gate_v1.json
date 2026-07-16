@@ -1,0 +1,12 @@
+{
+  "schema": "onga-stage20-barrage-holdout-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "authorizationSha256": "986fbd71a8f04acb6d0c49d788c6ef2107de3b2b98a8acc03ba3703499339476",
+  "issuedAtUtc": "2026-07-16T01:26:10Z",
+  "notAfterUtc": "2026-07-17T01:26:10Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "consumptionEvidence": "successful workflow step named Consume Stage 20 barrage holdout authorization",
+  "scope": "one_barrage_closed_open_eight_job_holdout_workflow_maximum_18000_numerical_wall_seconds_per_job"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "onga-stage20-barrage-holdout-activation-v1",
+  "state": "activate_exactly_once",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "authorizationSha256": "986fbd71a8f04acb6d0c49d788c6ef2107de3b2b98a8acc03ba3703499339476",
+  "gateSha256": "c8aa9cf15c20614fdc7cca2c576f2c539f041293a44727bf9b91689e82500be0",
+  "preparedCommit": "f9dd284f1009335c4d2869921031d680ae48748b",
+  "activatedAtUtc": "2026-07-16T01:26:10Z",
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false
+}

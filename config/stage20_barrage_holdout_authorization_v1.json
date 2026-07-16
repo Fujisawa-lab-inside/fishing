@@ -1,0 +1,49 @@
+{
+  "schema": "onga-stage20-barrage-holdout-authorization-v1",
+  "authorizationId": "stage20-barrage-holdout-20260716t012610z-one-time",
+  "authorized": true,
+  "oneTime": true,
+  "issuedAtUtc": "2026-07-16T01:26:10Z",
+  "notAfterUtc": "2026-07-17T01:26:10Z",
+  "source": {
+    "userInstruction": "承認済み河口堰holdout contract v1上で、0%・100%の8 jobを、承認後24時間以内に一回限り実行してよい。",
+    "followupInstruction": "進めてください",
+    "interpretedScope": "execute_exactly_one_barrage_closed_open_eight_job_holdout_workflow"
+  },
+  "reviewedCodeCommit": "f9dd284f1009335c4d2869921031d680ae48748b",
+  "executionContract": {
+    "path": "config/stage20_barrage_holdout_contract_v1.json",
+    "sha256": "8e76c4f92b62ea532077bbb61f3c1cc9bce527684c77b8edd62083541d0c1114"
+  },
+  "decisionImage": {
+    "path": "docs/visuals/stage20-barrage-holdout-execution-decision.jpg",
+    "sha256": "9c9d38c1b3c076bb5a1a62238605f9f57e2ac4b270feecb6f038933b65794777"
+  },
+  "jobIds": [
+    "barrage-closed-s01",
+    "barrage-closed-s02",
+    "barrage-closed-s03",
+    "barrage-closed-s04",
+    "barrage-open-s01",
+    "barrage-open-s02",
+    "barrage-open-s03",
+    "barrage-open-s04"
+  ],
+  "scope": {
+    "basisOpeningFractions": [0.0, 1.0],
+    "modelHourStart": -24,
+    "modelHourEnd": -8,
+    "physicalJobCount": 8,
+    "physicalHoursPerJob": 4,
+    "maximumNumericalWallSecondsPerJob": 18000,
+    "snapshotModelHoursPerBasis": [-12, -11, -10, -9, -8]
+  },
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "otherBasisExecutionAllowed": false,
+  "referenceS03Allowed": false,
+  "paidResourceAllowed": false,
+  "publicSimulatorConnectionAllowed": false,
+  "mainMergeAllowed": false,
+  "physicalValidationClaimAllowed": false
+}

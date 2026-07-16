@@ -26,6 +26,7 @@ for (const marker of [
   '合成データ',
   '物理予測ではありません',
   '流れの図には未反映',
+  '番号位置は提供緯度経度',
 ]) {
   requireCondition(html.includes(marker), 'GUI HTML marker is missing: ' + marker);
 }
@@ -47,12 +48,15 @@ for (const marker of [
   'renderMarkers(',
   'renderGateInputOverlay(',
   'setGateObservation(',
-  'const gateIndex = 8 - barrageGateIds[barrageIndex]',
+  'lonLatToWorld(',
+  'nearestPointIndex(',
+  'data.gateCenters.map(',
   'selectCellAtCanvasPoint(',
   'togglePlayback(',
 ]) {
   requireCondition(gui.includes(marker), 'GUI implementation marker is missing: ' + marker);
 }
+requireCondition(!gui.includes('8 - barrageGateIds'), 'GUI must not place field gate numbers from equal mesh divisions');
 for (const marker of [
   'mesh-v2.json',
   'response-pack-synthetic-v2.json',
@@ -61,6 +65,9 @@ for (const marker of [
   'const snapshot = index =>',
   'synthetic_browser_benchmark_only',
   'barrage_gate_id',
+  'onga_geometry.geojson',
+  'gate_center',
+  '8593f67c5157ed1d55b717ba6ed691674694cfa499f7f7d533fc9950acdfc536',
   '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659',
   '2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3',
   '146429c21fecc13359710bb5335885258b63cd1f5750b6816f01098659135417',
@@ -98,7 +105,8 @@ console.log(JSON.stringify({
     playback: true,
     retryState: html.includes('id="retry-button"') && gui.includes('elements.retry.addEventListener'),
     gateInputDisplayOnly: html.includes('流れの図には未反映') && gui.includes('renderGateInputOverlay('),
-    legacyWestToEastGateOrder: gui.includes('const gateIndex = 8 - barrageGateIds[barrageIndex]'),
+    providedGateCoordinates: gui.includes('data.gateCenters.map(') && adapter.includes('EXPECTED_GATE_GEOMETRY_SHA256'),
+    estimatedGateDisplaySegments: gui.includes('nearestPointIndex(midpoint, gateCenters)'),
     mobileBreakpoint: true,
   },
   safeguards: {

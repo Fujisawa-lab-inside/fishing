@@ -181,7 +181,7 @@ function syncGateInterface() {
   } else {
     elements.gateDetail.textContent = '現地入力：西側から ' + open.join('・') + '番開（' + open.length + '/8門）。';
   }
-  elements.mapGateLabel.textContent = '現地入力：' + gateObservationLabel(true) + '／流れの図には未反映';
+  elements.mapGateLabel.textContent = '現地入力：' + gateObservationLabel(true) + '／番号：提供座標／流れの図には未反映';
 }
 
 function setGateObservation(levels) {
@@ -234,6 +234,7 @@ async function loadApplication() {
     });
     state.data = data;
     state.geometry = prepareGeometry(data);
+    elements.canvas.dataset.gatePositionSource = 'provided-geojson';
     state.snapshotMaximumSpeeds = new Float64Array(data.metadata.snapshotCount);
     state.snapshotMaximumSpeeds.fill(Number.NaN);
     state.snapshotIndex = PRESENT_INDEX;
@@ -298,10 +299,14 @@ function imageToWorld(x, y, geographic, zoom) {
   const worldY = transform.ty + transform.b * source[0] + transform.a * source[1];
   const lon = worldX / CIRCUMFERENCE_M * 360 - 180;
   const lat = Math.atan(Math.sinh(Math.PI * (1 - 2 * worldY / CIRCUMFERENCE_M))) * 180 / Math.PI;
+  return lonLatToWorld(lon, lat, zoom);
+}
+
+function lonLatToWorld(longitude, latitude, zoom) {
   const scale = TILE_SIZE * 2 ** zoom;
   return [
-    (lon + 180) / 360 * scale,
-    (1 - Math.asinh(Math.tan(lat * Math.PI / 180)) / Math.PI) / 2 * scale,
+    (longitude + 180) / 360 * scale,
+    (1 - Math.asinh(Math.tan(latitude * Math.PI / 180)) / Math.PI) / 2 * scale,
   ];
 }
 
@@ -356,6 +361,21 @@ function averagePoints(points) {
   return [total[0] / points.length, total[1] / points.length];
 }
 
+function nearestPointIndex(point, candidates) {
+  let nearest = -1;
+  let nearestDistanceSquared = Number.POSITIVE_INFINITY;
+  for (let index = 0; index < candidates.length; index += 1) {
+    const dx = point[0] - candidates[index][0];
+    const dy = point[1] - candidates[index][1];
+    const distanceSquared = dx * dx + dy * dy;
+    if (distanceSquared < nearestDistanceSquared) {
+      nearest = index;
+      nearestDistanceSquared = distanceSquared;
+    }
+  }
+  return nearest;
+}
+
 function prepareGeometry(data) {
   const mesh = data.mesh;
   const geographic = data.waterManifest.coordinateSystem.geographic;
@@ -365,7 +385,6 @@ function prepareGeometry(data) {
   ]);
   const areas = calculateAreas(mesh);
   const barrageFaces = mesh.arrays.barrage_face_ids;
-  const barrageGateIds = mesh.arrays.barrage_gate_id;
   const internalFaceVertices = mesh.arrays.internal_face_vertices;
   const fishwayCells = mesh.arrays.fishway_cells;
   const special = {};
@@ -375,7 +394,10 @@ function prepareGeometry(data) {
     const barrageSegments = [];
     const barragePoints = [];
     const gateSegments = Array.from({ length: 8 }, () => []);
-    const gatePoints = Array.from({ length: 8 }, () => []);
+    const gateCenters = data.gateCenters.map(gate => lonLatToWorld(gate.longitude, gate.latitude, zoom));
+    if (!gateCenters.every((point, index) => index === 0 || point[0] > gateCenters[index - 1][0])) {
+      throw new Error('提供水門座標が西から東へ1〜8番の順に並んでいません。');
+    }
     for (let barrageIndex = 0; barrageIndex < barrageFaces.length; barrageIndex += 1) {
       const faceId = barrageFaces[barrageIndex];
       const a = internalFaceVertices[faceId * 2];
@@ -386,19 +408,20 @@ function prepareGeometry(data) {
       ];
       barrageSegments.push(segment);
       barragePoints.push(segment[0], segment[1]);
-      // The frozen mesh IDs run east -> west, while the field/legacy GUI
-      // numbers the barrage gates west -> east (1..8).
-      const gateIndex = 8 - barrageGateIds[barrageIndex];
+      const midpoint = [
+        (segment[0][0] + segment[1][0]) / 2,
+        (segment[0][1] + segment[1][1]) / 2,
+      ];
+      const gateIndex = nearestPointIndex(midpoint, gateCenters);
       gateSegments[gateIndex].push(segment);
-      gatePoints[gateIndex].push(segment[0], segment[1]);
     }
     const fishwayPoints = Array.from(fishwayCells, cell => [
       projection.centres[cell * 2],
       projection.centres[cell * 2 + 1],
     ]);
-    const gateCenters = gatePoints.map(points => averagePoints(points));
-    if (!gateCenters.every((point, index) => index === 0 || point[0] > gateCenters[index - 1][0])) {
-      throw new Error('現地水門番号が西から東へ1〜8番の順に並んでいません。');
+    if (gateSegments.some(segments => segments.length === 0)
+      || gateSegments.reduce((sum, segments) => sum + segments.length, 0) !== barrageSegments.length) {
+      throw new Error('提供水門中心を基準にした表示区間を作成できませんでした。');
     }
     special[zoom] = {
       barrageSegments,
@@ -913,7 +936,7 @@ function syncInterface() {
     'aria-label',
     view.label + 'の' + (state.layer === 'speed' ? '流速' : '水深') + '地図、' + formatHour(hour)
       + '。合成データで物理予測ではありません。現地水門は' + gateObservationLabel(true)
-      + 'ですが流れの図には未反映です。Enterキーで中央地点を選択できます。',
+      + 'ですが流れの図には未反映です。番号位置は提供緯度経度です。Enterキーで中央地点を選択できます。',
   );
   for (const button of document.querySelectorAll('[data-layer]')) {
     const active = button.dataset.layer === state.layer;

@@ -5,12 +5,14 @@ export const STAGE20_GUI_DATA_SCHEMA = 'onga-stage20-gui-data-v1';
 const EXPECTED_MESH_SHA256 = '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659';
 const EXPECTED_RESPONSE_PACK_SHA256 = '2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3';
 const EXPECTED_OUTPUT_SHA256 = '146429c21fecc13359710bb5335885258b63cd1f5750b6816f01098659135417';
+const EXPECTED_GATE_GEOMETRY_SHA256 = '8593f67c5157ed1d55b717ba6ed691674694cfa499f7f7d533fc9950acdfc536';
 
 const DEFAULT_URLS = Object.freeze({
   meshManifest: './public/data/onga/stage20/mesh-v2.json',
   responseManifest: './public/data/onga/stage20/response-pack-synthetic-v2.json',
   hourlyInputs: './public/data/onga/stage20/hybrid-synthetic-input-v1.json',
   waterManifest: './data/onga_unified_water_manifest_r3.json',
+  gateGeometry: './public/data/onga/onga_geometry.geojson',
   worker: './onga_stage20_hybrid_worker.mjs',
 });
 
@@ -22,6 +24,19 @@ async function fetchJson(url, signal) {
   const response = await fetch(url, { cache: 'no-store', signal });
   assert(response.ok, `${url} returned HTTP ${response.status}`);
   return response.json();
+}
+
+function bytesToHex(bytes) {
+  return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function fetchPinnedJson(url, expectedSha256, signal) {
+  const response = await fetch(url, { cache: 'no-store', signal });
+  assert(response.ok, `${url} returned HTTP ${response.status}`);
+  const payload = await response.arrayBuffer();
+  const digest = bytesToHex(new Uint8Array(await crypto.subtle.digest('SHA-256', payload)));
+  assert(digest === expectedSha256, `${url} identity changed`);
+  return JSON.parse(new TextDecoder().decode(payload));
 }
 
 function resolveUrl(value) {
@@ -91,14 +106,16 @@ export async function loadStage20GuiData(options = {}) {
   const responseManifestUrl = resolveUrl(urls.responseManifest);
   const inputsUrl = resolveUrl(urls.hourlyInputs);
   const waterManifestUrl = resolveUrl(urls.waterManifest);
+  const gateGeometryUrl = resolveUrl(urls.gateGeometry);
   const workerUrl = resolveUrl(urls.worker);
 
   options.onProgress?.('mesh-and-contracts');
-  const [mesh, responseManifest, inputs, waterManifest] = await Promise.all([
+  const [mesh, responseManifest, inputs, waterManifest, gateGeometry] = await Promise.all([
     loadStage20BrowserMesh(meshUrl, { fetchImpl: (url, init = {}) => fetch(url, { ...init, signal }) }),
     fetchJson(responseManifestUrl, signal),
     fetchJson(inputsUrl, signal),
     fetchJson(waterManifestUrl, signal),
+    fetchPinnedJson(gateGeometryUrl, EXPECTED_GATE_GEOMETRY_SHA256, signal),
   ]);
 
   assert(mesh.manifest.schema === 'onga-stage20-browser-mesh-v2', 'mesh-v2 is required');
@@ -124,6 +141,22 @@ export async function loadStage20GuiData(options = {}) {
     assert(inputs[key].every(Number.isFinite), `${key} contains a non-finite value`);
   }
   assert(waterManifest?.coordinateSystem?.geographic, 'geographic display transform is missing');
+  const gateFeatures = gateGeometry?.features
+    ?.filter(feature => feature?.properties?.kind === 'gate_center')
+    .sort((left, right) => left.properties.gate_no - right.properties.gate_no);
+  assert(gateGeometry?.type === 'FeatureCollection', 'gate geometry must be GeoJSON');
+  assert(gateFeatures?.length === 8, 'gate geometry must contain eight provided centres');
+  assert(gateFeatures.every((feature, index) => feature.properties.gate_no === index + 1), 'provided gate numbers must be 1 through 8');
+  assert(gateFeatures.every(feature => feature.geometry?.type === 'Point'
+    && feature.geometry.coordinates.length === 2
+    && feature.geometry.coordinates.every(Number.isFinite)), 'provided gate coordinate is invalid');
+  assert(gateFeatures.every((feature, index) => index === 0
+    || feature.geometry.coordinates[0] > gateFeatures[index - 1].geometry.coordinates[0]), 'provided gate coordinates must run west to east');
+  const gateCenters = Object.freeze(gateFeatures.map(feature => Object.freeze({
+    gate: feature.properties.gate_no,
+    longitude: feature.geometry.coordinates[0],
+    latitude: feature.geometry.coordinates[1],
+  })));
 
   options.onProgress?.('synthesis');
   const workerResult = await runSynthesisWorker({
@@ -183,11 +216,13 @@ export async function loadStage20GuiData(options = {}) {
       meshSha256: mesh.manifest.binary.sha256,
       responsePackSha256: responseManifest.binary.sha256,
       responsePackVersion: responseManifest.version,
+      gateGeometrySha256: EXPECTED_GATE_GEOMETRY_SHA256,
     }),
     mesh,
     responseManifest: Object.freeze(responseManifest),
     inputs: displayInputs,
     waterManifest: Object.freeze(waterManifest),
+    gateCenters,
     diagnostics: Object.freeze(workerResult.diagnostics),
     timingsMs: Object.freeze(workerResult.timingsMs),
     snapshot,

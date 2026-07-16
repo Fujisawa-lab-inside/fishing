@@ -36,7 +36,9 @@ http://127.0.0.1:4173/stage20-hybrid-gui.html
 
 ### 河口堰の現地入力について
 
-河口堰の番号は旧GUIと同じ現地基準（西から東へ1〜8番）です。入力した開門番号は地図上の対応区間と番号表示へ即時反映されます。
+河口堰の番号は旧GUIと同じ現地基準（西から東へ1〜8番）です。番号中心は `public/data/onga/onga_geometry.geojson` のユーザー提供緯度経度を直接Web Mercatorへ投影します。メッシュ内の8等分IDは番号位置に使用しません。
+
+入力した開門番号は地図上の対応区間と番号表示へ即時反映されます。色付き区間には実門幅の資料がないため、各堰辺を最も近い提供中心へ割り当てた表示上の推定です。凍結メッシュの門IDや計算領域は変更しません。
 
 この入力は現在の画面を開いている間だけの表示メモで、再読み込みすると未入力に戻ります。Stage 20の応答パックには門別の流れを再計算する基底がないため、流速・水深・時刻には反映しません。誤認を避けるため、入力欄と地図の双方に「流れの図には未反映」と表示します。
 
@@ -45,10 +47,11 @@ http://127.0.0.1:4173/stage20-hybrid-gui.html
 - メッシュ: `public/data/onga/stage20/mesh-v2.json`、50,199セル
 - 応答パック: `public/data/onga/stage20/response-pack-synthetic-v2.json`
 - 入力: `public/data/onga/stage20/hybrid-synthetic-input-v1.json`
+- 水門番号中心: `public/data/onga/onga_geometry.geojson` の `gate_center` 8点
 - 背景: `data/external/gsi/seamlessphoto` のローカルタイルのみ
 - フィールド: `[時刻][depthM, eastVelocityMPS, northVelocityMPS][セル]` のFloat32
 
-メッシュ、応答パック、合成出力のSHA-256を読み込み時に固定値と照合します。
+メッシュ、応答パック、合成出力、水門座標GeoJSONのSHA-256を読み込み時に固定値と照合します。
 
 S02の5時点物理パック、物理runner、既存公開シミュレーター、外部タイルには接続していません。
 

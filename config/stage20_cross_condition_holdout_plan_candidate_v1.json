@@ -1,0 +1,116 @@
+{
+  "schema": "onga-stage20-cross-condition-holdout-plan-candidate-v1",
+  "status": "inactive_candidate_awaiting_barrage_first_scope_decision",
+  "recordedDate": "2026-07-16",
+  "planningApproval": "config/stage20_reference_s02_browser_comparison_adoption_approval_v1.json",
+  "planningApprovalSha256": "2d605c52b02aaafa531d160de78317ec361af3f93a9a0f1032f5e3b8e250e5a6",
+  "sources": {
+    "browserComparison": "config/stage20_reference_s02_browser_comparison_v1.json",
+    "browserComparisonSha256": "63935c2186d5a89e04dec0d641f7b45a4e75782e75d52793957841c9d484c6d1",
+    "segmentedBasisPlan": "config/stage20_36h_segmented_precompute_plan_v1.json",
+    "segmentedBasisPlanSha256": "4b3504efd58b72dffd3f65a1b1e2d93cebbf664cab65ce131c37e281f043c470",
+    "referenceS02Result": "config/stage20_reference_s02_result_v1.json",
+    "referenceS02ResultSha256AtPlanning": "992d586aeadc6731ca54c20cffc7500527ef0edbb419e94f5393f36e9f990663"
+  },
+  "adoptedBrowserPolicy": {
+    "displayIntervalHours": 1,
+    "retainEveryDisplayedHourlySnapshot": true,
+    "allowMissingHourLinearFallback": false,
+    "crossConditionInterpolationValidated": false
+  },
+  "recommendedFirstTest": {
+    "id": "barrage-opening-midpoint-holdout-v1",
+    "reason": [
+      "the_existing_reference_is_exactly_midway_between_closed_and_open",
+      "the_barrage_and_fishways_are_a_high_value_spatial_nonlinearity_risk",
+      "the_existing_reference_s02_can_be_reused_as_the_held_out_direct_solution",
+      "failure_can_stop_the_linear_basis_strategy_before_computing_the_other_eight_extreme_bases"
+    ],
+    "fitBases": [
+      {
+        "basisId": "barrage-closed",
+        "barrageOpeningFraction": 0.0,
+        "interpolationWeight": 0.5
+      },
+      {
+        "basisId": "barrage-open",
+        "barrageOpeningFraction": 1.0,
+        "interpolationWeight": 0.5
+      }
+    ],
+    "heldOutDirectReference": {
+      "basisId": "reference",
+      "barrageOpeningFraction": 0.5,
+      "s01RunId": 29415527789,
+      "s02RunId": 29434250546,
+      "wasUsedToFitInterpolation": false
+    },
+    "comparisonHours": [-12, -11, -10, -9, -8],
+    "comparisonComponents": ["waterDepthM", "velocityUms", "velocityVms"],
+    "comparisonViews": ["full_estuary", "barrage", "confluence", "fishway"],
+    "outputMapsAtWorstHour": ["direct", "interpolated", "velocity_vector_error"]
+  },
+  "candidateAcceptance": {
+    "appliesTo": "each_of_five_hours_for_full_estuary_and_each_digest_locked_regional_mask",
+    "maximumVelocityVectorRmseMPS": 0.01,
+    "maximumSpeedMaeMPS": 0.005,
+    "maximumP95DirectionErrorDeg": 5.0,
+    "directionActiveThresholdMPS": 0.02,
+    "allHoursAndRegionsMustPass": true,
+    "regionalMasksMustBeDigestLockedBeforeExecution": true,
+    "partialPassMayNotBePublished": true
+  },
+  "stagedExecutionCandidate": {
+    "basisTrajectoryCount": 2,
+    "modeledHourStart": -24,
+    "modeledHourEnd": -8,
+    "modeledHoursPerBasis": 16,
+    "physicalHoursPerSegment": 4,
+    "segmentsPerBasis": 4,
+    "totalJobs": 8,
+    "segmentBoundariesModelHours": [-24, -20, -16, -12, -8],
+    "retainedSnapshotHours": [-12, -11, -10, -9, -8],
+    "maximumWallHoursPerJob": 5,
+    "automaticRetryAllowed": false,
+    "crossBasisRestartAllowed": false,
+    "stopAfterAnyFailedJob": true,
+    "executionContractExists": false,
+    "workflowExists": false,
+    "executionAuthorized": false
+  },
+  "resourceProjection": {
+    "referenceS01PlusS02MeasuredRunnerHours": 7.794851906400556,
+    "projectedRunnerHoursForTwoBases": 15.589703812801112,
+    "projectedWallHoursPerFourPhysicalHourJob": 1.948712976600139,
+    "idealTwoChainElapsedHours": 7.794851906400556,
+    "providerIfLaterAuthorized": "GitHub-hosted standard Linux x86_64 runner",
+    "projectionIsGuarantee": false,
+    "extremeBarrageConditionsMayRunAtDifferentSpeed": true,
+    "queueSetupTransferRestartAndFailureOverheadExcluded": true
+  },
+  "fullFiveDimensionAlternative": {
+    "fitBasisCount": 10,
+    "totalJobsThroughModelHourMinus8": 40,
+    "projectedRunnerHours": 77.94851906400556,
+    "benefit": "tests_tide_onga_nishi_magari_and_barrage_in_one_scope",
+    "risk": "approximately_five_times_the_runner_resource_before_learning_whether_the_barrage_interpolation_already_invalidates_the_linear_basis_strategy"
+  },
+  "nextDecision": {
+    "question": "条件間補間の検証範囲を段階実行にするか一括実行にするか",
+    "optionA": "prepare_an_inactive_eight_job_barrage_first_holdout_contract_then_stop_for_separate_execution_authorization",
+    "optionB": "prepare_an_inactive_forty_job_all_five_dimension_holdout_contract_then_stop_for_separate_execution_authorization",
+    "recommendedChoice": "A",
+    "decisionImage": "docs/visuals/stage20-cross-condition-holdout-plan-decision.jpg",
+    "decisionImageSha256": "162b866317209811e534d9b64f17dd87b41ae249f6d55cb8e68cd5029dd54f0e",
+    "renderer": "tools/render_stage20_cross_condition_holdout_plan_decision.py",
+    "rendererSha256": "ce6cef0f6ed3c09715444962d190189655dee5b7ccfef84951bb4a75bfb42157"
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "physicalRunAuthorized": false,
+    "publicSimulatorConnected": false,
+    "mainMergeAuthorized": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

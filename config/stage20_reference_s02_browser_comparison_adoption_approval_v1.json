@@ -1,0 +1,27 @@
+{
+  "schema": "onga-stage20-reference-s02-browser-comparison-adoption-approval-v1",
+  "status": "approved_for_cross_condition_holdout_planning_only",
+  "recordedDate": "2026-07-16",
+  "userDecision": "A案で進めてください",
+  "approvedChoice": "A",
+  "adopted": {
+    "retainEveryDisplayedHourlySnapshot": true,
+    "allowMissingHourLinearFallback": false,
+    "prepareCrossConditionHoldoutTestPlan": true
+  },
+  "source": {
+    "comparison": "config/stage20_reference_s02_browser_comparison_v1.json",
+    "comparisonSha256": "63935c2186d5a89e04dec0d641f7b45a4e75782e75d52793957841c9d484c6d1",
+    "decisionImage": "docs/visuals/stage20-reference-s02-browser-comparison-decision.jpg",
+    "decisionImageSha256": "737e7490e4d101cd0c1a97c2ce5cd11bf46faae68b9199c8bc858e1d11cdf42a"
+  },
+  "doesNotAuthorize": [
+    "physical_run",
+    "reference_s03",
+    "remaining_segment_campaign",
+    "public_simulator_connection",
+    "main_merge",
+    "physical_validation_claim",
+    "daily_forecast_claim"
+  ]
+}

@@ -87,13 +87,14 @@
     ]
   },
   "nextDecision": {
-    "question": "毎時snapshotを保持し欠落時刻の直線補間を禁止する比較結果を採用するか",
-    "optionA": "adopt_exact_hourly_snapshot_policy_and_prepare_cross_condition_holdout_test_plan_only",
-    "optionB": "retain_s02_and_stop_without_adopting_the_browser_comparison",
+    "question": "条件間補間を河口堰だけ先に検証するか5入力を一括検証するか",
+    "optionA": "prepare_inactive_eight_job_barrage_first_holdout_contract",
+    "optionB": "prepare_inactive_forty_job_all_five_dimension_holdout_contract",
     "recommendedChoice": "A",
-    "decisionImage": "docs/visuals/stage20-reference-s02-browser-comparison-decision.jpg",
-    "decisionImageSha256": "737e7490e4d101cd0c1a97c2ce5cd11bf46faae68b9199c8bc858e1d11cdf42a",
+    "decisionImage": "docs/visuals/stage20-cross-condition-holdout-plan-decision.jpg",
+    "decisionImageSha256": "162b866317209811e534d9b64f17dd87b41ae249f6d55cb8e68cd5029dd54f0e",
     "comparison": "config/stage20_reference_s02_browser_comparison_v1.json",
+    "holdoutPlan": "config/stage20_cross_condition_holdout_plan_candidate_v1.json",
     "additionalPhysicalRunAuthorized": false
   },
   "safeguards": {

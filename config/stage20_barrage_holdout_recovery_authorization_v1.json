@@ -1,0 +1,52 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-authorization-v1",
+  "status": "active_one_time_user_approved",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "sourceStatement": "推奨の作業を進めてください",
+  "approvedOption": "A",
+  "approvedScopeStatement": "承認済み河口堰holdout回復contract v1上で、閉鎖0%の2時間×4区間と開放100%の4時間×1区間を、承認後24時間以内に一回限り実行してよい。",
+  "authorized": true,
+  "oneTime": true,
+  "issuedAtUtc": "2026-07-16T15:33:34Z",
+  "notAfterUtc": "2026-07-17T15:28:34Z",
+  "reviewedCodeCommit": "2c210262a3918b96b26561703bd1d7d6099a46ad",
+  "executionContract": {
+    "path": "config/stage20_barrage_holdout_recovery_contract_v1.json",
+    "sha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c"
+  },
+  "decisionImage": {
+    "path": "docs/visuals/stage20-barrage-holdout-recovery-decision.jpg",
+    "sha256": "65b2eb0fdb30f913de4df3632350be1b8c544352b3799612e79fc808c6e62b2c"
+  },
+  "resource": {
+    "repositoryVisibilityRequired": "PUBLIC",
+    "visibilityCheckedImmediatelyBeforeConsumption": true,
+    "runner": "ubuntu-latest",
+    "standardGitHubHostedRunnerOnly": true,
+    "largerRunnerAllowed": false,
+    "paidResourceAllowed": false,
+    "standardPublicRunnerMinuteChargeExpectedUsd": 0
+  },
+  "jobIds": [
+    "barrage-closed-m16-m14",
+    "barrage-closed-m14-m12",
+    "barrage-closed-m12-m10",
+    "barrage-closed-m10-m08",
+    "barrage-open-m12-m08"
+  ],
+  "postRunActionsAuthorized": [
+    "download_exact_run_artifacts",
+    "verify_sha256_and_numerical_stability",
+    "assemble_ten_endpoint_snapshots",
+    "compare_direct_50_percent_against_50_50_endpoint_interpolation",
+    "render_four_region_direct_interpolated_error_maps_and_decision_image",
+    "record_results_and_commit_push_work_branch"
+  ],
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "referenceS03Allowed": false,
+  "publicSimulatorConnectionAllowed": false,
+  "mainMergeAllowed": false,
+  "physicalValidationClaimAllowed": false,
+  "dailyForecastClaimAllowed": false
+}

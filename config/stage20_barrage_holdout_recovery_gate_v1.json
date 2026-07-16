@@ -1,0 +1,16 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-gate-v1",
+  "state": "active_one_time",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "authorizationPath": "config/stage20_barrage_holdout_recovery_authorization_v1.json",
+  "authorizationSha256": "e6c96e8fcdad19a567948e9a68b27ab81e9f35d9209917d5c74c3901a6e18c14",
+  "executionContractSha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c",
+  "reviewedCodeCommit": "2c210262a3918b96b26561703bd1d7d6099a46ad",
+  "jobCount": 5,
+  "automaticRetryAllowed": false,
+  "additionalRunAllowed": false,
+  "paidResourceAllowed": false,
+  "largerRunnerAllowed": false,
+  "publicSimulatorConnectionAllowed": false,
+  "mainMergeAllowed": false
+}

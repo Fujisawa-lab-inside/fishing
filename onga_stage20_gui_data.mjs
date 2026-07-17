@@ -6,6 +6,8 @@ const EXPECTED_MESH_SHA256 = '09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828
 const EXPECTED_RESPONSE_PACK_SHA256 = '2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3';
 const EXPECTED_OUTPUT_SHA256 = '146429c21fecc13359710bb5335885258b63cd1f5750b6816f01098659135417';
 const EXPECTED_GATE_GEOMETRY_SHA256 = '8593f67c5157ed1d55b717ba6ed691674694cfa499f7f7d533fc9950acdfc536';
+const PUBLISHED_MAIN_GATE_WIDTH_M = 46.5;
+const MAIN_GATE_WIDTH_SOURCE_ID = 'mlit_onga_barrage_gate_public_facts';
 
 const DEFAULT_URLS = Object.freeze({
   meshManifest: './public/data/onga/stage20/mesh-v2.json',
@@ -217,6 +219,8 @@ export async function loadStage20GuiData(options = {}) {
       responsePackSha256: responseManifest.binary.sha256,
       responsePackVersion: responseManifest.version,
       gateGeometrySha256: EXPECTED_GATE_GEOMETRY_SHA256,
+      mainGateWidthM: PUBLISHED_MAIN_GATE_WIDTH_M,
+      mainGateWidthSourceId: MAIN_GATE_WIDTH_SOURCE_ID,
     }),
     mesh,
     responseManifest: Object.freeze(responseManifest),

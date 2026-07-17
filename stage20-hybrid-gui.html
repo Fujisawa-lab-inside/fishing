@@ -91,7 +91,7 @@
             <button type="button" data-gate-preset="clear">入力解除</button>
           </div>
           <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">未入力です。現地で開いている番号を選択してください。</p>
-          <p class="gate-disclaimer">この入力はこの画面限りで、再読み込みすると解除されます。番号位置は提供緯度経度、色付き区間は隣接する提供中心間から推定します。流速・水深・表示時刻とは連動しません。</p>
+          <p class="gate-disclaimer">この入力はこの画面限りで、再読み込みすると解除されます。番号中心は提供緯度経度、色付き区間は各46.5mの主水門です。魚道は1〜8番に含めません。流速・水深・表示時刻とは連動しません。</p>
           <button type="button" class="gate-map-button" id="gate-map-button">河口堰を地図で確認</button>
         </section>
 
@@ -182,7 +182,7 @@
           <div class="map-hud top-left">
             <span class="hud-label" id="map-view-label">河口全域</span>
             <strong id="map-time-label">現在相当・0時間</strong>
-            <small id="map-gate-label">現地入力：未入力／流れの図には未反映</small>
+            <small id="map-gate-label">現地入力：未入力／主門46.5m×8・魚道別／流れの図には未反映</small>
           </div>
           <div class="map-hud top-right warning-hud">
             <span class="warning-dot"></span>

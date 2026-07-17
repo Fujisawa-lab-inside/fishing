@@ -1,0 +1,456 @@
+{
+  "algebraValidation": {
+    "canonicalExpression": "0.5*F0+0.5*F100-F50",
+    "canonicalKinkDepthMatchesExistingErrorExactly": true,
+    "canonicalKinkVelocityMatchesExistingErrorExactly": true,
+    "directMiddleAnchorReusedWithoutEndpointMidpointReplacement": true,
+    "interpolatedDepthsNonnegative": true,
+    "interpolatedFieldsFinite": true,
+    "leftSegmentReturnsDirect50Exactly": true,
+    "maximumAbsoluteRoundingDifference": {
+      "velocityUms": 5.551115123125783e-17,
+      "velocityVms": 8.326672684688674e-17,
+      "waterDepthM": 3.552713678800501e-15
+    },
+    "rightSegmentReturnsDirect50Exactly": true,
+    "stepExpression": "(F75-F50)-(F50-F25)",
+    "stepExpressionAllclose": true,
+    "stepExpressionAtol": 4e-15,
+    "stepExpressionRtol": 0.0,
+    "valueContinuousAt50Percent": true
+  },
+  "browserPackContext": {
+    "byteLength": 15716,
+    "displayRoundedMaximumVelocityVectorAbsoluteErrorMPS": 3.05e-08,
+    "float32QuantizationPassed": true,
+    "maximumVelocityVectorAbsoluteErrorMPS": 3.044480977483437e-08,
+    "middleAnchorGuarantee": "exact_within_the_float32_candidate_pack_not_byte_identical_to_the_sealed_float64_source",
+    "packedAnchorDtype": "float32-le",
+    "path": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.json",
+    "schema": "onga-stage20-barrage-piecewise-anchor-pack-v1",
+    "sha256": "f5770256962268f2e6e4a1bec2a124fada55568d3e4ab0fe74269bbf3f0eecbc",
+    "sourceMapArithmeticDtype": "float64"
+  },
+  "candidate": {
+    "arithmeticDtype": "float64",
+    "canonicalKinkFormula": "0.5*F0+0.5*F100-F50",
+    "canonicalKinkInterpretation": "difference_between_the_right_and_left_25_percentage_point_velocity_changes",
+    "componentOrder": [
+      "waterDepthM",
+      "velocityUms",
+      "velocityVms"
+    ],
+    "directOpeningPercents": [
+      0,
+      50,
+      100
+    ],
+    "directPhysicalValidationAt25And75Percent": false,
+    "interpolatedOpeningPercents": [
+      25,
+      75
+    ],
+    "leftSegmentFormula": "F(p)=(1-2p)*F0+2p*F50 for 0<=p<=0.5",
+    "middleAnchorRule": "p_equals_0.5_returns_the_direct_50_percent_arrays_exactly",
+    "openingPercents": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "rightSegmentFormula": "F(p)=(2-2p)*F50+(2p-1)*F100 for 0.5<=p<=1",
+    "slopeSmoothnessAt50Percent": "not_achieved",
+    "valueContinuityAt50Percent": "guaranteed_by_construction"
+  },
+  "coordinateTransform": {
+    "crs": "EPSG:4326",
+    "path": "data/onga_unified_water_manifest_r3.json",
+    "sha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"
+  },
+  "decision": {
+    "optionA": "retain_as_isolated_internal_code_candidate_not_connected_to_public_simulator",
+    "optionALabelJa": "この形を公開未接続の内部コード候補として保持",
+    "optionB": "reject_candidate_and_stop_cross_condition_interpolation",
+    "optionBLabelJa": "不採用にして停止",
+    "questionJa": "50%固定と値の連続を保証する一方で変化率の折れが残るこの形をどう扱うか"
+  },
+  "display": {
+    "arrowAggregation": {
+      "bins": "same_fixed_view_bins_for_all_panels",
+      "positionAndVectorWeights": "direct_50_percent_water_depth_times_cell_area_for_all_panels",
+      "reason": "hold_arrow_positions_constant_so_visual_jitter_is_not_misread_as_field_discontinuity"
+    },
+    "canonicalKinkScale": {
+      "appliesTo": [
+        "canonical_kink"
+      ],
+      "maximumMPS": 0.04,
+      "minimumMPS": 0.0,
+      "rule": "fixed_0_to_0.04_after_verified_nonzero_p95_rounded_to_0.01",
+      "sourceNonzeroP95MPS": 0.033703186147376205
+    },
+    "overview": {
+      "byteLength": 745036,
+      "format": "JPEG",
+      "height": 1490,
+      "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-overview.jpg",
+      "sha256": "37594e82e8e22139fda17f256a2f9fd2357a0959d3e6b45841f955e8b191e31e",
+      "width": 2000
+    },
+    "panelOrder": [
+      "direct_0",
+      "interpolated_25",
+      "direct_50",
+      "interpolated_75",
+      "direct_100",
+      "canonical_kink"
+    ],
+    "speedScale": {
+      "appliesTo": [
+        "direct_0",
+        "interpolated_25",
+        "direct_50",
+        "interpolated_75",
+        "direct_100"
+      ],
+      "maximumMPS": 0.13,
+      "minimumMPS": 0.0,
+      "rule": "fixed_0_to_0.13_after_verified_max_nonzero_p95_rounded_to_0.01",
+      "sourceNonzeroP95MPS": {
+        "direct_0": 0.09406548321418633,
+        "direct_100": 0.12114709470636346,
+        "direct_50": 0.12054874652995895,
+        "interpolated_25": 0.10547879459111764,
+        "interpolated_75": 0.12085654391473732
+      }
+    },
+    "views": [
+      {
+        "arrowCounts": {
+          "canonical_kink": 15,
+          "direct_0": 19,
+          "direct_100": 24,
+          "direct_50": 24,
+          "interpolated_25": 24,
+          "interpolated_75": 24
+        },
+        "cellCount": 50199,
+        "commonArrowWeighting": "direct_50_percent_depth_times_cell_area_for_all_six_panels",
+        "id": "estuary",
+        "jpg": {
+          "byteLength": 532091,
+          "format": "JPEG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-estuary.jpg",
+          "sha256": "a2a0bb13cd319cde01f768b92628c413c315da5f4b97134d9749c2912a5843d9",
+          "width": 3240
+        },
+        "labelJa": "河口全域",
+        "metrics": {
+          "canonicalKinkDepthRmseM": 1.5292605429726074,
+          "canonicalKinkVelocityMagnitudeP95MPS": 0.033703186147376205,
+          "canonicalKinkVelocityVectorRmseMPS": 0.02766268977037687,
+          "cellCount": 50199,
+          "labelJa": "河口全域",
+          "left25StepDepthRmseM": 1.5336439913286557,
+          "left25StepVelocityVectorRmseMPS": 0.028194197318624256,
+          "regionId": "estuary",
+          "right25StepDepthRmseM": 0.005093096745471105,
+          "right25StepVelocityVectorRmseMPS": 0.001473929561679212,
+          "slopeSmoothnessAt50Percent": false,
+          "sourceHoldoutPassed": false,
+          "valueContinuityAt50Percent": true
+        },
+        "panelCount": 6,
+        "panelOrder": [
+          "direct_0",
+          "interpolated_25",
+          "direct_50",
+          "interpolated_75",
+          "direct_100",
+          "canonical_kink"
+        ],
+        "svg": {
+          "byteLength": 463932,
+          "format": "SVG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-estuary.svg",
+          "sha256": "dcf51085288fb8bbc18f7fef6b05ac38de2378372bab2e82371a3b50a771c22e",
+          "width": 3240
+        }
+      },
+      {
+        "arrowCounts": {
+          "canonical_kink": 66,
+          "direct_0": 17,
+          "direct_100": 68,
+          "direct_50": 68,
+          "interpolated_25": 67,
+          "interpolated_75": 68
+        },
+        "cellCount": 5281,
+        "commonArrowWeighting": "direct_50_percent_depth_times_cell_area_for_all_six_panels",
+        "id": "barrage",
+        "jpg": {
+          "byteLength": 476701,
+          "format": "JPEG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-barrage.jpg",
+          "sha256": "7e2fba5b68f3745199610661dcf155bdf45e4b6851dd51be07ecc77e57b32f0a",
+          "width": 3240
+        },
+        "labelJa": "河口堰付近",
+        "metrics": {
+          "canonicalKinkDepthRmseM": 3.3431490042630876,
+          "canonicalKinkVelocityMagnitudeP95MPS": 0.02107661122906889,
+          "canonicalKinkVelocityVectorRmseMPS": 0.022545500595790784,
+          "cellCount": 5281,
+          "labelJa": "河口堰付近",
+          "left25StepDepthRmseM": 3.353682798125804,
+          "left25StepVelocityVectorRmseMPS": 0.02223304085940382,
+          "regionId": "barrage",
+          "right25StepDepthRmseM": 0.011756555632518895,
+          "right25StepVelocityVectorRmseMPS": 0.001521875021991938,
+          "slopeSmoothnessAt50Percent": false,
+          "sourceHoldoutPassed": false,
+          "valueContinuityAt50Percent": true
+        },
+        "panelCount": 6,
+        "panelOrder": [
+          "direct_0",
+          "interpolated_25",
+          "direct_50",
+          "interpolated_75",
+          "direct_100",
+          "canonical_kink"
+        ],
+        "svg": {
+          "byteLength": 389034,
+          "format": "SVG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-barrage.svg",
+          "sha256": "e08bdddf086634e1eb83dbed16c8634144b47007a85b952ff53e6396faff1950",
+          "width": 3240
+        }
+      },
+      {
+        "arrowCounts": {
+          "canonical_kink": 28,
+          "direct_0": 52,
+          "direct_100": 65,
+          "direct_50": 65,
+          "interpolated_25": 66,
+          "interpolated_75": 65
+        },
+        "cellCount": 7259,
+        "commonArrowWeighting": "direct_50_percent_depth_times_cell_area_for_all_six_panels",
+        "id": "confluence",
+        "jpg": {
+          "byteLength": 497961,
+          "format": "JPEG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-confluence.jpg",
+          "sha256": "2ee8582f4250595f9bb9c2ea6630a51aebfeb12a4d314be41de4ced32da04c9e",
+          "width": 3240
+        },
+        "labelJa": "曲川・遠賀川合流地点付近",
+        "metrics": {
+          "canonicalKinkDepthRmseM": 0.004745010815241513,
+          "canonicalKinkVelocityMagnitudeP95MPS": 0.0075879904795785255,
+          "canonicalKinkVelocityVectorRmseMPS": 0.004175174210259983,
+          "cellCount": 7259,
+          "labelJa": "曲川・遠賀川合流地点付近",
+          "left25StepDepthRmseM": 0.004750403356652896,
+          "left25StepVelocityVectorRmseMPS": 0.004202139155770867,
+          "regionId": "confluence",
+          "right25StepDepthRmseM": 6.007507545797868e-06,
+          "right25StepVelocityVectorRmseMPS": 2.9743672229164592e-05,
+          "slopeSmoothnessAt50Percent": false,
+          "sourceHoldoutPassed": true,
+          "valueContinuityAt50Percent": true
+        },
+        "panelCount": 6,
+        "panelOrder": [
+          "direct_0",
+          "interpolated_25",
+          "direct_50",
+          "interpolated_75",
+          "direct_100",
+          "canonical_kink"
+        ],
+        "svg": {
+          "byteLength": 408516,
+          "format": "SVG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-confluence.svg",
+          "sha256": "5b144b70fde914becfd597c7b24069b783175cb8d9f1fd6abd976641e4a303a3",
+          "width": 3240
+        }
+      },
+      {
+        "arrowCounts": {
+          "canonical_kink": 47,
+          "direct_0": 38,
+          "direct_100": 66,
+          "direct_50": 66,
+          "interpolated_25": 67,
+          "interpolated_75": 66
+        },
+        "cellCount": 4978,
+        "commonArrowWeighting": "direct_50_percent_depth_times_cell_area_for_all_six_panels",
+        "id": "fishway",
+        "jpg": {
+          "byteLength": 523638,
+          "format": "JPEG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-fishway.jpg",
+          "sha256": "8b81b83a80ac6a7311a2213428a3f5a0c6eb0de1cc491af6df4275c975121931",
+          "width": 3240
+        },
+        "labelJa": "魚道付近",
+        "metrics": {
+          "canonicalKinkDepthRmseM": 2.6453396273739953,
+          "canonicalKinkVelocityMagnitudeP95MPS": 0.016845017801924267,
+          "canonicalKinkVelocityVectorRmseMPS": 0.022375954173573766,
+          "cellCount": 4978,
+          "labelJa": "魚道付近",
+          "left25StepDepthRmseM": 2.6540735874323613,
+          "left25StepVelocityVectorRmseMPS": 0.02221496492225349,
+          "regionId": "fishway",
+          "right25StepDepthRmseM": 0.009527424165254421,
+          "right25StepVelocityVectorRmseMPS": 0.0012029241241174396,
+          "slopeSmoothnessAt50Percent": false,
+          "sourceHoldoutPassed": false,
+          "valueContinuityAt50Percent": true
+        },
+        "panelCount": 6,
+        "panelOrder": [
+          "direct_0",
+          "interpolated_25",
+          "direct_50",
+          "interpolated_75",
+          "direct_100",
+          "canonical_kink"
+        ],
+        "svg": {
+          "byteLength": 448652,
+          "format": "SVG",
+          "height": 735,
+          "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-fishway.svg",
+          "sha256": "8865e8bd7f44c2989e8189d26798eb7177ea9019570ef27a435048b184860130",
+          "width": 3240
+        }
+      }
+    ]
+  },
+  "limitations": {
+    "direct25PercentPhysicalTruthAvailable": false,
+    "direct75PercentPhysicalTruthAvailable": false,
+    "disclaimerJa": "補間候補の内部確認／実測・予報精度の検証ではない",
+    "forecastAccuracyValidated": false,
+    "observedAccuracyValidated": false,
+    "thirtySixHourServiceSupported": false,
+    "timeVaryingBarrageOperationSupported": false
+  },
+  "mesh": {
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "manifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+    "vertexCount": 28450
+  },
+  "modelHour": -9,
+  "modelHourMeaning": "model_relative_not_calendar_or_forecast_time",
+  "priorHoldoutContext": {
+    "acceptanceResult": "failed",
+    "evaluatedComparisonCount": 20,
+    "expectedComparisonCount": 20,
+    "failedComparisonCount": 15,
+    "meaningForCandidate": "the_global_midpoint_error_is_the_piecewise_candidate_middle_anchor_kink",
+    "passedComparisonCount": 5
+  },
+  "recordedDate": "2026-07-17",
+  "regionalMasks": {
+    "binary": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+    "binarySha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785",
+    "manifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+    "manifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5"
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "automaticRetryPerformed": false,
+    "forecastValidationClaimAllowed": false,
+    "mainMerged": false,
+    "networkAccessAttempted": false,
+    "physicalSolverInvoked": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "sourceFilesModified": false
+  },
+  "satelliteBackdrop": {
+    "attributionJa": "背景：国土地理院「全国最新写真（シームレス）」を加工",
+    "inventorySha256": "c8eaf809dd1a6f984cfc6b11ce7cdd1b8244454089e0fa48e251e1607432c5ea",
+    "networkUsed": false,
+    "source": "local_GSI_seamlessphoto_tiles",
+    "tileCount": 96
+  },
+  "schema": "onga-stage20-barrage-piecewise-map-manifest-v1",
+  "source": {
+    "analysis": {
+      "byteLength": 42589,
+      "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+      "schema": "onga-stage20-barrage-holdout-recovery-postrun-analysis-v1",
+      "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2",
+      "status": "evaluated_failed_thresholds"
+    },
+    "anchors": {
+      "direct_0": {
+        "byteLength": 1150133,
+        "dtype": "float64",
+        "modelHour": -9,
+        "openingPercent": 0,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "4365ea4686b4b534717786121bc7966ad08ad772a997fff5c1811e91d49b883c"
+      },
+      "direct_100": {
+        "byteLength": 1152107,
+        "dtype": "float64",
+        "modelHour": -9,
+        "openingPercent": 100,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "0d92b00f73821efa154b884f726b618f52737df4ed607fe545d6cd8dbde935f2"
+      },
+      "direct_50": {
+        "byteLength": 1152204,
+        "dtype": "float64",
+        "modelHour": -9,
+        "openingPercent": 50,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+      }
+    },
+    "existingDepthError": {
+      "byteLength": 339767,
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/depth-error-fields.npz",
+      "sha256": "5a642a375cb9cd22ee54887e51945bf66e6ecc38640c8deee00bbdf81094244c"
+    },
+    "existingVelocityError": {
+      "byteLength": 1140912,
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/velocity-error-fields.npz",
+      "sha256": "e46fc4813cadb660978e2ae7a182e6ae06c17160b04c7d3ec21789d756afdf20"
+    }
+  },
+  "status": "rendered_inactive_code_only_piecewise_candidate_not_physical_validation",
+  "toolchain": {
+    "mode": "offline_existing_float64_fields_only",
+    "renderer": {
+      "path": "tools/render_stage20_barrage_piecewise_candidate.py",
+      "sha256": "89b92f69a59727dbd82d70aa38c67933ce6a673e9cfb85fbb4dd0d9bff78b412"
+    },
+    "reusedMapRenderer": {
+      "path": "tools/render_stage20_barrage_holdout_comparison_maps.py",
+      "sha256": "7903837fe54724711d73e8fee8ecd44510a31fc8e631b5665351ca43a55cde5f"
+    }
+  }
+}

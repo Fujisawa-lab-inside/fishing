@@ -1,0 +1,193 @@
+{
+  "schema": "onga-stage20-barrage-piecewise-candidate-v1",
+  "status": "adopted_as_isolated_internal_code_candidate_not_public_simulator",
+  "recordedDate": "2026-07-17",
+  "sourceDecision": {
+    "path": "config/stage20_barrage_holdout_recovery_result_v1.json",
+    "sha256": "fe4be9be3112eafff9965abc68bf254c78d560344c99cb2d5f31e1e75af519ab",
+    "selectedOption": "A",
+    "sourceStatement": "A（推奨）：直接計算済み50%を中間基準にし、0～50%と50～100%を分けた補間候補を作る。追加の物理計算はしません。"
+  },
+  "sourceEvidence": {
+    "analysis": {
+      "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+      "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2",
+      "status": "evaluated_failed_thresholds"
+    },
+    "directOpeningFractions": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "snapshotCount": 15,
+    "sourceDtype": "float64",
+    "meshBinarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199
+  },
+  "method": {
+    "openingInput": "one_scalar_constant_across_all_five_hours",
+    "leftSegment": {
+      "range": [
+        0.0,
+        0.5
+      ],
+      "formula": "F(p,h)=(1-2p)*F0(h)+2p*F50(h)"
+    },
+    "rightSegment": {
+      "range": [
+        0.5,
+        1.0
+      ],
+      "formula": "F(p,h)=(2-2p)*F50(h)+(2p-1)*F100(h)"
+    },
+    "exactPackedAnchors": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "valueContinuityAt50Percent": "guaranteed_by_construction",
+    "slopeSmoothnessAt50Percent": "not_achieved",
+    "timeInterpolationAllowed": false,
+    "timeExtrapolationAllowed": false,
+    "openingExtrapolationAllowed": false
+  },
+  "anchorPack": {
+    "manifest": {
+      "path": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.json",
+      "sha256": "f5770256962268f2e6e4a1bec2a124fada55568d3e4ab0fe74269bbf3f0eecbc"
+    },
+    "binary": {
+      "path": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.bin",
+      "sha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+      "byteLength": 9035820
+    },
+    "packedDtype": "float32-le",
+    "maximumDepthAbsoluteQuantizationErrorM": 9.529625693005528e-07,
+    "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 3.044480977483437e-08,
+    "sourcePayloadReconstruction": {
+      "path": "config/stage20_barrage_piecewise_source_pack_validation_v1.json",
+      "sha256": "46ab70e680af16e9412b026d81a8fa88639666af7b8d67e12c0f8e4a39cbf1e8",
+      "status": "passed_exact_source_to_pack_reconstruction_not_physical_validation",
+      "payloadMatchedSourceQuantizationByteForByte": true
+    }
+  },
+  "browserCandidate": {
+    "module": {
+      "path": "onga_stage20_barrage_piecewise_interpolator.mjs",
+      "sha256": "7e475bd7adb1dc5862c43ec4d3697eda57b57dee3fafda87394aa2ab7f676f4f"
+    },
+    "worker": {
+      "path": "onga_stage20_barrage_piecewise_worker.mjs",
+      "sha256": "9ad555e27d849207b00d0f55a2f4b4606de8c25e19b8d3651f3b0a200a7148f6"
+    },
+    "validation": {
+      "path": "config/stage20_barrage_piecewise_validation_v1.json",
+      "sha256": "c910070dabce5b7ad58a121fe08a6d2b22a58806c4fc73764392a1362b7ff3ff",
+      "status": "passed_code_only_piecewise_browser_candidate_validation_not_physical_validation",
+      "exactPackedAnchorReproduction": true,
+      "adjacentMidpointsExactFloat32": true,
+      "deterministic": true,
+      "negativeAndOutOfScopeCasesRejected": true
+    },
+    "resource": {
+      "packPlusOneFiveHourOutputBytes": 12047760,
+      "packPlusOneFiveHourOutputMiB": 11.489639282226562
+    },
+    "developmentNodeWorkerTiming": {
+      "totalMs": 15.104624999999999,
+      "interpretation": "development_node_worker_measurement_not_a_user_browser_guarantee"
+    }
+  },
+  "visualEvidence": {
+    "manifest": {
+      "path": "docs/results/stage20-barrage-piecewise-candidate-v1/piecewise-map-manifest.json",
+      "sha256": "fb28277bae9b683c79ea2828f741f78a21bba8a72269519718a20f2c858d36ed"
+    },
+    "judgmentImage": {
+      "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-overview.jpg",
+      "sha256": "37594e82e8e22139fda17f256a2f9fd2357a0959d3e6b45841f955e8b191e31e",
+      "width": 2000,
+      "height": 1490
+    },
+    "modelHour": -9,
+    "viewIds": [
+      "estuary",
+      "barrage",
+      "confluence",
+      "fishway"
+    ],
+    "panelOrder": [
+      "direct_0",
+      "interpolated_25",
+      "direct_50",
+      "interpolated_75",
+      "direct_100",
+      "canonical_kink"
+    ],
+    "deterministicRerenderPassed": true,
+    "sourceMapDtype": "float64",
+    "direct25And75PercentPhysicalTruthAvailable": false
+  },
+  "knownKinkAtModelHourMinus9": {
+    "meaning": "right_25_percentage_point_change_minus_left_25_percentage_point_change",
+    "estuaryVelocityVectorRmseMPS": 0.02766268977037687,
+    "barrageVelocityVectorRmseMPS": 0.022545500595790784,
+    "confluenceVelocityVectorRmseMPS": 0.004175174210259983,
+    "fishwayVelocityVectorRmseMPS": 0.022375954173573766,
+    "priorGlobalMidpointComparisonPassedCount": 5,
+    "priorGlobalMidpointComparisonFailedCount": 15,
+    "comparisonCount": 20
+  },
+  "applicability": {
+    "supportedModelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "supportedBoundaryInputs": "only_the_sealed_source_run_inputs",
+    "thirtySixHourPast12Future24ServiceReady": false,
+    "differentTideDischargeOrRainInputsAllowed": false,
+    "timeVaryingBarrageOpeningAllowed": false,
+    "physicalAccuracyAt25And75PercentValidated": false,
+    "observedAccuracyValidated": false,
+    "forecastAccuracyValidated": false
+  },
+  "decision": {
+    "question": "50%を固定して値を連続にできる一方、50%で変化率が折れるこの形を、公開未接続の内部コード候補として保持するか",
+    "optionA": "retain_as_isolated_internal_code_candidate_with_visible_limitations",
+    "optionB": "reject_candidate_and_stop_cross_condition_interpolation",
+    "recommendedChoice": "A",
+    "selectedChoice": "A",
+    "selectedDate": "2026-07-17",
+    "selectedStatement": "A：50%を固定できる利点を優先し、変化率の折れを明示した内部コード候補として保持する",
+    "selectedEffect": "retain_candidate_files_and_evidence_on_the_work_branch_without_runtime_or_public_connection",
+    "choiceAConnectsPublicSimulator": false,
+    "choiceAStartsPhysicalRun": false,
+    "choiceAAuthorizesMainMerge": false
+  },
+  "documentation": {
+    "candidate": "docs/STAGE20_BARRAGE_PIECEWISE_CANDIDATE.md",
+    "handoff": "docs/WORK_HANDOFF.md"
+  },
+  "safeguards": {
+    "physicalSolverInvoked": false,
+    "additionalPhysicalRunPerformed": false,
+    "automaticRetryPerformed": false,
+    "referenceS03RunPerformed": false,
+    "networkAccessAttempted": false,
+    "existingHybridModulesModified": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false,
+    "physicalValidationClaimAllowed": false,
+    "forecastValidationClaimAllowed": false
+  }
+}

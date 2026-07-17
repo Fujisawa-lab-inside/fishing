@@ -1,0 +1,55 @@
+{
+  "schema": "onga-stage20-barrage-piecewise-candidate-adoption-v1",
+  "status": "adopted_as_isolated_internal_code_candidate_not_public_simulator",
+  "selectedDate": "2026-07-17",
+  "selectedChoice": "A",
+  "selectedStatement": "A：50%を固定できる利点を優先し、変化率の折れを明示した内部コード候補として保持する",
+  "candidateRecord": {
+    "path": "config/stage20_barrage_piecewise_candidate_v1.json",
+    "sha256": "64f3c829f66d6d067b5e4892e8bcd9bac84d9c099ae7c41b008a89b039c46af3",
+    "status": "adopted_as_isolated_internal_code_candidate_not_public_simulator"
+  },
+  "judgmentImage": {
+    "path": "docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-overview.jpg",
+    "sha256": "37594e82e8e22139fda17f256a2f9fd2357a0959d3e6b45841f955e8b191e31e",
+    "width": 2000,
+    "height": 1490
+  },
+  "acceptedProperties": {
+    "direct50PercentPackedAnchorFixed": true,
+    "valueContinuousAt50Percent": true,
+    "responseRateKinkAt50PercentExplicit": true,
+    "directPhysicalValidationAt25And75Percent": false,
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "openingTimeSeriesAllowed": false,
+    "differentTideDischargeOrRainInputsAllowed": false,
+    "observedAccuracyValidated": false,
+    "forecastAccuracyValidated": false
+  },
+  "effects": {
+    "retainOnWorkingBranch": true,
+    "internalCodeCandidateOnly": true,
+    "workBranchCommitAndPushAuthorized": true,
+    "runtimeIntegrationAuthorized": false,
+    "publicSimulatorConnectionAuthorized": false,
+    "additionalPhysicalRunAuthorized": false,
+    "automaticRetryAuthorized": false,
+    "referenceS03Authorized": false,
+    "thirtySixHourServiceUseAuthorized": false,
+    "mainMergeAuthorized": false
+  },
+  "toolchain": {
+    "validator": "tools/validate_stage20_barrage_piecewise_candidate_record.py",
+    "validatorSha256": "194eb6822bcafa548cacb1c740f969ac48cd75611a7e9e22cb6816fe8b13ddcf"
+  },
+  "notes": [
+    "This selection retains the existing code-only candidate and evidence; it does not create a new physical result.",
+    "A separate explicit decision is required before runtime integration, public connection, another physical run, or main merge."
+  ]
+}

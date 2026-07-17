@@ -1,0 +1,378 @@
+{
+  "arrays": {
+    "anchors": {
+      "axisOrder": [
+        "openingAnchor",
+        "modelHour",
+        "component",
+        "cell"
+      ],
+      "byteLength": 9035820,
+      "byteOffset": 0,
+      "dtype": "float32-le",
+      "sha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+      "shape": [
+        3,
+        5,
+        3,
+        50199
+      ]
+    }
+  },
+  "binary": {
+    "byteLength": 9035820,
+    "sha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+    "url": "./barrage-piecewise-anchor-pack.bin"
+  },
+  "builder": {
+    "mode": "offline_existing_sealed_snapshots_only",
+    "path": "tools/build_stage20_barrage_piecewise_anchor_pack.py",
+    "sha256": "f6306ba1c2773944f2e23533b55fd16000d1614ea415d8204eeb2518e8ad832e"
+  },
+  "builtDate": "2026-07-17",
+  "componentOrder": [
+    "waterDepthM",
+    "velocityUms",
+    "velocityVms"
+  ],
+  "float32Quantization": {
+    "acceptanceLimits": {
+      "maximumDepthAbsoluteErrorM": 1e-06,
+      "maximumVelocityComponentAbsoluteErrorMPS": 5e-08,
+      "maximumVelocityVectorAbsoluteErrorMPS": 5e-08,
+      "maximumVelocityVectorRmseMPS": 1e-07
+    },
+    "maximumDepthAbsoluteErrorM": 9.529625693005528e-07,
+    "maximumVelocityComponentAbsoluteErrorMPS": 2.9770237053305948e-08,
+    "maximumVelocityVectorAbsoluteErrorMPS": 3.044480977483437e-08,
+    "maximumVelocityVectorRmseMPS": 2.386015495535962e-09,
+    "passed": true
+  },
+  "limitations": {
+    "directTruthAvailableAtOpeningFractions": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "directTruthUnavailableAtOpeningFractions": [
+      0.25,
+      0.75
+    ],
+    "physicalInterpolationAccuracyValidated": false,
+    "slopeContinuityAtMiddleAnchor": "not_guaranteed_and_known_to_have_a_kink",
+    "valueContinuityAtMiddleAnchor": "guaranteed_by_construction"
+  },
+  "mesh": {
+    "binary": "public/data/onga/stage20/mesh-v2.bin",
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "manifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8"
+  },
+  "openingContract": {
+    "anchorFractions": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "extrapolationAllowed": false,
+    "inputKind": "one_scalar_constant_for_all_five_hours",
+    "maximum": 1.0,
+    "middleAnchorRule": "p_equals_0.5_returns_the_packed_direct_50_percent_anchor_exactly",
+    "minimum": 0.0,
+    "segments": [
+      {
+        "formula": "F(p,h)=(1-2p)*F0(h)+2p*F50(h)",
+        "id": "opening-0-to-50",
+        "range": [
+          0.0,
+          0.5
+        ]
+      },
+      {
+        "formula": "F(p,h)=(2-2p)*F50(h)+(2p-1)*F100(h)",
+        "id": "opening-50-to-100",
+        "range": [
+          0.5,
+          1.0
+        ]
+      }
+    ],
+    "timeVaryingScheduleAllowed": false
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "automaticRetryPerformed": false,
+    "forecastValidationClaimAllowed": false,
+    "mainMerged": false,
+    "networkAccessAttempted": false,
+    "physicalSolverInvoked": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "referenceS03RunPerformed": false
+  },
+  "schema": "onga-stage20-barrage-piecewise-anchor-pack-v1",
+  "scope": {
+    "boundaryInputs": {
+      "GDischargeM3S": 1.0,
+      "M": "approved_fixed_relative_tide_trajectory_from_source_runs",
+      "NDischargeM3S": 2.0,
+      "ODischargeM3S": 35.0
+    },
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "openingMustRemainConstantAcrossAllFiveHours": true,
+    "supportedUse": "inactive_browser_candidate_consistency_and_visual_review_only",
+    "unsupportedUses": [
+      "36_hour_past12_future24_service",
+      "different_tide_or_river_discharge_inputs",
+      "rain_scenario_inference",
+      "time_varying_barrage_operation",
+      "observed_or_forecast_accuracy_claim"
+    ]
+  },
+  "sourceAnalysis": {
+    "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+    "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2",
+    "status": "evaluated_failed_thresholds"
+  },
+  "sourceAnchors": [
+    {
+      "basisId": "barrage-closed",
+      "byteLength": 1138626,
+      "maximumDepthAbsoluteQuantizationErrorM": 9.519671344548897e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 7.683572555983176e-09,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 1.001493787447832e-08,
+      "modelHour": -12,
+      "openingFraction": 0.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m14-m12-29511898671/snapshots/snapshotmm12hmfields.npz",
+      "sha256": "8608155b01d6abe9e890beb2a9874c8878129a2c3e3fb4a72f079a0eb5ccd861",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.5728822452129076e-09
+    },
+    {
+      "basisId": "barrage-closed",
+      "byteLength": 1147891,
+      "maximumDepthAbsoluteQuantizationErrorM": 9.529625693005528e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 1.4667310532789912e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 1.5551255979317355e-08,
+      "modelHour": -11,
+      "openingFraction": 0.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m12-m10-29511898671/snapshots/snapshotmm11hmfields.npz",
+      "sha256": "7ed1b33c9fe92a67d5a5023f309fb9a0307ae8897fda4d6d2d159a6bc6202f65",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.6259575570123698e-09
+    },
+    {
+      "basisId": "barrage-closed",
+      "byteLength": 1150657,
+      "maximumDepthAbsoluteQuantizationErrorM": 9.513741865418979e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.300519286180247e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.3127528488678188e-08,
+      "modelHour": -10,
+      "openingFraction": 0.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m12-m10-29511898671/snapshots/snapshotmm10hmfields.npz",
+      "sha256": "7caaad22d73b1a3fea7978edd2ffdd31c5e6a0d0ba9c599bb59101f92036d3cd",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.4166177260733067e-09
+    },
+    {
+      "basisId": "barrage-closed",
+      "byteLength": 1150133,
+      "maximumDepthAbsoluteQuantizationErrorM": 9.516529999586965e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.7570712157753974e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.8384335302351917e-08,
+      "modelHour": -9,
+      "openingFraction": 0.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+      "sha256": "4365ea4686b4b534717786121bc7966ad08ad772a997fff5c1811e91d49b883c",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.0712866279182865e-09
+    },
+    {
+      "basisId": "barrage-closed",
+      "byteLength": 1152069,
+      "maximumDepthAbsoluteQuantizationErrorM": 9.522963679842178e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.118632236314255e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.1730241977247846e-08,
+      "modelHour": -8,
+      "openingFraction": 0.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/snapshots/snapshotmm08hmfields.npz",
+      "sha256": "428b9931d575ed429ca21de0c5ec54914a16737c97d1e1fd80173cc9f6c93e42",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 9.174979846290488e-10
+    },
+    {
+      "basisId": "direct-reference-50",
+      "byteLength": 1139220,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.767330530341951e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 1.487881412520764e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 1.4879859532323124e-08,
+      "modelHour": -12,
+      "openingFraction": 0.5,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm12hmfields.npz",
+      "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.203345212505662e-09
+    },
+    {
+      "basisId": "direct-reference-50",
+      "byteLength": 1147784,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.7672413749921816e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.8559073106393384e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.8564847499918365e-08,
+      "modelHour": -11,
+      "openingFraction": 0.5,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm11hmfields.npz",
+      "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.3342951471558476e-09
+    },
+    {
+      "basisId": "direct-reference-50",
+      "byteLength": 1151799,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.767906442992853e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.9770237053305948e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 3.044480977483437e-08,
+      "modelHour": -10,
+      "openingFraction": 0.5,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm10hmfields.npz",
+      "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.2345251524629963e-09
+    },
+    {
+      "basisId": "direct-reference-50",
+      "byteLength": 1152204,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.76784498104621e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.9579558358250324e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.9586040602649096e-08,
+      "modelHour": -9,
+      "openingFraction": 0.5,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm09hmfields.npz",
+      "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.8315137256456605e-09
+    },
+    {
+      "basisId": "direct-reference-50",
+      "byteLength": 1151527,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.7678747705504065e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.934141474231211e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.9341414848285167e-08,
+      "modelHour": -8,
+      "openingFraction": 0.5,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm08hmfields.npz",
+      "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.4715772958048185e-09
+    },
+    {
+      "basisId": "barrage-open",
+      "byteLength": 1139059,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.7680383019610417e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 1.487170059322196e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 1.4872197414026446e-08,
+      "modelHour": -12,
+      "openingFraction": 1.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s03-29464186133/snapshots/snapshotmm12hmfields.npz",
+      "sha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.2050352700465553e-09
+    },
+    {
+      "basisId": "barrage-open",
+      "byteLength": 1147966,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.7677868586504246e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.886674632662789e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.8867297661301795e-08,
+      "modelHour": -11,
+      "openingFraction": 1.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm11hmfields.npz",
+      "sha256": "1be6c16e44ddb1573c4d062deb768d1996bef35a5c9c18081fed0c21774964a3",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.386015495535962e-09
+    },
+    {
+      "basisId": "barrage-open",
+      "byteLength": 1151787,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.76780360969542e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.9700105486085704e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.9759851562292332e-08,
+      "modelHour": -10,
+      "openingFraction": 1.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm10hmfields.npz",
+      "sha256": "69ea738b99820794ae825765ada69226f0ecf17930488aebe0a9c7730813eda2",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 2.2377534376343822e-09
+    },
+    {
+      "basisId": "barrage-open",
+      "byteLength": 1152107,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.7682905091051e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.972586643501529e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.9784251462430872e-08,
+      "modelHour": -9,
+      "openingFraction": 1.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+      "sha256": "0d92b00f73821efa154b884f726b618f52737df4ed607fe545d6cd8dbde935f2",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.8566778722565841e-09
+    },
+    {
+      "basisId": "barrage-open",
+      "byteLength": 1151381,
+      "maximumDepthAbsoluteQuantizationErrorM": 4.766455461435726e-07,
+      "maximumVelocityComponentAbsoluteQuantizationErrorMPS": 2.9682777569206564e-08,
+      "maximumVelocityVectorAbsoluteQuantizationErrorMPS": 2.968277809589036e-08,
+      "modelHour": -8,
+      "openingFraction": 1.0,
+      "packedDtype": "float32",
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm08hmfields.npz",
+      "sha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b",
+      "sourceDtype": "float64",
+      "velocityVectorQuantizationRmseMPS": 1.5464997620555535e-09
+    }
+  ],
+  "sourceDecision": {
+    "path": "config/stage20_barrage_holdout_recovery_result_v1.json",
+    "selectedOption": "A",
+    "sha256": "fe4be9be3112eafff9965abc68bf254c78d560344c99cb2d5f31e1e75af519ab",
+    "sourceStatement": "A（推奨）：直接計算済み50%を中間基準にし、0～50%と50～100%を分けた補間候補を作る。追加の物理計算はしません。"
+  },
+  "status": "code_only_piecewise_candidate_not_physical_validation_not_public_simulator",
+  "timeContract": {
+    "anchorHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "intervalHours": 1,
+    "missingHourFallbackAllowed": false,
+    "snapshotCount": 5,
+    "timeExtrapolationAllowed": false,
+    "timeInterpolationAllowed": false
+  },
+  "version": "stage20-barrage-piecewise-anchor-pack-v1"
+}

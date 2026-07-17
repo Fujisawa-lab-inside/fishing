@@ -253,3 +253,14 @@ full64の実計算は、contract validationを通した変更がdefault branch�
 - The single global 0%/100% component-wise average is therefore rejected for the 50% condition and remains disconnected from the public simulator. This is an interpolation-threshold failure, not numerical instability or observational validation.
 - The four-region direct/interpolated/error overview is `docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/maps/comparison-overview.jpg`. The machine-readable analysis is `config/stage20_barrage_holdout_recovery_analysis_v1.json`.
 - The recommended next choice is A: retain direct 50% S02 as a middle anchor and prepare a code-only piecewise 0–50% / 50–100% interpolation candidate, or B: stop cross-condition interpolation and keep only directly calculated barrage settings. Neither choice authorizes another physical run, retry, reference S03, public connection, or `main` merge.
+
+## Stage 20 barrage piecewise code-only candidate (2026-07-17)
+
+- Route A was selected. An isolated candidate now uses the existing direct 0%, 50%, and 100% fields as fixed anchors and interpolates 0–50% and 50–100% separately for model hours -12 through -8.
+- The browser pack was independently reconstructed from all 15 sealed float64 snapshots and matched byte-for-byte after float32 conversion. Packed 0%, 50%, and 100% anchors reproduce exactly; 25% and 75% equal their adjacent packed midpoints.
+- The candidate guarantees value continuity and the packed direct 50% anchor. It does not make the opening-response slope smooth at 50%. The prior global midpoint error is exactly this middle-anchor kink; at model hour -9 its velocity-vector RMSE is `0.02766 m/s` for the estuary, `0.02255 m/s` near the barrage, `0.00418 m/s` at the confluence, and `0.02238 m/s` near the fishway.
+- The judgment image is `docs/results/stage20-barrage-piecewise-candidate-v1/maps/piecewise-candidate-overview.jpg`. It shows direct 0/50/100%, interpolated 25/75%, and the kink for all four fixed views.
+- The user selected A: prioritize the benefit of fixing the direct 50% anchor and retain the candidate internally with the response-rate kink made explicit. The adoption is sealed in `config/stage20_barrage_piecewise_candidate_adoption_v1.json`.
+- This selection authorizes retaining and recording the isolated candidate on the work branch only. It does not authorize runtime integration, public-simulator connection, another physical run, retry, reference S03, 36-hour service use, or a `main` merge. Those remain separate future decisions.
+- The retained candidate remains unsupported for 36 hours, different tide/discharge/rain inputs, time-varying barrage operation, observed accuracy, and forecast accuracy.
+- No physical solver, additional run, retry, reference S03, network access, existing hybrid-module modification, public connection, `main` merge, or physical-validation claim occurred.

@@ -1,0 +1,69 @@
+{
+  "checks": {
+    "allSourceDigestsMatched": true,
+    "manifestSourceInventoryMatchedAnalysis": true,
+    "payloadMatchedIndependentFloat32ReconstructionByteForByte": true,
+    "quantizationMetricsRecomputedAndMatched": true,
+    "quantizationPassed": true,
+    "reconstructedPayloadSha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+    "sourceAnchorCount": 15
+  },
+  "float32Quantization": {
+    "maximumDepthAbsoluteErrorM": 9.529625693005528e-07,
+    "maximumVelocityComponentAbsoluteErrorMPS": 2.9770237053305948e-08,
+    "maximumVelocityVectorAbsoluteErrorMPS": 3.044480977483437e-08,
+    "maximumVelocityVectorRmseMPS": 2.386015495535962e-09
+  },
+  "pack": {
+    "binary": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.bin",
+    "binaryBytes": 9035820,
+    "binarySha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+    "cellCount": 50199,
+    "components": [
+      "waterDepthM",
+      "velocityUms",
+      "velocityVms"
+    ],
+    "manifest": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.json",
+    "manifestSha256": "f5770256962268f2e6e4a1bec2a124fada55568d3e4ab0fe74269bbf3f0eecbc",
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "openingFractions": [
+      0.0,
+      0.5,
+      1.0
+    ]
+  },
+  "safeguards": {
+    "additionalPhysicalRunPerformed": false,
+    "automaticRetryPerformed": false,
+    "forecastValidationClaimAllowed": false,
+    "mainMerged": false,
+    "networkAccessAttempted": false,
+    "physicalSolverInvoked": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false,
+    "referenceS03RunPerformed": false
+  },
+  "schema": "onga-stage20-barrage-piecewise-source-pack-validation-v1",
+  "sourceAnalysis": {
+    "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+    "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2"
+  },
+  "sourceDecision": {
+    "path": "config/stage20_barrage_holdout_recovery_result_v1.json",
+    "selectedOption": "A",
+    "sha256": "fe4be9be3112eafff9965abc68bf254c78d560344c99cb2d5f31e1e75af519ab"
+  },
+  "status": "passed_exact_source_to_pack_reconstruction_not_physical_validation",
+  "toolchain": {
+    "validator": "tools/validate_stage20_barrage_piecewise_source_pack.py",
+    "validatorSha256": "87977d17f8331ea6a544f0888a6a43f1bf84426615e83e3f408c9e72481b88aa"
+  },
+  "validatedDate": "2026-07-17"
+}

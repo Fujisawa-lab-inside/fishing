@@ -1,0 +1,257 @@
+{
+  "schema": "onga-stage20-barrage-piecewise-validation-v1",
+  "status": "passed_code_only_piecewise_browser_candidate_validation_not_physical_validation",
+  "validatedDate": "2026-07-17",
+  "sourceDecision": {
+    "path": "config/stage20_barrage_holdout_recovery_result_v1.json",
+    "sha256": "fe4be9be3112eafff9965abc68bf254c78d560344c99cb2d5f31e1e75af519ab",
+    "selectedOption": "A"
+  },
+  "anchorPack": {
+    "manifest": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.json",
+    "manifestSha256": "f5770256962268f2e6e4a1bec2a124fada55568d3e4ab0fe74269bbf3f0eecbc",
+    "binary": "docs/results/stage20-barrage-piecewise-candidate-v1/barrage-piecewise-anchor-pack.bin",
+    "binarySha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+    "binaryBytes": 9035820,
+    "sourceAnchorCount": 15,
+    "openingFractions": [
+      0,
+      0.5,
+      1
+    ],
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "componentOrder": [
+      "waterDepthM",
+      "velocityUms",
+      "velocityVms"
+    ],
+    "cellCount": 50199
+  },
+  "toolchain": {
+    "module": "onga_stage20_barrage_piecewise_interpolator.mjs",
+    "moduleSha256": "7e475bd7adb1dc5862c43ec4d3697eda57b57dee3fafda87394aa2ab7f676f4f",
+    "worker": "onga_stage20_barrage_piecewise_worker.mjs",
+    "workerSha256": "9ad555e27d849207b00d0f55a2f4b4606de8c25e19b8d3651f3b0a200a7148f6",
+    "validator": "tools/validate_stage20_barrage_piecewise_browser.mjs",
+    "validatorSha256": "627503752b73aa55e271086304d194f67d8513017237baa76e22ad8c66eb093c"
+  },
+  "directModuleValidation": {
+    "status": "passed",
+    "openingResults": [
+      {
+        "openingFraction": 0,
+        "segmentId": "anchor-0",
+        "exactAnchor": true,
+        "lowerAnchorFraction": 0,
+        "upperAnchorFraction": 0,
+        "lowerWeight": 1,
+        "upperWeight": 0,
+        "outputBytes": 3011940,
+        "outputSha256": "ec43399141ed28c96458e4059979bf03b945d97673272525600f40c17e634a7f",
+        "diagnostics": {
+          "minimumDepthM": 1.0705265562904742e-9,
+          "maximumDepthM": 21.801847457885742,
+          "maximumSpeedMPS": 0.7407715898708432,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0
+        }
+      },
+      {
+        "openingFraction": 0.25,
+        "segmentId": "opening-0-to-50",
+        "exactAnchor": false,
+        "lowerAnchorFraction": 0,
+        "upperAnchorFraction": 0.5,
+        "lowerWeight": 0.5,
+        "upperWeight": 0.5,
+        "outputBytes": 3011940,
+        "outputSha256": "77306701618a8694e9ee684eb2b71b51a6e131569c130fe723e0782f3341d15f",
+        "diagnostics": {
+          "minimumDepthM": 1.0984464449137477e-9,
+          "maximumDepthM": 16.745813369750977,
+          "maximumSpeedMPS": 0.40138936595781094,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0
+        }
+      },
+      {
+        "openingFraction": 0.5,
+        "segmentId": "anchor-50",
+        "exactAnchor": true,
+        "lowerAnchorFraction": 0.5,
+        "upperAnchorFraction": 0.5,
+        "lowerWeight": 1,
+        "upperWeight": 0,
+        "outputBytes": 3011940,
+        "outputSha256": "0445a23dc5039f002e886778dde086d7f44994e37e261f7397265af3d82f3e1d",
+        "diagnostics": {
+          "minimumDepthM": 8.924699868018138e-10,
+          "maximumDepthM": 12.01832103729248,
+          "maximumSpeedMPS": 0.7137096104096737,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0
+        }
+      },
+      {
+        "openingFraction": 0.75,
+        "segmentId": "opening-50-to-100",
+        "exactAnchor": false,
+        "lowerAnchorFraction": 0.5,
+        "upperAnchorFraction": 1,
+        "lowerWeight": 0.5,
+        "upperWeight": 0.5,
+        "outputBytes": 3011940,
+        "outputSha256": "cf2a8101c1f9a4834d65a0a27e30892ec420144b8fbab0e384b5354831b2d3eb",
+        "diagnostics": {
+          "minimumDepthM": 8.630963721500962e-10,
+          "maximumDepthM": 11.997108459472656,
+          "maximumSpeedMPS": 0.7145271766032448,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0
+        }
+      },
+      {
+        "openingFraction": 1,
+        "segmentId": "anchor-100",
+        "exactAnchor": true,
+        "lowerAnchorFraction": 1,
+        "upperAnchorFraction": 1,
+        "lowerWeight": 1,
+        "upperWeight": 0,
+        "outputBytes": 3011940,
+        "outputSha256": "2ef67971b8a982b05d6268d55e335f7fc5dce826abe7492a34fd76c11ee72679",
+        "diagnostics": {
+          "minimumDepthM": 8.337227019872273e-10,
+          "maximumDepthM": 11.975894927978516,
+          "maximumSpeedMPS": 0.7218023721914668,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0
+        }
+      }
+    ],
+    "elapsedMs": 113.11600000000001,
+    "targetMs": 1000,
+    "deterministic": true,
+    "exactAnchorReproduction": true,
+    "adjacentMidpointsExactFloat32": true,
+    "convexWeights": true
+  },
+  "workerValidation": {
+    "type": "barrage-piecewise-candidate-result",
+    "status": "passed",
+    "packStatus": "code_only_piecewise_candidate_not_physical_validation_not_public_simulator",
+    "packVersion": "stage20-barrage-piecewise-anchor-pack-v1",
+    "packSha256": "d3a0b315d7fb3bf17c04a4715b1595242b501a50dacc163ae8716013ed638047",
+    "packBytes": 9035820,
+    "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "openingFraction": 0.25,
+    "segmentId": "opening-0-to-50",
+    "exactAnchor": false,
+    "weights": {
+      "lowerAnchorFraction": 0,
+      "upperAnchorFraction": 0.5,
+      "lowerWeight": 0.5,
+      "upperWeight": 0.5
+    },
+    "snapshotCount": 5,
+    "hourRange": [
+      -12,
+      -8
+    ],
+    "cellCount": 50199,
+    "outputBytes": 3011940,
+    "outputSha256": "77306701618a8694e9ee684eb2b71b51a6e131569c130fe723e0782f3341d15f",
+    "diagnostics": {
+      "minimumDepthM": 1.0984464449137477e-9,
+      "maximumDepthM": 16.745813369750977,
+      "maximumSpeedMPS": 0.40138936595781094,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    },
+    "timingsMs": {
+      "packFetchAndDigest": 6.184915999999987,
+      "interpolation": 7.38208400000002,
+      "outputDigest": 1.5376249999999914,
+      "total": 15.104624999999999
+    },
+    "interpretation": "code_only_piecewise_candidate_not_physical_or_forecast_validation",
+    "safeguards": {
+      "solverInvoked": false,
+      "physicalRunPerformed": false,
+      "publicSimulatorConnected": false
+    },
+    "outputTransferValidated": true
+  },
+  "negativeCases": {
+    "status": "passed",
+    "rejected": [
+      "opening_below_zero",
+      "opening_above_one",
+      "opening_nan",
+      "opening_positive_infinity",
+      "opening_array_schedule",
+      "time_interpolation_enabled",
+      "time_varying_opening_enabled",
+      "anchor_descriptor_digest_mismatch",
+      "unapproved_pack_identity",
+      "unapproved_mesh_identity",
+      "different_boundary_inputs",
+      "unapproved_source_analysis",
+      "missing_model_hour",
+      "truncated_binary",
+      "same_length_payload_digest_mismatch"
+    ]
+  },
+  "float32Quantization": {
+    "acceptanceLimits": {
+      "maximumDepthAbsoluteErrorM": 0.000001,
+      "maximumVelocityComponentAbsoluteErrorMPS": 5e-8,
+      "maximumVelocityVectorAbsoluteErrorMPS": 5e-8,
+      "maximumVelocityVectorRmseMPS": 1e-7
+    },
+    "maximumDepthAbsoluteErrorM": 9.529625693005528e-7,
+    "maximumVelocityComponentAbsoluteErrorMPS": 2.9770237053305948e-8,
+    "maximumVelocityVectorAbsoluteErrorMPS": 3.044480977483437e-8,
+    "maximumVelocityVectorRmseMPS": 2.386015495535962e-9,
+    "passed": true
+  },
+  "resource": {
+    "anchorPackBytes": 9035820,
+    "fiveHourOutputBytes": 3011940,
+    "packPlusOneOutputBytes": 12047760,
+    "packPlusOneOutputMiB": 11.489639282226562
+  },
+  "applicability": {
+    "supportedModelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "oneOpeningScalarConstantAcrossFiveHours": true,
+    "timeInterpolationAllowed": false,
+    "timeExtrapolationAllowed": false,
+    "differentBoundaryInputsAllowed": false,
+    "physicalAccuracyAt25And75PercentValidated": false,
+    "thirtySixHourServiceReady": false
+  },
+  "safeguards": {
+    "physicalSolverInvoked": false,
+    "additionalPhysicalRunPerformed": false,
+    "automaticRetryPerformed": false,
+    "referenceS03RunPerformed": false,
+    "networkAccessAttempted": false,
+    "existingHybridModulesModified": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false,
+    "physicalValidationClaimAllowed": false,
+    "forecastValidationClaimAllowed": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-run-metadata-v1",
+  "runId": 29511898671,
+  "runAttempt": 1,
+  "status": "completed",
+  "conclusion": "success",
+  "headSha": "92fd709ba4b8760c35b203649e5a0bf00904cdc5",
+  "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29511898671",
+  "createdAtUtc": "2026-07-16T15:36:16Z",
+  "completedAtUtc": "2026-07-17T05:07:35Z",
+  "jobConclusions": {
+    "preflight": "success",
+    "authorize": "success",
+    "closed_m16_m14": "success",
+    "open_m12_m08": "success",
+    "closed_m14_m12": "success",
+    "closed_m12_m10": "success",
+    "closed_m10_m08": "success"
+  }
+}

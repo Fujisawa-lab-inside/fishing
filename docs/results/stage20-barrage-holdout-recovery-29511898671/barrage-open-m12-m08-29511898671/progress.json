@@ -1,0 +1,56 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-progress-v1",
+  "status": "complete",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "jobId": "barrage-open-m12-m08",
+  "simulatedSeconds": 14400.008406765723,
+  "wallSeconds": 6905.87668451,
+  "checkpoints": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "sha256": "94126ce2ad98f17c8a4ea5380fd31b9eb31ff32db29f6e63f8e9652e6552d765",
+      "elapsedSeconds": 3600.001480785871,
+      "step": 5011716
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "sha256": "9664cb4eeda50e546cfcf77092fefbdae8116a884fe6e5cd61a5ec65737c811b",
+      "elapsedSeconds": 7200.009449368311,
+      "step": 5387203
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "sha256": "8ee173494e652c1e5ec5275ab6913e7f77c603b1083fd8965f2927f07fca8b1a",
+      "elapsedSeconds": 10800.00319486771,
+      "step": 5760798
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "sha256": "8c6d966704b7dec710a69ec50d64afebfab417c677007fe65ba5d9ece31b9202",
+      "elapsedSeconds": 14400.008406765723,
+      "step": 6134889
+    }
+  ],
+  "snapshots": [
+    {
+      "modelHour": -11,
+      "path": "snapshots/snapshotmm11hmfields.npz",
+      "sha256": "1be6c16e44ddb1573c4d062deb768d1996bef35a5c9c18081fed0c21774964a3"
+    },
+    {
+      "modelHour": -10,
+      "path": "snapshots/snapshotmm10hmfields.npz",
+      "sha256": "69ea738b99820794ae825765ada69226f0ecf17930488aebe0a9c7730813eda2"
+    },
+    {
+      "modelHour": -9,
+      "path": "snapshots/snapshotmm09hmfields.npz",
+      "sha256": "0d92b00f73821efa154b884f726b618f52737df4ed607fe545d6cd8dbde935f2"
+    },
+    {
+      "modelHour": -8,
+      "path": "snapshots/snapshotmm08hmfields.npz",
+      "sha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b"
+    }
+  ]
+}

@@ -1,0 +1,1162 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-postrun-analysis-v1",
+  "status": "evaluated_failed_thresholds",
+  "analysisMode": "offline_local_artifacts_only",
+  "identity": {
+    "resultRoot": "docs/results/stage20-barrage-holdout-recovery-29511898671",
+    "runMetadata": {
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/run-metadata.json",
+      "sha256": "4e240db6243b3e045ec77c3030d393a99c108354b58f9a88ae20beae83e4e1d5"
+    },
+    "runId": 29511898671,
+    "runAttempt": 1,
+    "headSha": "92fd709ba4b8760c35b203649e5a0bf00904cdc5",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29511898671",
+    "createdAtUtc": "2026-07-16T15:36:16Z",
+    "completedAtUtc": "2026-07-17T05:07:35Z",
+    "jobConclusions": {
+      "preflight": "success",
+      "authorize": "success",
+      "closed_m16_m14": "success",
+      "open_m12_m08": "success",
+      "closed_m14_m12": "success",
+      "closed_m12_m10": "success",
+      "closed_m10_m08": "success"
+    },
+    "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+    "contract": {
+      "path": "config/stage20_barrage_holdout_recovery_contract_v1.json",
+      "sha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c"
+    }
+  },
+  "staticInputValidation": {
+    "passed": true,
+    "contract": {
+      "path": "config/stage20_barrage_holdout_recovery_contract_v1.json",
+      "sha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c"
+    },
+    "authorization": {
+      "id": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+      "path": "config/stage20_barrage_holdout_recovery_authorization_v1.json",
+      "sha256": "e6c96e8fcdad19a567948e9a68b27ab81e9f35d9209917d5c74c3901a6e18c14"
+    },
+    "gateSha256": "bc7fc5be7612afeb12a19f80a2142fddb3005e3ede63c43912cfeee7141195d4",
+    "activationSha256": "e47d9a7b6be076e1e08f4a7ae45d9ef72bfd91661bb5d7c471876a0f7ada47db",
+    "regionalMasks": {
+      "manifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+      "manifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5",
+      "binary": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+      "binarySha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785",
+      "views": [
+        {
+          "id": "estuary",
+          "cellCount": 50199,
+          "sha256": "9d8f38cd2200b1e8c34eb1563f84bb5eff5ec0efb7531984272909bd269d6018"
+        },
+        {
+          "id": "barrage",
+          "cellCount": 5281,
+          "sha256": "50461e5c7d4a2d2193bc8f9f4fd21c683c1fad06bd6ea6c52f0833789574fe88"
+        },
+        {
+          "id": "confluence",
+          "cellCount": 7259,
+          "sha256": "a6ca27a56d399ceec12d03865dcba8c93eb8ff367c0ed370673678279d6cb2e0"
+        },
+        {
+          "id": "fishway",
+          "cellCount": 4978,
+          "sha256": "1e8af18c25ade05af28907f9b396e88856a27e239ff1c2ee233fbb3542eb559f"
+        }
+      ]
+    }
+  },
+  "artifactValidation": {
+    "passed": true,
+    "expectedSegmentCount": 5,
+    "validatedSegmentCount": 5,
+    "segments": [
+      {
+        "jobId": "barrage-closed-m16-m14",
+        "basisId": "barrage-closed",
+        "modelHourStart": -16,
+        "modelHourEnd": -14,
+        "startStep": 6070516,
+        "endStep": 8427659,
+        "simulatedSeconds": 7200.002893104004,
+        "wallSeconds": 10412.413606810998,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.7149749064474075e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 2.815297710862597e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.2528947894906174
+        },
+        "checkpointCount": 2,
+        "snapshotHours": [],
+        "restartSha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+        "fieldsSha256": "8a5199fd939322ba4210267221aaa46d81fc8e9fc5483ca31c977da9f1227aa1",
+        "manifest": {
+          "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m16-m14-29511898671/evidence-manifest.json",
+          "sha256": "2d48c5506b0ae03760fc9ccc692aecca06fc294a09764771806acefa2c74f1ba",
+          "fileCount": 7,
+          "allFileLengthsAndDigestsVerified": true,
+          "exactInventoryMatched": true
+        },
+        "finalCheckpointMatchesRestartExactly": true,
+        "finalFieldsMatchRestartExactly": true,
+        "finalSnapshotMatchesFieldsExactly": null
+      },
+      {
+        "jobId": "barrage-closed-m14-m12",
+        "basisId": "barrage-closed",
+        "modelHourStart": -14,
+        "modelHourEnd": -12,
+        "startStep": 8427659,
+        "endStep": 11022334,
+        "simulatedSeconds": 7200.000663649237,
+        "wallSeconds": 11420.796391698,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.9199466774357847e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 3.620640184917483e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.317569997877409
+        },
+        "checkpointCount": 2,
+        "snapshotHours": [
+          -12
+        ],
+        "restartSha256": "511a3892e7f044732bad12e22280b00e5094036af570cb41a0f2e954d91b2237",
+        "fieldsSha256": "8608155b01d6abe9e890beb2a9874c8878129a2c3e3fb4a72f079a0eb5ccd861",
+        "manifest": {
+          "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m14-m12-29511898671/evidence-manifest.json",
+          "sha256": "3f570a23984d3e2720172cde5c58221ee6a7377e78297dbd489c945064b0972c",
+          "fileCount": 8,
+          "allFileLengthsAndDigestsVerified": true,
+          "exactInventoryMatched": true
+        },
+        "finalCheckpointMatchesRestartExactly": true,
+        "finalFieldsMatchRestartExactly": true,
+        "finalSnapshotMatchesFieldsExactly": true
+      },
+      {
+        "jobId": "barrage-closed-m12-m10",
+        "basisId": "barrage-closed",
+        "modelHourStart": -12,
+        "modelHourEnd": -10,
+        "startStep": 11022334,
+        "endStep": 13828894,
+        "simulatedSeconds": 7200.001834082567,
+        "wallSeconds": 12776.945569959,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 3.388616019549948e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 5.178539605497324e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.6835923072929696
+        },
+        "checkpointCount": 2,
+        "snapshotHours": [
+          -11,
+          -10
+        ],
+        "restartSha256": "f4d245a36493a3fd693bd1e6eee5bfceb3bb02c99a2fa5c5dddfa45accff8200",
+        "fieldsSha256": "7caaad22d73b1a3fea7978edd2ffdd31c5e6a0d0ba9c599bb59101f92036d3cd",
+        "manifest": {
+          "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m12-m10-29511898671/evidence-manifest.json",
+          "sha256": "cce2d220add12039e263e5b6dcbffc85c1ffa1a836116c83d1dc428e2ab7ad78",
+          "fileCount": 9,
+          "allFileLengthsAndDigestsVerified": true,
+          "exactInventoryMatched": true
+        },
+        "finalCheckpointMatchesRestartExactly": true,
+        "finalFieldsMatchRestartExactly": true,
+        "finalSnapshotMatchesFieldsExactly": true
+      },
+      {
+        "jobId": "barrage-closed-m10-m08",
+        "basisId": "barrage-closed",
+        "modelHourStart": -10,
+        "modelHourEnd": -8,
+        "startStep": 13828894,
+        "endStep": 16827791,
+        "simulatedSeconds": 7200.000731106617,
+        "wallSeconds": 13926.476801996001,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 5.353917318496061e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 5.390327755611793e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.7442095193519583
+        },
+        "checkpointCount": 2,
+        "snapshotHours": [
+          -9,
+          -8
+        ],
+        "restartSha256": "66fb02939ded34cd20553a337efe84beea52df5d5805cdfe0eac86e6bc9dc171",
+        "fieldsSha256": "428b9931d575ed429ca21de0c5ec54914a16737c97d1e1fd80173cc9f6c93e42",
+        "manifest": {
+          "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/evidence-manifest.json",
+          "sha256": "9a0eb543f88b993b0f7524301ac93b64497f57d864a75a01957b3c66901163a3",
+          "fileCount": 9,
+          "allFileLengthsAndDigestsVerified": true,
+          "exactInventoryMatched": true
+        },
+        "finalCheckpointMatchesRestartExactly": true,
+        "finalFieldsMatchRestartExactly": true,
+        "finalSnapshotMatchesFieldsExactly": true
+      },
+      {
+        "jobId": "barrage-open-m12-m08",
+        "basisId": "barrage-open",
+        "modelHourStart": -12,
+        "modelHourEnd": -8,
+        "startStep": 4632753,
+        "endStep": 6134889,
+        "simulatedSeconds": 14400.008406765723,
+        "wallSeconds": 6906.0226170450005,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.1720853325217868e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 1.1740036391216587e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.723586755327574
+        },
+        "checkpointCount": 4,
+        "snapshotHours": [
+          -11,
+          -10,
+          -9,
+          -8
+        ],
+        "restartSha256": "8c6d966704b7dec710a69ec50d64afebfab417c677007fe65ba5d9ece31b9202",
+        "fieldsSha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b",
+        "manifest": {
+          "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/evidence-manifest.json",
+          "sha256": "432e555f1ea801914b56d45b555c750276cdbc8875f9e225cac30bdfb26ef88d",
+          "fileCount": 13,
+          "allFileLengthsAndDigestsVerified": true,
+          "exactInventoryMatched": true
+        },
+        "finalCheckpointMatchesRestartExactly": true,
+        "finalFieldsMatchRestartExactly": true,
+        "finalSnapshotMatchesFieldsExactly": true
+      }
+    ],
+    "errors": [],
+    "expectedArtifactNames": [
+      "barrage-closed-m10-m08-29511898671",
+      "barrage-closed-m12-m10-29511898671",
+      "barrage-closed-m14-m12-29511898671",
+      "barrage-closed-m16-m14-29511898671",
+      "barrage-open-m12-m08-29511898671"
+    ]
+  },
+  "restartChainValidation": {
+    "passed": true,
+    "links": [
+      {
+        "jobId": "barrage-closed-m16-m14",
+        "inputKind": "retained_sealed_restart",
+        "predecessorJobId": "barrage-closed-s02",
+        "restartSha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24",
+        "evidenceManifestSha256": "63f696d859710a9d2eda2a40b7cc65c471464a8c5c6960a1b8b961bbac70be0a",
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m14-m12",
+        "inputKind": "recovery_predecessor",
+        "predecessorJobId": "barrage-closed-m16-m14",
+        "restartSha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+        "evidenceManifestSha256": "2d48c5506b0ae03760fc9ccc692aecca06fc294a09764771806acefa2c74f1ba",
+        "predecessorEndStep": 8427659,
+        "successorStartStep": 8427659,
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m12-m10",
+        "inputKind": "recovery_predecessor",
+        "predecessorJobId": "barrage-closed-m14-m12",
+        "restartSha256": "511a3892e7f044732bad12e22280b00e5094036af570cb41a0f2e954d91b2237",
+        "evidenceManifestSha256": "3f570a23984d3e2720172cde5c58221ee6a7377e78297dbd489c945064b0972c",
+        "predecessorEndStep": 11022334,
+        "successorStartStep": 11022334,
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m10-m08",
+        "inputKind": "recovery_predecessor",
+        "predecessorJobId": "barrage-closed-m12-m10",
+        "restartSha256": "f4d245a36493a3fd693bd1e6eee5bfceb3bb02c99a2fa5c5dddfa45accff8200",
+        "evidenceManifestSha256": "cce2d220add12039e263e5b6dcbffc85c1ffa1a836116c83d1dc428e2ab7ad78",
+        "predecessorEndStep": 13828894,
+        "successorStartStep": 13828894,
+        "passed": true
+      },
+      {
+        "jobId": "barrage-open-m12-m08",
+        "inputKind": "retained_sealed_restart",
+        "predecessorJobId": "barrage-open-s03",
+        "restartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+        "evidenceManifestSha256": "5d9d25ae8e2e0adbaec40db3dbd5143e21882c7ede970c7b5ab231d99dcb7619",
+        "passed": true
+      }
+    ]
+  },
+  "numericalValidation": {
+    "passed": true,
+    "thresholds": {
+      "maximumCfl": 0.95,
+      "maximumRelativeMassBalanceError": 1e-08,
+      "nonFiniteValueCount": 0,
+      "negativeDepthCount": 0
+    },
+    "segments": [
+      {
+        "jobId": "barrage-closed-m16-m14",
+        "simulatedSeconds": 7200.002893104004,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.7149749064474075e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 2.815297710862597e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.2528947894906174
+        },
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m14-m12",
+        "simulatedSeconds": 7200.000663649237,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.9199466774357847e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 3.620640184917483e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.317569997877409
+        },
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m12-m10",
+        "simulatedSeconds": 7200.001834082567,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 3.388616019549948e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 5.178539605497324e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.6835923072929696
+        },
+        "passed": true
+      },
+      {
+        "jobId": "barrage-closed-m10-m08",
+        "simulatedSeconds": 7200.000731106617,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 5.353917318496061e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 5.390327755611793e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.7442095193519583
+        },
+        "passed": true
+      },
+      {
+        "jobId": "barrage-open-m12-m08",
+        "simulatedSeconds": 14400.008406765723,
+        "diagnostics": {
+          "inputRestartRelativeMassError": 1.1720853325217868e-13,
+          "maximumCfl": 0.12000000000000001,
+          "maximumRelativeMassBalanceError": 1.1740036391216587e-13,
+          "nonFiniteValueCount": 0,
+          "negativeDepthCount": 0,
+          "maximumSpeedMPS": 0.723586755327574
+        },
+        "passed": true
+      }
+    ]
+  },
+  "snapshotInventory": {
+    "passed": true,
+    "expectedEndpointCount": 10,
+    "newExpectedCount": 9,
+    "retainedExpectedCount": 1,
+    "actualEndpointCount": 10,
+    "exactBasisHourSetMatched": true,
+    "entries": [
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -12,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m14-m12-29511898671/snapshots/snapshotmm12hmfields.npz",
+        "sha256": "8608155b01d6abe9e890beb2a9874c8878129a2c3e3fb4a72f079a0eb5ccd861",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -11,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m12-m10-29511898671/snapshots/snapshotmm11hmfields.npz",
+        "sha256": "7ed1b33c9fe92a67d5a5023f309fb9a0307ae8897fda4d6d2d159a6bc6202f65",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -10,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m12-m10-29511898671/snapshots/snapshotmm10hmfields.npz",
+        "sha256": "7caaad22d73b1a3fea7978edd2ffdd31c5e6a0d0ba9c599bb59101f92036d3cd",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -9,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "4365ea4686b4b534717786121bc7966ad08ad772a997fff5c1811e91d49b883c",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-closed",
+        "modelHour": -8,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-closed-m10-m08-29511898671/snapshots/snapshotmm08hmfields.npz",
+        "sha256": "428b9931d575ed429ca21de0c5ec54914a16737c97d1e1fd80173cc9f6c93e42",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -12,
+        "source": "retained_sealed_original_holdout",
+        "path": "docs/results/stage20-barrage-holdout-29464186133/barrage-open-s03-29464186133/snapshots/snapshotmm12hmfields.npz",
+        "sha256": "224bdc4386b2f1812b680072389dcf3b111c7e4a7e75dc242117a3b37083a1f1",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -11,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm11hmfields.npz",
+        "sha256": "1be6c16e44ddb1573c4d062deb768d1996bef35a5c9c18081fed0c21774964a3",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -10,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm10hmfields.npz",
+        "sha256": "69ea738b99820794ae825765ada69226f0ecf17930488aebe0a9c7730813eda2",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -9,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "0d92b00f73821efa154b884f726b618f52737df4ed607fe545d6cd8dbde935f2",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "basisId": "barrage-open",
+        "modelHour": -8,
+        "source": "recovery",
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/barrage-open-m12-m08-29511898671/snapshots/snapshotmm08hmfields.npz",
+        "sha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      }
+    ]
+  },
+  "heldOutReference": {
+    "passed": true,
+    "expectedSnapshotCount": 5,
+    "validatedSnapshotCount": 5,
+    "root": "docs/results/stage20-reference-s02-29434250546",
+    "evidenceManifest": {
+      "path": "docs/results/stage20-reference-s02-29434250546/evidence-manifest.json",
+      "sha256": "54f4cc4a0836948eaae7cd0a55b9a029231e08d78d6c8a5d8d8afb2678ff53d9",
+      "fileCount": 18,
+      "allFileLengthsAndDigestsVerified": true
+    },
+    "entries": [
+      {
+        "modelHour": -12,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm12hmfields.npz",
+        "sha256": "c86efc4dff2404acf18d09a7022310cb78d7824c4acaa3b0dd38622d5494afc4",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "modelHour": -11,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm11hmfields.npz",
+        "sha256": "e01905d99345cc43a84dc95b501d457fe3bb2c5a97f77c86e20d2989658a3944",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "modelHour": -10,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm10hmfields.npz",
+        "sha256": "3ea304ccbbab1c049f01af5adcf0f567c2fa6cfb9393634664a0f21768231fb7",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "modelHour": -9,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm09hmfields.npz",
+        "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      },
+      {
+        "modelHour": -8,
+        "path": "docs/results/stage20-reference-s02-29434250546/snapshots/snapshotmm08hmfields.npz",
+        "sha256": "ba040c3fca952697334c0f9c07a9b6f11aefabae9b0dfb733fcd739b6de42901",
+        "shapePerComponent": [
+          50199
+        ],
+        "dtype": "float64",
+        "nonFiniteValueCount": 0,
+        "negativeDepthCount": 0
+      }
+    ]
+  },
+  "holdoutEvaluation": {
+    "evaluable": true,
+    "acceptanceResult": "failed",
+    "expectedComparisonCount": 20,
+    "evaluatedComparisonCount": 20,
+    "passedComparisonCount": 5,
+    "failedComparisonCount": 15,
+    "thresholds": {
+      "velocityVectorRmseMPS": 0.01,
+      "speedMaeMPS": 0.005,
+      "p95DirectionErrorDeg": 5.0,
+      "depthRmseM": 0.1,
+      "maximumAbsoluteDepthErrorM": 0.25
+    },
+    "metricDefinitions": {
+      "interpolation": "componentwise_0.5_closed_plus_0.5_open_float64",
+      "cellWeighting": "uniform_per_mask_cell_including_dry_cells",
+      "velocityVectorRmseMPS": "sqrt(mean((predictedU-directU)^2+(predictedV-directV)^2))",
+      "speedMaeMPS": "mean(abs(hypot(predictedU,predictedV)-hypot(directU,directV)))",
+      "directionEligibility": "both_predicted_and_direct_speed_at_or_above_directionActiveThresholdMPS",
+      "p95DirectionErrorDeg": "nearest_rank_ceil_0.95N_minus_1",
+      "depthThresholdMeaning": "interpolation_consistency_only_not_actual_bathymetry_accuracy"
+    },
+    "perHourRegion": [
+      {
+        "modelHour": -12,
+        "regionId": "estuary",
+        "cellCount": 50199,
+        "depthRmseM": 1.1843076021738652,
+        "maximumAbsoluteDepthErrorM": 3.7070028465416494,
+        "velocityVectorRmseMPS": 0.015690474111803583,
+        "speedMaeMPS": 0.008954369494953165,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 30159,
+        "p95DirectionErrorDeg": 2.8115885277353976,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -12,
+        "regionId": "barrage",
+        "cellCount": 5281,
+        "depthRmseM": 2.585484474112179,
+        "maximumAbsoluteDepthErrorM": 3.7070028465416494,
+        "velocityVectorRmseMPS": 0.015929518704130764,
+        "speedMaeMPS": 0.01022878801808118,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 580,
+        "p95DirectionErrorDeg": 65.87547724342599,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -12,
+        "regionId": "confluence",
+        "cellCount": 7259,
+        "depthRmseM": 0.007226478564115407,
+        "maximumAbsoluteDepthErrorM": 0.009379278531936208,
+        "velocityVectorRmseMPS": 0.0051276870291327575,
+        "speedMaeMPS": 0.00384240985478645,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 4804,
+        "p95DirectionErrorDeg": 4.259143563065939,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": true,
+          "speedMaeMPS": true,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true
+        },
+        "passed": true
+      },
+      {
+        "modelHour": -12,
+        "regionId": "fishway",
+        "cellCount": 4978,
+        "depthRmseM": 2.0450330810341035,
+        "maximumAbsoluteDepthErrorM": 3.7070028465416494,
+        "velocityVectorRmseMPS": 0.01373032841043116,
+        "speedMaeMPS": 0.006395674263814594,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 2008,
+        "p95DirectionErrorDeg": 31.409300626381658,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -11,
+        "regionId": "estuary",
+        "cellCount": 50199,
+        "depthRmseM": 1.3132279367675859,
+        "maximumAbsoluteDepthErrorM": 4.13497915658881,
+        "velocityVectorRmseMPS": 0.022649205562996027,
+        "speedMaeMPS": 0.009912912141158612,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 26466,
+        "p95DirectionErrorDeg": 3.195218315487704,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -11,
+        "regionId": "barrage",
+        "cellCount": 5281,
+        "depthRmseM": 2.867900105845305,
+        "maximumAbsoluteDepthErrorM": 4.13497915658881,
+        "velocityVectorRmseMPS": 0.019735879003771332,
+        "speedMaeMPS": 0.010582399319811982,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 484,
+        "p95DirectionErrorDeg": 107.89339040460878,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -11,
+        "regionId": "confluence",
+        "cellCount": 7259,
+        "depthRmseM": 0.007765311837502503,
+        "maximumAbsoluteDepthErrorM": 0.011303955456927639,
+        "velocityVectorRmseMPS": 0.005941686097450384,
+        "speedMaeMPS": 0.004354870612916492,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 4319,
+        "p95DirectionErrorDeg": 3.8584207211217034,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": true,
+          "speedMaeMPS": true,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true
+        },
+        "passed": true
+      },
+      {
+        "modelHour": -11,
+        "regionId": "fishway",
+        "cellCount": 4978,
+        "depthRmseM": 2.268397793387159,
+        "maximumAbsoluteDepthErrorM": 4.13497915658881,
+        "velocityVectorRmseMPS": 0.017835004905487045,
+        "speedMaeMPS": 0.0067354207226980505,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 1928,
+        "p95DirectionErrorDeg": 44.63939479840331,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -10,
+        "regionId": "estuary",
+        "cellCount": 50199,
+        "depthRmseM": 1.430121254266995,
+        "maximumAbsoluteDepthErrorM": 4.497649253113487,
+        "velocityVectorRmseMPS": 0.027239038225170268,
+        "speedMaeMPS": 0.009568551598025702,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 21697,
+        "p95DirectionErrorDeg": 2.0350013085883947,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -10,
+        "regionId": "barrage",
+        "cellCount": 5281,
+        "depthRmseM": 3.125658206355492,
+        "maximumAbsoluteDepthErrorM": 4.496311678779553,
+        "velocityVectorRmseMPS": 0.021532180121570047,
+        "speedMaeMPS": 0.008668727060615482,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 234,
+        "p95DirectionErrorDeg": 129.41145068903828,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -10,
+        "regionId": "confluence",
+        "cellCount": 7259,
+        "depthRmseM": 0.006472533501500597,
+        "maximumAbsoluteDepthErrorM": 0.010387587667104015,
+        "velocityVectorRmseMPS": 0.004948982546071335,
+        "speedMaeMPS": 0.003444672657486747,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 2616,
+        "p95DirectionErrorDeg": 1.8866582118447512,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": true,
+          "speedMaeMPS": true,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true
+        },
+        "passed": true
+      },
+      {
+        "modelHour": -10,
+        "regionId": "fishway",
+        "cellCount": 4978,
+        "depthRmseM": 2.4728833956079406,
+        "maximumAbsoluteDepthErrorM": 4.496311678779553,
+        "velocityVectorRmseMPS": 0.02099909643723709,
+        "speedMaeMPS": 0.005894017527294777,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 1034,
+        "p95DirectionErrorDeg": 68.07173106741348,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -9,
+        "regionId": "estuary",
+        "cellCount": 50199,
+        "depthRmseM": 1.5292605429726074,
+        "maximumAbsoluteDepthErrorM": 4.8123664881867745,
+        "velocityVectorRmseMPS": 0.02766268977037687,
+        "speedMaeMPS": 0.00892423692666587,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 16702,
+        "p95DirectionErrorDeg": 0.8446150546380332,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -9,
+        "regionId": "barrage",
+        "cellCount": 5281,
+        "depthRmseM": 3.3431490042630876,
+        "maximumAbsoluteDepthErrorM": 4.812082241984691,
+        "velocityVectorRmseMPS": 0.022545500595790784,
+        "speedMaeMPS": 0.008061575770729306,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 154,
+        "p95DirectionErrorDeg": 124.3210134176832,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -9,
+        "regionId": "confluence",
+        "cellCount": 7259,
+        "depthRmseM": 0.004745010815241513,
+        "maximumAbsoluteDepthErrorM": 0.007925737072008943,
+        "velocityVectorRmseMPS": 0.004175174210259983,
+        "speedMaeMPS": 0.0028252558992911724,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 788,
+        "p95DirectionErrorDeg": 0.8478739363172056,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": true,
+          "speedMaeMPS": true,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true
+        },
+        "passed": true
+      },
+      {
+        "modelHour": -9,
+        "regionId": "fishway",
+        "cellCount": 4978,
+        "depthRmseM": 2.6453396273739953,
+        "maximumAbsoluteDepthErrorM": 4.812082241984691,
+        "velocityVectorRmseMPS": 0.022375954173573766,
+        "speedMaeMPS": 0.0056258790841422395,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 903,
+        "p95DirectionErrorDeg": 74.1010876686619,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -8,
+        "regionId": "estuary",
+        "cellCount": 50199,
+        "depthRmseM": 1.611666565097418,
+        "maximumAbsoluteDepthErrorM": 5.060152317037159,
+        "velocityVectorRmseMPS": 0.025150626814027976,
+        "speedMaeMPS": 0.007411677999015593,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 8477,
+        "p95DirectionErrorDeg": 1.2513091563942331,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -8,
+        "regionId": "barrage",
+        "cellCount": 5281,
+        "depthRmseM": 3.5213067614156484,
+        "maximumAbsoluteDepthErrorM": 5.060152317037159,
+        "velocityVectorRmseMPS": 0.01945166340816162,
+        "speedMaeMPS": 0.007226321160803429,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 128,
+        "p95DirectionErrorDeg": 162.19096100669907,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      },
+      {
+        "modelHour": -8,
+        "regionId": "confluence",
+        "cellCount": 7259,
+        "depthRmseM": 0.0028324224423511707,
+        "maximumAbsoluteDepthErrorM": 0.004950219335553285,
+        "velocityVectorRmseMPS": 0.0034605838192350645,
+        "speedMaeMPS": 0.002334145279539149,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 666,
+        "p95DirectionErrorDeg": 0.9134466219785659,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": true,
+          "speedMaeMPS": true,
+          "p95DirectionErrorDeg": true,
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true
+        },
+        "passed": true
+      },
+      {
+        "modelHour": -8,
+        "regionId": "fishway",
+        "cellCount": 4978,
+        "depthRmseM": 2.7855429038574764,
+        "maximumAbsoluteDepthErrorM": 5.060152317037159,
+        "velocityVectorRmseMPS": 0.019231721227230946,
+        "speedMaeMPS": 0.005032734116465743,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 885,
+        "p95DirectionErrorDeg": 81.60464183073329,
+        "thresholdChecks": {
+          "velocityVectorRmseMPS": false,
+          "speedMaeMPS": false,
+          "p95DirectionErrorDeg": false,
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false
+        },
+        "passed": false
+      }
+    ],
+    "worstByMetric": {
+      "velocityVectorRmseMPS": {
+        "value": 0.02766268977037687,
+        "modelHour": -9,
+        "regionId": "estuary",
+        "threshold": 0.01,
+        "passed": false
+      },
+      "speedMaeMPS": {
+        "value": 0.010582399319811982,
+        "modelHour": -11,
+        "regionId": "barrage",
+        "threshold": 0.005,
+        "passed": false
+      },
+      "p95DirectionErrorDeg": {
+        "value": 162.19096100669907,
+        "modelHour": -8,
+        "regionId": "barrage",
+        "threshold": 5.0,
+        "passed": false
+      },
+      "depthRmseM": {
+        "value": 3.5213067614156484,
+        "modelHour": -8,
+        "regionId": "barrage",
+        "threshold": 0.1,
+        "passed": false
+      },
+      "maximumAbsoluteDepthErrorM": {
+        "value": 5.060152317037159,
+        "modelHour": -8,
+        "regionId": "estuary",
+        "threshold": 0.25,
+        "passed": false
+      }
+    },
+    "worstMapSelection": {
+      "metric": "velocityVectorRmseMPS",
+      "modelHour": -9,
+      "regionId": "estuary",
+      "value": 0.02766268977037687,
+      "convention": "maximum_across_five_hours_and_four_regions"
+    }
+  },
+  "derivedArtifacts": {
+    "createdThisInvocation": true,
+    "selectionConvention": {
+      "metric": "velocityVectorRmseMPS",
+      "modelHour": -9,
+      "regionId": "estuary",
+      "value": 0.02766268977037687,
+      "convention": "maximum_across_five_hours_and_four_regions"
+    },
+    "mapReadyWorstHourFields": [
+      {
+        "kind": "direct",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/direct-fields.npz",
+        "byteLength": 1152204,
+        "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+      },
+      {
+        "kind": "interpolated",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/interpolated-fields.npz",
+        "byteLength": 1150142,
+        "sha256": "95e1ef8b1893e229e1cf8e08c1b0bc179aae4c402678f9f302f71fb9730fd2b5"
+      },
+      {
+        "kind": "velocity_error",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/velocity-error-fields.npz",
+        "byteLength": 1140912,
+        "sha256": "e46fc4813cadb660978e2ae7a182e6ae06c17160b04c7d3ec21789d756afdf20"
+      },
+      {
+        "kind": "depth_error",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/depth-error-fields.npz",
+        "byteLength": 339767,
+        "sha256": "5a642a375cb9cd22ee54887e51945bf66e6ecc38640c8deee00bbdf81094244c"
+      }
+    ],
+    "mapsRendered": false,
+    "mapRenderingReason": "map-ready fields are prepared; rendering is a separate deterministic presentation step"
+  },
+  "diagnostics": [],
+  "safeguards": {
+    "solverInvoked": false,
+    "networkAccessAttempted": false,
+    "githubActionsMutationAttempted": false,
+    "automaticRetryPerformed": false,
+    "additionalPhysicalRunPerformed": false,
+    "publicSimulatorConnected": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  },
+  "toolchain": {
+    "analyzer": {
+      "path": "tools/analyze_stage20_barrage_holdout_recovery_result.py",
+      "sha256": "3c386fcb3066ef6186ca422c8afbe9d1edbe9668a5aa7a4ade3d0b9c3cc1ee55"
+    },
+    "offlineCore": {
+      "path": "tools/stage20_barrage_holdout_postrun.py",
+      "sha256": "8635a41e759f4e45990781559a593077ba76544d1f0ac4c35e947ff4ed78f1f7"
+    }
+  },
+  "regionalMaskValidation": {
+    "passed": true,
+    "manifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+    "manifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5",
+    "binary": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+    "binarySha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785",
+    "views": [
+      {
+        "id": "estuary",
+        "cellCount": 50199,
+        "sha256": "9d8f38cd2200b1e8c34eb1563f84bb5eff5ec0efb7531984272909bd269d6018"
+      },
+      {
+        "id": "barrage",
+        "cellCount": 5281,
+        "sha256": "50461e5c7d4a2d2193bc8f9f4fd21c683c1fad06bd6ea6c52f0833789574fe88"
+      },
+      {
+        "id": "confluence",
+        "cellCount": 7259,
+        "sha256": "a6ca27a56d399ceec12d03865dcba8c93eb8ff367c0ed370673678279d6cb2e0"
+      },
+      {
+        "id": "fishway",
+        "cellCount": 4978,
+        "sha256": "1e8af18c25ade05af28907f9b396e88856a27e239ff1c2ee233fbb3542eb559f"
+      }
+    ]
+  }
+}

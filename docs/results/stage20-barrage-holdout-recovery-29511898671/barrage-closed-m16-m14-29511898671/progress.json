@@ -1,0 +1,23 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-progress-v1",
+  "status": "complete",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "jobId": "barrage-closed-m16-m14",
+  "simulatedSeconds": 7200.002893104004,
+  "wallSeconds": 10412.295906620999,
+  "checkpoints": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "sha256": "6349e05d194e5966071395c8df5bda8411c780862054e8c3ea133f86d87d474f",
+      "elapsedSeconds": 3600.0026762343696,
+      "step": 7217534
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "sha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+      "elapsedSeconds": 7200.002893104004,
+      "step": 8427659
+    }
+  ],
+  "snapshots": []
+}

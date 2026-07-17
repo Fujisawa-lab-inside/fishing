@@ -1,0 +1,59 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-segment-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "barrage-closed-m16-m14",
+    "basisId": "barrage-closed",
+    "modelHourStart": -16,
+    "modelHourEnd": -14,
+    "simulatedSeconds": 7200.002893104004,
+    "startStep": 6070516,
+    "endStep": 8427659,
+    "wallSeconds": 10412.413606810998
+  },
+  "input": {
+    "jobId": "barrage-closed-s02",
+    "restartSha256": "6c1e0d53cb701ee1dd50022a8f52ea9abcda0dc873f0a17382ae76a2241dfd24",
+    "evidenceManifestSha256": "63f696d859710a9d2eda2a40b7cc65c471464a8c5c6960a1b8b961bbac70be0a"
+  },
+  "diagnostics": {
+    "inputRestartRelativeMassError": 1.7149749064474075e-13,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 2.815297710862597e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 0.2528947894906174
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "8a5199fd939322ba4210267221aaa46d81fc8e9fc5483ca31c977da9f1227aa1",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "6349e05d194e5966071395c8df5bda8411c780862054e8c3ea133f86d87d474f",
+        "elapsedSeconds": 3600.0026762343696,
+        "step": 7217534
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+        "elapsedSeconds": 7200.002893104004,
+        "step": 8427659
+      }
+    ],
+    "snapshots": []
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

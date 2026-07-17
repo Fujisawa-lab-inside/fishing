@@ -1,0 +1,74 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-segment-evidence-v1",
+  "status": "sealed_complete_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "jobId": "barrage-open-m12-m08",
+  "files": [
+    {
+      "path": "checkpoints/checkpoint-01h.npz",
+      "byteLength": 1163638,
+      "sha256": "94126ce2ad98f17c8a4ea5380fd31b9eb31ff32db29f6e63f8e9652e6552d765"
+    },
+    {
+      "path": "checkpoints/checkpoint-02h.npz",
+      "byteLength": 1167881,
+      "sha256": "9664cb4eeda50e546cfcf77092fefbdae8116a884fe6e5cd61a5ec65737c811b"
+    },
+    {
+      "path": "checkpoints/checkpoint-03h.npz",
+      "byteLength": 1168768,
+      "sha256": "8ee173494e652c1e5ec5275ab6913e7f77c603b1083fd8965f2927f07fca8b1a"
+    },
+    {
+      "path": "checkpoints/checkpoint-04h.npz",
+      "byteLength": 1168465,
+      "sha256": "8c6d966704b7dec710a69ec50d64afebfab417c677007fe65ba5d9ece31b9202"
+    },
+    {
+      "path": "execution-receipt.json",
+      "byteLength": 836,
+      "sha256": "0d462a47a8ab1540cb2f1033abda5bb11843f33133e7c5a85abd2c4a731960da"
+    },
+    {
+      "path": "progress.json",
+      "byteLength": 1855,
+      "sha256": "82e298e8cf748a99c994f8d39ffac822cfe88984256bbe46e3c6d3c4018ab739"
+    },
+    {
+      "path": "restart-final.npz",
+      "byteLength": 1168465,
+      "sha256": "8c6d966704b7dec710a69ec50d64afebfab417c677007fe65ba5d9ece31b9202"
+    },
+    {
+      "path": "segment-final-fields.npz",
+      "byteLength": 1151381,
+      "sha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b"
+    },
+    {
+      "path": "segment-report.json",
+      "byteLength": 3187,
+      "sha256": "4ec1fffdb894e88f58da4068677f12705df60c828df4b88cb6b0fca6844b5de4"
+    },
+    {
+      "path": "snapshots/snapshotmm08hmfields.npz",
+      "byteLength": 1151381,
+      "sha256": "e20498a7fbdb4afd3026567ec812265da132db3c12a7c98317d0a3c8823fe02b"
+    },
+    {
+      "path": "snapshots/snapshotmm09hmfields.npz",
+      "byteLength": 1152107,
+      "sha256": "0d92b00f73821efa154b884f726b618f52737df4ed607fe545d6cd8dbde935f2"
+    },
+    {
+      "path": "snapshots/snapshotmm10hmfields.npz",
+      "byteLength": 1151787,
+      "sha256": "69ea738b99820794ae825765ada69226f0ecf17930488aebe0a9c7730813eda2"
+    },
+    {
+      "path": "snapshots/snapshotmm11hmfields.npz",
+      "byteLength": 1147966,
+      "sha256": "1be6c16e44ddb1573c4d062deb768d1996bef35a5c9c18081fed0c21774964a3"
+    }
+  ],
+  "physicalValidationClaimAllowed": false
+}

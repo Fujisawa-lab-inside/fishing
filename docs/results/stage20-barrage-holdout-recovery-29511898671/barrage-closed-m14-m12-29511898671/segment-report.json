@@ -1,0 +1,65 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-segment-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "barrage-closed-m14-m12",
+    "basisId": "barrage-closed",
+    "modelHourStart": -14,
+    "modelHourEnd": -12,
+    "simulatedSeconds": 7200.000663649237,
+    "startStep": 8427659,
+    "endStep": 11022334,
+    "wallSeconds": 11420.796391698
+  },
+  "input": {
+    "jobId": "barrage-closed-m16-m14",
+    "restartSha256": "71fa0a128277717dc51bc7d565dfcd6f236056224a429c45b5a6d4fe20af2e77",
+    "evidenceManifestSha256": "2d48c5506b0ae03760fc9ccc692aecca06fc294a09764771806acefa2c74f1ba"
+  },
+  "diagnostics": {
+    "inputRestartRelativeMassError": 1.9199466774357847e-13,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 3.620640184917483e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 0.317569997877409
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "511a3892e7f044732bad12e22280b00e5094036af570cb41a0f2e954d91b2237",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "8608155b01d6abe9e890beb2a9874c8878129a2c3e3fb4a72f079a0eb5ccd861",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "77f0aabdc3a2beb8a0d47a27e2820b18b6ca9560116ead488903a5c6fc338f95",
+        "elapsedSeconds": 3600.0025447622,
+        "step": 9697060
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "511a3892e7f044732bad12e22280b00e5094036af570cb41a0f2e954d91b2237",
+        "elapsedSeconds": 7200.000663649237,
+        "step": 11022334
+      }
+    ],
+    "snapshots": [
+      {
+        "modelHour": -12,
+        "path": "snapshots/snapshotmm12hmfields.npz",
+        "sha256": "8608155b01d6abe9e890beb2a9874c8878129a2c3e3fb4a72f079a0eb5ccd861"
+      }
+    ]
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

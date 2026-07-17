@@ -1,0 +1,282 @@
+{
+  "analysisAcceptanceStatus": "evaluated_failed_thresholds",
+  "displayScales": {
+    "sharedDirectInterpolatedSpeedMPS": {
+      "appliesTo": [
+        "direct",
+        "interpolated"
+      ],
+      "maximumMPS": 0.13,
+      "minimumMPS": 0.01,
+      "percentile": 95.0,
+      "rule": "ceil_0.01_of_max_nonzero_p95_with_0.01_floor",
+      "sourceP95MPS": {
+        "direct": 0.12054874652995895,
+        "interpolated": 0.10584516802235017
+      },
+      "unit": "m/s"
+    },
+    "velocityErrorMPS": {
+      "appliesTo": [
+        "velocity_error"
+      ],
+      "maximumMPS": 0.04,
+      "minimumMPS": 0.01,
+      "percentile": 95.0,
+      "rule": "ceil_0.01_of_nonzero_p95_with_0.01_floor",
+      "sourceP95MPS": 0.033703186147376205,
+      "unit": "m/s"
+    }
+  },
+  "html": {
+    "byteLength": 714708,
+    "format": "literal_html_fragment",
+    "path": "comparison.html",
+    "sha256": "9d1d708cae24bd941796cf2a7768183c2c70ddea3c94cfaffb6cf3f9a05b3a0f"
+  },
+  "interpretation": {
+    "comparison": "componentwise_50_50_endpoint_interpolation_versus_direct_50_percent_run",
+    "disclaimerJa": "補間整合性の比較／実測・予報精度の検証ではない",
+    "failedComparisonCount": 15,
+    "forecastValidationClaim": false,
+    "gsiAttributionJa": "背景：国土地理院「全国最新写真（シームレス）」を加工",
+    "passedComparisonCount": 5,
+    "physicalValidationClaim": false,
+    "simpleInterpolationRecommendation": "do_not_adopt_use_direct_50_percent_as_middle_anchor_or_end_cross_condition_interpolation",
+    "syntheticPreview": false
+  },
+  "mesh": {
+    "binarySha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "cellCount": 50199,
+    "manifest": "public/data/onga/stage20/mesh-v2.json",
+    "manifestSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+    "vertexCount": 28450
+  },
+  "modelHour": -9,
+  "overview": {
+    "byteLength": 533216,
+    "height": 1428,
+    "path": "comparison-overview.jpg",
+    "sha256": "65a8fae84cecc01d6f4874192e77229a1d8e474f8a9fe985fbf5320f70886352",
+    "width": 1260
+  },
+  "regionalMasks": {
+    "binary": "data/onga_stage20_barrage_holdout_region_masks_v1.bin",
+    "binarySha256": "1fc51d40c4c5cdd2af3f82b421c6ad16acbada292a3934a8cd8343773c423785",
+    "manifest": "config/stage20_barrage_holdout_region_masks_v1.json",
+    "manifestSha256": "9b3b65d5524f7d70258630f451c7ce4a21c260631e7aebb8b1710524a4d5dbd5"
+  },
+  "safeguards": {
+    "forecastValidationClaimAllowed": false,
+    "networkAccessAttempted": false,
+    "physicalValidationClaimAllowed": false,
+    "solverInvoked": false,
+    "sourceFieldsModified": false
+  },
+  "satelliteBackdrop": {
+    "inventorySha256": "c8eaf809dd1a6f984cfc6b11ce7cdd1b8244454089e0fa48e251e1607432c5ea",
+    "networkUsed": false,
+    "source": "local_GSI_seamlessphoto_tiles",
+    "tileCount": 96
+  },
+  "schema": "onga-stage20-barrage-holdout-comparison-map-manifest-v1",
+  "selectionConvention": {
+    "convention": "maximum_across_five_hours_and_four_regions",
+    "metric": "velocityVectorRmseMPS",
+    "modelHour": -9,
+    "regionId": "estuary",
+    "value": 0.02766268977037687
+  },
+  "source": {
+    "analysis": {
+      "byteLength": 42589,
+      "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+      "schema": "onga-stage20-barrage-holdout-recovery-postrun-analysis-v1",
+      "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2",
+      "status": "evaluated_failed_thresholds"
+    },
+    "fields": [
+      {
+        "byteLength": 1152204,
+        "kind": "direct",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/direct-fields.npz",
+        "sha256": "eecc7eb634da2cb84a3cd6769f2b1e71cfd6098280c4764c01f2912bde90b45e"
+      },
+      {
+        "byteLength": 1150142,
+        "kind": "interpolated",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/interpolated-fields.npz",
+        "sha256": "95e1ef8b1893e229e1cf8e08c1b0bc179aae4c402678f9f302f71fb9730fd2b5"
+      },
+      {
+        "byteLength": 1140912,
+        "kind": "velocity_error",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/velocity-error-fields.npz",
+        "sha256": "e46fc4813cadb660978e2ae7a182e6ae06c17160b04c7d3ec21789d756afdf20"
+      },
+      {
+        "byteLength": 339767,
+        "kind": "depth_error",
+        "modelHour": -9,
+        "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/hour-m09h/depth-error-fields.npz",
+        "sha256": "5a642a375cb9cd22ee54887e51945bf66e6ecc38640c8deee00bbdf81094244c"
+      }
+    ]
+  },
+  "sourceAnalysis": {
+    "byteLength": 42589,
+    "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+    "schema": "onga-stage20-barrage-holdout-recovery-postrun-analysis-v1",
+    "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2",
+    "status": "evaluated_failed_thresholds"
+  },
+  "status": "rendered_holdout_comparison_not_physical_validation",
+  "toolchain": {
+    "mode": "offline_local_artifacts_only",
+    "renderer": {
+      "path": "tools/render_stage20_barrage_holdout_comparison_maps.py",
+      "sha256": "7903837fe54724711d73e8fee8ecd44510a31fc8e631b5665351ca43a55cde5f"
+    }
+  },
+  "views": [
+    {
+      "arrowCounts": {
+        "direct": 24,
+        "interpolated": 24,
+        "velocity_error": 15
+      },
+      "byteLength": 233030,
+      "cellCount": 50199,
+      "id": "estuary",
+      "labelJa": "河口全域",
+      "metricRow": {
+        "cellCount": 50199,
+        "depthRmseM": 1.5292605429726074,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 16702,
+        "maximumAbsoluteDepthErrorM": 4.8123664881867745,
+        "modelHour": -9,
+        "p95DirectionErrorDeg": 0.8446150546380332,
+        "passed": false,
+        "regionId": "estuary",
+        "speedMaeMPS": 0.00892423692666587,
+        "thresholdChecks": {
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false,
+          "p95DirectionErrorDeg": true,
+          "speedMaeMPS": false,
+          "velocityVectorRmseMPS": false
+        },
+        "velocityVectorRmseMPS": 0.02766268977037687
+      },
+      "panelCount": 3,
+      "path": "stage20-barrage-holdout-comparison-estuary.svg",
+      "sha256": "c2a03e4017fcdb0ac98ee570ff92189c7fe7ad2eaf556130271c7c3bc91357e5"
+    },
+    {
+      "arrowCounts": {
+        "direct": 68,
+        "interpolated": 67,
+        "velocity_error": 66
+      },
+      "byteLength": 208466,
+      "cellCount": 5281,
+      "id": "barrage",
+      "labelJa": "河口堰付近",
+      "metricRow": {
+        "cellCount": 5281,
+        "depthRmseM": 3.3431490042630876,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 154,
+        "maximumAbsoluteDepthErrorM": 4.812082241984691,
+        "modelHour": -9,
+        "p95DirectionErrorDeg": 124.3210134176832,
+        "passed": false,
+        "regionId": "barrage",
+        "speedMaeMPS": 0.008061575770729306,
+        "thresholdChecks": {
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false,
+          "p95DirectionErrorDeg": false,
+          "speedMaeMPS": false,
+          "velocityVectorRmseMPS": false
+        },
+        "velocityVectorRmseMPS": 0.022545500595790784
+      },
+      "panelCount": 3,
+      "path": "stage20-barrage-holdout-comparison-barrage.svg",
+      "sha256": "be52d90418aec22e21587e1593272c98769e251ae9bff26b272d62ccbd9706c9"
+    },
+    {
+      "arrowCounts": {
+        "direct": 65,
+        "interpolated": 66,
+        "velocity_error": 28
+      },
+      "byteLength": 214977,
+      "cellCount": 7259,
+      "id": "confluence",
+      "labelJa": "曲川・遠賀川合流地点付近",
+      "metricRow": {
+        "cellCount": 7259,
+        "depthRmseM": 0.004745010815241513,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 788,
+        "maximumAbsoluteDepthErrorM": 0.007925737072008943,
+        "modelHour": -9,
+        "p95DirectionErrorDeg": 0.8478739363172056,
+        "passed": true,
+        "regionId": "confluence",
+        "speedMaeMPS": 0.0028252558992911724,
+        "thresholdChecks": {
+          "depthRmseM": true,
+          "maximumAbsoluteDepthErrorM": true,
+          "p95DirectionErrorDeg": true,
+          "speedMaeMPS": true,
+          "velocityVectorRmseMPS": true
+        },
+        "velocityVectorRmseMPS": 0.004175174210259983
+      },
+      "panelCount": 3,
+      "path": "stage20-barrage-holdout-comparison-confluence.svg",
+      "sha256": "f5bfe79b01679455f511534c96ab1c2b69639a2c351af6af8a3fb66f59dfbfb1"
+    },
+    {
+      "arrowCounts": {
+        "direct": 66,
+        "interpolated": 67,
+        "velocity_error": 47
+      },
+      "byteLength": 234283,
+      "cellCount": 4978,
+      "id": "fishway",
+      "labelJa": "魚道付近",
+      "metricRow": {
+        "cellCount": 4978,
+        "depthRmseM": 2.6453396273739953,
+        "directionActiveThresholdMPS": 0.02,
+        "directionComparedCellCount": 903,
+        "maximumAbsoluteDepthErrorM": 4.812082241984691,
+        "modelHour": -9,
+        "p95DirectionErrorDeg": 74.1010876686619,
+        "passed": false,
+        "regionId": "fishway",
+        "speedMaeMPS": 0.0056258790841422395,
+        "thresholdChecks": {
+          "depthRmseM": false,
+          "maximumAbsoluteDepthErrorM": false,
+          "p95DirectionErrorDeg": false,
+          "speedMaeMPS": false,
+          "velocityVectorRmseMPS": false
+        },
+        "velocityVectorRmseMPS": 0.022375954173573766
+      },
+      "panelCount": 3,
+      "path": "stage20-barrage-holdout-comparison-fishway.svg",
+      "sha256": "e1bda81cf5014a2e7581a75008c5534a341fd411bd67fdb21ac1d8d792494422"
+    }
+  ]
+}

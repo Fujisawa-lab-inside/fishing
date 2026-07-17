@@ -1,0 +1,61 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-artifact-inventory-v1",
+  "runId": 29511898671,
+  "runAttempt": 1,
+  "headSha": "92fd709ba4b8760c35b203649e5a0bf00904cdc5",
+  "retrievedAtUtc": "2026-07-17T05:29:46Z",
+  "downloadedArtifactCount": 5,
+  "allApiDigestsMatchedDownloadedZipBytes": true,
+  "artifacts": [
+    {
+      "id": 8385950043,
+      "name": "barrage-closed-m16-m14-29511898671",
+      "sizeBytes": 4594660,
+      "zipSha256": "b162043d835726dbb01cd823522ff1493fb3780f989e5692aba299e5579a716c",
+      "evidenceManifestSha256": "2d48c5506b0ae03760fc9ccc692aecca06fc294a09764771806acefa2c74f1ba",
+      "createdAtUtc": "2026-07-16T18:30:33Z",
+      "expiresAtUtc": "2026-08-15T18:30:32Z",
+      "expiredAtRetrieval": false
+    },
+    {
+      "id": 8390893746,
+      "name": "barrage-closed-m14-m12-29511898671",
+      "sizeBytes": 5744829,
+      "zipSha256": "3b9aa3cd021802dbfe413f84cf3c4eabf58a73ceaf9ff5831f616e1baa62de0c",
+      "evidenceManifestSha256": "3f570a23984d3e2720172cde5c58221ee6a7377e78297dbd489c945064b0972c",
+      "createdAtUtc": "2026-07-16T21:41:23Z",
+      "expiresAtUtc": "2026-08-15T21:41:22Z",
+      "expiredAtRetrieval": false
+    },
+    {
+      "id": 8394326361,
+      "name": "barrage-closed-m12-m10-29511898671",
+      "sizeBytes": 6948893,
+      "zipSha256": "aec58a0d41f3f735ee7040dbf2937c332c9f09b73a8190393f8bbea2a92d4773",
+      "evidenceManifestSha256": "cce2d220add12039e263e5b6dcbffc85c1ffa1a836116c83d1dc428e2ab7ad78",
+      "createdAtUtc": "2026-07-17T01:14:49Z",
+      "expiresAtUtc": "2026-08-16T01:14:48Z",
+      "expiredAtRetrieval": false
+    },
+    {
+      "id": 8397606619,
+      "name": "barrage-closed-m10-m08-29511898671",
+      "sizeBytes": 6957738,
+      "zipSha256": "03444fa40984713ddb8744627d7135cc725d256f769324e93ad92c21d666f00a",
+      "evidenceManifestSha256": "9a0eb543f88b993b0f7524301ac93b64497f57d864a75a01957b3c66901163a3",
+      "createdAtUtc": "2026-07-17T05:07:31Z",
+      "expiresAtUtc": "2026-08-16T05:07:29Z",
+      "expiredAtRetrieval": false
+    },
+    {
+      "id": 8384340718,
+      "name": "barrage-open-m12-m08-29511898671",
+      "sizeBytes": 11597458,
+      "zipSha256": "3a8fe1a7902256561388cc14e7961f8deeb5bc06ee4bedca1f55f483986a469f",
+      "evidenceManifestSha256": "432e555f1ea801914b56d45b555c750276cdbc8875f9e225cac30bdfb26ef88d",
+      "createdAtUtc": "2026-07-16T17:32:13Z",
+      "expiresAtUtc": "2026-08-15T17:32:12Z",
+      "expiredAtRetrieval": false
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-result-v1",
+  "status": "evidence_valid_interpolation_failed_thresholds",
+  "recordedDate": "2026-07-17",
+  "github": {
+    "runId": 29511898671,
+    "runAttempt": 1,
+    "runUrl": "https://github.com/Fujisawa-lab-inside/fishing/actions/runs/29511898671",
+    "executionCommit": "92fd709ba4b8760c35b203649e5a0bf00904cdc5",
+    "conclusion": "success",
+    "createdAtUtc": "2026-07-16T15:36:16Z",
+    "completedAtUtc": "2026-07-17T05:07:35Z",
+    "elapsedSeconds": 48679
+  },
+  "authorization": {
+    "id": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+    "gateState": "consumed",
+    "automaticRetryAllowed": false,
+    "additionalRunAllowed": false
+  },
+  "artifacts": {
+    "retainedPath": "docs/results/stage20-barrage-holdout-recovery-29511898671",
+    "downloadedArtifactCount": 5,
+    "manifestDeclaredFileCount": 46,
+    "allApiZipDigestsMatched": true,
+    "allManifestFileLengthsAndDigestsVerified": true,
+    "allExactInventoriesMatched": true,
+    "runMetadata": {
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/run-metadata.json",
+      "sha256": "4e240db6243b3e045ec77c3030d393a99c108354b58f9a88ae20beae83e4e1d5"
+    },
+    "inventory": {
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/artifact-inventory.json",
+      "sha256": "93fb259f28d268fb8f1d95a1417d122c9501478a9fc975ba58ee59c50d0a12ea"
+    }
+  },
+  "numericalEvidence": {
+    "passed": true,
+    "validatedSegmentCount": 5,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 5.390327755611793e-13,
+    "maximumInputRestartRelativeMassError": 5.353917318496061e-13,
+    "maximumSpeedMPS": 0.7442095193519583,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "restartLinkCount": 5,
+    "restartChainPassed": true,
+    "finalCheckpointsMatchedRestarts": true,
+    "finalFieldsMatchedRestarts": true
+  },
+  "snapshotEvidence": {
+    "expectedEndpointCount": 10,
+    "availableEndpointCount": 10,
+    "newRecoverySnapshotCount": 9,
+    "retainedOpenMinus12SnapshotCount": 1,
+    "basisIds": [
+      "barrage-closed",
+      "barrage-open"
+    ],
+    "modelHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8
+    ],
+    "exactBasisHourSetMatched": true,
+    "allFloat64": true,
+    "cellCountPerSnapshot": 50199
+  },
+  "holdoutComparison": {
+    "evaluable": true,
+    "acceptanceResult": "failed",
+    "method": "componentwise_0.5_closed_plus_0.5_open_float64",
+    "directReference": "docs/results/stage20-reference-s02-29434250546",
+    "expectedComparisonCount": 20,
+    "evaluatedComparisonCount": 20,
+    "passedComparisonCount": 5,
+    "failedComparisonCount": 15,
+    "onlyRegionPassingAllFiveHours": "confluence",
+    "thresholds": {
+      "velocityVectorRmseMPS": 0.01,
+      "speedMaeMPS": 0.005,
+      "p95DirectionErrorDeg": 5.0,
+      "depthRmseM": 0.1,
+      "maximumAbsoluteDepthErrorM": 0.25
+    },
+    "worstByMetric": {
+      "velocityVectorRmseMPS": {
+        "value": 0.02766268977037687,
+        "modelHour": -9,
+        "regionId": "estuary"
+      },
+      "speedMaeMPS": {
+        "value": 0.010582399319811982,
+        "modelHour": -11,
+        "regionId": "barrage"
+      },
+      "p95DirectionErrorDeg": {
+        "value": 162.19096100669907,
+        "modelHour": -8,
+        "regionId": "barrage"
+      },
+      "depthRmseM": {
+        "value": 3.5213067614156484,
+        "modelHour": -8,
+        "regionId": "barrage"
+      },
+      "maximumAbsoluteDepthErrorM": {
+        "value": 5.060152317037159,
+        "modelHour": -8,
+        "regionId": "estuary"
+      }
+    },
+    "analysis": {
+      "path": "config/stage20_barrage_holdout_recovery_analysis_v1.json",
+      "sha256": "82ce4ece4dda010b846204266e604c01d26eaffba041bd4b04329a353fc834c2"
+    }
+  },
+  "maps": {
+    "selectionMetric": "velocityVectorRmseMPS",
+    "selectedModelHour": -9,
+    "viewIds": [
+      "estuary",
+      "barrage",
+      "confluence",
+      "fishway"
+    ],
+    "panelKinds": [
+      "direct",
+      "interpolated",
+      "velocity_error"
+    ],
+    "manifest": {
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/comparison-map-manifest.json",
+      "sha256": "8c2983771b02e96f84a0914e197ba2330756a2ad5685a8e2d15679f4a343950e"
+    },
+    "judgmentImage": {
+      "path": "docs/results/stage20-barrage-holdout-recovery-29511898671/postrun/maps/comparison-overview.jpg",
+      "sha256": "65a8fae84cecc01d6f4874192e77229a1d8e474f8a9fe985fbf5320f70886352",
+      "width": 1260,
+      "height": 1428
+    },
+    "physicalValidationClaimAllowed": false,
+    "forecastValidationClaimAllowed": false
+  },
+  "decision": {
+    "rejectedMethod": "single_global_componentwise_midpoint_of_0_and_100_percent_barrage_fields",
+    "reason": "15_of_20_hour_region_comparisons_exceeded_one_or_more_fixed_thresholds",
+    "question": "単純50:50補間を不採用にし、直接50%を中間基準にするか",
+    "optionA": "retain_direct_50_percent_s02_as_middle_anchor_and_prepare_code_only_piecewise_0_50_50_100_interpolation_candidate",
+    "optionB": "end_cross_condition_interpolation_and_keep_only_directly_calculated_barrage_settings",
+    "recommendedChoice": "A",
+    "choiceAStartsPhysicalRun": false,
+    "choiceAConnectsPublicSimulator": false
+  },
+  "toolchain": {
+    "analyzerSha256": "3c386fcb3066ef6186ca422c8afbe9d1edbe9668a5aa7a4ade3d0b9c3cc1ee55",
+    "offlineCoreSha256": "8635a41e759f4e45990781559a593077ba76544d1f0ac4c35e947ff4ed78f1f7",
+    "analysisValidatorSha256": "5dd7a562a418916d76b20853f5a8ad19824cdaddffd6c118157a419fb29b97ee",
+    "rendererSha256": "7903837fe54724711d73e8fee8ecd44510a31fc8e631b5665351ca43a55cde5f",
+    "mapValidatorSha256": "90e89b21fbd0868cc7d7a32834cf87cae20892c0fd5a1e38c4911b33dc901c79"
+  },
+  "documentation": {
+    "resultDocument": {
+      "path": "docs/STAGE20_BARRAGE_HOLDOUT_RECOVERY_RESULT.md",
+      "sha256": "ecf59b448a3cce00ab5c3ec0f7d1dbe2764db4c1f7680884b36e083fa1135f18"
+    },
+    "postrunProcedure": {
+      "path": "docs/STAGE20_BARRAGE_HOLDOUT_RECOVERY_POSTRUN.md",
+      "sha256": "e27a0fab6714642e53a9964cc68ec8bf8b73d454c378b780ac83305680bc280f"
+    },
+    "handoff": "docs/WORK_HANDOFF.md"
+  },
+  "safeguards": {
+    "retryPerformed": false,
+    "additionalPhysicalRunPerformed": false,
+    "referenceS03RunPerformed": false,
+    "publicSimulatorConnected": false,
+    "mainMerged": false,
+    "physicalValidationClaimAllowed": false,
+    "dailyForecastClaimAllowed": false
+  }
+}

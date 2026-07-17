@@ -1,0 +1,70 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-segment-report-v1",
+  "status": "passed_numerical_checks_not_physical_validation",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.13.14"
+  },
+  "run": {
+    "jobId": "barrage-closed-m10-m08",
+    "basisId": "barrage-closed",
+    "modelHourStart": -10,
+    "modelHourEnd": -8,
+    "simulatedSeconds": 7200.000731106617,
+    "startStep": 13828894,
+    "endStep": 16827791,
+    "wallSeconds": 13926.476801996001
+  },
+  "input": {
+    "jobId": "barrage-closed-m12-m10",
+    "restartSha256": "f4d245a36493a3fd693bd1e6eee5bfceb3bb02c99a2fa5c5dddfa45accff8200",
+    "evidenceManifestSha256": "cce2d220add12039e263e5b6dcbffc85c1ffa1a836116c83d1dc428e2ab7ad78"
+  },
+  "diagnostics": {
+    "inputRestartRelativeMassError": 5.353917318496061e-13,
+    "maximumCfl": 0.12000000000000001,
+    "maximumRelativeMassBalanceError": 5.390327755611793e-13,
+    "nonFiniteValueCount": 0,
+    "negativeDepthCount": 0,
+    "maximumSpeedMPS": 0.7442095193519583
+  },
+  "outputs": {
+    "restart": "restart-final.npz",
+    "restartSha256": "66fb02939ded34cd20553a337efe84beea52df5d5805cdfe0eac86e6bc9dc171",
+    "fields": "segment-final-fields.npz",
+    "fieldsSha256": "428b9931d575ed429ca21de0c5ec54914a16737c97d1e1fd80173cc9f6c93e42",
+    "checkpoints": [
+      {
+        "path": "checkpoints/checkpoint-01h.npz",
+        "sha256": "655f504440ce8cd0ecf5ac42f42fba192bad258ca4a4eb47284b9230c809df48",
+        "elapsedSeconds": 3600.0023122997386,
+        "step": 15305315
+      },
+      {
+        "path": "checkpoints/checkpoint-02h.npz",
+        "sha256": "66fb02939ded34cd20553a337efe84beea52df5d5805cdfe0eac86e6bc9dc171",
+        "elapsedSeconds": 7200.000731106617,
+        "step": 16827791
+      }
+    ],
+    "snapshots": [
+      {
+        "modelHour": -9,
+        "path": "snapshots/snapshotmm09hmfields.npz",
+        "sha256": "4365ea4686b4b534717786121bc7966ad08ad772a997fff5c1811e91d49b883c"
+      },
+      {
+        "modelHour": -8,
+        "path": "snapshots/snapshotmm08hmfields.npz",
+        "sha256": "428b9931d575ed429ca21de0c5ec54914a16737c97d1e1fd80173cc9f6c93e42"
+      }
+    ]
+  },
+  "safeguards": {
+    "automaticRetryAllowed": false,
+    "physicalValidationClaimAllowed": false,
+    "publicSimulatorConnected": false
+  }
+}

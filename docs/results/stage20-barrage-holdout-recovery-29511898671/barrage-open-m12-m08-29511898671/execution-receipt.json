@@ -1,0 +1,14 @@
+{
+  "schema": "onga-stage20-barrage-holdout-recovery-segment-receipt-v1",
+  "authorizationId": "stage20-barrage-holdout-recovery-20260716t153334z-one-time",
+  "authorizationSha256": "e6c96e8fcdad19a567948e9a68b27ab81e9f35d9209917d5c74c3901a6e18c14",
+  "executionContractSha256": "06a323582d848513b81f00acc2bcd987038794b6e0662b9d884681bfe023564c",
+  "decisionImageSha256": "65b2eb0fdb30f913de4df3632350be1b8c544352b3799612e79fc808c6e62b2c",
+  "jobId": "barrage-open-m12-m08",
+  "predecessorJobId": "barrage-open-s03",
+  "inputRestartSha256": "ca2585b088797166a1b08629e48ce9dd2fbf88b5dc1ee0a17e3f86a897ba80e0",
+  "inputEvidenceManifestSha256": "5d9d25ae8e2e0adbaec40db3dbd5143e21882c7ede970c7b5ab231d99dcb7619",
+  "githubRunId": "29511898671",
+  "githubSha": "92fd709ba4b8760c35b203649e5a0bf00904cdc5",
+  "automaticRetryAllowed": false
+}

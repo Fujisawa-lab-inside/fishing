@@ -53,12 +53,31 @@ const VIEW_SPECS = Object.freeze({
     marks: Object.freeze(['fishway', 'barrage']),
   }),
 });
+const GATE_OPENING_ORDER = Object.freeze([5, 4, 6, 3, 7, 2, 8, 1]);
+
+function gatePatternForStage(stage) {
+  const normalizedStage = Math.max(0, Math.min(8, Math.round(Number(stage) || 0)));
+  const openingGates = new Set(GATE_OPENING_ORDER.slice(0, normalizedStage));
+  return Array.from({ length: 8 }, (_, index) => openingGates.has(index + 1) ? 100 : 0);
+}
+
+function classifyGatePattern(levels) {
+  if (!levels || levels.length !== 8) return null;
+  const normalized = Array.from(levels, level => Number(level));
+  if (normalized.some(level => level !== 0 && level !== 100)) return null;
+  for (let stage = 0; stage <= 8; stage += 1) {
+    const candidate = gatePatternForStage(stage);
+    if (candidate.every((level, index) => level === normalized[index])) return stage;
+  }
+  return null;
+}
+
 const GATE_PRESETS = Object.freeze({
-  closed: Object.freeze([false, false, false, false, false, false, false, false]),
-  west: Object.freeze([true, true, false, false, false, false, false, false]),
-  middle: Object.freeze([false, false, false, true, true, false, false, false]),
-  east: Object.freeze([false, false, false, false, false, false, true, true]),
-  all: Object.freeze([true, true, true, true, true, true, true, true]),
+  closed: Object.freeze(gatePatternForStage(0)),
+  stage2: Object.freeze(gatePatternForStage(2)),
+  stage4: Object.freeze(gatePatternForStage(4)),
+  stage6: Object.freeze(gatePatternForStage(6)),
+  all: Object.freeze(gatePatternForStage(8)),
 });
 
 const byId = id => document.getElementById(id);
@@ -80,6 +99,15 @@ const elements = Object.freeze({
   metricOnga: byId('metric-onga'),
   metricSpeed: byId('metric-speed'),
   gateSummaryBadge: byId('gate-summary-badge'),
+  gateModeAuto: byId('gate-mode-auto'),
+  gateModeField: byId('gate-mode-field'),
+  gateAutoStage: byId('gate-auto-stage'),
+  gateDelta: byId('gate-delta'),
+  gateStandardStatus: byId('gate-standard-status'),
+  gateFieldInputs: byId('gate-field-inputs'),
+  gateSource: byId('gate-source'),
+  gateObservedAt: byId('gate-observed-at'),
+  gateReturnAuto: byId('gate-return-auto'),
   gateDetail: byId('gate-detail'),
   gateMapButton: byId('gate-map-button'),
   mapGateLabel: byId('map-gate-label'),
@@ -120,7 +148,10 @@ const state = {
   arrows: true,
   markers: true,
   selectedCell: null,
+  gateInputMode: 'auto',
   gateObservation: null,
+  gateObservationSource: '現地目視',
+  gateObservedAt: '',
   playing: false,
   playTimer: null,
   loadController: null,
@@ -144,51 +175,185 @@ function formatNumber(value, digits, suffix = '') {
   return Number.isFinite(value) ? value.toFixed(digits) + suffix : '—';
 }
 
-function openGateNumbers() {
-  if (!state.gateObservation) return [];
-  return state.gateObservation.flatMap((open, index) => open ? [index + 1] : []);
+function automaticGateStage() {
+  if (!state.data) return null;
+  const fraction = state.data.inputs.barrageOpeningFraction[state.snapshotIndex];
+  return clamp(Math.round(clamp(fraction, 0, 1) * 8), 0, 8);
+}
+
+function automaticGatePattern() {
+  const stage = automaticGateStage();
+  return stage === null ? null : gatePatternForStage(stage);
+}
+
+function effectiveGatePattern() {
+  if (state.gateInputMode === 'field' && state.gateObservation) return state.gateObservation;
+  return automaticGatePattern();
+}
+
+function openGateNumbers(levels = effectiveGatePattern()) {
+  if (!levels) return [];
+  return Array.from(levels).flatMap((level, index) => Number(level) > 0 ? [index + 1] : []);
+}
+
+function gatePatternLabel(levels, compact = false) {
+  if (!levels) return '推定待ち';
+  const open = openGateNumbers(levels);
+  if (open.length === 0) return compact ? '全閉' : '全閉・0/8門';
+  if (open.length === 8) return compact ? '全開' : '全開・8/8門';
+  return compact ? open.join('・') + '番開' : open.length + '/8門開';
 }
 
 function gateObservationLabel(compact = false) {
-  if (!state.gateObservation) return '未入力';
-  const open = openGateNumbers();
-  if (open.length === 0) return compact ? '全閉' : '全閉・0/8門';
-  if (open.length === 8) return compact ? '全開' : '全開・8/8門';
-  return compact ? open.join('・') + '番開' : '個別・' + open.length + '/8門';
+  const automaticStage = automaticGateStage();
+  if (state.gateInputMode === 'auto') {
+    return automaticStage === null ? '自動推定待ち' : compact ? '自動・段階' + automaticStage : '自動推定・段階' + automaticStage + '/8';
+  }
+  const stage = classifyGatePattern(state.gateObservation);
+  return stage === null ? '現地・標準順序外' : compact ? '現地・段階' + stage : '現地入力・段階' + stage + '/8';
+}
+
+function localDateTimeValue(date = new Date()) {
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+function observedAtLabel(value) {
+  if (!value) return '時刻未入力';
+  return value.replace('T', ' ');
+}
+
+function differingGateNumbers(first, second) {
+  if (!first || !second) return [];
+  return Array.from({ length: 8 }, (_, index) => index + 1)
+    .filter(gateNumber => Number(first[gateNumber - 1]) !== Number(second[gateNumber - 1]));
+}
+
+function syncMapAriaLabel() {
+  if (!state.data) return;
+  const snapshot = state.data.snapshot(state.snapshotIndex);
+  const view = VIEW_SPECS[state.viewId];
+  elements.canvas.setAttribute(
+    'aria-label',
+    view.label + 'の' + (state.layer === 'speed' ? '流速' : '水深') + '地図、' + formatHour(snapshot.hour)
+      + '。合成データで物理予測ではありません。開門入力は' + gateObservationLabel(true)
+      + 'ですがStage 20物理solver・応答packへ未接続で、流れの図には未反映です。主水門は提供中心ごとに46.5m幅で、魚道は別構造です。Enterキーで中央地点を選択できます。',
+  );
 }
 
 function syncGateInterface() {
-  const recorded = state.gateObservation !== null;
-  const open = openGateNumbers();
+  const isField = state.gateInputMode === 'field';
+  const automaticStage = automaticGateStage();
+  const automaticPattern = automaticGatePattern();
+  const effectivePattern = effectiveGatePattern();
+  const open = openGateNumbers(effectivePattern);
+  const fieldStage = isField ? classifyGatePattern(state.gateObservation) : null;
+  const differing = isField ? differingGateNumbers(state.gateObservation, automaticPattern) : [];
+  const hasPattern = effectivePattern !== null;
+
   elements.gateSummaryBadge.textContent = gateObservationLabel(false);
-  elements.gateSummaryBadge.classList.toggle('has-input', recorded);
+  elements.gateSummaryBadge.classList.toggle('has-input', isField);
+  elements.gateSummaryBadge.classList.toggle('is-auto', !isField);
+  elements.gateSummaryBadge.classList.toggle('is-warning', isField && fieldStage === null);
+  elements.gateFieldInputs.hidden = !isField;
+  elements.gateReturnAuto.disabled = !isField;
+
+  for (const button of document.querySelectorAll('[data-gate-mode]')) {
+    const active = button.dataset.gateMode === state.gateInputMode;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+
+  if (elements.gateSource.value !== state.gateObservationSource) {
+    elements.gateSource.value = state.gateObservationSource;
+  }
+  if (elements.gateObservedAt.value !== state.gateObservedAt) {
+    elements.gateObservedAt.value = state.gateObservedAt;
+  }
+
   for (const button of document.querySelectorAll('[data-gate]')) {
     const gateIndex = Number(button.dataset.gate);
-    const isOpen = recorded && state.gateObservation[gateIndex];
-    button.classList.toggle('is-unset', !recorded);
-    button.classList.toggle('is-open', Boolean(isOpen));
-    button.classList.toggle('is-closed', recorded && !isOpen);
-    button.setAttribute('aria-pressed', recorded ? String(Boolean(isOpen)) : 'mixed');
-    button.setAttribute('aria-label', (gateIndex + 1) + '番水門、' + (!recorded ? '未入力' : isOpen ? '開' : '閉'));
-    button.querySelector('small').textContent = !recorded ? '未' : isOpen ? '開' : '閉';
+    const isOpen = hasPattern && Number(effectivePattern[gateIndex]) > 0;
+    button.classList.toggle('is-unset', !hasPattern);
+    button.classList.toggle('is-open', hasPattern && isField && isOpen);
+    button.classList.toggle('is-auto-open', hasPattern && !isField && isOpen);
+    button.classList.toggle('is-closed', hasPattern && !isOpen);
+    button.setAttribute('aria-pressed', hasPattern ? String(isOpen) : 'mixed');
+    button.setAttribute(
+      'aria-label',
+      (gateIndex + 1) + '番水門、' + (!hasPattern ? '推定待ち' : isOpen ? '開100%' : '閉0%')
+        + (isField ? '、現地入力' : '、自動推定'),
+    );
+    button.querySelector('small').textContent = !hasPattern ? '—' : isOpen ? '開' : '閉';
   }
-  if (!recorded) {
-    elements.gateDetail.textContent = '未入力です。現地で開いている番号を選択してください。';
-  } else if (open.length === 0) {
-    elements.gateDetail.textContent = '現地入力：全閉（0/8門）。';
-  } else if (open.length === 8) {
-    elements.gateDetail.textContent = '現地入力：全開（8/8門）。';
+
+  if (automaticStage === null) {
+    elements.gateAutoStage.textContent = '推定待ち';
   } else {
-    elements.gateDetail.textContent = '現地入力：西側から ' + open.join('・') + '番開（' + open.length + '/8門）。';
+    const fraction = state.data.inputs.barrageOpeningFraction[state.snapshotIndex];
+    elements.gateAutoStage.textContent = '段階 ' + automaticStage + ' / 8（全体' + Math.round(fraction * 100) + '%）';
   }
-  elements.mapGateLabel.textContent = '現地入力：' + gateObservationLabel(true)
+
+  elements.gateDelta.textContent = !isField
+    ? '—（自動推定を使用）'
+    : differing.length === 0
+      ? '差なし（0門）'
+      : differing.join('・') + '番（' + differing.length + '門）';
+
+  elements.gateStandardStatus.classList.toggle('is-standard', isField && fieldStage !== null);
+  elements.gateStandardStatus.classList.toggle('is-warning', isField && fieldStage === null);
+  elements.gateStandardStatus.textContent = !isField
+    ? '自動推定を使用中'
+    : fieldStage === null
+      ? '標準順序外'
+      : '固定順序の段階 ' + fieldStage + ' / 8';
+
+  if (!hasPattern) {
+    elements.gateDetail.textContent = '自動推定の準備中です。';
+  } else if (!isField) {
+    elements.gateDetail.textContent = '自動推定：段階' + automaticStage + '/8。固定順序の先頭'
+      + automaticStage + '門を100%、残りを0%として表示しています。';
+  } else {
+    const pattern = gatePatternLabel(state.gateObservation, false);
+    const source = state.gateObservationSource || '入力元未指定';
+    elements.gateDetail.textContent = '現地入力：' + pattern
+      + (open.length > 0 && open.length < 8 ? '（' + open.join('・') + '番開）' : '')
+      + '。入力元：' + source + '／観測：' + observedAtLabel(state.gateObservedAt) + '。';
+  }
+
+  const mapModeLabel = !hasPattern
+    ? '自動推定：待機中'
+    : state.gateInputMode === 'auto'
+      ? '自動推定：段階' + automaticStage + '/8'
+      : fieldStage === null
+        ? '現地入力：標準順序外'
+        : '現地入力：段階' + fieldStage + '/8';
+  elements.mapGateLabel.textContent = mapModeLabel
     + '／主門46.5m×8・魚道別／流れの図には未反映';
+  syncMapAriaLabel();
+}
+
+function setGateMode(mode) {
+  if (mode !== 'auto' && mode !== 'field') return;
+  if (mode === 'field') {
+    state.gateObservation = state.gateObservation
+      ? Array.from(state.gateObservation)
+      : Array.from(automaticGatePattern() || gatePatternForStage(0));
+    if (!state.gateObservedAt) state.gateObservedAt = localDateTimeValue();
+  } else {
+    state.gateObservation = null;
+    state.gateObservedAt = '';
+  }
+  state.gateInputMode = mode;
+  syncGateInterface();
+  scheduleRender();
 }
 
 function setGateObservation(levels) {
-  state.gateObservation = levels === null ? null : Array.from({ length: 8 }, (_, index) => Boolean(levels[index]));
+  state.gateInputMode = 'field';
+  state.gateObservation = Array.from({ length: 8 }, (_, index) => Number(levels?.[index]) > 0 ? 100 : 0);
+  if (!state.gateObservedAt) state.gateObservedAt = localDateTimeValue();
   syncGateInterface();
-  if (state.data) syncInterface();
   scheduleRender();
 }
 
@@ -418,6 +583,11 @@ function prepareGeometry(data) {
       [center[0] + halfGateVector[0], center[1] + halfGateVector[1]],
     ]]);
     const barrageSegments = gateSegments.flat();
+    const fishwayCoordinateCenter = lonLatToWorld(
+      data.fishwayCenter.longitude,
+      data.fishwayCenter.latitude,
+      zoom,
+    );
     const fishwayPoints = Array.from(fishwayCells, cell => [
       projection.centres[cell * 2],
       projection.centres[cell * 2 + 1],
@@ -436,7 +606,7 @@ function prepareGeometry(data) {
       gateCenters,
       gateWidthM: data.metadata.mainGateWidthM,
       fishwayPoints,
-      fishwayCenter: averagePoints(fishwayPoints),
+      fishwayCenter: fishwayCoordinateCenter,
       confluenceCenter: imageToWorld(1168, 441, geographic, zoom),
     };
   }
@@ -726,14 +896,18 @@ function drawPointMarker(point, transform, colour, label, options = {}) {
   );
 }
 
-function drawGateInputBadge(point, transform, gateNumber, gateStatus) {
+function drawGateInputBadge(point, transform, gateNumber, gateStatus, inputMode) {
   const x = transform.x(point[0]);
   const lineY = transform.y(point[1]);
   const top = lineY - 50;
-  const fill = gateStatus === 'open' ? '#f4c65a' : gateStatus === 'closed' ? '#172a33' : '#27424d';
+  const fill = gateStatus === 'open'
+    ? inputMode === 'field' ? '#f4c65a' : '#57d8ed'
+    : gateStatus === 'closed' ? '#172a33' : '#27424d';
   const text = gateStatus === 'open' ? '#251900' : '#eef8fa';
   context.save();
-  context.strokeStyle = gateStatus === 'open' ? 'rgba(244, 198, 90, .88)' : 'rgba(213, 235, 240, .5)';
+  context.strokeStyle = gateStatus === 'open'
+    ? inputMode === 'field' ? 'rgba(244, 198, 90, .88)' : 'rgba(87, 216, 237, .88)'
+    : 'rgba(213, 235, 240, .5)';
   context.lineWidth = 1.5;
   context.beginPath();
   context.moveTo(x, top + 34);
@@ -756,13 +930,16 @@ function drawGateInputBadge(point, transform, gateNumber, gateStatus) {
 
 function renderGateInputOverlay(view, transform) {
   if (view.id !== 'barrage') return;
-  const recorded = state.gateObservation !== null;
-  if (recorded) {
+  const pattern = effectiveGatePattern();
+  const hasPattern = pattern !== null;
+  if (hasPattern) {
     context.save();
     context.lineCap = 'round';
     context.lineWidth = 6;
     for (let gateIndex = 0; gateIndex < 8; gateIndex += 1) {
-      context.strokeStyle = state.gateObservation[gateIndex] ? '#f4c65a' : '#243b45';
+      context.strokeStyle = Number(pattern[gateIndex]) > 0
+        ? state.gateInputMode === 'field' ? '#f4c65a' : '#57d8ed'
+        : '#243b45';
       context.beginPath();
       for (const segment of view.special.gateSegments[gateIndex]) {
         context.moveTo(transform.x(segment[0][0]), transform.y(segment[0][1]));
@@ -773,8 +950,8 @@ function renderGateInputOverlay(view, transform) {
     context.restore();
   }
   for (let gateIndex = 0; gateIndex < 8; gateIndex += 1) {
-    const status = !recorded ? 'unset' : state.gateObservation[gateIndex] ? 'open' : 'closed';
-    drawGateInputBadge(view.special.gateCenters[gateIndex], transform, gateIndex + 1, status);
+    const status = !hasPattern ? 'unset' : Number(pattern[gateIndex]) > 0 ? 'open' : 'closed';
+    drawGateInputBadge(view.special.gateCenters[gateIndex], transform, gateIndex + 1, status, state.gateInputMode);
   }
 }
 
@@ -798,22 +975,11 @@ function renderMarkers(view, transform) {
     drawPointMarker(view.special.confluenceCenter, transform, '#ed6f9f', '曲川・遠賀川合流部');
   }
   if (state.markers && view.marks.includes('fishway')) {
-    if (view.id === 'barrage') {
-      drawPointMarker(view.special.fishwayCenter, transform, '#bd82d7', '魚道', {
-        labelOffsetX: -10,
-        labelOffsetY: 16,
-        labelAlign: 'right',
-      });
-    } else {
-      for (let index = 0; index < view.special.fishwayPoints.length; index += 1) {
-        drawPointMarker(
-          view.special.fishwayPoints[index],
-          transform,
-          '#f4c65a',
-          index === 0 ? '魚道・上流側' : '魚道・河口側',
-        );
-      }
-    }
+    drawPointMarker(view.special.fishwayCenter, transform, '#bd82d7', '魚道（提供座標）', {
+      labelOffsetX: -10,
+      labelOffsetY: 16,
+      labelAlign: 'right',
+    });
   }
   renderGateInputOverlay(view, transform);
 }
@@ -929,6 +1095,7 @@ function syncInterface() {
   elements.metricBarrage.textContent = Math.round(inputs.barrageOpeningFraction[state.snapshotIndex] * 100) + '% 開';
   elements.metricOnga.textContent = Math.round(inputs.ongaDischargeM3S[state.snapshotIndex]) + ' m³/s';
   elements.metricSpeed.textContent = formatNumber(currentMaximum, 2, ' m/s');
+  syncGateInterface();
   elements.mapViewLabel.textContent = view.label;
   elements.mapTimeLabel.textContent = formatHour(hour);
   elements.timelineCurrent.textContent = formatHour(hour, true);
@@ -952,12 +1119,6 @@ function syncInterface() {
   elements.detailPack.textContent = state.data.metadata.responsePackVersion;
   elements.detailTiming.textContent = formatNumber(state.data.timingsMs.synthesis, 1, ' ms');
   updateSelection(snapshot);
-  elements.canvas.setAttribute(
-    'aria-label',
-    view.label + 'の' + (state.layer === 'speed' ? '流速' : '水深') + '地図、' + formatHour(hour)
-      + '。合成データで物理予測ではありません。現地水門は' + gateObservationLabel(true)
-      + 'ですが流れの図には未反映です。主水門は提供中心ごとに46.5m幅で、魚道は別構造です。Enterキーで中央地点を選択できます。',
-  );
   for (const button of document.querySelectorAll('[data-layer]')) {
     const active = button.dataset.layer === state.layer;
     button.classList.toggle('active', active);
@@ -1070,18 +1231,29 @@ function bindEvents() {
   elements.play.addEventListener('click', togglePlayback);
   elements.retry.addEventListener('click', loadApplication);
   elements.canvas.addEventListener('click', selectMapCell);
+  elements.gateModeAuto.addEventListener('click', () => setGateMode('auto'));
+  elements.gateModeField.addEventListener('click', () => setGateMode('field'));
+  elements.gateSource.addEventListener('change', () => {
+    state.gateObservationSource = elements.gateSource.value;
+    syncGateInterface();
+  });
+  elements.gateObservedAt.addEventListener('input', () => {
+    state.gateObservedAt = elements.gateObservedAt.value;
+    syncGateInterface();
+  });
+  elements.gateReturnAuto.addEventListener('click', () => setGateMode('auto'));
   for (const button of document.querySelectorAll('[data-gate]')) {
     button.addEventListener('click', () => {
-      const levels = state.gateObservation ? [...state.gateObservation] : Array(8).fill(false);
+      const levels = Array.from(effectiveGatePattern() || gatePatternForStage(0));
       const gateIndex = Number(button.dataset.gate);
-      levels[gateIndex] = !levels[gateIndex];
+      levels[gateIndex] = Number(levels[gateIndex]) > 0 ? 0 : 100;
       setGateObservation(levels);
     });
   }
   for (const button of document.querySelectorAll('[data-gate-preset]')) {
     button.addEventListener('click', () => {
       const preset = button.dataset.gatePreset;
-      setGateObservation(preset === 'clear' ? null : GATE_PRESETS[preset]);
+      setGateObservation(GATE_PRESETS[preset]);
     });
   }
   elements.gateMapButton.addEventListener('click', () => {

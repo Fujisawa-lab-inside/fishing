@@ -61,13 +61,51 @@
           <div class="section-heading compact gate-heading">
             <div>
               <p class="section-kicker">FIELD GATES</p>
-              <h2 id="gate-input-title">現地の開門入力</h2>
+              <h2 id="gate-input-title">河口堰の開門入力</h2>
             </div>
-            <span class="gate-summary-badge" id="gate-summary-badge">未入力</span>
+            <span class="gate-summary-badge" id="gate-summary-badge">自動推定：待機中</span>
           </div>
           <div class="gate-contract">
-            <span>入力メモ</span>
-            <strong>流れの図には未反映</strong>
+            <span>画面内の入力候補</span>
+            <strong>物理solver・応答packとは未接続／流れの図には未反映</strong>
+          </div>
+          <div class="gate-mode-switch" role="group" aria-label="開門入力モード">
+            <button type="button" id="gate-mode-auto" data-gate-mode="auto" class="active" aria-pressed="true">
+              <strong>自動推定</strong>
+              <small>全体段階 0〜8</small>
+            </button>
+            <button type="button" id="gate-mode-field" data-gate-mode="field" aria-pressed="false">
+              <strong>現地目視入力</strong>
+              <small>1〜8番を個別上書き</small>
+            </button>
+          </div>
+          <div class="gate-status-grid" aria-live="polite">
+            <div>
+              <span>自動推定値</span>
+              <strong id="gate-auto-stage">推定待ち</strong>
+            </div>
+            <div>
+              <span>自動との差</span>
+              <strong id="gate-delta">—</strong>
+            </div>
+            <div class="gate-standard-cell">
+              <span>入力パターン</span>
+              <strong id="gate-standard-status">自動推定を使用</strong>
+            </div>
+          </div>
+          <div class="gate-field-inputs" id="gate-field-inputs" hidden>
+            <label>
+              <span>入力元</span>
+              <select id="gate-source">
+                <option value="現地目視">現地目視</option>
+                <option value="現地連絡">現地からの連絡</option>
+                <option value="点検記録">点検記録</option>
+              </select>
+            </label>
+            <label>
+              <span>観測時刻</span>
+              <input id="gate-observed-at" type="datetime-local">
+            </label>
           </div>
           <div class="gate-axis" aria-hidden="true">
             <span>西</span><span>1 → 8</span><span>東</span>
@@ -83,15 +121,15 @@
             <button type="button" class="gate-button is-unset" data-gate="7" aria-pressed="mixed" aria-label="8番水門、未入力"><strong>8</strong><small>未</small></button>
           </div>
           <div class="gate-presets" role="group" aria-label="水門入力プリセット">
-            <button type="button" data-gate-preset="closed">全閉</button>
-            <button type="button" data-gate-preset="west">西1–2</button>
-            <button type="button" data-gate-preset="middle">中央4–5</button>
-            <button type="button" data-gate-preset="east">東7–8</button>
-            <button type="button" data-gate-preset="all">全開</button>
-            <button type="button" data-gate-preset="clear">入力解除</button>
+            <button type="button" data-gate-preset="closed">段階0・全閉</button>
+            <button type="button" data-gate-preset="stage2">段階2</button>
+            <button type="button" data-gate-preset="stage4">段階4</button>
+            <button type="button" data-gate-preset="stage6">段階6</button>
+            <button type="button" data-gate-preset="all">段階8・全開</button>
           </div>
-          <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">未入力です。現地で開いている番号を選択してください。</p>
-          <p class="gate-disclaimer">この入力はこの画面限りで、再読み込みすると解除されます。番号中心は提供緯度経度、色付き区間は各46.5mの主水門です。魚道は1〜8番に含めません。流速・水深・表示時刻とは連動しません。</p>
+          <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">自動推定の準備中です。</p>
+          <button type="button" class="gate-return-button" id="gate-return-auto" disabled>現地入力を解除して自動推定へ戻す</button>
+          <p class="gate-disclaimer">自動推定は全体の開門段階0〜8を、固定順序 5→4→6→3→7→2→8→1 に従う各門0%／100%へ変換します。現地目視入力は自動推定を明示的に上書きし、固定9状態に一致しなければ「標準順序外」と警告します。この入力は画面限りです。番号中心は提供緯度経度、色付き区間は各46.5mの主水門です。魚道は1〜8番に含めません。Stage 20物理solver・応答packへは接続せず、流速・水深・流れの図には未反映です。</p>
           <button type="button" class="gate-map-button" id="gate-map-button">河口堰を地図で確認</button>
         </section>
 
@@ -182,7 +220,7 @@
           <div class="map-hud top-left">
             <span class="hud-label" id="map-view-label">河口全域</span>
             <strong id="map-time-label">現在相当・0時間</strong>
-            <small id="map-gate-label">現地入力：未入力／主門46.5m×8・魚道別／流れの図には未反映</small>
+            <small id="map-gate-label">自動推定：待機中／主門46.5m×8・魚道別／流れの図には未反映</small>
           </div>
           <div class="map-hud top-right warning-hud">
             <span class="warning-dot"></span>

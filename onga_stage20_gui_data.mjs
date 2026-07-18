@@ -146,19 +146,30 @@ export async function loadStage20GuiData(options = {}) {
   const gateFeatures = gateGeometry?.features
     ?.filter(feature => feature?.properties?.kind === 'gate_center')
     .sort((left, right) => left.properties.gate_no - right.properties.gate_no);
+  const fishwayFeatures = gateGeometry?.features
+    ?.filter(feature => feature?.properties?.kind === 'fishway_center');
   assert(gateGeometry?.type === 'FeatureCollection', 'gate geometry must be GeoJSON');
   assert(gateFeatures?.length === 8, 'gate geometry must contain eight provided centres');
+  assert(fishwayFeatures?.length === 1, 'gate geometry must contain one provided fishway centre');
   assert(gateFeatures.every((feature, index) => feature.properties.gate_no === index + 1), 'provided gate numbers must be 1 through 8');
   assert(gateFeatures.every(feature => feature.geometry?.type === 'Point'
     && feature.geometry.coordinates.length === 2
     && feature.geometry.coordinates.every(Number.isFinite)), 'provided gate coordinate is invalid');
   assert(gateFeatures.every((feature, index) => index === 0
     || feature.geometry.coordinates[0] > gateFeatures[index - 1].geometry.coordinates[0]), 'provided gate coordinates must run west to east');
+  const fishwayFeature = fishwayFeatures[0];
+  assert(fishwayFeature.geometry?.type === 'Point'
+    && fishwayFeature.geometry.coordinates.length === 2
+    && fishwayFeature.geometry.coordinates.every(Number.isFinite), 'provided fishway coordinate is invalid');
   const gateCenters = Object.freeze(gateFeatures.map(feature => Object.freeze({
     gate: feature.properties.gate_no,
     longitude: feature.geometry.coordinates[0],
     latitude: feature.geometry.coordinates[1],
   })));
+  const fishwayCenter = Object.freeze({
+    longitude: fishwayFeature.geometry.coordinates[0],
+    latitude: fishwayFeature.geometry.coordinates[1],
+  });
 
   options.onProgress?.('synthesis');
   const workerResult = await runSynthesisWorker({
@@ -221,12 +232,14 @@ export async function loadStage20GuiData(options = {}) {
       gateGeometrySha256: EXPECTED_GATE_GEOMETRY_SHA256,
       mainGateWidthM: PUBLISHED_MAIN_GATE_WIDTH_M,
       mainGateWidthSourceId: MAIN_GATE_WIDTH_SOURCE_ID,
+      fishwayPositionSource: 'user_provided_coordinate',
     }),
     mesh,
     responseManifest: Object.freeze(responseManifest),
     inputs: displayInputs,
     waterManifest: Object.freeze(waterManifest),
     gateCenters,
+    fishwayCenter,
     diagnostics: Object.freeze(workerResult.diagnostics),
     timingsMs: Object.freeze(workerResult.timingsMs),
     snapshot,

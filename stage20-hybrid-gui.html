@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07141d">
+  <title>遠賀川フロービュー｜GUI試作</title>
+  <link rel="stylesheet" href="./stage20-hybrid-gui.css">
+</head>
+<body>
+  <div class="app-shell" id="app-shell" data-phase="loading">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div>
+          <p class="eyebrow">ONGA RIVER · FLOW VIEW</p>
+          <h1>遠賀川フロービュー</h1>
+        </div>
+      </div>
+      <div class="topbar-status">
+        <span class="demo-badge">GUI試作</span>
+        <span class="source-badge" aria-label="合成データ。物理予測ではありません"><i></i> 合成データ／非予測</span>
+        <span class="load-status" id="load-status" role="status" aria-live="polite">読み込み中</span>
+      </div>
+    </header>
+
+    <main class="workspace" id="workspace">
+      <aside class="control-panel" id="control-panel" aria-label="表示設定">
+        <section class="panel-card intro-card">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">CURRENT FRAME</p>
+              <h2 id="side-time">現在相当・0時間</h2>
+            </div>
+            <span class="frame-count" id="frame-count">13 / 37</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric-item">
+              <span>相対潮位</span>
+              <strong id="metric-tide">—</strong>
+            </div>
+            <div class="metric-item">
+              <span>河口堰（合成開度）</span>
+              <strong id="metric-barrage">—</strong>
+            </div>
+            <div class="metric-item">
+              <span>遠賀川流量</span>
+              <strong id="metric-onga">—</strong>
+            </div>
+            <div class="metric-item">
+              <span>最大流速</span>
+              <strong id="metric-speed">—</strong>
+            </div>
+          </div>
+          <p class="synthetic-note">画面・操作の確認用に生成した値です。観測値や物理予測ではありません。</p>
+        </section>
+
+        <section class="panel-card gate-card" id="gate-input-card" aria-labelledby="gate-input-title">
+          <div class="section-heading compact gate-heading">
+            <div>
+              <p class="section-kicker">FIELD GATES</p>
+              <h2 id="gate-input-title">河口堰の開門入力</h2>
+            </div>
+            <span class="gate-summary-badge" id="gate-summary-badge">自動推定：待機中</span>
+          </div>
+          <div class="gate-contract">
+            <span>画面内の入力候補</span>
+            <strong>物理solver・応答packとは未接続／流れの図には未反映</strong>
+          </div>
+          <div class="gate-mode-switch" role="group" aria-label="開門入力モード">
+            <button type="button" id="gate-mode-auto" data-gate-mode="auto" class="active" aria-pressed="true">
+              <strong>自動推定</strong>
+              <small>全体段階 0〜8</small>
+            </button>
+            <button type="button" id="gate-mode-field" data-gate-mode="field" aria-pressed="false">
+              <strong>現地目視入力</strong>
+              <small>1〜8番を個別上書き</small>
+            </button>
+          </div>
+          <div class="gate-status-grid" aria-live="polite">
+            <div>
+              <span>自動推定値</span>
+              <strong id="gate-auto-stage">推定待ち</strong>
+            </div>
+            <div>
+              <span>自動との差</span>
+              <strong id="gate-delta">—</strong>
+            </div>
+            <div class="gate-standard-cell">
+              <span>入力パターン</span>
+              <strong id="gate-standard-status">自動推定を使用</strong>
+            </div>
+          </div>
+          <div class="gate-field-inputs" id="gate-field-inputs" hidden>
+            <label>
+              <span>入力元</span>
+              <select id="gate-source">
+                <option value="現地目視">現地目視</option>
+                <option value="現地連絡">現地からの連絡</option>
+                <option value="点検記録">点検記録</option>
+              </select>
+            </label>
+            <label>
+              <span>観測時刻</span>
+              <input id="gate-observed-at" type="datetime-local">
+            </label>
+          </div>
+          <div class="gate-axis" aria-hidden="true">
+            <span>西</span><span>1 → 8</span><span>東</span>
+          </div>
+          <div class="gate-buttons" role="group" aria-label="西側から1番から8番の水門">
+            <button type="button" class="gate-button is-unset" data-gate="0" aria-pressed="mixed" aria-label="1番水門、未入力"><strong>1</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="1" aria-pressed="mixed" aria-label="2番水門、未入力"><strong>2</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="2" aria-pressed="mixed" aria-label="3番水門、未入力"><strong>3</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="3" aria-pressed="mixed" aria-label="4番水門、未入力"><strong>4</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="4" aria-pressed="mixed" aria-label="5番水門、未入力"><strong>5</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="5" aria-pressed="mixed" aria-label="6番水門、未入力"><strong>6</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="6" aria-pressed="mixed" aria-label="7番水門、未入力"><strong>7</strong><small>未</small></button>
+            <button type="button" class="gate-button is-unset" data-gate="7" aria-pressed="mixed" aria-label="8番水門、未入力"><strong>8</strong><small>未</small></button>
+          </div>
+          <div class="gate-presets" role="group" aria-label="水門入力プリセット">
+            <button type="button" data-gate-preset="closed">段階0・全閉</button>
+            <button type="button" data-gate-preset="stage2">段階2</button>
+            <button type="button" data-gate-preset="stage4">段階4</button>
+            <button type="button" data-gate-preset="stage6">段階6</button>
+            <button type="button" data-gate-preset="all">段階8・全開</button>
+          </div>
+          <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">自動推定の準備中です。</p>
+          <button type="button" class="gate-return-button" id="gate-return-auto" disabled>現地入力を解除して自動推定へ戻す</button>
+          <p class="gate-disclaimer">自動推定は全体の開門段階0〜8を、固定順序 5→4→6→3→7→2→8→1 に従う各門0%／100%へ変換します。現地目視入力は自動推定を明示的に上書きし、固定9状態に一致しなければ「標準順序外」と警告します。この入力は画面限りです。番号中心は提供緯度経度、色付き区間は各46.5mの主水門です。魚道は1〜8番に含めません。Stage 20物理solver・応答packへは接続せず、流速・水深・流れの図には未反映です。</p>
+          <button type="button" class="gate-map-button" id="gate-map-button">河口堰を地図で確認</button>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">LAYER</p>
+              <h2>地図の色</h2>
+            </div>
+          </div>
+          <div class="segmented-control" role="group" aria-label="表示レイヤー">
+            <button class="segment-button active" type="button" data-layer="speed" aria-pressed="true">
+              <span class="layer-icon speed-icon" aria-hidden="true"></span>
+              流速
+            </button>
+            <button class="segment-button" type="button" data-layer="depth" aria-pressed="false">
+              <span class="layer-icon depth-icon" aria-hidden="true"></span>
+              水深
+            </button>
+          </div>
+          <label class="switch-row">
+            <span>
+              <strong>流向の矢印</strong>
+              <small>水深×セル面積でまとめて表示</small>
+            </span>
+            <input id="arrow-toggle" type="checkbox" checked>
+            <i class="switch" aria-hidden="true"></i>
+          </label>
+          <label class="switch-row">
+            <span>
+              <strong>地物ラベル</strong>
+              <small>河口堰・魚道・合流部</small>
+            </span>
+            <input id="marker-toggle" type="checkbox" checked>
+            <i class="switch" aria-hidden="true"></i>
+          </label>
+        </section>
+
+        <section class="panel-card selected-card" aria-live="polite">
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">SELECTED POINT</p>
+              <h2>地点の値</h2>
+            </div>
+            <span class="cell-id" id="selected-cell-id">未選択</span>
+          </div>
+          <p class="empty-selection" id="empty-selection">地図をクリックまたはタップすると、その地点の値を確認できます。</p>
+          <div class="selected-values" id="selected-values" hidden>
+            <div><span>流速</span><strong id="selected-speed">—</strong></div>
+            <div><span>水深</span><strong id="selected-depth">—</strong></div>
+            <div><span>流向</span><strong id="selected-direction">—</strong></div>
+          </div>
+        </section>
+
+        <details class="panel-card detail-card">
+          <summary>データと検証情報</summary>
+          <dl>
+            <div><dt>メッシュ</dt><dd>v2 / 50,199セル</dd></div>
+            <div><dt>時刻</dt><dd>−12〜+24時間 / 1時間間隔</dd></div>
+            <div><dt>応答パック</dt><dd id="detail-pack">読み込み中</dd></div>
+            <div><dt>合成時間</dt><dd id="detail-timing">—</dd></div>
+          </dl>
+        </details>
+      </aside>
+
+      <section class="map-section" id="map-section" aria-label="流れの地図">
+        <nav class="view-tabs" aria-label="表示範囲">
+          <button type="button" class="view-tab active" data-view="estuary" aria-pressed="true">
+            <span>01</span>河口全域
+          </button>
+          <button type="button" class="view-tab" data-view="barrage" aria-pressed="false">
+            <span>02</span>河口堰
+          </button>
+          <button type="button" class="view-tab" data-view="confluence" aria-pressed="false">
+            <span>03</span>合流部
+          </button>
+          <button type="button" class="view-tab" data-view="fishway" aria-pressed="false">
+            <span>04</span>魚道
+          </button>
+        </nav>
+
+        <div class="map-frame" id="map-frame">
+          <canvas id="flow-map" tabindex="0" aria-keyshortcuts="Enter ArrowLeft ArrowRight Space" aria-label="合成流れデータの地図。読み込み中です。">
+            お使いのブラウザでは地図を表示できません。
+          </canvas>
+
+          <div class="map-shade" aria-hidden="true"></div>
+          <div class="map-hud top-left">
+            <span class="hud-label" id="map-view-label">河口全域</span>
+            <strong id="map-time-label">現在相当・0時間</strong>
+            <small id="map-gate-label">自動推定：待機中／主門46.5m×8・魚道別／流れの図には未反映</small>
+          </div>
+          <div class="map-hud top-right warning-hud">
+            <span class="warning-dot"></span>
+            物理予測ではありません
+          </div>
+
+          <div class="map-legend" id="map-legend" aria-label="凡例">
+            <div class="legend-head">
+              <span id="legend-title">流速</span>
+              <strong id="legend-max">— m/s</strong>
+            </div>
+            <div class="legend-gradient speed-gradient" id="legend-gradient"></div>
+            <div class="legend-scale"><span id="legend-min">0</span><span>表示上限</span></div>
+            <p>白い矢印：流れの向き</p>
+          </div>
+
+          <div class="map-overlay" id="map-overlay" role="status" aria-live="polite" aria-atomic="true">
+            <div class="loader" aria-hidden="true"><span></span><span></span><span></span></div>
+            <strong id="overlay-title">表示データを準備しています</strong>
+            <p id="overlay-message">メッシュと合成データを確認中です。</p>
+            <button type="button" id="retry-button" hidden>もう一度読み込む</button>
+          </div>
+        </div>
+
+        <div class="timeline-dock" aria-label="時刻操作">
+          <div class="playback-controls">
+            <button type="button" class="icon-button" id="previous-button" aria-label="1時間戻る">−1h</button>
+            <button type="button" class="play-button" id="play-button" aria-label="再生">
+              <span class="play-symbol" aria-hidden="true"></span>
+              <span id="play-label">再生</span>
+            </button>
+            <button type="button" class="icon-button" id="next-button" aria-label="1時間進む">+1h</button>
+            <button type="button" class="now-button" id="now-button">0時間へ</button>
+          </div>
+          <div class="timeline-control">
+            <div class="timeline-caption">
+              <span>12時間前</span>
+              <strong id="timeline-current">0時間</strong>
+              <span>24時間後</span>
+            </div>
+            <input id="time-slider" type="range" min="0" max="36" value="12" step="1" aria-label="表示時刻" aria-valuetext="現在相当・0時間">
+            <div class="timeline-track-labels" aria-hidden="true">
+              <span>−12</span><span>−6</span><span>0</span><span>+6</span><span>+12</span><span>+18</span><span>+24</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="./onga_stage20_gui.mjs"></script>
+</body>
+</html>

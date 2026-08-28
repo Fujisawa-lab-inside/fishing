@@ -111,6 +111,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "fractional_flux_guard",
         "signed_flux_adapter",
         "operational_control",
+        "barrage_interface_roles",
         "initial_all_closed_state",
         "candidate_mesh",
         "candidate_fields",

@@ -23,8 +23,12 @@ class MicroAdjustmentGateReadinessTest(unittest.TestCase):
         facts = self.payload["officialFacts"]
         self.assertTrue(facts["facilityIsSeparateFromMainGatesAndFishway"])
         self.assertEqual((facts["count"], facts["widthM"], facts["heightM"]), (1, 10.0, 2.8))
+        self.assertEqual(facts["gateType"], "OIL_HYDRAULIC_TILTING_GATE")
         self.assertEqual(facts["operationBandM3S"], [2.0, 24.0])
         self.assertTrue(all(url.startswith("https://www.qsr.mlit.go.jp/") for url in facts["sourceUrls"]))
+        review = facts["publicSourceReview"]
+        self.assertFalse(review["publishedGateOpeningToDischargeRatingFound"])
+        self.assertIn("vertical-sluice", review["safeInterpretation"])
 
     def test_bound_38_flow_requires_a8_and_micro_effects(self):
         scenario = self.payload["boundScenario"]

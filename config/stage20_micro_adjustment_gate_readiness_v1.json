@@ -7,12 +7,18 @@
     "count": 1,
     "widthM": 10.0,
     "heightM": 2.8,
+    "gateType": "OIL_HYDRAULIC_TILTING_GATE",
     "operationBandM3S": [2.0, 24.0],
     "operationAtBoundScenario": "FULLY_OPEN_WHILE_REGULATING_MAIN_GATE_IS_DRIVEN",
     "sourceUrls": [
       "https://www.qsr.mlit.go.jp/content/900002350.pdf",
       "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki_pamphlet.pdf"
-    ]
+    ],
+    "publicSourceReview": {
+      "reviewedAtJstDate": "2026-08-28",
+      "publishedGateOpeningToDischargeRatingFound": false,
+      "safeInterpretation": "A generic vertical-sluice underflow formula is not justified. A physical law requires at least the tilting crest position or angle, crest elevation, upstream and downstream levels, submergence regime, and an evidenced coefficient."
+    }
   },
   "boundScenario": {
     "forcingByBoundaryM3S": {"N": 2.0, "O": 35.0, "G": 1.0},
@@ -69,7 +75,7 @@
   "requiredBeforeLocalSolverConnection": [
     "Create a tracked canonical adapter and contract from the approved aggregation concept without binding any untracked legacy file.",
     "Re-audit that O is upstream of the barrage and N/G are downstream for the current regularized mesh and 38 m3/s forcing.",
-    "Replace the legacy fixed 24 m3/s cap rule with an explicit, reviewable head-discharge or bounded operational law; do not infer discharge from gate width alone.",
+    "Replace the legacy fixed 24 m3/s cap rule with an explicit, reviewable tilting-gate overflow/submergence law or an observed rating; do not infer discharge from gate width alone and do not substitute a generic vertical-sluice underflow law.",
     "Require equal-and-opposite mass transfer, donor-available-volume limiting, adverse-head smooth shutdown, zero injected horizontal momentum, and separate fishway/micro telemetry.",
     "Pass pure-function tests, a zero-step context test, and one local one-step mass-conservation test before any duration run.",
     "Keep A8 and micro-gate commands independently observable and reject any double counting."

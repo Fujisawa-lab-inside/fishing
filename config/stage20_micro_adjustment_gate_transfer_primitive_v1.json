@@ -21,7 +21,7 @@
   "binding": {
     "readiness": {
       "path": "config/stage20_micro_adjustment_gate_readiness_v1.json",
-      "sha256": "39163c939b79bc78132e3a560ce270bfca568e9dfcf46c61ad43a083715508b1"
+      "sha256": "c6e8c5e30deaacfd43fbeab3cc8022daf4a68961d7aae4d61ba0cd2e4458933e"
     }
   },
   "decisionBoundary": {

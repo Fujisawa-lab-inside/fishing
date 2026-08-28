@@ -1,0 +1,113 @@
+{
+  "schema": "onga-stage20-regularized-a8-micro-interaction-local-v1",
+  "status": "USER_DIRECTED_RESUME_SPARSE_LOCAL_INTERACTION_NOT_PHYSICAL",
+  "userDirection": {
+    "exactText": "作業しないの？",
+    "receivedAtJstDate": "2026-08-29",
+    "interpretedScope": "resume the previously proposed six-case local A8-by-micro interaction diagnostic"
+  },
+  "scope": {
+    "newA8TargetCapacityGrid": [0.5, 1.0],
+    "microCommandGridM3S": [0.0, 12.0, 24.0],
+    "newCaseCount": 6,
+    "reusedA8ZeroCaseCount": 3,
+    "durationSeconds": 60.0,
+    "a8RampSeconds": 30.0,
+    "a8HoldSeconds": 30.0,
+    "forcingStartModelSeconds": 0.0,
+    "initialState": "regularized_multizone_candidate",
+    "allNonA8MainGateCapacity": 0.0,
+    "fishwayDischargeM3S": 0.0,
+    "operatorSplit": "direction-guarded hydrodynamic step first, then conservative micro source over the exact accepted time step",
+    "physicalMeaning": "uncalibrated sparse numerical interaction screening; neither A8 target nor micro Q is an adopted operating law"
+  },
+  "acceptance": {
+    "oneStepMustPassBeforeDuration": true,
+    "simulatedSecondsExactly": 60.0,
+    "maximumCfl": 0.120000000001,
+    "maximumRelativeMassBalanceError": 1e-10,
+    "maximumAbsoluteSourceMassResidualM3S": 1e-12,
+    "maximumAbsoluteDiscreteSourceVolumeResidualM3": 1e-9,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "qZeroSourceBitExactEachStep": true,
+    "activeA8GateNetReverseFlowAllowed": false,
+    "microReverseFlowAllowed": false,
+    "a8InterlockMayCloseFailSafe": true
+  },
+  "bindings": [
+    {
+      "role": "regularized_runner",
+      "path": "tools/stage20_regularized_multizone_900s_runner_v1.py",
+      "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"
+    },
+    {
+      "role": "regularized_runner_contract",
+      "path": "config/stage20_regularized_multizone_900s_runner_v1.json",
+      "sha256": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"
+    },
+    {
+      "role": "diagnostic_forcing",
+      "path": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json",
+      "sha256": "138d12f04549dbcde83eb03b64d155c960213bef4f30f9484d0f76bd3f123967"
+    },
+    {
+      "role": "candidate_fields",
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+    },
+    {
+      "role": "gate_net_probe",
+      "path": "tools/stage20_regularized_stage4_gate_net_flux_probe_v1.py",
+      "sha256": "c4ec9d4763bac560fb85bbf18becf157e43b821ec1ec681bde98101356de67f1"
+    },
+    {
+      "role": "a8_schedule",
+      "path": "tools/stage20_regularized_a8_capacity_sweep_v1.py",
+      "sha256": "7d892198a05846399e3e4f070411604b0aaa00ea6a18f7c49a40c15668b85965"
+    },
+    {
+      "role": "a8_directional_observation",
+      "path": "tools/stage20_regularized_a8_directional_capacity_sweep_v2.py",
+      "sha256": "a7fe6b937af61f6eb4e00c4e381a0134da1ddfce94d52376105e85808f8adb1e"
+    },
+    {
+      "role": "a8_prior_report",
+      "path": "docs/results/stage20-regularized-a8-gate-weighted-capacity-sweep-v3/report.json",
+      "sha256": "00ac5cf5f6a3cb85d4a42936ed65ecf9c6f1bc587c80ecae58c46af5521e90e0"
+    },
+    {
+      "role": "micro_q_runner",
+      "path": "tools/stage20_micro_adjustment_gate_local_q_sensitivity_v1.py",
+      "sha256": "a7c094f1e580237f4a23d36a0c1884ea4aaec8be5b4beeeece63ae62b33aca38"
+    },
+    {
+      "role": "micro_q_prior_report",
+      "path": "docs/results/stage20-micro-adjustment-gate-local-q-sensitivity-v1/report.json",
+      "sha256": "c242b76216728c492939ae43a98ca0341361470e2b8e868999d6e0f676e97317"
+    },
+    {
+      "role": "micro_transfer_primitive",
+      "path": "tools/stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+      "sha256": "e8538b76a5569a586cb8ecbdb46f4b0079949422fc0c61beeaed1f377d786b84"
+    },
+    {
+      "role": "micro_transfer_contract",
+      "path": "config/stage20_micro_adjustment_gate_transfer_primitive_v1.json",
+      "sha256": "2441164ccc7ef3a44c69e463c1edc8aaaa9a7e87c9d8fe5a4803f2f8d8c0910c"
+    }
+  ],
+  "decisionBoundary": {
+    "sixNewLocalCasesPermitted": true,
+    "reuseThreeA8ZeroCasesWithoutRerun": true,
+    "durationBeyond60SecondsPermitted": false,
+    "physicalA8ScheduleApproved": false,
+    "physicalMicroDischargeLawApproved": false,
+    "yodaLaunchPermitted": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

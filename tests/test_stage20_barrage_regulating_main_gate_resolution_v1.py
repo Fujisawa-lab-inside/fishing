@@ -21,11 +21,17 @@ class RegulatingMainGateResolutionTest(unittest.TestCase):
 
     def test_all_evidence_is_sha_bound(self):
         for row in self.payload["evidence"]:
-            path = ROOT / row["path"]
-            self.assertTrue(path.is_file())
-            self.assertEqual(sha256(path), row["sha256"])
+            self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
+            if row["repositoryBindingRequired"]:
+                path = ROOT / row["path"]
+                self.assertTrue(path.is_file())
+                self.assertEqual(sha256(path), row["sha256"])
+            else:
+                self.assertTrue(row["officialSourceUrl"].startswith("https://"))
         superseded = self.payload["supersedes"]
-        self.assertEqual(sha256(ROOT / superseded["path"]), superseded["sha256"])
+        self.assertFalse(superseded["repositoryBindingRequired"])
+        self.assertRegex(superseded["sha256"], r"^[0-9a-f]{64}$")
+        self.assertIn("HISTORICAL_UNTRACKED", superseded["recordStatus"])
 
     def test_numbering_authority_is_monotonic_west_to_east(self):
         row = next(item for item in self.payload["evidence"] if item["role"] == "local_numbering_orientation")

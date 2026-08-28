@@ -1,0 +1,90 @@
+{
+  "schema": "onga-stage20-micro-adjustment-gate-readiness-v1",
+  "status": "BLOCKED_LOCAL_DIAGNOSTIC_ADAPTER_NOT_YET_CANONICAL_NO_YODA_LAUNCH",
+  "purpose": "Define the smallest reproducible path for including the separate micro-adjustment-gate effect in the 38 m3/s low-flow diagnostic without inventing physical geometry.",
+  "officialFacts": {
+    "facilityIsSeparateFromMainGatesAndFishway": true,
+    "count": 1,
+    "widthM": 10.0,
+    "heightM": 2.8,
+    "operationBandM3S": [2.0, 24.0],
+    "operationAtBoundScenario": "FULLY_OPEN_WHILE_REGULATING_MAIN_GATE_IS_DRIVEN",
+    "sourceUrls": [
+      "https://www.qsr.mlit.go.jp/content/900002350.pdf",
+      "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki_pamphlet.pdf"
+    ]
+  },
+  "boundScenario": {
+    "forcingByBoundaryM3S": {"N": 2.0, "O": 35.0, "G": 1.0},
+    "totalM3S": 38.0,
+    "publishedOperationBandM3S": [24.0, 270.0],
+    "mainGateCandidate": "PARAMETERIZED_A8_ONLY",
+    "microAdjustmentGateExpected": "FULLY_OPEN",
+    "a8OnlyScenarioIsCompletePhysicalScenario": false
+  },
+  "trackedEvidence": [
+    {
+      "role": "regulating_main_gate_and_operation_band_resolution",
+      "path": "config/stage20_barrage_regulating_main_gate_resolution_v1.json",
+      "sha256": "32957946fd23fc3fe22f5bfd2117f706e0f0dd88c86e4853675627aad07865d8"
+    },
+    {
+      "role": "a8_direction_aware_local_sensitivity",
+      "path": "docs/results/stage20-regularized-a8-gate-weighted-capacity-sweep-v3/report.json",
+      "sha256": "00ac5cf5f6a3cb85d4a42936ed65ecf9c6f1bc587c80ecae58c46af5521e90e0"
+    }
+  ],
+  "legacyWorkingTreeEvidence": [
+    {
+      "role": "user_selected_9p5m_review_position",
+      "path": "config/stage20_micro_adjustment_gate_position_authority_20260804_m9p5_v1.geojson",
+      "sha256": "0d0caa7c6cd313a6a0e83a27f5b880bee58a2bb04ec598484410542cb9c68487",
+      "repositoryBindingRequired": false
+    },
+    {
+      "role": "legacy_separate_partial_face_contract",
+      "path": "config/stage20_micro_adjustment_gate_interface_20260804_m9p5_contract_v1.json",
+      "sha256": "113bff2ed4c06ad99d9ed150b2184dd896ad80f857bd8e4faa89f8e12994212f",
+      "repositoryBindingRequired": false
+    },
+    {
+      "role": "legacy_user_approved_west_auxiliary_aggregation_candidate",
+      "path": "config/stage20_west_auxiliary_passage_aggregation_approval_20260804_v1.json",
+      "sha256": "33114d0669fb2b36731c85d2e22df33a06ae27a141d3aef55cef0b0b8ed39da6",
+      "repositoryBindingRequired": false
+    }
+  ],
+  "representationDecision": {
+    "facilityTruthPreservedAsSeparate": true,
+    "preferredNextDiagnosticCandidate": "MASS_CONSERVATIVE_WEST_AUXILIARY_TRANSFER_WITH_SEPARATE_MICRO_GATE_ACCOUNTING",
+    "preferenceBasis": "The earlier user-approved aggregation avoids claiming survey-grade geometry, but its old files are untracked and its discharge law was built for a different fixture.",
+    "physicalMeshFaceAdopted": false,
+    "legacyPositionAdopted": false,
+    "legacyDischargeLawAdopted": false,
+    "solverConnectionPermitted": false,
+    "fishwayAndMicroDischargesMustRemainSeparatelyReported": true,
+    "noDoubleCountingRequired": true,
+    "reverseFlowAllowed": false
+  },
+  "requiredBeforeLocalSolverConnection": [
+    "Create a tracked canonical adapter and contract from the approved aggregation concept without binding any untracked legacy file.",
+    "Re-audit that O is upstream of the barrage and N/G are downstream for the current regularized mesh and 38 m3/s forcing.",
+    "Replace the legacy fixed 24 m3/s cap rule with an explicit, reviewable head-discharge or bounded operational law; do not infer discharge from gate width alone.",
+    "Require equal-and-opposite mass transfer, donor-available-volume limiting, adverse-head smooth shutdown, zero injected horizontal momentum, and separate fishway/micro telemetry.",
+    "Pass pure-function tests, a zero-step context test, and one local one-step mass-conservation test before any duration run.",
+    "Keep A8 and micro-gate commands independently observable and reject any double counting."
+  ],
+  "decisionBoundary": {
+    "readinessContractCreated": true,
+    "legacyFilesPromoted": false,
+    "microAdjustmentGateGeometryKnown": false,
+    "microAdjustmentGateHydraulicLawApproved": false,
+    "localSolverConnectionPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

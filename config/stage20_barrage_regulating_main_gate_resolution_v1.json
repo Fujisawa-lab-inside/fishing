@@ -9,6 +9,8 @@
       "role": "official_gate_inventory_and_numbered_control_gate_exclusion",
       "path": "docs/results/stage20-premesh-problem-closure-v1/official-sources/mlit-onga-barrage-gate-spec-20100520.pdf",
       "sha256": "837ebb807f203632ac09ae787003943faf53064c44ce624648fa35b509cc7ad5",
+      "repositoryBindingRequired": false,
+      "officialSourceUrl": "https://www.qsr.mlit.go.jp/content/900002350.pdf",
       "reviewedPageOneBased": 2,
       "facts": [
         "There are seven control main gates and one two-leaf regulating main gate.",
@@ -19,6 +21,8 @@
       "role": "official_visual_position_of_regulating_main_gate",
       "path": "docs/results/stage20-premesh-problem-closure-v1/official-sources/mlit-onga-barrage-pamphlet-202203.pdf",
       "sha256": "038f373903904ba852a4bff90c85685879371d687725e0e707b79a99a9a1ce28",
+      "repositoryBindingRequired": false,
+      "officialSourceUrl": "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki_pamphlet.pdf",
       "reviewedPageOneBased": 2,
       "facts": [
         "The official aerial photograph labels the regulating main gate as the end main gate adjacent to the barrage management office.",
@@ -29,6 +33,7 @@
       "role": "local_numbering_orientation",
       "path": "docs/results/stage20-barrage-pink-structure-alignment-candidate-v2/gate-reference-anchor-authority-v2.geojson",
       "sha256": "8e5197fd4fd747dc8d7b0645e59edb2d4c98d699f1a8dbebeb2f06922e7f3ef8",
+      "repositoryBindingRequired": true,
       "facts": [
         "A1-A8 are ordered west to east.",
         "A8 is the eastern end main gate adjacent to the management-office side."
@@ -79,6 +84,8 @@
   "supersedes": {
     "path": "config/stage20_barrage_sequential_operation_candidate_v1.json",
     "sha256": "c56f57271ad541f8f1901d09e41f8bebe815a44f68341963173424c7a114dfa6",
+    "repositoryBindingRequired": false,
+    "recordStatus": "HISTORICAL_UNTRACKED_WORKING_HYPOTHESIS_NOT_A_RUNTIME_BINDING",
     "scope": "Only the gate-5 regulating-main-gate working hypothesis is superseded. Published flow bands and user-provided opening order remain separate evidence."
   },
   "decisionBoundary": {

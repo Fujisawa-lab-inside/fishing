@@ -1,0 +1,57 @@
+{
+  "schema": "onga-stage20-barrage-one-way-face-flux-operator-v1",
+  "status": "LOCAL_PURE_FACE_OPERATOR_READY_NOT_KERNEL_CONNECTED",
+  "purpose": "Resolve each oriented barrage face as an outward open-interface blend or as two impermeable wall faces when the raw interface mass flux is adverse.",
+  "orientation": {
+    "authority": "SHA-bound upstream cell id for every selected barrage face",
+    "positiveOutwardDefinition": "mass residual leaving the bound upstream cell",
+    "reverseBranchThresholdM3PerMS": 0.0
+  },
+  "branches": {
+    "closed": "use left and right reflected-wall terms",
+    "openOutward": "blend open-interface and reflected-wall terms by opening multiplier",
+    "openAdverse": "ignore the adverse open-interface terms and use left and right reflected-wall terms"
+  },
+  "invariants": {
+    "massConservation": "resolved left and right mass terms sum to zero within 1e-12",
+    "reverseMassTransferPermitted": false,
+    "postHocStateRepairPermitted": false,
+    "negativeDepthClippingPermitted": false,
+    "structureMomentumReactionReported": true,
+    "wallMassTermsMustBeZero": true
+  },
+  "bindings": [
+    {
+      "role": "current_depth_weighted_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "upstream_orientation_context",
+      "path": "tools/stage20_regularized_multizone_gate_observation_v1.py",
+      "sha256": "b04e191af794cc209f2c9a3e8eb1a7cd61fea5e933469ad1395214e60c333115"
+    },
+    {
+      "role": "signed_flux_reference",
+      "path": "tools/stage20_barrage_operational_control_r1c_adapter_v1.py",
+      "sha256": "45e93573df6e464782f2d46645ab9249e0f54e930071e6da27c80b5712a4cf74"
+    },
+    {
+      "role": "capacity_only_failure_evidence",
+      "path": "docs/results/stage20-stage4-facewise-hysteresis-hold-canary-v1/report.json",
+      "sha256": "103500da5d9aedf8ee58b422bad8e2e6080cdcdae5b941b88d8e66a8ddd904b0"
+    }
+  ],
+  "decisionBoundary": {
+    "pureOperatorAndSyntheticTestsPermitted": true,
+    "kernelConnectionPermitted": false,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

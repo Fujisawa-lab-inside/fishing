@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "STRICT_FACEWISE_60S_SAFE_BUT_NONZERO_STAGE4_HOLD_FAILED_ALL_CLOSED_NO_YODA_NO_RELEASE",
+  "status": "STRICT_FACEWISE_60S_NONZERO_HOLD_FAILED_PURE_CONSERVATIVE_ONE_WAY_OPERATOR_READY_NOT_CONNECTED",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
   "executiveConclusion": "Strict facewise one-way flow is the fail-closed requirement. Do not rerun the fixed A3-A6 schedule or send the current controller to YODA. The preventive 60 s hold canary accepted no reverse face before or after any step, but capacity decreased monotonically from 100% to all closed by model time 336.322 s; later 12.5% reopening probes found reverse flow on all 29 selected faces. The earlier 87.5% result is only a post-step recovery observation after the first reverse state, not proof that the transition itself is strict-one-way safe. A nonzero 300 s Stage-4 hold therefore cannot be obtained from the current symmetric open-interface flux plus capacity scaling. The next technically coherent choice is either a conservative one-way gate-face flux law or a different forcing/head scenario; neither is yet physically validated, forecast-ready, GUI-ready, or release-authorized.",
@@ -61,6 +61,10 @@
     {
       "id": "preventive_60s_backoff_is_safe_but_closes_all_stage4_gates",
       "finding": "Starting at model time 300 s, the preventive controller required every accepted candidate to be facewise safe both before and after the step. It completed 60 s with positive minimum accepted pre/post face flux, no negative/nonfinite state, and no fishway flow, but made eight monotonic decreases and reached zero opening at 336.322 s. Reopening probes at 346.318 and 356.325 s rejected 12.5% because all 29 faces were adverse. Numerical safety passed; nonzero hold utility failed."
+    },
+    {
+      "id": "pure_conservative_one_way_face_operator_ready",
+      "finding": "A pure face-branch operator now selects the existing open-interface/wall blend for outward flow and two reflected-wall terms for adverse flow. Synthetic tests require equal-and-opposite mass terms, zero wall mass, SHA-bound upstream orientation, no post-hoc state repair, and explicit structure momentum reaction. It is not connected to the numerical kernel and is not physical validation."
     }
   ],
   "trackedBindings": [
@@ -173,6 +177,16 @@
       "role": "stage4_facewise_hysteresis_hold_result",
       "path": "docs/results/stage20-stage4-facewise-hysteresis-hold-canary-v1/report.json",
       "sha256": "103500da5d9aedf8ee58b422bad8e2e6080cdcdae5b941b88d8e66a8ddd904b0"
+    },
+    {
+      "role": "one_way_face_flux_operator_contract",
+      "path": "config/stage20_barrage_one_way_face_flux_operator_v1.json",
+      "sha256": "2fff7f88c48f5092c31074bbc91d79ac0367e9a6b9d4d4b444dbca9cd7310337"
+    },
+    {
+      "role": "one_way_face_flux_operator_implementation",
+      "path": "tools/stage20_barrage_one_way_face_flux_operator_v1.py",
+      "sha256": "1bcb0de9658bd97b8d021a0e2a6129cd8c52d16e5ab2bcddac724466cf062b02"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -189,9 +203,10 @@
       "tests/test_stage20_stage4_facewise_capacity_backoff_v1.py",
       "tests/test_stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
       "tests/test_stage20_stage4_facewise_hysteresis_hold_canary_v1.py",
+      "tests/test_stage20_barrage_one_way_face_flux_operator_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 70,
+    "passed": 78,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
@@ -203,7 +218,7 @@
     "optionB": "Keep the existing symmetric interface law and accept that A3-A6 must close by 336.322 s under this forcing; this is safe but does not satisfy the requested nonzero 300 s Stage-4 hold.",
     "optionC": "Change the initial head or forcing so outward flow persists for 300 s, but classify it as a different scenario rather than evidence for the current case.",
     "whyAIsRecommended": "Capacity scaling can reduce magnitude but cannot change the sign imposed by the local head. The 60 s canary proves that strict safety eventually leaves only the all-closed candidate. A conservative one-way interface addresses the stated physical assumption directly; post-hoc clipping or a longer run would not.",
-    "nextLocalWorkAfterDecision": "Write the one-way face-flux contract and pure conservation/negative tests first. Do not connect it to the duration solver or YODA until the local face operator passes those tests."
+    "nextLocalWorkAfterDecision": "The pure operator now passes its conservation and negative tests. Next, add it to a copied local kernel entrypoint and prove one-step lake-at-rest, outward-flow equivalence, adverse-head zero reverse mass, full limiter coverage, and mass balance. Do not run duration or YODA before those one-step gates pass."
   },
   "releaseBoundary": {
     "pushPerformed": false,

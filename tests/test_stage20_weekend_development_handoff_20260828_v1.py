@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (70, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (78, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -111,6 +111,19 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertFalse(report["nonzeroHoldUtilityPassed"])
         self.assertFalse(report["oscillationDetected"])
         self.assertFalse(report["full300SecondHoldEvaluated"])
+
+    def test_one_way_operator_is_pure_and_not_kernel_connected(self):
+        contract_row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "one_way_face_flux_operator_contract"
+        )
+        contract = json.loads((ROOT / contract_row["path"]).read_text())
+        self.assertTrue(
+            contract["decisionBoundary"]["pureOperatorAndSyntheticTestsPermitted"]
+        )
+        self.assertFalse(contract["decisionBoundary"]["kernelConnectionPermitted"])
+        self.assertFalse(contract["decisionBoundary"]["durationRunPermitted"])
+        self.assertFalse(contract["decisionBoundary"]["yodaLaunchPermitted"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

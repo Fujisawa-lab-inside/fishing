@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest import mock
 
@@ -82,6 +83,15 @@ class AllClosedSuccessorRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["mainGateCapacityByGateId1To8"], [0.0] * 8)
         self.assertEqual(report["outputCreationCount"], 0)
         self.assertEqual(report["yodaConnectionCount"], 0)
+
+    def test_runtime_structure_guard_ignores_other_nonzero_markers(self) -> None:
+        kernel = SimpleNamespace(FIXED_MARKER=200, GATE_MARKER_BASE=100)
+        markers = RUNNER.np.asarray([0, 7, 101, 108, 109, 200, 240])
+        multipliers = RUNNER.np.asarray([1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0])
+        RUNNER.require_structure_closed(kernel, markers, multipliers)
+        multipliers[2] = 1.0
+        with self.assertRaisesRegex(RUNNER.SuccessorRunnerStop, "structure opened"):
+            RUNNER.require_structure_closed(kernel, markers, multipliers)
 
     def test_forcing_rejects_positive_gate_or_fishway_flow(self) -> None:
         forcing = json.loads(

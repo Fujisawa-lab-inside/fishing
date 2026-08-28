@@ -207,6 +207,30 @@ def raw_float64_sha256(values: np.ndarray) -> str:
     return hashlib.sha256(array.tobytes(order="C")).hexdigest()
 
 
+def structure_face_mask(kernel: Any, markers: np.ndarray) -> np.ndarray:
+    """Return only fixed-barrage and main-gate faces.
+
+    Other nonzero internal markers identify distinct mesh features and must not
+    be treated as barrage openings.
+    """
+
+    marker_array = np.asarray(markers)
+    return (marker_array == kernel.FIXED_MARKER) | (
+        (marker_array >= kernel.GATE_MARKER_BASE + 1)
+        & (marker_array <= kernel.GATE_MARKER_BASE + 8)
+    )
+
+
+def require_structure_closed(
+    kernel: Any,
+    markers: np.ndarray,
+    multipliers: np.ndarray,
+) -> None:
+    structure = structure_face_mask(kernel, markers)
+    require(np.any(structure), "barrage structure faces are missing")
+    require(np.all(np.asarray(multipliers)[structure] == 0.0), "structure opened")
+
+
 def canonical_bytes(value: Any) -> bytes:
     try:
         return (
@@ -307,12 +331,7 @@ def load_numerical_context() -> dict[str, Any]:
 
     multipliers = kernel.interface_multiplier(geometry, [])
     markers = geometry["internalMarkers"]
-    structure = (markers == kernel.FIXED_MARKER) | (
-        (markers >= kernel.GATE_MARKER_BASE + 1)
-        & (markers <= kernel.GATE_MARKER_BASE + 8)
-    )
-    require(np.any(structure), "barrage structure faces are missing")
-    require(np.all(multipliers[structure] == 0.0), "a barrage face is not closed")
+    require_structure_closed(kernel, markers, multipliers)
     state = np.column_stack(
         (depth, np.zeros_like(depth), np.zeros_like(depth))
     ).astype(np.float64)
@@ -611,7 +630,11 @@ def execute() -> dict[str, Any]:
         while model_seconds < 900.0 - 1.0e-12:
             require(time.monotonic() - wall_started <= 1800.0, "wall-time limit exceeded")
             with collector.time_phase("control"):
-                require(np.all(context["multipliers"][geometry["internalMarkers"] != 0] == 0.0), "structure opened")
+                require_structure_closed(
+                    kernel,
+                    geometry["internalMarkers"],
+                    context["multipliers"],
+                )
             discharge = np.zeros(5, dtype=np.float64)
             for tag, boundary_id in ((2, "N"), (3, "O"), (4, "G")):
                 q = _interpolate(

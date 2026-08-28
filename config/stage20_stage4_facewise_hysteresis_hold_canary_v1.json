@@ -1,0 +1,52 @@
+{
+  "schema": "onga-stage20-stage4-facewise-hysteresis-hold-canary-v1",
+  "status": "LOCAL_PREVENTIVE_PRE_AND_POST_FACEWISE_CANARY_READY_NOT_YODA",
+  "purpose": "Prevent reverse flow during the Stage-4 hold by accepting only an exact candidate trial whose selected faces are outward both before and after the step.",
+  "scope": {
+    "reconstructionTargetModelSeconds": 300.0,
+    "localCanaryDurationSeconds": 60.0,
+    "maximumStepSeconds": 0.05,
+    "activeGateIds": [3, 4, 5, 6],
+    "jointCapacityScaleDescending": [1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0.0],
+    "reverseFluxToleranceM3S": 1e-10,
+    "positiveIncreaseMarginM3S": 0.0005,
+    "increaseDwellSeconds": 10.0,
+    "decreasePolicy": "immediate on any pre-step or post-step adverse active face",
+    "increasePolicy": "one grid level only after dwell and a safe higher-capacity exact trial",
+    "acceptedStateMustMatchSelectedCandidate": true,
+    "fluxClippingPermitted": false
+  },
+  "bindings": [
+    {
+      "role": "capacity_backoff_planner",
+      "path": "tools/stage20_stage4_facewise_capacity_backoff_v1.py",
+      "sha256": "94d782206ad107991c73ab12b29536752541ab38f9242110869b507ef80b2707"
+    },
+    {
+      "role": "real_context_trial_adapter",
+      "path": "tools/stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
+      "sha256": "3c08edb1ced4549965e131631fa3ca65953542fb07e3cf68a4bfd435eb41da07"
+    },
+    {
+      "role": "strict_interlock_probe",
+      "path": "tools/stage20_regularized_stage4_per_gate_interlock_probe_v1.py",
+      "sha256": "fdc262bb4cf8f85baed90513dc817f2909e3af32909f6d7b9f48f2842f7bc0a5"
+    },
+    {
+      "role": "strict_interlock_report",
+      "path": "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json",
+      "sha256": "fc5e0634be9b400ee424f0b9dec71d943281c8d107ec2408d0c8ae3c471ca5d0"
+    }
+  ],
+  "decisionBoundary": {
+    "singleLocal60SecondHoldCanaryPermitted": true,
+    "full300SecondHoldPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

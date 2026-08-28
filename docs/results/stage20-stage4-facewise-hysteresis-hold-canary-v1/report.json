@@ -1,0 +1,449 @@
+{
+  "schema": "onga-stage20-stage4-facewise-hysteresis-hold-canary-v1-result",
+  "status": "PASS_NUMERICAL_FACEWISE_SAFETY_FAIL_NONZERO_HOLD_ALL_CLOSED",
+  "reconstructionTargetModelSeconds": 300.0,
+  "reconstructionAcceptedSteps": 35634,
+  "canaryDurationSeconds": 60.0,
+  "canaryAcceptedSteps": 7180,
+  "wallSeconds": 46.57288483399316,
+  "trialKernelCallCount": 7190,
+  "rejectedTrialCount": 8,
+  "finalScale": 0.0,
+  "nonzeroHoldUtilityPassed": false,
+  "scaleTransitionCount": 8,
+  "scaleTransitions": [
+    {
+      "modelSeconds": 314.31095796668797,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 1.0,
+      "toScale": 0.875,
+      "attempts": [
+        {
+          "scale": 1.0,
+          "acceptedDtSeconds": 0.008385939507396632,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0002937525361590071,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -0.00014918602535558302,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.875,
+          "acceptedDtSeconds": 0.008385939507396632,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0002570334691391312,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0010228591373919618,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 317.37921158385365,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.875,
+      "toScale": 0.75,
+      "attempts": [
+        {
+          "scale": 0.875,
+          "acceptedDtSeconds": 0.008380451882432336,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0001761276106691115,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -0.00020363534332069313,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.75,
+          "acceptedDtSeconds": 0.008380451882432336,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00015096652343066705,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.000814622937660481,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 320.1690687718229,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.75,
+      "toScale": 0.625,
+      "attempts": [
+        {
+          "scale": 0.75,
+          "acceptedDtSeconds": 0.008375427773077346,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 9.172568802506279e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -0.0002459337573325211,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.625,
+          "acceptedDtSeconds": 0.008375427773077346,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 7.6438073354219e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0006185135652101623,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 322.84006211632345,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.625,
+      "toScale": 0.5,
+      "attempts": [
+        {
+          "scale": 0.625,
+          "acceptedDtSeconds": 0.008370593936141346,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00015960699805173204,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -0.00011198205290090539,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.5,
+          "acceptedDtSeconds": 0.008370593936141346,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00012768559844138563,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0005677906332466089,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 325.6015333252321,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.5,
+      "toScale": 0.375,
+      "attempts": [
+        {
+          "scale": 0.5,
+          "acceptedDtSeconds": 0.008365577813758676,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 6.523255957347153e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -0.00013672235263412677,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.375,
+          "acceptedDtSeconds": 0.008365577813758676,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 4.892441968010364e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.0003890480344650783,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 328.60379710465,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.375,
+      "toScale": 0.25,
+      "attempts": [
+        {
+          "scale": 0.375,
+          "acceptedDtSeconds": 0.008360108832580275,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00012476953886858238,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -7.059942631405937e-06,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.25,
+          "acceptedDtSeconds": 0.008360108832580275,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 8.317969257905491e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00032193965517306037,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 332.07193200945494,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.25,
+      "toScale": 0.125,
+      "attempts": [
+        {
+          "scale": 0.25,
+          "acceptedDtSeconds": 0.008353778076639003,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 5.1808594804947066e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -1.8047371216673278e-05,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.125,
+          "acceptedDtSeconds": 0.008353778076639003,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 2.5904297402473536e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 0.00015371387895588587,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    },
+    {
+      "modelSeconds": 336.32203193429336,
+      "kind": "IMMEDIATE_DECREASE",
+      "fromScale": 0.125,
+      "toScale": 0.0,
+      "attempts": [
+        {
+          "scale": 0.125,
+          "acceptedDtSeconds": 0.008346010069425897,
+          "pre": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": 2.420409765019318e-05,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 29,
+            "adverseActiveFaceCount": 1,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": -3.079677234160626e-07,
+            "safe": false
+          },
+          "safe": false
+        },
+        {
+          "scale": 0.0,
+          "acceptedDtSeconds": 0.008346010069425897,
+          "pre": {
+            "activeFaceCount": 0,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": null,
+            "safe": true
+          },
+          "post": {
+            "activeFaceCount": 0,
+            "adverseActiveFaceCount": 0,
+            "inactiveLeakageFaceCount": 0,
+            "minimumActiveSignedOutwardFluxM3S": null,
+            "safe": true
+          },
+          "safe": true
+        }
+      ]
+    }
+  ],
+  "upwardProbeCount": 2,
+  "upwardProbes": [
+    {
+      "modelSeconds": 346.3179501602704,
+      "fromScale": 0.0,
+      "toScale": 0.125,
+      "accepted": false,
+      "diagnostic": {
+        "scale": 0.125,
+        "acceptedDtSeconds": 0.008327746139468874,
+        "pre": {
+          "activeFaceCount": 29,
+          "adverseActiveFaceCount": 29,
+          "inactiveLeakageFaceCount": 0,
+          "minimumActiveSignedOutwardFluxM3S": -0.05658466463549417,
+          "safe": false
+        },
+        "post": {
+          "activeFaceCount": 29,
+          "adverseActiveFaceCount": 29,
+          "inactiveLeakageFaceCount": 0,
+          "minimumActiveSignedOutwardFluxM3S": -0.05690083392337794,
+          "safe": false
+        },
+        "safe": false
+      }
+    },
+    {
+      "modelSeconds": 356.32526999554267,
+      "fromScale": 0.0,
+      "toScale": 0.125,
+      "accepted": false,
+      "diagnostic": {
+        "scale": 0.125,
+        "acceptedDtSeconds": 0.008309537019119871,
+        "pre": {
+          "activeFaceCount": 29,
+          "adverseActiveFaceCount": 29,
+          "inactiveLeakageFaceCount": 0,
+          "minimumActiveSignedOutwardFluxM3S": -0.1353324766510248,
+          "safe": false
+        },
+        "post": {
+          "activeFaceCount": 29,
+          "adverseActiveFaceCount": 29,
+          "inactiveLeakageFaceCount": 0,
+          "minimumActiveSignedOutwardFluxM3S": -0.13555513813828868,
+          "safe": false
+        },
+        "safe": false
+      }
+    }
+  ],
+  "minimumAcceptedPreStepSignedOutwardFluxM3S": 2.5904297402473536e-05,
+  "minimumAcceptedPostStepSignedOutwardFluxM3S": 2.420409765019318e-05,
+  "maximumCfl": 0.12000000000000004,
+  "maximumRelativeMassBalanceError": 8.41620785101924e-15,
+  "negativeDepthCount": 0,
+  "nonFiniteValueCount": 0,
+  "fishwayDischargeM3S": 0.0,
+  "oscillationDetected": false,
+  "full300SecondHoldEvaluated": false,
+  "physicalValidation": false,
+  "yodaConnectionCount": 0,
+  "releaseAuthorized": false
+}

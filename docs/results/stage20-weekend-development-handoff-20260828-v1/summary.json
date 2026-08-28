@@ -1,9 +1,9 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "STRICT_FACEWISE_CONTRACT_FIXED_SINGLE_STATE_CAPACITY_BACKOFF_PASS_DURATION_CONTROL_PENDING_NO_RELEASE",
+  "status": "STRICT_FACEWISE_60S_SAFE_BUT_NONZERO_STAGE4_HOLD_FAILED_ALL_CLOSED_NO_YODA_NO_RELEASE",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
-  "executiveConclusion": "Strict facewise one-way flow is now the fail-closed requirement. Do not rerun the fixed A3-A6 stage4 schedule or send it to YODA: the existing real-context 600 s probe proves that one adverse face appears while gate-integrated discharge remains positive, and all A3-A6 gates eventually latch closed. A one-state exact post-step comparison at the first trip state shows that 100% is unsafe while a joint 87.5% opening is facewise safe. This supports a capacity-backoff controller, but it is not yet a duration result, physical validation, forecast, GUI result, or release authority.",
+  "executiveConclusion": "Strict facewise one-way flow is the fail-closed requirement. Do not rerun the fixed A3-A6 schedule or send the current controller to YODA. The preventive 60 s hold canary accepted no reverse face before or after any step, but capacity decreased monotonically from 100% to all closed by model time 336.322 s; later 12.5% reopening probes found reverse flow on all 29 selected faces. The earlier 87.5% result is only a post-step recovery observation after the first reverse state, not proof that the transition itself is strict-one-way safe. A nonzero 300 s Stage-4 hold therefore cannot be obtained from the current symmetric open-interface flux plus capacity scaling. The next technically coherent choice is either a conservative one-way gate-face flux law or a different forcing/head scenario; neither is yet physically validated, forecast-ready, GUI-ready, or release-authorized.",
   "remoteYodaReceipt": {
     "evidenceClass": "conversation_receipt_not_copied_into_repository",
     "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
@@ -56,7 +56,11 @@
     },
     {
       "id": "single_state_capacity_backoff_selects_87_5_percent",
-      "finding": "At the reconstructed first-trip state, exact tentative post-step trials at a common 0.00838593 s dt rejected 100% opening because one of 29 active faces was adverse and selected 87.5% as the largest safe joint A3-A6 opening. The selected state had no negative or nonfinite values and fishway flow remained zero. This is one-state controller evidence only, not a hold-duration result."
+      "finding": "At the already-adverse first-trip state, exact tentative post-step trials at a common 0.00838593 s dt rejected 100% and found that an 87.5% trial ended with all 29 active faces outward. Because its pre-step state was already adverse, this is recovery evidence only and cannot be accepted as a strict-one-way transition."
+    },
+    {
+      "id": "preventive_60s_backoff_is_safe_but_closes_all_stage4_gates",
+      "finding": "Starting at model time 300 s, the preventive controller required every accepted candidate to be facewise safe both before and after the step. It completed 60 s with positive minimum accepted pre/post face flux, no negative/nonfinite state, and no fishway flow, but made eight monotonic decreases and reached zero opening at 336.322 s. Reopening probes at 346.318 and 356.325 s rejected 12.5% because all 29 faces were adverse. Numerical safety passed; nonzero hold utility failed."
     }
   ],
   "trackedBindings": [
@@ -154,6 +158,21 @@
       "role": "stage4_capacity_backoff_real_context_result",
       "path": "docs/results/stage20-stage4-facewise-capacity-backoff-real-context-probe-v1/report.json",
       "sha256": "b1c40bd2ec5359d0276ae9e27dd4e799dc7bd53b69aa64bcd7109aad6436da28"
+    },
+    {
+      "role": "stage4_facewise_hysteresis_hold_contract",
+      "path": "config/stage20_stage4_facewise_hysteresis_hold_canary_v1.json",
+      "sha256": "1243031c76677e7a0706731bd2f765761723e731ca9658543504651c7e9cd7cd"
+    },
+    {
+      "role": "stage4_facewise_hysteresis_hold_implementation",
+      "path": "tools/stage20_stage4_facewise_hysteresis_hold_canary_v1.py",
+      "sha256": "82fbcc9bf19b0968f09c9b586d88002a8dc3138fa8fc0e51c369c4c7ba2e9532"
+    },
+    {
+      "role": "stage4_facewise_hysteresis_hold_result",
+      "path": "docs/results/stage20-stage4-facewise-hysteresis-hold-canary-v1/report.json",
+      "sha256": "103500da5d9aedf8ee58b422bad8e2e6080cdcdae5b941b88d8e66a8ddd904b0"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -169,20 +188,22 @@
       "tests/test_stage20_stage4_facewise_one_way_decision_v1.py",
       "tests/test_stage20_stage4_facewise_capacity_backoff_v1.py",
       "tests/test_stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
+      "tests/test_stage20_stage4_facewise_hysteresis_hold_canary_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 66,
+    "passed": 70,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
   },
   "recommendedNextDecision": {
-    "question": "Can the one-state 87.5% backoff result be extended to a bounded local duration controller without oscillation, reverse leakage, or excessive trial cost?",
-    "recommendedAnswer": "IMPLEMENT_LOCAL_STRICT_FACEWISE_CAPACITY_BACKOFF_DURATION_CANARY_BEFORE_YODA",
-    "optionA": "Use descending joint A3-A6 capacity candidates, accept only the exact tentative state associated with the largest facewise-safe candidate, and add hysteresis before permitting any increase.",
-    "optionB": "Keep the simpler per-gate latch, which is safe but closes every A3-A6 gate during the current hold and therefore cannot represent the intended stage4 operating period.",
-    "whyAIsRecommended": "The one-state probe found a nonzero safe opening at the first trip and preserves the user's strict no-upstream-reverse-flow requirement without clipping flux. A duration test is still required to detect chattering, later trips, and computational cost.",
-    "nextLocalWorkAfterDecision": "Implement a bounded local duration controller with asymmetric hysteresis: immediate capacity decrease on any adverse face, delayed increase only after a positive margin persists. Run a short local hold canary before considering one single-use YODA authority."
+    "question": "How should the model represent an open barrage that is required to forbid every sea-to-upstream face flux when the current head would reverse?",
+    "recommendedAnswer": "DESIGN_CONSERVATIVE_ONE_WAY_GATE_FACE_FLUX_BEFORE_ANY_MORE_DURATION_OR_YODA",
+    "optionA": "Implement a gate-face Riemann/interface law that sets the reverse branch to an impermeable state while applying one equal-and-opposite conservative flux to the two adjacent cells, with explicit momentum and energy treatment and dedicated lake-at-rest, mass, dry-face, and adverse-head tests.",
+    "optionB": "Keep the existing symmetric interface law and accept that A3-A6 must close by 336.322 s under this forcing; this is safe but does not satisfy the requested nonzero 300 s Stage-4 hold.",
+    "optionC": "Change the initial head or forcing so outward flow persists for 300 s, but classify it as a different scenario rather than evidence for the current case.",
+    "whyAIsRecommended": "Capacity scaling can reduce magnitude but cannot change the sign imposed by the local head. The 60 s canary proves that strict safety eventually leaves only the all-closed candidate. A conservative one-way interface addresses the stated physical assumption directly; post-hoc clipping or a longer run would not.",
+    "nextLocalWorkAfterDecision": "Write the one-way face-flux contract and pure conservation/negative tests first. Do not connect it to the duration solver or YODA until the local face operator passes those tests."
   },
   "releaseBoundary": {
     "pushPerformed": false,

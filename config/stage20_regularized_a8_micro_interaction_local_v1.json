@@ -37,8 +37,11 @@
     "a8InterlockMayCloseFailSafe": true
   },
   "precanonicalDiagnostic": {
-    "discardedRunCount": 1,
-    "reason": "the first six-case attempt used the stage4 successor state while the three reused A8-zero cases used the regularized candidate initial state",
+    "discardedRunCount": 2,
+    "reasons": [
+      "the first six-case attempt used the stage4 successor state while the three reused A8-zero cases used the regularized candidate initial state",
+      "the second six-case attempt exposed that the micro source used the entire upstream component rather than the local positive P2 donor-overlap support"
+    ],
     "resultAdopted": false,
     "requiredCorrection": "all newly run cases must replace only the gate runtime state with the SHA-fixed regularized candidate state after verifying identical mesh, bed, Manning field, and cell areas"
   },
@@ -86,12 +89,12 @@
     {
       "role": "micro_q_runner",
       "path": "tools/stage20_micro_adjustment_gate_local_q_sensitivity_v1.py",
-      "sha256": "a7c094f1e580237f4a23d36a0c1884ea4aaec8be5b4beeeece63ae62b33aca38"
+      "sha256": "96c39dbba28a97d182cfa759211f7363d9daed9190817b048be74c80d6497723"
     },
     {
       "role": "micro_q_prior_report",
       "path": "docs/results/stage20-micro-adjustment-gate-local-q-sensitivity-v1/report.json",
-      "sha256": "c242b76216728c492939ae43a98ca0341361470e2b8e868999d6e0f676e97317"
+      "sha256": "0b3c681b698649739941b30a91230504f60056c09743f0f34d6002f7ca42e09c"
     },
     {
       "role": "micro_transfer_primitive",

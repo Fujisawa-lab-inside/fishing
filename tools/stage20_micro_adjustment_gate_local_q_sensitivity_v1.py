@@ -114,11 +114,14 @@ def _load_supports(contract: dict[str, Any]) -> dict[str, np.ndarray]:
     receiver_total = float(np.sum(receiver_overlap))
     _require(donor_total > 0.0 and receiver_total > 0.0, "empty P2 support")
     donor_weights = donor_overlap / donor_total
+    donor_mask = donor_overlap > 0.0
     receiver_weights = receiver_overlap / receiver_total
     _require(np.all(donor_weights[~upstream_mask] == 0.0), "donor leaves upstream component")
     _require(np.all(receiver_weights[upstream_mask] == 0.0), "receiver enters upstream component")
+    _require(np.any(donor_mask), "P2 donor mask is empty")
     return {
         "upstreamMask": upstream_mask,
+        "donorMask": donor_mask,
         "donorHeadWeights": donor_weights,
         "receiverHeadWeights": receiver_weights,
         "receiverWeights": receiver_weights,
@@ -207,7 +210,7 @@ def _apply_micro_source(
     result = transfer.apply_authorized_outward_transfer(
         state_h_hu_hv=hydro_state,
         cell_areas_m2=context["geometry"]["areas"],
-        upstream_donor_mask=supports["upstreamMask"],
+        upstream_donor_mask=supports["donorMask"],
         downstream_receiver_weights=supports["receiverWeights"],
         time_step_s=accepted_dt_s,
         requested_outward_discharge_m3_s=requested_q_m3_s,
@@ -385,6 +388,13 @@ def run_duration_grid(duration_seconds: float = DURATION_SECONDS) -> dict[str, A
         )
     cumulative = [row["cumulativeEffectiveTransferVolumeM3"] for row in cases]
     _require(all(a <= b + 1e-9 for a, b in zip(cumulative, cumulative[1:])), "cumulative transfer is not monotonic")
+    average_by_q = {
+        str(int(row["requestedDischargeM3S"])): (
+            row["cumulativeEffectiveTransferVolumeM3"] / row["simulatedSeconds"]
+        )
+        for row in cases
+        if row["requestedDischargeM3S"] > 0.0
+    }
     return {
         "schema": "onga-stage20-micro-adjustment-gate-local-q-sensitivity-v1-report",
         "status": "PASS_LOCAL_60S_UNCALIBRATED_Q_SENSITIVITY_NOT_PHYSICAL",
@@ -396,6 +406,14 @@ def run_duration_grid(duration_seconds: float = DURATION_SECONDS) -> dict[str, A
         "requestedDischargeGridM3S": list(Q_GRID_M3_S),
         "oneStepGate": one_step,
         "cases": cases,
+        "donorSupport": "positive_p2_donor_overlap_cells_only",
+        "receiverSupport": "normalized_p2_receiver_overlap_weights",
+        "discardedPrecanonicalGlobalUpstreamDonorRunCount": 1,
+        "interpretation": {
+            "nonzeroCommandsCreateAdverseHeadAndSelfLimit": True,
+            "averageEffectiveDischargeM3SByRequestedQ": average_by_q,
+            "meaning": "The P2-local coupling is conservative and fail-closed, but the requested Q values remain uncalibrated and rapidly self-limit under adverse head.",
+        },
         "allCasesNumericallySafe": True,
         "physicalDischargeLawImplemented": False,
         "a8CombinedScenarioEvaluated": False,

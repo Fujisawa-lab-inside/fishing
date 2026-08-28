@@ -24,6 +24,9 @@ class MicroAdjustmentGateLocalQSensitivityTest(unittest.TestCase):
         contract = MODULE.read_and_verify_contract()
         self.assertEqual(contract["scope"]["requestedDischargeGridM3S"], [0.0, 6.0, 12.0, 18.0, 24.0])
         self.assertEqual(contract["scope"]["durationSeconds"], 60.0)
+        self.assertEqual(contract["scope"]["donorSupport"], "cells with positive p2_donor_overlap_area_m2 only")
+        self.assertEqual(contract["precanonicalDiagnostic"]["discardedRunCount"], 1)
+        self.assertFalse(contract["precanonicalDiagnostic"]["resultAdopted"])
         self.assertIn("not a gate rating", contract["scope"]["physicalMeaning"])
         boundary = contract["decisionBoundary"]
         self.assertTrue(boundary["localOneStepAndShortDurationPermitted"])
@@ -44,6 +47,13 @@ class MicroAdjustmentGateLocalQSensitivityTest(unittest.TestCase):
         self.assertTrue(any(row["effectiveDischargeM3S"] > 0.0 for row in report["cases"][1:]))
         self.assertEqual(report["outputCreationCount"], 0)
         self.assertEqual(report["yodaConnectionCount"], 0)
+
+    def test_nonzero_transfer_uses_local_p2_donor_not_entire_upstream_component(self):
+        contract = MODULE.read_and_verify_contract()
+        supports = MODULE._load_supports(contract)
+        self.assertEqual(int(supports["donorMask"].sum()), 56)
+        self.assertGreater(int(supports["upstreamMask"].sum()), int(supports["donorMask"].sum()))
+        self.assertTrue((supports["donorMask"] <= supports["upstreamMask"]).all())
 
     def test_module_has_no_remote_or_output_capability(self):
         tree = ast.parse(MODULE_PATH.read_text())
@@ -69,6 +79,8 @@ class MicroAdjustmentGateLocalQSensitivityTest(unittest.TestCase):
         self.assertTrue(report["allCasesNumericallySafe"])
         self.assertFalse(report["physicalDischargeLawImplemented"])
         self.assertFalse(report["a8CombinedScenarioEvaluated"])
+        self.assertEqual(report["donorSupport"], "positive_p2_donor_overlap_cells_only")
+        self.assertEqual(report["discardedPrecanonicalGlobalUpstreamDonorRunCount"], 1)
         self.assertEqual(report["yodaConnectionCount"], 0)
         for row in report["cases"]:
             self.assertEqual(row["simulatedSeconds"], 60.0)

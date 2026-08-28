@@ -1,9 +1,9 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "LOCAL_NUMERICAL_COMPONENTS_READY_PHYSICAL_LOW_FLOW_SCENARIO_BLOCKED_NO_RELEASE",
+  "status": "LOCAL_INTERACTION_SCREEN_COMPLETE_A8_FULL_AND_STRICT_REVERSE_FLOW_BLOCKED_NO_RELEASE",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
-  "executiveConclusion": "Do not rerun the fixed A3-A6 stage4 schedule. A8-only and micro-adjustment-gate-only local numerical sensitivities are safe in isolation, but neither supplies a physical tilting-gate law or a complete 38 m3/s low-flow scenario. Keep YODA and downstream promotion blocked until their interaction is tested locally under a separately approved uncalibrated scope.",
+  "executiveConclusion": "Do not rerun the fixed A3-A6 stage4 schedule and do not send the current A8-plus-micro scenario to YODA. The sparse common-state interaction screen is numerically conservative, but A8 full capacity trips at 21.298 s for every micro Q and even the held half-capacity cases contain local adverse face exchange. The micro transfer now uses only the 56 positive P2 donor-overlap cells; its command has negligible effect on the A8 outcome. Resolve whether the physical requirement is strict facewise one-way flow or net outward flow plus salinity transport before further solver promotion.",
   "remoteYodaReceipt": {
     "evidenceClass": "conversation_receipt_not_copied_into_repository",
     "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
@@ -40,7 +40,15 @@
     },
     {
       "id": "micro_q_local_60s_sensitivity_pass",
-      "finding": "User-approved local Q commands 0, 6, 12, 18, and 24 m3/s each completed 60 s with zero negative/nonfinite states and conservative mass. Starting from neutral head, every nonzero command generated an adverse head and was smoothly self-limited; average effective Q was only 1.86-2.35 m3/s. This is a coupling safety result, not a gate rating."
+      "finding": "After correcting the donor mask to the 56 positive P2 overlap cells, local Q commands 0, 6, 12, 18, and 24 m3/s each completed 60 s with zero negative/nonfinite states and conservative mass. Every nonzero command generated an adverse head and was smoothly self-limited; average effective Q was only 0.90-1.04 m3/s. This is a coupling safety result, not a gate rating."
+    },
+    {
+      "id": "global_upstream_donor_mask_rejected",
+      "finding": "The first nonzero-Q implementation incorrectly used the entire upstream component as the donor support. That result was discarded; the canonical implementation and report use only positive P2 donor-overlap cells."
+    },
+    {
+      "id": "a8_micro_interaction_operationally_blocked",
+      "finding": "The common-state 3-by-3 sparse matrix completed without negative or nonfinite values. A8 50 percent held for all Q but accumulated 0.528-0.539 m3 of local adverse face exchange. A8 100 percent tripped at 21.298 s for all Q. Micro Q changed neither outcome materially, so A8 observation and local flux behavior dominate the blocker."
     }
   ],
   "trackedBindings": [
@@ -82,17 +90,32 @@
     {
       "role": "micro_gate_local_q_sensitivity_contract",
       "path": "config/stage20_micro_adjustment_gate_local_q_sensitivity_v1.json",
-      "sha256": "efb7b210d55cd9501ab93ae7910040cb8b01702b4b1af77ca08f892d2a05070b"
+      "sha256": "f80361323113b83dd76a1626f163a820b72cfb34cec3f3f34c23269247e30627"
     },
     {
       "role": "micro_gate_local_q_sensitivity_implementation",
       "path": "tools/stage20_micro_adjustment_gate_local_q_sensitivity_v1.py",
-      "sha256": "a7c094f1e580237f4a23d36a0c1884ea4aaec8be5b4beeeece63ae62b33aca38"
+      "sha256": "96c39dbba28a97d182cfa759211f7363d9daed9190817b048be74c80d6497723"
     },
     {
       "role": "micro_gate_local_q_sensitivity_result",
       "path": "docs/results/stage20-micro-adjustment-gate-local-q-sensitivity-v1/report.json",
-      "sha256": "c242b76216728c492939ae43a98ca0341361470e2b8e868999d6e0f676e97317"
+      "sha256": "0b3c681b698649739941b30a91230504f60056c09743f0f34d6002f7ca42e09c"
+    },
+    {
+      "role": "a8_micro_interaction_contract",
+      "path": "config/stage20_regularized_a8_micro_interaction_local_v1.json",
+      "sha256": "063f26dfda9e7408c01da55aab29cfc15784a859b765d0b5a133e3cd366da345"
+    },
+    {
+      "role": "a8_micro_interaction_implementation",
+      "path": "tools/stage20_regularized_a8_micro_interaction_local_v1.py",
+      "sha256": "d1861562656894070c9d85e60d97bc37dc291e40e6b909166b7a575f9e56be9d"
+    },
+    {
+      "role": "a8_micro_interaction_result",
+      "path": "docs/results/stage20-regularized-a8-micro-interaction-local-v1/report.json",
+      "sha256": "3aed8e3936041a9da7af3dd47f8a1b1cde7a28a1127853f1b88700aab13ed590"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -103,30 +126,21 @@
       "tests/test_stage20_micro_adjustment_gate_transfer_primitive_v1.py",
       "tests/test_stage20_micro_adjustment_gate_zero_q_wiring_v1.py",
       "tests/test_stage20_micro_adjustment_gate_local_q_sensitivity_v1.py",
+      "tests/test_stage20_regularized_a8_micro_interaction_local_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 42,
+    "passed": 49,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
   },
   "recommendedNextDecision": {
-    "question": "May the next phase run a sparse local A8-by-micro interaction matrix, while retaining no physical/forecast/GUI meaning?",
-    "recommendedAnswer": "YES_SPARSE_LOCAL_INTERACTION_DIAGNOSTIC_ONLY",
-    "reuseWithoutRecalculation": {"a8Capacity": 0.0, "microCommandM3S": [0.0, 12.0, 24.0]},
-    "proposedNewCases": {
-      "a8Capacity": [0.5, 1.0],
-      "microCommandM3S": [0.0, 12.0, 24.0],
-      "durationSeconds": 60.0,
-      "caseCount": 6
-    },
-    "gridMeaning": "Sparse numerical interaction screening only. It does not select an A8 operating capacity, a micro-gate rating, or a physical control schedule.",
-    "requiredAlongsideApproval": [
-      "Keep fishway and micro-gate discharge telemetry separate.",
-      "Do not change the mesh or adopt the legacy 9.5 m interface as physical geometry.",
-      "Reuse the completed A8=0 cases and run only six new local cases.",
-      "Continue to require outward head, equal-and-opposite mass, donor-volume limiting, and zero reverse flow."
-    ]
+    "question": "Which physical anti-reverse-flow contract should govern A8 before any further numerical canary?",
+    "recommendedAnswer": "STRICT_FACEWISE_ONE_WAY_FLOW_FOR_FAIL_CLOSED_SCREENING",
+    "optionA": "Require every active A8 face to remain outward and design a one-way numerical flux or close/limit the gate before a reverse face is accepted.",
+    "optionB": "Permit local exchange while requiring gate-integrated net outward flow, but then add salinity transport before making any seawater-intrusion claim.",
+    "whyAIsRecommended": "The user requirement forbids flow from the sea side to the upstream side, and the current model has no salinity tracer. Net outward volume alone cannot exclude salt intrusion through exchange flow.",
+    "nextLocalWorkAfterDecision": "Write and target-test the selected A8 flux contract first; do not run another duration grid or YODA canary until that contract passes."
   },
   "releaseBoundary": {
     "pushPerformed": false,

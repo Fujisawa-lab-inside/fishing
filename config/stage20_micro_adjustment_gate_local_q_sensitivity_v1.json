@@ -14,6 +14,8 @@
     "mainGateCapacityByGateId1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
     "fishwayDischargeM3S": 0.0,
     "operatorSplit": "hydrodynamic step first, then conservative micro source over the exact accepted time step",
+    "donorSupport": "cells with positive p2_donor_overlap_area_m2 only",
+    "receiverSupport": "p2_receiver_overlap_area_m2 normalized to unit weight",
     "physicalMeaning": "uncalibrated numerical coupling sensitivity; Q values are not a gate rating"
   },
   "acceptance": {
@@ -27,6 +29,11 @@
     "nonFiniteValueCount": 0,
     "effectiveAndCumulativeTransferMonotonicAcrossGrid": true,
     "qZeroSourceBitExactEachStep": true
+  },
+  "precanonicalDiagnostic": {
+    "discardedRunCount": 1,
+    "reason": "the initial nonzero-Q run passed the entire upstream component as the donor mask instead of the positive P2 donor-overlap support",
+    "resultAdopted": false
   },
   "bindings": [
     {

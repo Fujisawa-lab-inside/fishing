@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (42, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (49, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -69,13 +69,19 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertTrue(report["interpretation"]["nonzeroCommandsCreateAdverseHeadAndSelfLimit"])
         self.assertFalse(report["a8CombinedScenarioEvaluated"])
 
-    def test_next_grid_is_sparse_interaction_not_physical_schedule(self):
+    def test_interaction_is_blocked_and_next_decision_is_reverse_flow_contract(self):
         decision = self.payload["recommendedNextDecision"]
-        self.assertEqual(decision["proposedNewCases"]["caseCount"], 6)
-        self.assertEqual(decision["proposedNewCases"]["a8Capacity"], [0.5, 1.0])
-        self.assertEqual(decision["proposedNewCases"]["microCommandM3S"], [0.0, 12.0, 24.0])
-        self.assertIn("does not select", decision["gridMeaning"])
-        self.assertIn("SPARSE_LOCAL_INTERACTION", decision["recommendedAnswer"])
+        interaction = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "a8_micro_interaction_result"
+        )
+        report = json.loads((ROOT / interaction["path"]).read_text())
+        self.assertTrue(report["allCasesNumericallySafe"])
+        self.assertTrue(report["scenarioOperationallyBlocked"])
+        self.assertFalse(report["strictZeroLocalA8AdverseFlowSatisfied"])
+        self.assertFalse(report["yodaFollowOnRecommended"])
+        self.assertIn("STRICT_FACEWISE_ONE_WAY", decision["recommendedAnswer"])
+        self.assertIn("salinity", decision["optionB"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

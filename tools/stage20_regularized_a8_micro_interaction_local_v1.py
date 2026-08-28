@@ -354,6 +354,11 @@ def run_duration_grid() -> dict[str, Any]:
         for row in all_cases
     )
     _require(all_safe, "interaction matrix unsafe")
+    all_targets_held = all(row["a8TargetHeldAtEnd"] for row in new_cases)
+    any_interlock = any(row["a8InterlockEvents"] for row in new_cases)
+    strict_zero_local_a8_adverse = all(
+        row["cumulativeA8LocalAdverseVolumeM3"] <= 1e-12 for row in new_cases
+    )
     comparison = {}
     for requested_q in MICRO_Q_M3_S:
         rows = [row for row in all_cases if row["requestedMicroDischargeM3S"] == requested_q]
@@ -369,19 +374,32 @@ def run_duration_grid() -> dict[str, Any]:
         ]
     return {
         "schema": SCHEMA,
-        "status": "PASS_LOCAL_SPARSE_A8_MICRO_INTERACTION_NUMERICALLY_SAFE_NOT_PHYSICAL",
+        "status": "PASS_LOCAL_NUMERICAL_SAFETY_FAIL_CLOSED_A8_MICRO_INTERACTION_NOT_OPERABLE",
         "classification": "LOCAL_UNCALIBRATED_INTERACTION_SCREEN_NOT_GATE_RATING_NOT_OPERATION_NOT_FORECAST",
         "a8Schedule": {"rampSeconds": RAMP_SECONDS, "holdSeconds": DURATION_SECONDS - RAMP_SECONDS},
         "commonInitialStateRawSha256": INITIAL_STATE_RAW_SHA256,
-        "discardedPrecanonicalInitialStateMismatchRunCount": 1,
+        "discardedPrecanonicalRunCount": 2,
         "operatorSplit": "direction_guarded_hydrodynamic_step_then_conservative_micro_source_over_accepted_dt",
         "reusedCaseCount": len(reused),
         "newlyRunCaseCount": len(new_cases),
         "cases": all_cases,
         "comparisonByRequestedMicroQ": comparison,
         "allCasesNumericallySafe": all_safe,
-        "allNewA8TargetsHeldAtEnd": all(row["a8TargetHeldAtEnd"] for row in new_cases),
-        "anyA8Interlock": any(row["a8InterlockEvents"] for row in new_cases),
+        "allNewA8TargetsHeldAtEnd": all_targets_held,
+        "anyA8Interlock": any_interlock,
+        "strictZeroLocalA8AdverseFlowSatisfied": strict_zero_local_a8_adverse,
+        "scenarioOperationallyBlocked": (
+            not all_targets_held or any_interlock or not strict_zero_local_a8_adverse
+        ),
+        "yodaFollowOnRecommended": False,
+        "interpretation": {
+            "commonInitialStateComparisonValid": True,
+            "allHalfCapacityCasesHeldButContainLocalAdverseFaceExchange": True,
+            "allFullCapacityCasesTripAtSameTimeBeforeHold": True,
+            "microCommandMateriallyChangesA8Outcome": False,
+            "a8ObservationAndLocalFluxBehaviorDominatesOutcome": True,
+            "meaning": "The P2-local micro command has negligible influence on the A8 outcome. The solver remains conservative and finite, but A8 full capacity trips and even held half-capacity cases contain local adverse face exchange, so the scenario must not be promoted or sent to YODA.",
+        },
         "physicalA8ScheduleApproved": False,
         "physicalMicroDischargeLawApproved": False,
         "meshChanged": False,

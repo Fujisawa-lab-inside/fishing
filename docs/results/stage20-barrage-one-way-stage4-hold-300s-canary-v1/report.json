@@ -34,6 +34,11 @@
   "limiterEvaluatedCandidateCount": 28746,
   "limiterCoverageCompleteEveryStep": true,
   "full300SecondHoldEvaluated": true,
+  "rampSimulatedSeconds": 300.0,
+  "rampAcceptedSteps": 35634,
+  "rampSchedule": "A3-A6 linearly opened from 0 to 100 percent over model seconds 0..300",
+  "rampReverseTripCount": 0,
+  "rampPath": "bound outward legacy path; reconstruction fails closed on any pre-300 reverse trip",
   "yodaConnectionCount": 0,
   "physicalValidation": false,
   "releaseAuthorized": false

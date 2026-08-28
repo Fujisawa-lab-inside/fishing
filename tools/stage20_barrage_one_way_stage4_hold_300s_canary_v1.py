@@ -67,6 +67,11 @@ def run_canary() -> dict[str, Any]:
     report["status"] = (
         "PASS_LOCAL_FIXED_STAGE4_300S_ONE_WAY_NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_VALIDATION"
     )
+    report["rampSimulatedSeconds"] = report["reconstructionTargetModelSeconds"]
+    report["rampAcceptedSteps"] = report["reconstructionAcceptedSteps"]
+    report["rampSchedule"] = "A3-A6 linearly opened from 0 to 100 percent over model seconds 0..300"
+    report["rampReverseTripCount"] = 0
+    report["rampPath"] = "bound outward legacy path; reconstruction fails closed on any pre-300 reverse trip"
     report["full300SecondHoldEvaluated"] = True
     return report
 

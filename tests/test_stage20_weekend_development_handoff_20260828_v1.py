@@ -147,6 +147,9 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
             if item["role"] == "one_way_stage4_hold_300s_result"
         )
         report = json.loads((ROOT / row["path"]).read_text())
+        self.assertEqual(report["rampSimulatedSeconds"], 300.0)
+        self.assertEqual(report["rampAcceptedSteps"], 35634)
+        self.assertEqual(report["rampReverseTripCount"], 0)
         self.assertEqual(report["simulatedHoldSeconds"], 300.0)
         self.assertEqual(report["endModelSeconds"], 600.0)
         self.assertEqual(report["acceptedSteps"], 36634)

@@ -243,12 +243,12 @@
     {
       "role": "one_way_stage4_hold_300s_runner",
       "path": "tools/stage20_barrage_one_way_stage4_hold_300s_canary_v1.py",
-      "sha256": "4da431d9eec78cb2ef5c5732367686b6c2af35fc36ea59ee4a45065d7c438e20"
+      "sha256": "fd3f2a081eff56426d082649957c9ffea0ea6b4e89abb9da6323b5b329ec73f3"
     },
     {
       "role": "one_way_stage4_hold_300s_result",
       "path": "docs/results/stage20-barrage-one-way-stage4-hold-300s-canary-v1/report.json",
-      "sha256": "9eceef88c5f5a0407b6ce7f3862a3cd927ea7394e0c51ee46ce819c87a65f580"
+      "sha256": "c6658617863a8fbe7e4d89378bf895a4c59b2fbfdf240bcb5ea2030fda6b56a5"
     }
   ],
   "latestCleanArchiveVerification": {

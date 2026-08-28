@@ -1,0 +1,108 @@
+{
+  "schema": "onga-stage20-regularized-multizone-gate-flux-guard-v1",
+  "version": 1,
+  "status": "PASS_LOCAL_STAGE4_OUTWARD_RAMP_AND_ADVERSE_HEAD_REJECTION_RUNTIME_NOT_CONNECTED",
+  "classification": "LOCAL_NUMERICAL_FLUX_PROBE_NOT_OPERATIONAL_OR_PHYSICAL_CALIBRATION",
+  "stage4OutwardRamp": {
+    "capacityFractions": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "rows": [
+      {
+        "stage4CapacityFraction": 0.0,
+        "activeFaceCount": 0,
+        "minimumSignedOutwardFaceDischargeM3S": null,
+        "totalSignedOutwardDischargeM3S": 0.0,
+        "reverseFlowGuard": {
+          "reverseFlowPermitted": false,
+          "activeFaceCount": 0,
+          "adverseFaceCount": 0,
+          "minimumSignedOutwardDischargeM3S": null,
+          "totalSignedOutwardDischargeM3S": 0.0,
+          "toleranceM3S": 1e-10
+        }
+      },
+      {
+        "stage4CapacityFraction": 0.1,
+        "activeFaceCount": 29,
+        "minimumSignedOutwardFaceDischargeM3S": 0.4750894680560775,
+        "totalSignedOutwardDischargeM3S": 16.669492321946635,
+        "reverseFlowGuard": {
+          "activeFaceCount": 29,
+          "reverseFlowPermitted": false,
+          "adverseFaceCount": 0,
+          "minimumSignedOutwardDischargeM3S": 0.4750894680560775,
+          "totalSignedOutwardDischargeM3S": 16.669492321946635,
+          "toleranceM3S": 1e-10
+        }
+      },
+      {
+        "stage4CapacityFraction": 0.25,
+        "activeFaceCount": 29,
+        "minimumSignedOutwardFaceDischargeM3S": 1.1877236701401934,
+        "totalSignedOutwardDischargeM3S": 41.67373080486659,
+        "reverseFlowGuard": {
+          "activeFaceCount": 29,
+          "reverseFlowPermitted": false,
+          "adverseFaceCount": 0,
+          "minimumSignedOutwardDischargeM3S": 1.1877236701401934,
+          "totalSignedOutwardDischargeM3S": 41.67373080486659,
+          "toleranceM3S": 1e-10
+        }
+      },
+      {
+        "stage4CapacityFraction": 0.5,
+        "activeFaceCount": 29,
+        "minimumSignedOutwardFaceDischargeM3S": 2.3754473402803877,
+        "totalSignedOutwardDischargeM3S": 83.34746160973317,
+        "reverseFlowGuard": {
+          "activeFaceCount": 29,
+          "reverseFlowPermitted": false,
+          "adverseFaceCount": 0,
+          "minimumSignedOutwardDischargeM3S": 2.3754473402803877,
+          "totalSignedOutwardDischargeM3S": 83.34746160973317,
+          "toleranceM3S": 1e-10
+        }
+      },
+      {
+        "stage4CapacityFraction": 1.0,
+        "activeFaceCount": 29,
+        "minimumSignedOutwardFaceDischargeM3S": 4.750894680560775,
+        "totalSignedOutwardDischargeM3S": 166.69492321946635,
+        "reverseFlowGuard": {
+          "activeFaceCount": 29,
+          "reverseFlowPermitted": false,
+          "adverseFaceCount": 0,
+          "minimumSignedOutwardDischargeM3S": 4.750894680560775,
+          "totalSignedOutwardDischargeM3S": 166.69492321946635,
+          "toleranceM3S": 1e-10
+        }
+      }
+    ],
+    "totalOutwardDischargeMonotonic": true,
+    "allActiveFaceFluxOutward": true
+  },
+  "adverseHeadProbe": {
+    "fixtureDownstreamHeadIncreaseM": 0.03,
+    "stage4CapacityFraction": 0.25,
+    "activeFaceCount": 29,
+    "adverseFaceCount": 29,
+    "minimumSignedOutwardFaceDischargeM3S": -0.33115857837883794,
+    "totalSignedOutwardDischargeM3S": -5.0740567458081545,
+    "rejectedWithoutClipping": true,
+    "rejectionMessage": "[stage20-barrage-operational-control-v1] adverse barrage discharge detected; result rejected without clipping",
+    "allClosedAfterInterlockActiveFaceCount": 0,
+    "allClosedMaximumAbsoluteFluxM3S": 0.0
+  },
+  "decision": {
+    "localFluxMechanicsPass": true,
+    "runtimeConnected": false,
+    "YodaDynamicGateCanaryAuthorized": false,
+    "meshOperationallyAdopted": false,
+    "next": "connect the SHA-bound orientation and predictive fractional controller under a separate single-use runtime activation"
+  }
+}

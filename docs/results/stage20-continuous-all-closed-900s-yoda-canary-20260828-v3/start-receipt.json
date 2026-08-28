@@ -1,0 +1,1 @@
+{"classification":"DIAGNOSTIC_ALL_CLOSED_BASELINE_NOT_FORECAST_NOT_PHYSICAL_VALIDATION_NOT_RELEASE","durationModelSeconds":900,"fishwayDischargeM3S":0.0,"mainGateCapacityByGateId1To8":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"runId":"canary-stage20-all-closed-900s-20260828-v3","schema":"onga-stage20-continuous-all-closed-canary-start-v1","status":"STARTED_SINGLE_USE_DIAGNOSTIC_CANARY"}

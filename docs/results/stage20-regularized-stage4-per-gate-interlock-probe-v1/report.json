@@ -1,0 +1,119 @@
+{
+  "schema": "onga-stage20-regularized-stage4-per-gate-interlock-probe-v1",
+  "status": "PASS_LOCAL_PER_GATE_LATCHED_INTERLOCK_NUMERICAL_PROBE",
+  "classification": "LOCAL_CONTROL_PROBE_NOT_YODA_AUTHORITY_NOT_PHYSICAL_VALIDATION",
+  "simulatedSeconds": 600.0,
+  "acceptedSteps": 72266,
+  "wallSeconds": 149.71951887500109,
+  "maximumCfl": 0.12000000000000004,
+  "maximumRelativeMassBalanceError": 1.2501676083030893e-14,
+  "requestedFinalCapacityByGateId1To8": [
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "effectiveFinalCapacityByGateId1To8": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "latchedClosedGateIds": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "interlockEvents": [
+    {
+      "modelSeconds": 314.31702247304554,
+      "gateIds": [
+        6
+      ],
+      "reverseTripGateIds": [
+        6
+      ],
+      "wetnessTripGateIds": [],
+      "preTripGateDiagnostics": [
+        {
+          "gateId": 6,
+          "activeFaceCount": 8,
+          "adverseFaceCount": 1,
+          "minimumSignedOutwardDischargeM3S": -2.6574153358350717e-05,
+          "totalSignedOutwardDischargeM3S": 8.964444934303677
+        }
+      ]
+    },
+    {
+      "modelSeconds": 322.7958917086951,
+      "gateIds": [
+        5
+      ],
+      "reverseTripGateIds": [
+        5
+      ],
+      "wetnessTripGateIds": [],
+      "preTripGateDiagnostics": [
+        {
+          "gateId": 5,
+          "activeFaceCount": 7,
+          "adverseFaceCount": 1,
+          "minimumSignedOutwardDischargeM3S": -9.442960892544253e-05,
+          "totalSignedOutwardDischargeM3S": 12.135459290327331
+        }
+      ]
+    },
+    {
+      "modelSeconds": 340.03219090564784,
+      "gateIds": [
+        3
+      ],
+      "reverseTripGateIds": [
+        3
+      ],
+      "wetnessTripGateIds": [],
+      "preTripGateDiagnostics": [
+        {
+          "gateId": 3,
+          "activeFaceCount": 8,
+          "adverseFaceCount": 1,
+          "minimumSignedOutwardDischargeM3S": -0.00018740133341635279,
+          "totalSignedOutwardDischargeM3S": 8.843494265939025
+        }
+      ]
+    },
+    {
+      "modelSeconds": 341.76642206092816,
+      "gateIds": [
+        4
+      ],
+      "reverseTripGateIds": [
+        4
+      ],
+      "wetnessTripGateIds": [],
+      "preTripGateDiagnostics": [
+        {
+          "gateId": 4,
+          "activeFaceCount": 6,
+          "adverseFaceCount": 1,
+          "minimumSignedOutwardDischargeM3S": -0.00010774494061295344,
+          "totalSignedOutwardDischargeM3S": 3.8897859376825257
+        }
+      ]
+    }
+  ],
+  "negativeDepthCount": 0,
+  "nonFiniteValueCount": 0,
+  "fishwayDischargeM3S": 0.0,
+  "meshAdopted": false,
+  "physicalValidation": false
+}

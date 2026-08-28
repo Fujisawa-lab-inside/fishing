@@ -80,6 +80,8 @@
   },
   "nextGate": {
     "status": "LOCAL_PARAMETER_BRACKET_REQUIRED_NO_YODA_LAUNCH",
+    "parameterizedInterlockImplementation": "tools/stage20_barrage_gate_net_interlock_v1.py",
+    "parameterizedInterlockTargetTest": "tests/test_stage20_barrage_gate_net_interlock_v1.py",
     "requiredInputs": [
       "A defensible gate closing-time range",
       "A defensible upstream-downstream head or net-flow safety margin",

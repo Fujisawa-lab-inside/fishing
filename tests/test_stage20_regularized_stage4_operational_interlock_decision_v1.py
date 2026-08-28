@@ -89,6 +89,8 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
             self.decision["nextGate"]["status"],
             "LOCAL_PARAMETER_BRACKET_REQUIRED_NO_YODA_LAUNCH",
         )
+        for key in ("parameterizedInterlockImplementation", "parameterizedInterlockTargetTest"):
+            self.assertTrue((ROOT / self.decision["nextGate"][key]).is_file())
 
 
 if __name__ == "__main__":

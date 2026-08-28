@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import ast
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -26,6 +27,9 @@ class RegularizedA8MicroInteractionLocalTest(unittest.TestCase):
         self.assertEqual(contract["scope"]["microCommandGridM3S"], [0.0, 12.0, 24.0])
         self.assertEqual(contract["scope"]["newCaseCount"], 6)
         self.assertEqual(contract["scope"]["durationSeconds"], 60.0)
+        self.assertEqual(contract["scope"]["initialStateRawSha256"], MODULE.INITIAL_STATE_RAW_SHA256)
+        self.assertEqual(contract["precanonicalDiagnostic"]["discardedRunCount"], 1)
+        self.assertFalse(contract["precanonicalDiagnostic"]["resultAdopted"])
         self.assertFalse(contract["decisionBoundary"]["yodaLaunchPermitted"])
         self.assertFalse(contract["decisionBoundary"]["pushAuthorized"])
         self.assertFalse(contract["decisionBoundary"]["releaseAuthorized"])
@@ -46,6 +50,11 @@ class RegularizedA8MicroInteractionLocalTest(unittest.TestCase):
         self.assertTrue(all(row["qZeroStateBitExact"] for row in report["cases"] if row["requestedMicroDischargeM3S"] == 0.0))
         self.assertEqual(report["outputCreationCount"], 0)
         self.assertEqual(report["yodaConnectionCount"], 0)
+
+    def test_combined_runtime_uses_same_initial_state_as_reused_cases(self):
+        context, _ = MODULE._load_context()
+        actual = hashlib.sha256(context["state"].tobytes()).hexdigest()
+        self.assertEqual(actual, MODULE.INITIAL_STATE_RAW_SHA256)
 
     def test_module_has_no_remote_or_output_capability(self):
         tree = ast.parse(MODULE_PATH.read_text())

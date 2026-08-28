@@ -16,6 +16,7 @@
     "a8HoldSeconds": 30.0,
     "forcingStartModelSeconds": 0.0,
     "initialState": "regularized_multizone_candidate",
+    "initialStateRawSha256": "ea38025be6337869479cecbe898fdd49161a092d44d3e18e1baf3302adbdaf1e",
     "allNonA8MainGateCapacity": 0.0,
     "fishwayDischargeM3S": 0.0,
     "operatorSplit": "direction-guarded hydrodynamic step first, then conservative micro source over the exact accepted time step",
@@ -34,6 +35,12 @@
     "activeA8GateNetReverseFlowAllowed": false,
     "microReverseFlowAllowed": false,
     "a8InterlockMayCloseFailSafe": true
+  },
+  "precanonicalDiagnostic": {
+    "discardedRunCount": 1,
+    "reason": "the first six-case attempt used the stage4 successor state while the three reused A8-zero cases used the regularized candidate initial state",
+    "resultAdopted": false,
+    "requiredCorrection": "all newly run cases must replace only the gate runtime state with the SHA-fixed regularized candidate state after verifying identical mesh, bed, Manning field, and cell areas"
   },
   "bindings": [
     {

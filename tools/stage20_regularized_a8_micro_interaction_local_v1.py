@@ -42,6 +42,7 @@ RAMP_SECONDS = 30.0
 MAXIMUM_DT_SECONDS = 0.05
 MAXIMUM_ACCEPTED_STEPS_PER_CASE = 20000
 MAXIMUM_WALL_SECONDS_PER_CASE = 300.0
+INITIAL_STATE_RAW_SHA256 = "ea38025be6337869479cecbe898fdd49161a092d44d3e18e1baf3302adbdaf1e"
 
 
 class LocalInteractionError(RuntimeError):
@@ -71,6 +72,8 @@ def read_and_verify_contract() -> dict[str, Any]:
     _require(scope["durationSeconds"] == DURATION_SECONDS, "duration changed")
     _require(scope["a8RampSeconds"] == RAMP_SECONDS, "ramp changed")
     _require(scope["a8HoldSeconds"] == DURATION_SECONDS - RAMP_SECONDS, "hold changed")
+    _require(scope["forcingStartModelSeconds"] == 0.0, "forcing start changed")
+    _require(scope["initialStateRawSha256"] == INITIAL_STATE_RAW_SHA256, "initial state identity changed")
     _require(scope["allNonA8MainGateCapacity"] == 0.0, "non-A8 gate enabled")
     _require(scope["fishwayDischargeM3S"] == 0.0, "fishway enabled")
     for binding in contract["bindings"]:
@@ -156,6 +159,21 @@ def _interaction_schedule(target_capacity: float) -> Iterator[None]:
 
 def _load_context() -> tuple[dict[str, Any], dict[str, Any]]:
     context = gate_probe.prescribed.load_runtime_context()
+    common = micro.regularized.load_numerical_context()
+    _require(context["bed"].tobytes() == common["bed"].tobytes(), "bed differs across runtimes")
+    _require(context["manning"].tobytes() == common["manning"].tobytes(), "Manning field differs across runtimes")
+    _require(
+        context["geometry"]["areas"].tobytes() == common["geometry"]["areas"].tobytes(),
+        "cell areas differ across runtimes",
+    )
+    _require(
+        context["geometry"]["left"].tobytes() == common["geometry"]["left"].tobytes()
+        and context["geometry"]["right"].tobytes() == common["geometry"]["right"].tobytes(),
+        "mesh connectivity differs across runtimes",
+    )
+    common_state = np.ascontiguousarray(common["state"], dtype=np.float64)
+    _require(hashlib.sha256(common_state.tobytes()).hexdigest() == INITIAL_STATE_RAW_SHA256, "common initial state SHA changed")
+    context["state"] = common_state.copy()
     forcing = gate_probe.prescribed.matched.base.read_json(gate_probe.prescribed.FORCING_PATH)
     gate_probe.prescribed.matched.base.validate_forcing(forcing)
     return context, forcing
@@ -354,6 +372,8 @@ def run_duration_grid() -> dict[str, Any]:
         "status": "PASS_LOCAL_SPARSE_A8_MICRO_INTERACTION_NUMERICALLY_SAFE_NOT_PHYSICAL",
         "classification": "LOCAL_UNCALIBRATED_INTERACTION_SCREEN_NOT_GATE_RATING_NOT_OPERATION_NOT_FORECAST",
         "a8Schedule": {"rampSeconds": RAMP_SECONDS, "holdSeconds": DURATION_SECONDS - RAMP_SECONDS},
+        "commonInitialStateRawSha256": INITIAL_STATE_RAW_SHA256,
+        "discardedPrecanonicalInitialStateMismatchRunCount": 1,
         "operatorSplit": "direction_guarded_hydrodynamic_step_then_conservative_micro_source_over_accepted_dt",
         "reusedCaseCount": len(reused),
         "newlyRunCaseCount": len(new_cases),

@@ -1,0 +1,185 @@
+{
+  "schema": "onga-stage20-regularized-multizone-900s-dynamic-equivalence-v1",
+  "version": 1,
+  "status": "PASS_DYNAMIC_EQUIVALENCE_ROBUST_TO_WEIGHTING_AND_WET_THRESHOLD_MESH_STILL_UNADOPTED",
+  "classification": "MATCHED_ALL_CLOSED_NUMERICAL_COMPARISON_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_RELEASE",
+  "inputSha256": {
+    "docs/results/stage20-barrage-candidate-C-R1C-next-stage-review-approval-v1/review-mesh.npz": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164",
+    "docs/results/stage20-constrained-bathymetry-continuity-v2-20260828/continuity-fields.npz": "7d345f98185d592bc0af50787b4eea98753e6ab17bf1f8f7104a19cdc0b2320c",
+    "docs/results/stage20-continuous-all-closed-900s-yoda-canary-20260828-v3/final-state.npy": "b8591ef28321439ceeb91d3789a5cfea9731a7a0e263d2e1597074d92247a3aa",
+    "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6",
+    "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b",
+    "docs/results/stage20-regularized-multizone-900s-yoda-canary-20260828-v1/final-state.npy": "9582bda64348dbcbc52467d6a1932884eb4233eef4870da464618f6909d07419",
+    "config/stage20_regularized_multizone_900s_runner_v1.json": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"
+  },
+  "mapping": {
+    "method": "candidate_to_R1C_same_component_centroid_interpolation",
+    "candidateToR1CFallback": {
+      "depth": {
+        "fallbackCellCount": 11,
+        "fallbackMaximumDistanceM": 2.1793350280504824
+      },
+      "eta": {
+        "fallbackCellCount": 11,
+        "fallbackMaximumDistanceM": 2.1793350280504824
+      },
+      "u": {
+        "fallbackCellCount": 11,
+        "fallbackMaximumDistanceM": 2.1793350280504824
+      },
+      "v": {
+        "fallbackCellCount": 11,
+        "fallbackMaximumDistanceM": 2.1793350280504824
+      }
+    },
+    "weightingSensitivity": [
+      "cell_equal",
+      "R1C_cell_area"
+    ],
+    "wetDepthThresholdSensitivityM": [
+      0.0,
+      0.01,
+      0.05,
+      0.1
+    ],
+    "contractUnderspecificationHandledByRobustness": true
+  },
+  "thresholds": {
+    "mapping": "candidate_to_R1C_same_component_centroid_interpolation",
+    "maximumWaterSurfaceRmseM": 0.1,
+    "maximumVelocityVectorRmseMPerS": 0.01,
+    "requiredZones": [
+      "full_domain",
+      "barrage_100m",
+      "confluence"
+    ]
+  },
+  "zones": {
+    "full_domain": {
+      "cellCount": 37724,
+      "waterSurface": {
+        "cellWeightedRmseM": 0.002388164590782451,
+        "areaWeightedRmseM": 0.002123050741675054,
+        "maximumAbsoluteDifferenceM": 0.10172871098624711
+      },
+      "velocitySensitivity": {
+        "minimumDepth0M": {
+          "cellCount": 37724,
+          "cellWeightedVectorRmseMPerS": 0.002882779603649127,
+          "areaWeightedVectorRmseMPerS": 0.002970683756776557,
+          "maximumVectorDifferenceMPerS": 0.04568787079336289,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.01M": {
+          "cellCount": 36785,
+          "cellWeightedVectorRmseMPerS": 0.0028648420308776896,
+          "areaWeightedVectorRmseMPerS": 0.002959987955626486,
+          "maximumVectorDifferenceMPerS": 0.030483834567189495,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.05M": {
+          "cellCount": 36536,
+          "cellWeightedVectorRmseMPerS": 0.002813225419379992,
+          "areaWeightedVectorRmseMPerS": 0.0029208801270450696,
+          "maximumVectorDifferenceMPerS": 0.030483834567189495,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.1M": {
+          "cellCount": 36330,
+          "cellWeightedVectorRmseMPerS": 0.0027786499301020295,
+          "areaWeightedVectorRmseMPerS": 0.002897465711508929,
+          "maximumVectorDifferenceMPerS": 0.030483834567189495,
+          "passBothWeightings": true
+        }
+      },
+      "passWaterSurfaceBothWeightings": true,
+      "passVelocityAllWeightingsAndWetThresholds": true
+    },
+    "barrage_100m": {
+      "cellCount": 4712,
+      "waterSurface": {
+        "cellWeightedRmseM": 0.0015994877861882062,
+        "areaWeightedRmseM": 0.001269390692740748,
+        "maximumAbsoluteDifferenceM": 0.06185357087375873
+      },
+      "velocitySensitivity": {
+        "minimumDepth0M": {
+          "cellCount": 4712,
+          "cellWeightedVectorRmseMPerS": 0.000605329805596223,
+          "areaWeightedVectorRmseMPerS": 0.0005261432265767625,
+          "maximumVectorDifferenceMPerS": 0.018572035105205803,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.01M": {
+          "cellCount": 4640,
+          "cellWeightedVectorRmseMPerS": 0.0004625413748016887,
+          "areaWeightedVectorRmseMPerS": 0.00043228471003836107,
+          "maximumVectorDifferenceMPerS": 0.010913185701316963,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.05M": {
+          "cellCount": 4621,
+          "cellWeightedVectorRmseMPerS": 0.0003847170547739088,
+          "areaWeightedVectorRmseMPerS": 0.0003799557973689052,
+          "maximumVectorDifferenceMPerS": 0.005759002443571756,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.1M": {
+          "cellCount": 4614,
+          "cellWeightedVectorRmseMPerS": 0.0003798703555314578,
+          "areaWeightedVectorRmseMPerS": 0.00037615476252318323,
+          "maximumVectorDifferenceMPerS": 0.005759002443571756,
+          "passBothWeightings": true
+        }
+      },
+      "passWaterSurfaceBothWeightings": true,
+      "passVelocityAllWeightingsAndWetThresholds": true
+    },
+    "confluence": {
+      "cellCount": 7644,
+      "waterSurface": {
+        "cellWeightedRmseM": 0.002129143907813176,
+        "areaWeightedRmseM": 0.0021382853432201612,
+        "maximumAbsoluteDifferenceM": 0.02392449523608528
+      },
+      "velocitySensitivity": {
+        "minimumDepth0M": {
+          "cellCount": 7644,
+          "cellWeightedVectorRmseMPerS": 0.0025132785769623124,
+          "areaWeightedVectorRmseMPerS": 0.002511013896156493,
+          "maximumVectorDifferenceMPerS": 0.019586713609091203,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.01M": {
+          "cellCount": 7244,
+          "cellWeightedVectorRmseMPerS": 0.0025318979272940505,
+          "areaWeightedVectorRmseMPerS": 0.0025169314470529264,
+          "maximumVectorDifferenceMPerS": 0.014971193304455835,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.05M": {
+          "cellCount": 7128,
+          "cellWeightedVectorRmseMPerS": 0.0024801276814033477,
+          "areaWeightedVectorRmseMPerS": 0.0024679698126320432,
+          "maximumVectorDifferenceMPerS": 0.014971193304455835,
+          "passBothWeightings": true
+        },
+        "minimumDepth0.1M": {
+          "cellCount": 7046,
+          "cellWeightedVectorRmseMPerS": 0.0024536521347855262,
+          "areaWeightedVectorRmseMPerS": 0.002443819785894383,
+          "maximumVectorDifferenceMPerS": 0.014971193304455835,
+          "passBothWeightings": true
+        }
+      },
+      "passWaterSurfaceBothWeightings": true,
+      "passVelocityAllWeightingsAndWetThresholds": true
+    }
+  },
+  "decision": {
+    "dynamicEquivalencePass": true,
+    "meshAdopted": false,
+    "reason": "all-closed 900 s equivalence does not validate opened gates, fishway, adverse head, physical correctness, or forecast use",
+    "next": "bounded opened-gate and adverse-head canaries before operational mesh adoption"
+  }
+}

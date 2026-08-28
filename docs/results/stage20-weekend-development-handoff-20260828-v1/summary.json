@@ -1,9 +1,9 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "LOCAL_INTERACTION_SCREEN_COMPLETE_A8_FULL_AND_STRICT_REVERSE_FLOW_BLOCKED_NO_RELEASE",
+  "status": "STRICT_FACEWISE_CONTRACT_FIXED_SINGLE_STATE_CAPACITY_BACKOFF_PASS_DURATION_CONTROL_PENDING_NO_RELEASE",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
-  "executiveConclusion": "Do not rerun the fixed A3-A6 stage4 schedule and do not send the current A8-plus-micro scenario to YODA. The sparse common-state interaction screen is numerically conservative, but A8 full capacity trips at 21.298 s for every micro Q and even the held half-capacity cases contain local adverse face exchange. The micro transfer now uses only the 56 positive P2 donor-overlap cells; its command has negligible effect on the A8 outcome. Resolve whether the physical requirement is strict facewise one-way flow or net outward flow plus salinity transport before further solver promotion.",
+  "executiveConclusion": "Strict facewise one-way flow is now the fail-closed requirement. Do not rerun the fixed A3-A6 stage4 schedule or send it to YODA: the existing real-context 600 s probe proves that one adverse face appears while gate-integrated discharge remains positive, and all A3-A6 gates eventually latch closed. A one-state exact post-step comparison at the first trip state shows that 100% is unsafe while a joint 87.5% opening is facewise safe. This supports a capacity-backoff controller, but it is not yet a duration result, physical validation, forecast, GUI result, or release authority.",
   "remoteYodaReceipt": {
     "evidenceClass": "conversation_receipt_not_copied_into_repository",
     "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
@@ -49,6 +49,14 @@
     {
       "id": "a8_micro_interaction_operationally_blocked",
       "finding": "The common-state 3-by-3 sparse matrix completed without negative or nonfinite values. A8 50 percent held for all Q but accumulated 0.528-0.539 m3 of local adverse face exchange. A8 100 percent tripped at 21.298 s for all Q. Micro Q changed neither outcome materially, so A8 observation and local flux behavior dominate the blocker."
+    },
+    {
+      "id": "strict_facewise_stage4_duration_probe_blocks_fixed_schedule",
+      "finding": "The existing 600 s real-context A3-A6 probe completed numerically, but one adverse face appeared on A6, A5, A3, and A4 at 314.317, 322.796, 340.032, and 341.766 model seconds. Each affected gate still had positive integrated discharge, proving that a gate sum can hide forbidden local reverse flow; all four gates latched closed."
+    },
+    {
+      "id": "single_state_capacity_backoff_selects_87_5_percent",
+      "finding": "At the reconstructed first-trip state, exact tentative post-step trials at a common 0.00838593 s dt rejected 100% opening because one of 29 active faces was adverse and selected 87.5% as the largest safe joint A3-A6 opening. The selected state had no negative or nonfinite values and fishway flow remained zero. This is one-state controller evidence only, not a hold-duration result."
     }
   ],
   "trackedBindings": [
@@ -116,6 +124,36 @@
       "role": "a8_micro_interaction_result",
       "path": "docs/results/stage20-regularized-a8-micro-interaction-local-v1/report.json",
       "sha256": "3aed8e3936041a9da7af3dd47f8a1b1cde7a28a1127853f1b88700aab13ed590"
+    },
+    {
+      "role": "strict_facewise_stage4_decision",
+      "path": "config/stage20_stage4_facewise_one_way_decision_v1.json",
+      "sha256": "c51ee4c1f94530e858fb0300fd44de109d913c87dd41ab73f50c32d9aadf3f3d"
+    },
+    {
+      "role": "stage4_capacity_backoff_contract",
+      "path": "config/stage20_stage4_facewise_capacity_backoff_v1.json",
+      "sha256": "14c5ec9013026b9f1a6c6fea1a6d9319e995e676063bb3dcdba1a52b77447682"
+    },
+    {
+      "role": "stage4_capacity_backoff_implementation",
+      "path": "tools/stage20_stage4_facewise_capacity_backoff_v1.py",
+      "sha256": "94d782206ad107991c73ab12b29536752541ab38f9242110869b507ef80b2707"
+    },
+    {
+      "role": "stage4_capacity_backoff_real_context_contract",
+      "path": "config/stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.json",
+      "sha256": "caf2c02ef104cac977ec915b41a74dac736ffe0250040e1a5919b41e456d383b"
+    },
+    {
+      "role": "stage4_capacity_backoff_real_context_implementation",
+      "path": "tools/stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
+      "sha256": "3c08edb1ced4549965e131631fa3ca65953542fb07e3cf68a4bfd435eb41da07"
+    },
+    {
+      "role": "stage4_capacity_backoff_real_context_result",
+      "path": "docs/results/stage20-stage4-facewise-capacity-backoff-real-context-probe-v1/report.json",
+      "sha256": "b1c40bd2ec5359d0276ae9e27dd4e799dc7bd53b69aa64bcd7109aad6436da28"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -127,20 +165,24 @@
       "tests/test_stage20_micro_adjustment_gate_zero_q_wiring_v1.py",
       "tests/test_stage20_micro_adjustment_gate_local_q_sensitivity_v1.py",
       "tests/test_stage20_regularized_a8_micro_interaction_local_v1.py",
+      "tests/test_stage20_regularized_stage4_per_gate_interlock_probe_v1.py",
+      "tests/test_stage20_stage4_facewise_one_way_decision_v1.py",
+      "tests/test_stage20_stage4_facewise_capacity_backoff_v1.py",
+      "tests/test_stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 49,
+    "passed": 66,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
   },
   "recommendedNextDecision": {
-    "question": "Which physical anti-reverse-flow contract should govern A8 before any further numerical canary?",
-    "recommendedAnswer": "STRICT_FACEWISE_ONE_WAY_FLOW_FOR_FAIL_CLOSED_SCREENING",
-    "optionA": "Require every active A8 face to remain outward and design a one-way numerical flux or close/limit the gate before a reverse face is accepted.",
-    "optionB": "Permit local exchange while requiring gate-integrated net outward flow, but then add salinity transport before making any seawater-intrusion claim.",
-    "whyAIsRecommended": "The user requirement forbids flow from the sea side to the upstream side, and the current model has no salinity tracer. Net outward volume alone cannot exclude salt intrusion through exchange flow.",
-    "nextLocalWorkAfterDecision": "Write and target-test the selected A8 flux contract first; do not run another duration grid or YODA canary until that contract passes."
+    "question": "Can the one-state 87.5% backoff result be extended to a bounded local duration controller without oscillation, reverse leakage, or excessive trial cost?",
+    "recommendedAnswer": "IMPLEMENT_LOCAL_STRICT_FACEWISE_CAPACITY_BACKOFF_DURATION_CANARY_BEFORE_YODA",
+    "optionA": "Use descending joint A3-A6 capacity candidates, accept only the exact tentative state associated with the largest facewise-safe candidate, and add hysteresis before permitting any increase.",
+    "optionB": "Keep the simpler per-gate latch, which is safe but closes every A3-A6 gate during the current hold and therefore cannot represent the intended stage4 operating period.",
+    "whyAIsRecommended": "The one-state probe found a nonzero safe opening at the first trip and preserves the user's strict no-upstream-reverse-flow requirement without clipping flux. A duration test is still required to detect chattering, later trips, and computational cost.",
+    "nextLocalWorkAfterDecision": "Implement a bounded local duration controller with asymmetric hysteresis: immediate capacity decrease on any adverse face, delayed increase only after a positive margin persists. Run a short local hold canary before considering one single-use YODA authority."
   },
   "releaseBoundary": {
     "pushPerformed": false,

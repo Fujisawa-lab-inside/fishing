@@ -1,0 +1,40 @@
+{
+  "schema": "onga-stage20-stage4-facewise-capacity-backoff-v1",
+  "status": "LOCAL_PURE_BACKOFF_PLANNER_READY_NOT_SOLVER_CONNECTED",
+  "purpose": "Select the largest jointly scaled A3-A6 capacity whose tentative post-step face fluxes all satisfy the strict one-way contract.",
+  "scope": {
+    "activeGateIds": [3, 4, 5, 6],
+    "preserveEqualStage4Capacity": true,
+    "candidateScaleDescending": [1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0.0],
+    "reverseFluxToleranceM3S": 1e-10,
+    "evaluationState": "tentative post-step state produced with the exact candidate capacity",
+    "candidateEvaluationOrder": "descending capacity; stop at first fully safe candidate",
+    "fluxClippingPermitted": false,
+    "acceptedStateMustMatchSelectedCandidate": true,
+    "closedFaceLeakagePermitted": false
+  },
+  "bindings": [
+    {
+      "role": "facewise_stage4_decision",
+      "path": "config/stage20_stage4_facewise_one_way_decision_v1.json",
+      "sha256": "c51ee4c1f94530e858fb0300fd44de109d913c87dd41ab73f50c32d9aadf3f3d"
+    },
+    {
+      "role": "strict_flux_validator",
+      "path": "tools/stage20_barrage_per_gate_predictive_r1c_adapter_v2.py",
+      "sha256": "f46bfeb31b239343ee4836b1396ba643e308efee42dbad65641a3d260f234f92"
+    }
+  ],
+  "decisionBoundary": {
+    "purePlannerAndSyntheticTestsPermitted": true,
+    "realKernelTrialStepConnected": false,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

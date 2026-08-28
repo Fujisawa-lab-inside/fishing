@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (49, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (66, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -69,7 +69,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertTrue(report["interpretation"]["nonzeroCommandsCreateAdverseHeadAndSelfLimit"])
         self.assertFalse(report["a8CombinedScenarioEvaluated"])
 
-    def test_interaction_is_blocked_and_next_decision_is_reverse_flow_contract(self):
+    def test_interaction_is_blocked_and_next_decision_is_duration_backoff(self):
         decision = self.payload["recommendedNextDecision"]
         interaction = next(
             item for item in self.payload["trackedBindings"]
@@ -80,8 +80,20 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertTrue(report["scenarioOperationallyBlocked"])
         self.assertFalse(report["strictZeroLocalA8AdverseFlowSatisfied"])
         self.assertFalse(report["yodaFollowOnRecommended"])
-        self.assertIn("STRICT_FACEWISE_ONE_WAY", decision["recommendedAnswer"])
-        self.assertIn("salinity", decision["optionB"])
+        self.assertIn("CAPACITY_BACKOFF_DURATION_CANARY", decision["recommendedAnswer"])
+        self.assertIn("hysteresis", decision["nextLocalWorkAfterDecision"])
+
+    def test_strict_facewise_backoff_is_one_state_only(self):
+        row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "stage4_capacity_backoff_real_context_result"
+        )
+        report = json.loads((ROOT / row["path"]).read_text())
+        self.assertEqual(report["fullCapacityPreStepAdverseFaceCount"], 1)
+        self.assertEqual(report["selection"]["selectedScale"], 0.875)
+        self.assertEqual(report["selection"]["evaluatedCandidateCountThroughSelection"], 2)
+        self.assertFalse(report["durationControlEvaluated"])
+        self.assertFalse(report["physicalValidation"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

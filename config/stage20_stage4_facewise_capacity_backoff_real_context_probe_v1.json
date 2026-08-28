@@ -1,0 +1,52 @@
+{
+  "schema": "onga-stage20-stage4-facewise-capacity-backoff-real-context-probe-v1",
+  "status": "LOCAL_SINGLE_STATE_PROBE_READY_NOT_DURATION_CONTROL_NOT_YODA",
+  "purpose": "Reconstruct the first strict facewise trip state and compare exact tentative post-step capacity candidates from that one common state.",
+  "scope": {
+    "targetModelSeconds": 314.31702247304554,
+    "maximumTrialDtSeconds": 0.05,
+    "commonAcceptedDtRequired": true,
+    "candidateStateOrigin": "same reconstructed pre-trip state",
+    "selection": "largest jointly scaled A3-A6 capacity with no adverse active face and no closed-face leakage",
+    "fluxClippingPermitted": false,
+    "durationControlRunPermitted": false
+  },
+  "bindings": [
+    {
+      "role": "pure_backoff_planner",
+      "path": "tools/stage20_stage4_facewise_capacity_backoff_v1.py",
+      "sha256": "94d782206ad107991c73ab12b29536752541ab38f9242110869b507ef80b2707"
+    },
+    {
+      "role": "pure_backoff_contract",
+      "path": "config/stage20_stage4_facewise_capacity_backoff_v1.json",
+      "sha256": "14c5ec9013026b9f1a6c6fea1a6d9319e995e676063bb3dcdba1a52b77447682"
+    },
+    {
+      "role": "strict_interlock_probe",
+      "path": "tools/stage20_regularized_stage4_per_gate_interlock_probe_v1.py",
+      "sha256": "fdc262bb4cf8f85baed90513dc817f2909e3af32909f6d7b9f48f2842f7bc0a5"
+    },
+    {
+      "role": "strict_interlock_report",
+      "path": "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json",
+      "sha256": "fc5e0634be9b400ee424f0b9dec71d943281c8d107ec2408d0c8ae3c471ca5d0"
+    },
+    {
+      "role": "stage4_runtime",
+      "path": "tools/stage20_regularized_stage4_ramp_hold_600s_runner_v1.py",
+      "sha256": "c48a4668f12057c08ec1f1d6691b8f90acc7774062a532e7a463a29b486ac5c9"
+    }
+  ],
+  "decisionBoundary": {
+    "singleLocalReconstructionAndCandidateProbePermitted": true,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

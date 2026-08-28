@@ -1,0 +1,68 @@
+{
+  "schema": "onga-stage20-stage4-facewise-one-way-decision-v1",
+  "status": "LOCAL_FACEWISE_ONE_WAY_EVIDENCE_PROVES_STAGE4_300S_HOLD_UNACHIEVABLE_YODA_BLOCKED",
+  "purpose": "Promote the existing strict per-face A3-A6 ramp-hold probe into the current fail-closed decision without rerunning it.",
+  "physicalRequirement": {
+    "statement": "No accepted active barrage face may carry flow from the downstream sea side toward the upstream river side.",
+    "basis": "user-stated saltwater-intrusion prevention requirement",
+    "gateIntegratedPositiveSumMayHideOneReverseFace": true,
+    "acceptedReverseToleranceM3S": 1e-10,
+    "fluxClippingPermitted": false
+  },
+  "diagnosticSchedule": {
+    "gateIds": [3, 4, 5, 6],
+    "rampSeconds": 300.0,
+    "requestedHoldSeconds": 300.0,
+    "totalSeconds": 600.0
+  },
+  "observedResult": {
+    "numericallySafe": true,
+    "requestedHoldAchieved": false,
+    "finalEffectiveCapacityByGateId1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "tripOrder": [6, 5, 3, 4],
+    "tripModelSeconds": [314.31702247304554, 322.7958917086951, 340.03219090564784, 341.76642206092816],
+    "secondsIntoHoldAtTrip": [14.31702247304554, 22.7958917086951, 40.03219090564784, 41.76642206092816],
+    "everyTripHadPositiveGateTotalButOneAdverseFace": true,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0
+  },
+  "decision": {
+    "fixedStage4ScheduleEligibleForYoda": false,
+    "repeatSameLocalDurationRunUseful": false,
+    "repeatSameYodaRunUseful": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false,
+    "next": "Design a bounded local capacity-backoff controller that accepts a state only when every active face is outward; target-test it before any new duration run."
+  },
+  "bindings": [
+    {
+      "role": "facewise_probe",
+      "path": "tools/stage20_regularized_stage4_per_gate_interlock_probe_v1.py",
+      "sha256": "fdc262bb4cf8f85baed90513dc817f2909e3af32909f6d7b9f48f2842f7bc0a5"
+    },
+    {
+      "role": "facewise_probe_test",
+      "path": "tests/test_stage20_regularized_stage4_per_gate_interlock_probe_v1.py",
+      "sha256": "316f7bd070cff940b72245fedcbb8eaed651ef00ffadf1c4e6b83e724c570d5a"
+    },
+    {
+      "role": "facewise_probe_report",
+      "path": "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json",
+      "sha256": "fc5e0634be9b400ee424f0b9dec71d943281c8d107ec2408d0c8ae3c471ca5d0"
+    },
+    {
+      "role": "fractional_facewise_validator",
+      "path": "tools/stage20_barrage_fractional_motion_r1c_adapter_v1.py",
+      "sha256": "22c761b139eb60253877c41fa2b9cb31b94ec95fd009545c571a77c40135ef3d"
+    },
+    {
+      "role": "stage4_runner_contract",
+      "path": "config/stage20_regularized_stage4_ramp_hold_600s_runner_v1.json",
+      "sha256": "692caf5aa3129779568f3ac506e26db856fe86bb2d385a1b1f6a8a982c8833bb"
+    }
+  ]
+}

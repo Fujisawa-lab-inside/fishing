@@ -1,0 +1,52 @@
+{
+  "schema": "onga-stage20-micro-adjustment-gate-zero-q-wiring-v1",
+  "status": "PASS_LOCAL_ZERO_Q_BIT_EXACT_WIRING_NOT_NONZERO_CONNECTION",
+  "purpose": "Prove that the micro-gate transfer primitive can be wired to the SHA-bound regularized context as a strict Q=0 no-op before any nonzero discharge authority exists.",
+  "bindings": [
+    {
+      "role": "regularized_runner",
+      "path": "tools/stage20_regularized_multizone_900s_runner_v1.py",
+      "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"
+    },
+    {
+      "role": "regularized_runner_contract",
+      "path": "config/stage20_regularized_multizone_900s_runner_v1.json",
+      "sha256": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"
+    },
+    {
+      "role": "candidate_fields",
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+    },
+    {
+      "role": "transfer_primitive",
+      "path": "tools/stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+      "sha256": "e8538b76a5569a586cb8ecbdb46f4b0079949422fc0c61beeaed1f377d786b84"
+    },
+    {
+      "role": "transfer_primitive_contract",
+      "path": "config/stage20_micro_adjustment_gate_transfer_primitive_v1.json",
+      "sha256": "2441164ccc7ef3a44c69e463c1edc8aaaa9a7e87c9d8fe5a4803f2f8d8c0910c"
+    }
+  ],
+  "invariants": {
+    "requestedDischargeM3S": 0.0,
+    "effectiveDischargeM3S": 0.0,
+    "massAndMomentumSourceNonzeroCount": 0,
+    "inputStateBitExact": true,
+    "oneStepStateAndScalarsBitExact": true,
+    "outputCreationCount": 0,
+    "yodaConnectionCount": 0
+  },
+  "decisionBoundary": {
+    "zeroQOneStepWiringPermitted": true,
+    "nonzeroDischargeConnectionPermitted": false,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

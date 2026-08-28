@@ -1,0 +1,43 @@
+{
+  "schema": "onga-stage20-barrage-one-way-stage4-hold-300s-canary-v1",
+  "status": "LOCAL_FIXED_STAGE4_300S_DIAGNOSTIC_READY_NOT_YODA_NOT_PHYSICAL_VALIDATION",
+  "purpose": "Complete the requested 300 s fixed A3-A6 hold under the copied conservative one-way barrage-face assumption.",
+  "scope": {
+    "reconstructionTargetModelSeconds": 300.0,
+    "canaryDurationSeconds": 300.0,
+    "endModelSeconds": 600.0,
+    "capacityByGateId1To8": [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0],
+    "maximumStepSeconds": 0.05,
+    "cflTarget": 0.12,
+    "maximumAcceptedSteps": 50000,
+    "maximumRelativeMassBalanceError": 1e-12,
+    "fishwayDischargeM3S": 0.0
+  },
+  "bindings": [
+    {
+      "role": "one_way_kernel_candidate",
+      "path": "tools/stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
+      "sha256": "db06122216e08eef19c9f34972f81a1f895b5d349be931a22f65ff8354e5817e"
+    },
+    {
+      "role": "bounded_60s_runner",
+      "path": "tools/stage20_barrage_one_way_stage4_hold_60s_canary_v1.py",
+      "sha256": "d63709c3f53c1830cdeb61657ad0ce8e5fada518880f45331c82065e92dcab1c"
+    },
+    {
+      "role": "bounded_60s_pass_evidence",
+      "path": "docs/results/stage20-barrage-one-way-stage4-hold-60s-canary-v1/report.json",
+      "sha256": "57a1cdfb7259c0bc343097567b02d593621ea408ab4dcd3d2a39021cd5774b59"
+    }
+  ],
+  "decisionBoundary": {
+    "singleLocal300SecondCanaryPermitted": true,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

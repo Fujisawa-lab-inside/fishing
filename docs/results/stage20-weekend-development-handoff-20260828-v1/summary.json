@@ -1,9 +1,9 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "CONSERVATIVE_ONE_WAY_KERNEL_REAL_CONTEXT_ONE_STEP_PASS_SHORT_DURATION_PENDING",
+  "status": "LOCAL_A3_A6_RAMP_PLUS_300S_HOLD_DIAGNOSTIC_COMPLETE_UNDER_ONE_WAY_ASSUMPTION_NO_YODA_NO_PROMOTION",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
-  "executiveConclusion": "Strict facewise one-way flow is the fail-closed requirement. Do not rerun the fixed A3-A6 schedule or send the current controller to YODA. The preventive 60 s hold canary accepted no reverse face before or after any step, but capacity decreased monotonically from 100% to all closed by model time 336.322 s; later 12.5% reopening probes found reverse flow on all 29 selected faces. The earlier 87.5% result is only a post-step recovery observation after the first reverse state, not proof that the transition itself is strict-one-way safe. A nonzero 300 s Stage-4 hold therefore cannot be obtained from the current symmetric open-interface flux plus capacity scaling. The next technically coherent choice is either a conservative one-way gate-face flux law or a different forcing/head scenario; neither is yet physically validated, forecast-ready, GUI-ready, or release-authorized.",
+  "executiveConclusion": "The requested A3-A6 ramp and 300 s fixed hold diagnostic is complete locally under an explicit conservative one-way gate-face assumption. The outward ramp path is the bound legacy path; the hold from model time 300 to 600 used the copied one-way kernel at A3-A6 100% capacity and completed 36,634 accepted steps with maximum CFL 0.12, relative mass error 9.12e-15, full 28,746-cell limiter coverage, and zero negative/nonfinite state or fishway flow. However, the operator blocked potential reverse flow on 34,923 steps with 7,415 m3 cumulative potential reverse volume and up to all 29 active A3-A6 faces at once. The result is therefore a numerical diagnostic dominated by the imposed one-way assumption, not physical validation. YODA repetition would add cost without changing this gate; do not promote to forecast, GUI fishing guidance, mesh adoption, or release.",
   "remoteYodaReceipt": {
     "evidenceClass": "conversation_receipt_not_copied_into_repository",
     "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
@@ -69,6 +69,14 @@
     {
       "id": "one_way_kernel_real_context_one_step_pass",
       "finding": "A copied local kernel entrypoint applies the one-way branch without modifying the legacy kernel. On the 28,746-cell real context, the outward mid-ramp case is bit-exact to the legacy state, scalars, and limiter. A +0.30 m adverse downstream perturbation blocks 29 faces, reports 17.9325 m3/s potential reverse discharge, preserves global mass with zero measured relative error, scans 28,746/28,746 limiter candidates, and produces no negative/nonfinite state or fishway flow. This is one-step numerical evidence, not duration or physical validation."
+    },
+    {
+      "id": "one_way_fixed_stage4_60s_canary_pass",
+      "finding": "The bounded 300-to-360 s fixed A3-A6 hold completed 7,180 steps at 100% capacity with numerical safety and mass conservation. The one-way branch was active on 5,469 steps and blocked 197.014 m3 cumulative potential reverse volume, showing that the assumption is already material during the short canary."
+    },
+    {
+      "id": "one_way_fixed_stage4_full_300s_hold_complete_diagnostic_only",
+      "finding": "The full 300-to-600 s hold completed locally in 70.47 wall seconds with 36,634 accepted steps, maximum CFL 0.12, mass error 9.12e-15, no negative/nonfinite state, zero fishway flow, and full limiter coverage. The one-way branch was active on 34,923 steps, blocked 867,158 face-step observations and 7,415.119 m3 cumulative potential reverse volume, and reached all 29 active faces. This passes the numerical diagnostic only and fails any claim that the one-way assumption is a negligible correction."
     }
   ],
   "trackedBindings": [
@@ -211,6 +219,36 @@
       "role": "one_way_kernel_one_step_result",
       "path": "docs/results/stage20-barrage-one-way-kernel-one-step-probe-v1/report.json",
       "sha256": "137c62a1e484148b40159bf033f76ca09fe9f1bab383844ed633fdd984f79cf4"
+    },
+    {
+      "role": "one_way_stage4_hold_60s_contract",
+      "path": "config/stage20_barrage_one_way_stage4_hold_60s_canary_v1.json",
+      "sha256": "52cc6c73ae2c3bfae625c994b419359713c5ffa64a4dff3f482e6feaffe7ee5e"
+    },
+    {
+      "role": "one_way_stage4_hold_60s_runner",
+      "path": "tools/stage20_barrage_one_way_stage4_hold_60s_canary_v1.py",
+      "sha256": "d63709c3f53c1830cdeb61657ad0ce8e5fada518880f45331c82065e92dcab1c"
+    },
+    {
+      "role": "one_way_stage4_hold_60s_result",
+      "path": "docs/results/stage20-barrage-one-way-stage4-hold-60s-canary-v1/report.json",
+      "sha256": "57a1cdfb7259c0bc343097567b02d593621ea408ab4dcd3d2a39021cd5774b59"
+    },
+    {
+      "role": "one_way_stage4_hold_300s_contract",
+      "path": "config/stage20_barrage_one_way_stage4_hold_300s_canary_v1.json",
+      "sha256": "65c5de516a7d8e3123e57c6a0ab28e0052d2d919b2a323b64e5e6ee6a4e53d6a"
+    },
+    {
+      "role": "one_way_stage4_hold_300s_runner",
+      "path": "tools/stage20_barrage_one_way_stage4_hold_300s_canary_v1.py",
+      "sha256": "4da431d9eec78cb2ef5c5732367686b6c2af35fc36ea59ee4a45065d7c438e20"
+    },
+    {
+      "role": "one_way_stage4_hold_300s_result",
+      "path": "docs/results/stage20-barrage-one-way-stage4-hold-300s-canary-v1/report.json",
+      "sha256": "9eceef88c5f5a0407b6ce7f3862a3cd927ea7394e0c51ee46ce819c87a65f580"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -230,21 +268,23 @@
       "tests/test_stage20_barrage_one_way_face_flux_operator_v1.py",
       "tests/test_stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
       "tests/test_stage20_barrage_one_way_kernel_one_step_probe_v1.py",
+      "tests/test_stage20_barrage_one_way_stage4_hold_60s_canary_v1.py",
+      "tests/test_stage20_barrage_one_way_stage4_hold_300s_canary_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 89,
+    "passed": 94,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
   },
   "recommendedNextDecision": {
-    "question": "How should the model represent an open barrage that is required to forbid every sea-to-upstream face flux when the current head would reverse?",
-    "recommendedAnswer": "DESIGN_CONSERVATIVE_ONE_WAY_GATE_FACE_FLUX_BEFORE_ANY_MORE_DURATION_OR_YODA",
-    "optionA": "Implement a gate-face Riemann/interface law that sets the reverse branch to an impermeable state while applying one equal-and-opposite conservative flux to the two adjacent cells, with explicit momentum and energy treatment and dedicated lake-at-rest, mass, dry-face, and adverse-head tests.",
-    "optionB": "Keep the existing symmetric interface law and accept that A3-A6 must close by 336.322 s under this forcing; this is safe but does not satisfy the requested nonzero 300 s Stage-4 hold.",
-    "optionC": "Change the initial head or forcing so outward flow persists for 300 s, but classify it as a different scenario rather than evidence for the current case.",
-    "whyAIsRecommended": "Capacity scaling can reduce magnitude but cannot change the sign imposed by the local head. The 60 s canary proves that strict safety eventually leaves only the all-closed candidate. A conservative one-way interface addresses the stated physical assumption directly; post-hoc clipping or a longer run would not.",
-    "nextLocalWorkAfterDecision": "The copied kernel now passes the one-step gates. Next, run one bounded local 60 s Stage-4 hold from model time 300 to 360 with fixed A3-A6 capacity, record blocked-face exposure, mass, CFL, depth, limiter coverage, and gate capacity, then decide whether a single 300 s diagnostic authority is justified. Do not use YODA before the 60 s result passes."
+    "question": "What evidence is required before the one-way 300 s diagnostic can influence the simulator or fishing GUI?",
+    "recommendedAnswer": "KEEP_300S_RESULT_DIAGNOSTIC_ONLY_AND_VALIDATE_GATE_PHYSICS_BEFORE_PROMOTION",
+    "optionA": "Obtain or define an engineering one-way discharge and momentum law for the actual barrage and validate it against observed upstream/downstream levels and gate operation before connecting the candidate kernel to forecasts.",
+    "optionB": "Use the symmetric hydraulic model and allow the operational controller to close the gates; this is numerically conservative but does not provide the requested nonzero Stage-4 hold.",
+    "optionC": "Retain the current one-way wall branch only as a sensitivity bound showing the maximum effect of forbidding reverse exchange, with the 7,415 m3 blocked potential volume displayed as a model-dependence warning.",
+    "whyAIsRecommended": "The full hold is numerically stable, but the one-way branch is active for most of the hold and blocks a large potential exchange volume. Repeating it on YODA does not validate the gate law. Observational or engineering calibration is now the limiting evidence, not compute time.",
+    "nextLocalWorkAfterDecision": "Stop numerical expansion. Preserve the local diagnostic and prepare a concise model-assumption/validation checklist. Do not update forecast products, fishing suitability, or GUI layers until the one-way gate law is externally justified."
   },
   "releaseBoundary": {
     "pushPerformed": false,

@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (89, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (94, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -80,8 +80,8 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertTrue(report["scenarioOperationallyBlocked"])
         self.assertFalse(report["strictZeroLocalA8AdverseFlowSatisfied"])
         self.assertFalse(report["yodaFollowOnRecommended"])
-        self.assertIn("ONE_WAY_GATE_FACE_FLUX", decision["recommendedAnswer"])
-        self.assertIn("60 s Stage-4 hold", decision["nextLocalWorkAfterDecision"])
+        self.assertIn("DIAGNOSTIC_ONLY", decision["recommendedAnswer"])
+        self.assertIn("Stop numerical expansion", decision["nextLocalWorkAfterDecision"])
 
     def test_strict_facewise_backoff_is_one_state_only(self):
         row = next(
@@ -140,6 +140,26 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertEqual(report["adverseCase"]["limiterEvaluatedCandidateCount"], 28746)
         self.assertFalse(report["durationRunPerformed"])
         self.assertFalse(report["physicalValidation"])
+
+    def test_one_way_full_stage4_hold_is_complete_but_assumption_dominated(self):
+        row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "one_way_stage4_hold_300s_result"
+        )
+        report = json.loads((ROOT / row["path"]).read_text())
+        self.assertEqual(report["simulatedHoldSeconds"], 300.0)
+        self.assertEqual(report["endModelSeconds"], 600.0)
+        self.assertEqual(report["acceptedSteps"], 36634)
+        self.assertEqual(report["capacityByGateId1To8"], [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0])
+        self.assertEqual(report["maximumBlockedFacesInStep"], 29)
+        self.assertGreater(report["cumulativeBlockedPotentialReverseVolumeM3"], 7000.0)
+        self.assertLessEqual(report["maximumRelativeMassBalanceError"], 1.0e-12)
+        self.assertEqual(report["negativeDepthCount"], 0)
+        self.assertEqual(report["nonFiniteValueCount"], 0)
+        self.assertTrue(report["full300SecondHoldEvaluated"])
+        self.assertEqual(report["yodaConnectionCount"], 0)
+        self.assertFalse(report["physicalValidation"])
+        self.assertFalse(report["releaseAuthorized"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

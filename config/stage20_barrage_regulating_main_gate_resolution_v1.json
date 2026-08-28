@@ -54,13 +54,24 @@
     "microAdjustmentGateHydraulicGeometryKnown": false,
     "fullPhysicalLowFlowScenarioReady": false
   },
+  "numericalPreflightEvidence": {
+    "report": "docs/results/stage20-regularized-a8-capacity-sweep-v1/report.json",
+    "status": "BLOCKED_LOCAL_A8_NEAR_DRY_GEOMETRY_NO_SWEEP",
+    "a8SelectedFaceCount": 9,
+    "a8MinimumSelectedFaceSideDepthM": 0.000014988578775561456,
+    "minimumTrustedSelectedFaceDepthM": 0.0001,
+    "numericalAdvanceCount": 0,
+    "sweepRunCount": 0,
+    "interpretation": "The current A8 gate-face mapping includes a dry or near-dry selected face side. Opening is rejected before any numerical advance, so the planned four-case sweep is intentionally skipped."
+  },
   "supersedes": {
     "path": "config/stage20_barrage_sequential_operation_candidate_v1.json",
     "sha256": "c56f57271ad541f8f1901d09e41f8bebe815a44f68341963173424c7a114dfa6",
     "scope": "Only the gate-5 regulating-main-gate working hypothesis is superseded. Published flow bands and user-provided opening order remain separate evidence."
   },
   "decisionBoundary": {
-    "a8OnlyLocalDiagnosticPreparationPermitted": true,
+    "a8OnlyLocalPreflightPermitted": true,
+    "a8OnlyCapacitySweepPermitted": false,
     "a8OnlyYodaLaunchPermitted": false,
     "microAdjustmentGateMayBeInvented": false,
     "physicalValidation": false,

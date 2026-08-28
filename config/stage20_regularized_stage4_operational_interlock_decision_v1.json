@@ -106,11 +106,12 @@
     "releaseAuthorized": false
   },
   "nextGate": {
-    "status": "LOCAL_A8_ONLY_DIAGNOSTIC_PREPARATION_ALLOWED_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
+    "status": "BLOCKED_A8_GATE_FACE_NEAR_DRY_AND_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
     "parameterizedInterlockImplementation": "tools/stage20_barrage_gate_net_interlock_v1.py",
     "parameterizedInterlockTargetTest": "tests/test_stage20_barrage_gate_net_interlock_v1.py",
     "requiredInputs": [
       "A forcing scenario in the applicable published operation band",
+      "A corrected or justified A8 gate-face mapping with both sides above the trusted depth floor",
       "A reviewed hydraulic representation of the separate micro-adjustment gate",
       "A defensible gate closing-time range",
       "A defensible upstream-downstream head or net-flow safety margin",
@@ -118,7 +119,7 @@
     ],
     "permittedWork": [
       "Local operation-band dispatch validation",
-      "Local A8-only regulating-gate diagnostic preparation",
+      "Local A8 gate-face geometry and bed-elevation audit",
       "Local parameterized sensitivity runs",
       "Fail-closed target tests",
       "Evidence and provenance updates"

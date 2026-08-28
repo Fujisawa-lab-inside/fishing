@@ -1,0 +1,35 @@
+{
+  "schema": "onga-stage20-regularized-a8-capacity-sweep-v1",
+  "status": "BLOCKED_LOCAL_A8_NEAR_DRY_GEOMETRY_NO_SWEEP",
+  "classification": "LOCAL_A8_PREFLIGHT_BLOCKED_NO_NUMERICAL_ADVANCE_NOT_PHYSICAL_LOW_FLOW_SCENARIO",
+  "regulatingMainGateResolution": "config/stage20_barrage_regulating_main_gate_resolution_v1.json#gate8",
+  "boundDiagnosticTotalInflowM3S": 38.0,
+  "targetCapacities": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "a8InitialObservation": {
+    "gateId": 8,
+    "faceCount": 9,
+    "weightedMeanHeadDifferenceM": 0.24378230361839004,
+    "minimumLocalHeadDifferenceM": 0.19713354818583467,
+    "maximumLocalHeadDifferenceM": 0.24700202667500837,
+    "minimumSelectedFaceSideDepthM": 1.4988578775561456e-05,
+    "trustedForPositiveMotionObservation": false,
+    "failClosedReason": "DRY_OR_NEAR_DRY_SELECTED_FACE_SIDE",
+    "minimumTrustedSelectedFaceDepthM": 0.0001
+  },
+  "cases": [],
+  "numericalAdvanceCount": 0,
+  "sweepRunCount": 0,
+  "microAdjustmentGateHydraulicRepresentationIncluded": false,
+  "regulatingMainGateRolePhysicalAdopted": false,
+  "salinityTransportEvaluated": false,
+  "meshAdopted": false,
+  "yodaLaunchPermitted": false,
+  "forecastAuthorized": false,
+  "guiAuthorized": false,
+  "releaseAuthorized": false
+}

@@ -115,7 +115,7 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
             self.assertFalse(boundary[key])
         self.assertEqual(
             self.decision["nextGate"]["status"],
-            "LOCAL_A8_ONLY_DIAGNOSTIC_PREPARATION_ALLOWED_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
+            "BLOCKED_A8_GATE_FACE_NEAR_DRY_AND_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
         )
         for key in ("parameterizedInterlockImplementation", "parameterizedInterlockTargetTest"):
             self.assertTrue((ROOT / self.decision["nextGate"][key]).is_file())

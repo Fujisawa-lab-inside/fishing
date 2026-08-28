@@ -57,10 +57,23 @@ class RegulatingMainGateResolutionTest(unittest.TestCase):
         self.assertFalse(implication["microAdjustmentGateHydraulicGeometryKnown"])
         self.assertFalse(implication["fullPhysicalLowFlowScenarioReady"])
 
+    def test_a8_numerical_preflight_stops_before_the_sweep(self):
+        evidence = self.payload["numericalPreflightEvidence"]
+        report = json.loads((ROOT / evidence["report"]).read_text())
+        self.assertEqual(report["status"], evidence["status"])
+        self.assertEqual(report["a8InitialObservation"]["faceCount"], 9)
+        self.assertLess(
+            report["a8InitialObservation"]["minimumSelectedFaceSideDepthM"],
+            report["a8InitialObservation"]["minimumTrustedSelectedFaceDepthM"],
+        )
+        self.assertEqual(report["numericalAdvanceCount"], 0)
+        self.assertEqual(report["sweepRunCount"], 0)
+
     def test_no_downstream_authority_is_created(self):
         boundary = self.payload["decisionBoundary"]
-        self.assertTrue(boundary["a8OnlyLocalDiagnosticPreparationPermitted"])
+        self.assertTrue(boundary["a8OnlyLocalPreflightPermitted"])
         for key in (
+            "a8OnlyCapacitySweepPermitted",
             "a8OnlyYodaLaunchPermitted",
             "microAdjustmentGateMayBeInvented",
             "physicalValidation",

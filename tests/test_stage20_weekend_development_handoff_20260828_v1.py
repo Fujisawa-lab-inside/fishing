@@ -44,9 +44,19 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (32, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (37, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
+
+    def test_zero_q_wiring_is_real_context_noop_only(self):
+        contract_row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "micro_gate_zero_q_wiring_contract"
+        )
+        contract = json.loads((ROOT / contract_row["path"]).read_text())
+        self.assertEqual(contract["invariants"]["requestedDischargeM3S"], 0.0)
+        self.assertTrue(contract["invariants"]["oneStepStateAndScalarsBitExact"])
+        self.assertFalse(contract["decisionBoundary"]["nonzeroDischargeConnectionPermitted"])
 
     def test_next_grid_is_explicitly_not_a_rating(self):
         decision = self.payload["recommendedNextDecision"]

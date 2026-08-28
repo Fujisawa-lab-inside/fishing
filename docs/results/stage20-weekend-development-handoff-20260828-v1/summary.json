@@ -33,6 +33,10 @@
     {
       "id": "numerical_transfer_primitive_ready",
       "finding": "A pure equal-and-opposite transfer primitive is ready for an externally authorised outward discharge; it does not infer discharge from width and is not connected to the solver."
+    },
+    {
+      "id": "zero_q_real_context_wiring_pass",
+      "finding": "The pure transfer primitive was wired at exactly Q=0 to the 28,746-cell regularized context; all sources remained zero and the existing one-step state and scalar results remained bit-identical. Nonzero connection remains forbidden."
     }
   ],
   "trackedBindings": [
@@ -60,6 +64,16 @@
       "role": "micro_gate_transfer_implementation",
       "path": "tools/stage20_micro_adjustment_gate_transfer_primitive_v1.py",
       "sha256": "e8538b76a5569a586cb8ecbdb46f4b0079949422fc0c61beeaed1f377d786b84"
+    },
+    {
+      "role": "micro_gate_zero_q_wiring_contract",
+      "path": "config/stage20_micro_adjustment_gate_zero_q_wiring_v1.json",
+      "sha256": "6e934332697e1dbd9d426d86942bd5945cc868a9805b6cd8ca4edb63a6d54801"
+    },
+    {
+      "role": "micro_gate_zero_q_wiring_implementation",
+      "path": "tools/stage20_micro_adjustment_gate_zero_q_wiring_v1.py",
+      "sha256": "1b6ebd423843dc203602c049386cba4e94614807916e33d31e35d49d0de39d5c"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -68,9 +82,10 @@
       "tests/test_stage20_barrage_regulating_main_gate_resolution_v1.py",
       "tests/test_stage20_micro_adjustment_gate_readiness_v1.py",
       "tests/test_stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+      "tests/test_stage20_micro_adjustment_gate_zero_q_wiring_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 32,
+    "passed": 37,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false

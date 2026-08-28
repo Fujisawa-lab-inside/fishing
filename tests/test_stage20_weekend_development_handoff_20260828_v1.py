@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (37, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (42, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -58,11 +58,24 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertTrue(contract["invariants"]["oneStepStateAndScalarsBitExact"])
         self.assertFalse(contract["decisionBoundary"]["nonzeroDischargeConnectionPermitted"])
 
-    def test_next_grid_is_explicitly_not_a_rating(self):
+    def test_micro_q_result_is_safe_but_self_limited_and_not_physical(self):
+        row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "micro_gate_local_q_sensitivity_result"
+        )
+        report = json.loads((ROOT / row["path"]).read_text())
+        self.assertTrue(report["allCasesNumericallySafe"])
+        self.assertFalse(report["physicalDischargeLawImplemented"])
+        self.assertTrue(report["interpretation"]["nonzeroCommandsCreateAdverseHeadAndSelfLimit"])
+        self.assertFalse(report["a8CombinedScenarioEvaluated"])
+
+    def test_next_grid_is_sparse_interaction_not_physical_schedule(self):
         decision = self.payload["recommendedNextDecision"]
-        self.assertEqual(decision["proposedExternalDischargeGridM3S"], [0.0, 6.0, 12.0, 18.0, 24.0])
-        self.assertIn("not a claim", decision["gridMeaning"])
-        self.assertIn("LOCAL_DIAGNOSTIC_ONLY", decision["recommendedAnswer"])
+        self.assertEqual(decision["proposedNewCases"]["caseCount"], 6)
+        self.assertEqual(decision["proposedNewCases"]["a8Capacity"], [0.5, 1.0])
+        self.assertEqual(decision["proposedNewCases"]["microCommandM3S"], [0.0, 12.0, 24.0])
+        self.assertIn("does not select", decision["gridMeaning"])
+        self.assertIn("SPARSE_LOCAL_INTERACTION", decision["recommendedAnswer"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

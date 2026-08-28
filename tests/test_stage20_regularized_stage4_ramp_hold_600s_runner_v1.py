@@ -96,6 +96,10 @@ class RegularizedStage4RampHold600sRunnerV1Tests(unittest.TestCase):
 
     def test_contract_rejects_retry_and_stage_change(self) -> None:
         contract = json.loads(RUNNER.CONTRACT_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(
+            [row["role"] for row in contract["bindings"]].count("operational_control"),
+            1,
+        )
         contract["runtime"]["automaticRetryCount"] = 1
         with self.assertRaisesRegex(RUNNER.Stage4RunnerStop, "automatic retry"):
             RUNNER.validate_contract(contract)

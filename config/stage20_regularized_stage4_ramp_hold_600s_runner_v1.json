@@ -59,6 +59,7 @@
     {"role": "mapping_runtime", "path": "tools/run_stage20_barrage_C1_local_transition_600s_v1.py", "sha256": "82e8157cc7133522605611a6fcacc13871f32eeb75a15cdca6a09d1bb2a65597"},
     {"role": "fractional_flux_guard", "path": "tools/stage20_barrage_fractional_motion_r1c_adapter_v1.py", "sha256": "22c761b139eb60253877c41fa2b9cb31b94ec95fd009545c571a77c40135ef3d"},
     {"role": "signed_flux_adapter", "path": "tools/stage20_barrage_operational_control_r1c_adapter_v1.py", "sha256": "45e93573df6e464782f2d46645ab9249e0f54e930071e6da27c80b5712a4cf74"},
+    {"role": "operational_control", "path": "tools/stage20_barrage_operational_control_v1.py", "sha256": "257dc7106244edeaf62e04d1af657a2ec15118d792befd603acebb2ed5b3df79"},
     {"role": "same_pass_limiter_kernel", "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py", "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"},
     {"role": "bounded_telemetry", "path": "tools/stage20_dynamic_mesh_comparison_telemetry_v1.py", "sha256": "993ca6e04a672b22db374208f0cb0891657fb0633dca09d776579028212c18ca"},
     {"role": "initial_all_closed_state", "path": "docs/results/stage20-regularized-multizone-900s-yoda-canary-20260828-v1/final-state.npy", "sha256": "9582bda64348dbcbc52467d6a1932884eb4233eef4870da464618f6909d07419"},

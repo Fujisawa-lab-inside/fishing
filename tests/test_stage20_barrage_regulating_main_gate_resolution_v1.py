@@ -69,11 +69,20 @@ class RegulatingMainGateResolutionTest(unittest.TestCase):
         self.assertEqual(report["numericalAdvanceCount"], 0)
         self.assertEqual(report["sweepRunCount"], 0)
 
+    def test_direction_aware_a8_sweep_passes_but_is_not_physical(self):
+        evidence = self.payload["directionAwareNumericalEvidence"]
+        report = json.loads((ROOT / evidence["report"]).read_text())
+        self.assertEqual(report["status"], evidence["status"])
+        self.assertTrue(report["allCasesNumericallySafe"])
+        self.assertTrue(report["allCasesHeldThroughRequestedHold"])
+        self.assertEqual(evidence["testedTargetCapacities"], [0.25, 0.5, 0.75, 1.0])
+        self.assertFalse(report["microAdjustmentGateHydraulicRepresentationIncluded"])
+        self.assertFalse(report["regulatingMainGateRolePhysicalAdopted"])
+
     def test_no_downstream_authority_is_created(self):
         boundary = self.payload["decisionBoundary"]
         self.assertTrue(boundary["a8OnlyLocalPreflightPermitted"])
         for key in (
-            "a8OnlyCapacitySweepPermitted",
             "a8OnlyYodaLaunchPermitted",
             "microAdjustmentGateMayBeInvented",
             "physicalValidation",
@@ -83,6 +92,7 @@ class RegulatingMainGateResolutionTest(unittest.TestCase):
             "releaseAuthorized",
         ):
             self.assertFalse(boundary[key])
+        self.assertTrue(boundary["a8OnlyCapacitySweepCompleted"])
 
 
 if __name__ == "__main__":

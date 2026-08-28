@@ -64,6 +64,18 @@
     "sweepRunCount": 0,
     "interpretation": "The current A8 gate-face mapping includes a dry or near-dry selected face side. Opening is rejected before any numerical advance, so the planned four-case sweep is intentionally skipped."
   },
+  "directionAwareNumericalEvidence": {
+    "report": "docs/results/stage20-regularized-a8-gate-weighted-capacity-sweep-v3/report.json",
+    "status": "PASS_LOCAL_A8_GATE_WEIGHTED_SWEEP_NOT_PHYSICAL_LOW_FLOW_SCENARIO",
+    "headTrustBasis": "LENGTH_WEIGHTED_GATE_MEAN",
+    "fluxTrustBasis": "GATE_INTEGRATED_NET_SIGNED_OUTWARD_DISCHARGE",
+    "testedTargetCapacities": [0.25, 0.5, 0.75, 1.0],
+    "allTargetsHeldThrough600Seconds": true,
+    "negativeDepthCountAllCases": 0,
+    "nonFiniteValueCountAllCases": 0,
+    "localAdverseVolumeM3AllCases": 0.0,
+    "interpretation": "The A8-only local numerical sensitivity is stable and outward under the bound forcing when gate-level head and flux are used. It does not include the separate micro-adjustment gate and is not physical adoption."
+  },
   "supersedes": {
     "path": "config/stage20_barrage_sequential_operation_candidate_v1.json",
     "sha256": "c56f57271ad541f8f1901d09e41f8bebe815a44f68341963173424c7a114dfa6",
@@ -71,7 +83,7 @@
   },
   "decisionBoundary": {
     "a8OnlyLocalPreflightPermitted": true,
-    "a8OnlyCapacitySweepPermitted": false,
+    "a8OnlyCapacitySweepCompleted": true,
     "a8OnlyYodaLaunchPermitted": false,
     "microAdjustmentGateMayBeInvented": false,
     "physicalValidation": false,

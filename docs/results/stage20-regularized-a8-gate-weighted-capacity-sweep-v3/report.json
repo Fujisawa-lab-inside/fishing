@@ -1,0 +1,164 @@
+{
+  "schema": "onga-stage20-regularized-a8-gate-weighted-capacity-sweep-v3",
+  "status": "PASS_LOCAL_A8_GATE_WEIGHTED_SWEEP_NOT_PHYSICAL_LOW_FLOW_SCENARIO",
+  "classification": "LOCAL_A8_GATE_WEIGHTED_HEAD_AND_GATE_NET_SENSITIVITY_MICRO_ADJUSTMENT_GATE_OMITTED_NOT_SALINITY_VALIDATION_NOT_FORECAST",
+  "headTrustBasis": "LENGTH_WEIGHTED_GATE_MEAN",
+  "fluxTrustBasis": "GATE_INTEGRATED_NET_SIGNED_OUTWARD_DISCHARGE",
+  "sourceV2Report": "docs/results/stage20-regularized-a8-directional-capacity-sweep-v2/report.json",
+  "sourceV2ReportSha256": "275cf660c064cbd11a39542f26b0d1b917202a0667f8922c1bfa34d556fd19bf",
+  "reusedTargetCapacities": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "rerunTargetCapacities": [
+    1.0
+  ],
+  "cases": [
+    {
+      "targetA8Capacity": 0.25,
+      "status": "PASS_LOCAL_A8_TARGET_HELD",
+      "simulatedSeconds": 600.0,
+      "acceptedSteps": 71848,
+      "wallSeconds": 85.80850212500081,
+      "maximumCfl": 0.12000000000000004,
+      "maximumRelativeMassBalanceError": 3.415950929729568e-14,
+      "effectiveFinalCapacityByGateId1To8": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.25
+      ],
+      "targetHeldThroughRequestedHold": true,
+      "interlockEvents": [],
+      "a8FluxAccounting": {
+        "gateId": 8,
+        "cumulativeLocalAdverseVolumeM3": 0.0,
+        "cumulativeSignedNetVolumeM3": 2112.185916805536,
+        "maximumLocalAdverseDischargeRateM3S": 0.0,
+        "maximumLocalAdverseToPositiveRateRatio": 0.0,
+        "minimumGateNetSignedOutwardDischargeM3S": 1.0857797281120344e-08
+      },
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "fishwayDischargeM3S": 0.0,
+      "reusedFromV2ExactArtifact": true
+    },
+    {
+      "targetA8Capacity": 0.5,
+      "status": "PASS_LOCAL_A8_TARGET_HELD",
+      "simulatedSeconds": 600.0,
+      "acceptedSteps": 71865,
+      "wallSeconds": 93.11320733400134,
+      "maximumCfl": 0.12000000000000004,
+      "maximumRelativeMassBalanceError": 1.3910315641682261e-14,
+      "effectiveFinalCapacityByGateId1To8": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "targetHeldThroughRequestedHold": true,
+      "interlockEvents": [],
+      "a8FluxAccounting": {
+        "gateId": 8,
+        "cumulativeLocalAdverseVolumeM3": 0.0,
+        "cumulativeSignedNetVolumeM3": 4694.7487505172385,
+        "maximumLocalAdverseDischargeRateM3S": 0.0,
+        "maximumLocalAdverseToPositiveRateRatio": 0.0,
+        "minimumGateNetSignedOutwardDischargeM3S": 2.1715594562240688e-08
+      },
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "fishwayDischargeM3S": 0.0,
+      "reusedFromV2ExactArtifact": true
+    },
+    {
+      "targetA8Capacity": 0.75,
+      "status": "PASS_LOCAL_A8_TARGET_HELD",
+      "simulatedSeconds": 600.0,
+      "acceptedSteps": 71886,
+      "wallSeconds": 110.54026958300165,
+      "maximumCfl": 0.12000000000000004,
+      "maximumRelativeMassBalanceError": 2.3418632662578997e-14,
+      "effectiveFinalCapacityByGateId1To8": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.75
+      ],
+      "targetHeldThroughRequestedHold": true,
+      "interlockEvents": [],
+      "a8FluxAccounting": {
+        "gateId": 8,
+        "cumulativeLocalAdverseVolumeM3": 0.0,
+        "cumulativeSignedNetVolumeM3": 7892.334741197159,
+        "maximumLocalAdverseDischargeRateM3S": 0.0,
+        "maximumLocalAdverseToPositiveRateRatio": 0.0,
+        "minimumGateNetSignedOutwardDischargeM3S": 3.257339184336103e-08
+      },
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "fishwayDischargeM3S": 0.0,
+      "reusedFromV2ExactArtifact": true
+    },
+    {
+      "targetA8Capacity": 1.0,
+      "status": "PASS_LOCAL_A8_TARGET_HELD",
+      "simulatedSeconds": 600.0,
+      "acceptedSteps": 71913,
+      "wallSeconds": 110.93453275000138,
+      "maximumCfl": 0.12000000000000004,
+      "maximumRelativeMassBalanceError": 1.0564796689885262e-14,
+      "effectiveFinalCapacityByGateId1To8": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "targetHeldThroughRequestedHold": true,
+      "interlockEvents": [],
+      "a8FluxAccounting": {
+        "gateId": 8,
+        "cumulativeLocalAdverseVolumeM3": 0.0,
+        "cumulativeSignedNetVolumeM3": 12031.94973034498,
+        "maximumLocalAdverseDischargeRateM3S": 0.0,
+        "maximumLocalAdverseToPositiveRateRatio": 0.0,
+        "minimumGateNetSignedOutwardDischargeM3S": 4.3431189124481376e-08
+      },
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "fishwayDischargeM3S": 0.0,
+      "reusedFromV2ExactArtifact": false
+    }
+  ],
+  "allCasesNumericallySafe": true,
+  "allCasesHeldThroughRequestedHold": true,
+  "localHeadReversalAloneBlocksOutwardMotion": false,
+  "gateNetInterlockEvaluatedBeforeEveryStep": true,
+  "localAdverseFaceFluxClipped": false,
+  "microAdjustmentGateHydraulicRepresentationIncluded": false,
+  "regulatingMainGateRolePhysicalAdopted": false,
+  "salinityTransportEvaluated": false,
+  "meshAdopted": false,
+  "yodaLaunchPermitted": false,
+  "forecastAuthorized": false,
+  "guiAuthorized": false,
+  "releaseAuthorized": false
+}

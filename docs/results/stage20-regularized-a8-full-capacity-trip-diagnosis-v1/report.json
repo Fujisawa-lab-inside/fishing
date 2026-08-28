@@ -1,0 +1,33 @@
+{
+  "schema": "onga-stage20-regularized-a8-full-capacity-trip-diagnosis-v1",
+  "status": "PASS_LOCAL_A8_FULL_CAPACITY_TRIP_CAUSE_CAPTURED_NO_RETRY",
+  "classification": "LOCAL_DIRECTIONAL_OBSERVATION_DIAGNOSIS_NOT_PHYSICAL_OPERATION_NOT_FORECAST",
+  "sourceSweep": "docs/results/stage20-regularized-a8-directional-capacity-sweep-v2/report.json",
+  "targetA8Capacity": 1.0,
+  "trip": {
+    "modelSeconds": 278.70248467540847,
+    "requestedA8Capacity": 0.9855960995575389,
+    "a8Observation": {
+      "gateId": 8,
+      "faceCount": 9,
+      "weightedMeanHeadDifferenceM": 0.024570594038588488,
+      "minimumLocalHeadDifferenceM": -1.7904179228089845e-06,
+      "maximumLocalHeadDifferenceM": 0.11566383227304611,
+      "minimumUpstreamSelectedFaceDepthM": 0.14069842773908975,
+      "minimumDownstreamSelectedFaceDepthM": 0.09341488811948796,
+      "downstreamDryOrNearDryFaceCount": 0,
+      "minimumSelectedFaceSideDepthM": 0.09341488811948796,
+      "trustedForPositiveMotionObservation": false,
+      "failClosedReason": "ADVERSE_OR_INSUFFICIENT_LOCAL_HEAD"
+    },
+    "observationCallCount": 33107
+  },
+  "acceptedStepsBeforeTrip": 33106,
+  "wallSeconds": 81.14448216700112,
+  "numericalAdvanceAtOrAfterTrip": 0,
+  "retryCount": 0,
+  "microAdjustmentGateHydraulicRepresentationIncluded": false,
+  "physicalValidation": false,
+  "yodaLaunchPermitted": false,
+  "releaseAuthorized": false
+}

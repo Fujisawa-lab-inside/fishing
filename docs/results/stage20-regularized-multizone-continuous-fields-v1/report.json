@@ -1,0 +1,103 @@
+{
+  "schema": "onga-stage20-regularized-multizone-continuous-fields-v1",
+  "version": 1,
+  "status": "PASS_LOCAL_FIELDS_READY_MATCHED_DYNAMIC_CANARY_NOT_AUTHORIZED",
+  "classification": "UNADOPTED_NUMERICAL_CANDIDATE_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_RELEASE",
+  "source": {
+    "meshSha256": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164",
+    "fieldsSha256": "7d345f98185d592bc0af50787b4eea98753e6ab17bf1f8f7104a19cdc0b2320c",
+    "cellCount": 37724
+  },
+  "candidate": {
+    "meshSha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6",
+    "cellCount": 28746,
+    "fieldArtifact": {
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b",
+      "byteLength": 588329
+    }
+  },
+  "mapping": {
+    "method": "separate_upstream_downstream_linear_centroid_interpolation_with_nearest_fallback",
+    "fallbackCellCount": 12,
+    "fallbackMaximumDistanceM": 1.4730323251724884
+  },
+  "manningMapping": {
+    "queryCount": 28746,
+    "outsideTriangleCount": 1207,
+    "outsideTriangleFraction": 0.041988450567035415,
+    "fallbackMaximumImagePixelDistance": 20.29168138206701
+  },
+  "component": {
+    "componentCount": 2,
+    "componentCellCounts": [
+      4496,
+      24250
+    ],
+    "upstreamReferenceCellId": 2778
+  },
+  "componentVolumeOffsetM": {
+    "upstream": 0.0006379193235268596,
+    "downstream": 0.0010057896307517828
+  },
+  "targetVolumeM3": {
+    "upstream": 453574.51212668617,
+    "downstream": 2368771.0781189958
+  },
+  "finalVolumeM3": {
+    "upstream": 453574.5121266863,
+    "downstream": 2368771.0781189958
+  },
+  "limiter": {
+    "method": "area_weighted_pairwise_conservative_ordinary_face_slope_limiter",
+    "sourceField": "previous_upstream_constrained_candidate_depth",
+    "normalFaceDefinition": "internal_marker_zero_and_same_hydraulic_component",
+    "maximumNormalFaceSlopeMPerM": 0.06,
+    "edgeExcessToleranceM": 1e-06,
+    "pairRelaxation": 0.1,
+    "iterations": 10037,
+    "ordinaryFaceCount": 42107,
+    "remainingActiveFaceCount": 0,
+    "excludedClassifiedStructureFaceCount": 108,
+    "crossComponentOrdinaryFaceCount": 0,
+    "initialUpstreamVolumeM3": 453574.5121266863,
+    "finalUpstreamVolumeM3": 453574.5121266863,
+    "relativeUpstreamVolumeChange": 0.0,
+    "initialDownstreamVolumeM3": 2368771.0781189958,
+    "finalDownstreamVolumeM3": 2368771.0781189958,
+    "relativeDownstreamVolumeChange": 0.0,
+    "structureFacesSmoothedAcross": false,
+    "minimumWetDepthM": 0.05
+  },
+  "arrays": {
+    "depthSha256": "ef2a5ae6ea45d4b44a31d555e5699f8ddcf3866e83ea421910120c585e39a05a",
+    "bedSha256": "7112d12222be0d4f67fc602547405340cba7b6ae5bc38bd470d3db2465caaff2",
+    "manningSha256": "2a2a5a4fa4d035c6c36e142cab722622b8594c6720d3f1dbae383494daec96d6",
+    "upstreamMaskSha256": "8f92dfa08dcf9a78ab420e65f02b0a9d7836702b18ae13dbdfadf8f12bff1bef",
+    "p2DonorSha256": "5fa1a6ff7b697cb81b9ab1703ec0adfd0c8b9558c48c193fe15bfe99d920a9be",
+    "p2ReceiverSha256": "263e4c28695652653123a6a9c4766197a65682dde63abc5bacd82596be2fc6fa",
+    "gateFaceSha256": "16267cf638eefba30772080db38bcf936860448d1e8c2e105098bd0df558d72f",
+    "barrageUpstreamCellSha256": "55f71bdfb18eb8ce98b6f1070235bbe7c293d831fbfe44896d1c61dba6358184"
+  },
+  "ranges": {
+    "minimumDepthM": 0.0640738835210806,
+    "maximumDepthM": 6.137842959934558,
+    "minimumBedElevationM": -5.725543917788377,
+    "maximumBedElevationM": 0.34822515862509984
+  },
+  "checks": {
+    "finiteDepthBedManning": true,
+    "minimumWetDepth": true,
+    "constantInitialSurface": true,
+    "upstreamVolumeMatched": true,
+    "downstreamVolumeMatched": true,
+    "ordinaryFaceSlopeLimited": true,
+    "gateFacesSeparateComponents": true,
+    "P2DonorReceiverDisjoint": true
+  },
+  "decision": {
+    "adopted": false,
+    "YodaRunAuthorized": false,
+    "next": "freeze_matched_900_second_dynamic_acceptance_contract_and_run_local_one_step_equivalence"
+  }
+}

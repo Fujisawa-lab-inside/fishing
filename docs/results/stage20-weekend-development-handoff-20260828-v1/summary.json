@@ -1,6 +1,6 @@
 {
   "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
-  "status": "STRICT_FACEWISE_60S_NONZERO_HOLD_FAILED_PURE_CONSERVATIVE_ONE_WAY_OPERATOR_READY_NOT_CONNECTED",
+  "status": "CONSERVATIVE_ONE_WAY_KERNEL_REAL_CONTEXT_ONE_STEP_PASS_SHORT_DURATION_PENDING",
   "branch": "codex/stage19-public-inference-inputs",
   "baselineCommitBeforeHandoffRecord": "ee4a0c5",
   "executiveConclusion": "Strict facewise one-way flow is the fail-closed requirement. Do not rerun the fixed A3-A6 schedule or send the current controller to YODA. The preventive 60 s hold canary accepted no reverse face before or after any step, but capacity decreased monotonically from 100% to all closed by model time 336.322 s; later 12.5% reopening probes found reverse flow on all 29 selected faces. The earlier 87.5% result is only a post-step recovery observation after the first reverse state, not proof that the transition itself is strict-one-way safe. A nonzero 300 s Stage-4 hold therefore cannot be obtained from the current symmetric open-interface flux plus capacity scaling. The next technically coherent choice is either a conservative one-way gate-face flux law or a different forcing/head scenario; neither is yet physically validated, forecast-ready, GUI-ready, or release-authorized.",
@@ -65,6 +65,10 @@
     {
       "id": "pure_conservative_one_way_face_operator_ready",
       "finding": "A pure face-branch operator now selects the existing open-interface/wall blend for outward flow and two reflected-wall terms for adverse flow. Synthetic tests require equal-and-opposite mass terms, zero wall mass, SHA-bound upstream orientation, no post-hoc state repair, and explicit structure momentum reaction. It is not connected to the numerical kernel and is not physical validation."
+    },
+    {
+      "id": "one_way_kernel_real_context_one_step_pass",
+      "finding": "A copied local kernel entrypoint applies the one-way branch without modifying the legacy kernel. On the 28,746-cell real context, the outward mid-ramp case is bit-exact to the legacy state, scalars, and limiter. A +0.30 m adverse downstream perturbation blocks 29 faces, reports 17.9325 m3/s potential reverse discharge, preserves global mass with zero measured relative error, scans 28,746/28,746 limiter candidates, and produces no negative/nonfinite state or fishway flow. This is one-step numerical evidence, not duration or physical validation."
     }
   ],
   "trackedBindings": [
@@ -187,6 +191,26 @@
       "role": "one_way_face_flux_operator_implementation",
       "path": "tools/stage20_barrage_one_way_face_flux_operator_v1.py",
       "sha256": "1bcb0de9658bd97b8d021a0e2a6129cd8c52d16e5ab2bcddac724466cf062b02"
+    },
+    {
+      "role": "one_way_kernel_candidate",
+      "path": "tools/stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
+      "sha256": "db06122216e08eef19c9f34972f81a1f895b5d349be931a22f65ff8354e5817e"
+    },
+    {
+      "role": "one_way_kernel_one_step_contract",
+      "path": "config/stage20_barrage_one_way_kernel_one_step_probe_v1.json",
+      "sha256": "8f99efb3076ea58f1cd56de80f81cfa68ab113f0a1407f80cacbed8a78c33c2d"
+    },
+    {
+      "role": "one_way_kernel_one_step_probe",
+      "path": "tools/stage20_barrage_one_way_kernel_one_step_probe_v1.py",
+      "sha256": "46b7b82785b27ef7dff2c860743005f7f819d79de91813d19d5102adbc3a929b"
+    },
+    {
+      "role": "one_way_kernel_one_step_result",
+      "path": "docs/results/stage20-barrage-one-way-kernel-one-step-probe-v1/report.json",
+      "sha256": "137c62a1e484148b40159bf033f76ca09fe9f1bab383844ed633fdd984f79cf4"
     }
   ],
   "latestCleanArchiveVerification": {
@@ -204,9 +228,11 @@
       "tests/test_stage20_stage4_facewise_capacity_backoff_real_context_probe_v1.py",
       "tests/test_stage20_stage4_facewise_hysteresis_hold_canary_v1.py",
       "tests/test_stage20_barrage_one_way_face_flux_operator_v1.py",
+      "tests/test_stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
+      "tests/test_stage20_barrage_one_way_kernel_one_step_probe_v1.py",
       "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
     ],
-    "passed": 78,
+    "passed": 89,
     "failed": 0,
     "untrackedOfficialPdfsRequired": false,
     "untrackedLegacyGate5CandidateRequired": false
@@ -218,7 +244,7 @@
     "optionB": "Keep the existing symmetric interface law and accept that A3-A6 must close by 336.322 s under this forcing; this is safe but does not satisfy the requested nonzero 300 s Stage-4 hold.",
     "optionC": "Change the initial head or forcing so outward flow persists for 300 s, but classify it as a different scenario rather than evidence for the current case.",
     "whyAIsRecommended": "Capacity scaling can reduce magnitude but cannot change the sign imposed by the local head. The 60 s canary proves that strict safety eventually leaves only the all-closed candidate. A conservative one-way interface addresses the stated physical assumption directly; post-hoc clipping or a longer run would not.",
-    "nextLocalWorkAfterDecision": "The pure operator now passes its conservation and negative tests. Next, add it to a copied local kernel entrypoint and prove one-step lake-at-rest, outward-flow equivalence, adverse-head zero reverse mass, full limiter coverage, and mass balance. Do not run duration or YODA before those one-step gates pass."
+    "nextLocalWorkAfterDecision": "The copied kernel now passes the one-step gates. Next, run one bounded local 60 s Stage-4 hold from model time 300 to 360 with fixed A3-A6 capacity, record blocked-face exposure, mass, CFL, depth, limiter coverage, and gate capacity, then decide whether a single 300 s diagnostic authority is justified. Do not use YODA before the 60 s result passes."
   },
   "releaseBoundary": {
     "pushPerformed": false,

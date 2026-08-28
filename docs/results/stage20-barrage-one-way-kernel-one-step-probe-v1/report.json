@@ -1,0 +1,31 @@
+{
+  "schema": "onga-stage20-barrage-one-way-kernel-one-step-probe-v1-result",
+  "status": "PASS_LOCAL_REAL_CONTEXT_ONE_STEP_NOT_DURATION_NOT_PHYSICAL_VALIDATION",
+  "cellCount": 28746,
+  "orientedBarrageFaceCount": 61,
+  "outwardCase": {
+    "stateBitExactToLegacy": true,
+    "scalarsBitExactToLegacy": true,
+    "limiterBitExactToLegacy": true,
+    "blockedReverseFaceCount": 0,
+    "acceptedDtSeconds": 0.00835057581857078
+  },
+  "adverseCase": {
+    "blockedReverseFaceCount": 29,
+    "blockedReversePotentialDischargeM3S": 17.932488356423622,
+    "maximumCfl": 0.12000000000000001,
+    "relativeMassBalanceError": 0.0,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "fishwayDischargeM3S": 0.0,
+    "fishwayResidualM3S": 0.0,
+    "limiterExpectedCandidateCount": 28746,
+    "limiterEvaluatedCandidateCount": 28746,
+    "limiterCoverageComplete": true
+  },
+  "durationRunPerformed": false,
+  "yodaConnectionCount": 0,
+  "legacyKernelModified": false,
+  "physicalValidation": false,
+  "releaseAuthorized": false
+}

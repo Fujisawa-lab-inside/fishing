@@ -44,7 +44,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
 
     def test_clean_archive_count_and_removed_legacy_dependencies(self):
         verification = self.payload["latestCleanArchiveVerification"]
-        self.assertEqual((verification["passed"], verification["failed"]), (78, 0))
+        self.assertEqual((verification["passed"], verification["failed"]), (89, 0))
         self.assertFalse(verification["untrackedOfficialPdfsRequired"])
         self.assertFalse(verification["untrackedLegacyGate5CandidateRequired"])
 
@@ -81,7 +81,7 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertFalse(report["strictZeroLocalA8AdverseFlowSatisfied"])
         self.assertFalse(report["yodaFollowOnRecommended"])
         self.assertIn("ONE_WAY_GATE_FACE_FLUX", decision["recommendedAnswer"])
-        self.assertIn("conservation", decision["nextLocalWorkAfterDecision"])
+        self.assertIn("60 s Stage-4 hold", decision["nextLocalWorkAfterDecision"])
 
     def test_strict_facewise_backoff_is_one_state_only(self):
         row = next(
@@ -124,6 +124,22 @@ class WeekendDevelopmentHandoffTest(unittest.TestCase):
         self.assertFalse(contract["decisionBoundary"]["kernelConnectionPermitted"])
         self.assertFalse(contract["decisionBoundary"]["durationRunPermitted"])
         self.assertFalse(contract["decisionBoundary"]["yodaLaunchPermitted"])
+
+    def test_one_way_kernel_real_context_one_step_passes(self):
+        row = next(
+            item for item in self.payload["trackedBindings"]
+            if item["role"] == "one_way_kernel_one_step_result"
+        )
+        report = json.loads((ROOT / row["path"]).read_text())
+        self.assertTrue(report["outwardCase"]["stateBitExactToLegacy"])
+        self.assertTrue(report["outwardCase"]["scalarsBitExactToLegacy"])
+        self.assertTrue(report["outwardCase"]["limiterBitExactToLegacy"])
+        self.assertEqual(report["outwardCase"]["blockedReverseFaceCount"], 0)
+        self.assertEqual(report["adverseCase"]["blockedReverseFaceCount"], 29)
+        self.assertEqual(report["adverseCase"]["relativeMassBalanceError"], 0.0)
+        self.assertEqual(report["adverseCase"]["limiterEvaluatedCandidateCount"], 28746)
+        self.assertFalse(report["durationRunPerformed"])
+        self.assertFalse(report["physicalValidation"])
 
     def test_release_boundary_is_all_false(self):
         for key, value in self.payload["releaseBoundary"].items():

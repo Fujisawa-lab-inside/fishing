@@ -1,0 +1,57 @@
+{
+  "schema": "onga-stage20-barrage-one-way-kernel-one-step-probe-v1",
+  "status": "LOCAL_REAL_CONTEXT_ONE_STEP_READY_NOT_DURATION_NOT_YODA",
+  "purpose": "Verify the copied one-way barrage kernel on the real regularized mesh without changing the bound legacy kernel.",
+  "scope": {
+    "cellCount": 28746,
+    "outwardCase": "initial state with model-time 150 s A3-A6 half-capacity forcing",
+    "adverseCase": "same state with +0.30 m on selected A3-A6 downstream cells",
+    "requiredChecks": [
+      "outward state/scalars/limiter bit exact to legacy",
+      "adverse reverse faces blocked",
+      "global mass balance within 1e-12",
+      "negative and nonfinite count zero",
+      "fishway flow and residual zero",
+      "limiter candidate scan 28746/28746 complete"
+    ]
+  },
+  "bindings": [
+    {
+      "role": "one_way_kernel_candidate",
+      "path": "tools/stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
+      "sha256": "db06122216e08eef19c9f34972f81a1f895b5d349be931a22f65ff8354e5817e"
+    },
+    {
+      "role": "one_way_kernel_target_test",
+      "path": "tests/test_stage20_barrage_one_way_depth_weighted_kernel_candidate_v1.py",
+      "sha256": "dc8d4654342df0cb5ce26b308afae5316598f39be2b2c276d11e3657ab161857"
+    },
+    {
+      "role": "pure_face_operator",
+      "path": "tools/stage20_barrage_one_way_face_flux_operator_v1.py",
+      "sha256": "1bcb0de9658bd97b8d021a0e2a6129cd8c52d16e5ab2bcddac724466cf062b02"
+    },
+    {
+      "role": "legacy_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "stage4_runtime_context",
+      "path": "tools/stage20_regularized_stage4_ramp_hold_600s_runner_v1.py",
+      "sha256": "c48a4668f12057c08ec1f1d6691b8f90acc7774062a532e7a463a29b486ac5c9"
+    }
+  ],
+  "decisionBoundary": {
+    "singleLocalRealContextProbePermitted": true,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "legacyKernelMutationPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

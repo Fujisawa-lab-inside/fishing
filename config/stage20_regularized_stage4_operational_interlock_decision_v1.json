@@ -51,8 +51,34 @@
       "url": "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki_pamphlet.pdf",
       "supportedFact": "The public pamphlet describes operation while checking upstream and downstream water levels.",
       "exactControlThresholdProvided": false
+    },
+    {
+      "authority": "Kyushu Regional Development Bureau",
+      "url": "https://www.qsr.mlit.go.jp/content/900002350.pdf",
+      "supportedFact": "The published operation table assigns 24-270 m3/s to regulating-main-gate control and starts staged main-gate drive at 270 m3/s.",
+      "exactControlThresholdProvided": true
     }
   ],
+  "scenarioApplicability": {
+    "diagnosticForcing": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json",
+    "forcingClassification": "FIXED_UNCALIBRATED_DIAGNOSTIC_SCENARIO_NOT_OBSERVED_ONGA_MOUTH_NOT_TODAY_FORECAST",
+    "constantBoundaryInflowM3S": {
+      "N": 2.0,
+      "O": 35.0,
+      "G": 1.0,
+      "total": 38.0
+    },
+    "publishedOperationBandM3S": {
+      "minimumInclusive": 24.0,
+      "maximumExclusive": 270.0,
+      "control": "regulating_main_gate"
+    },
+    "stage4A3ToA6OpeningApplicableToThisBand": false,
+    "stagedMainGateDriveMinimumDischargeM3S": 270.0,
+    "exactNumberedRegulatingMainGateKnown": false,
+    "existingGate5Mapping": "WORKING_HYPOTHESIS_ONLY",
+    "interpretation": "The failed A3-A6 run is useful as an adverse-head stress diagnostic, but it is not an operationally applicable gate schedule for the bound 38 m3/s forcing."
+  },
   "decision": {
     "fixedThreeHundredSecondFullStage4HoldAccepted": false,
     "anySingleFaceReverseHardRejectAccepted": false,
@@ -79,15 +105,19 @@
     "releaseAuthorized": false
   },
   "nextGate": {
-    "status": "LOCAL_PARAMETER_BRACKET_REQUIRED_NO_YODA_LAUNCH",
+    "status": "BLOCKED_SCENARIO_MISMATCH_AND_REGULATING_GATE_ID_UNRESOLVED_NO_YODA_LAUNCH",
     "parameterizedInterlockImplementation": "tools/stage20_barrage_gate_net_interlock_v1.py",
     "parameterizedInterlockTargetTest": "tests/test_stage20_barrage_gate_net_interlock_v1.py",
     "requiredInputs": [
+      "The numbered identity of the regulating main gate, or an explicit decision to retain it as an unvalidated hypothesis",
+      "A forcing scenario in the applicable published operation band",
       "A defensible gate closing-time range",
       "A defensible upstream-downstream head or net-flow safety margin",
       "A cumulative adverse-volume limit or a salinity-transport criterion"
     ],
     "permittedWork": [
+      "Local operation-band dispatch validation",
+      "Local regulating-gate identity and geometry audit",
       "Local parameterized sensitivity runs",
       "Fail-closed target tests",
       "Evidence and provenance updates"

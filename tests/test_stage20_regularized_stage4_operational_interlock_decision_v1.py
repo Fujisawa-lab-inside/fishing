@@ -9,6 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DECISION_PATH = ROOT / "config/stage20_regularized_stage4_operational_interlock_decision_v1.json"
 ANY_FACE_PATH = ROOT / "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json"
 GATE_NET_PATH = ROOT / "docs/results/stage20-regularized-stage4-gate-net-flux-probe-v1/report.json"
+FORCING_PATH = ROOT / "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json"
+SEQUENCE_PATH = ROOT / "config/stage20_barrage_sequential_operation_candidate_v1.json"
 
 
 class OperationalInterlockDecisionTest(unittest.TestCase):
@@ -17,6 +19,8 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
         cls.decision = json.loads(DECISION_PATH.read_text())
         cls.any_face = json.loads(ANY_FACE_PATH.read_text())
         cls.gate_net = json.loads(GATE_NET_PATH.read_text())
+        cls.forcing = json.loads(FORCING_PATH.read_text())
+        cls.sequence = json.loads(SEQUENCE_PATH.read_text())
 
     def test_decision_rejects_both_fixed_hold_and_any_face_rule(self):
         decision = self.decision["decision"]
@@ -73,7 +77,27 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
                 for row in sources
             )
         )
-        self.assertTrue(all(not row["exactControlThresholdProvided"] for row in sources))
+        exact = [row for row in sources if row["exactControlThresholdProvided"]]
+        self.assertEqual(len(exact), 1)
+        self.assertIn("24-270", exact[0]["supportedFact"])
+
+    def test_bound_forcing_is_in_regulating_gate_not_stage4_band(self):
+        applicability = self.decision["scenarioApplicability"]
+        inflow = self.forcing["series"]["riverDischargeM3S"]
+        totals = [sum(values) for values in zip(inflow["N"], inflow["O"], inflow["G"])]
+        self.assertTrue(all(value == 38.0 for value in totals))
+        self.assertEqual(applicability["constantBoundaryInflowM3S"]["total"], 38.0)
+        bands = self.sequence["authority"]["officialOperationalAnchors"]
+        selected = [
+            row for row in bands
+            if row["minimumDischargeM3S"] <= 38.0
+            and (row["maximumDischargeM3S"] is None or 38.0 < row["maximumDischargeM3S"])
+        ]
+        self.assertEqual(len(selected), 1)
+        self.assertEqual(selected[0]["control"], "regulating_main_gate")
+        self.assertEqual(applicability["publishedOperationBandM3S"]["control"], "regulating_main_gate")
+        self.assertFalse(applicability["stage4A3ToA6OpeningApplicableToThisBand"])
+        self.assertFalse(applicability["exactNumberedRegulatingMainGateKnown"])
 
     def test_downstream_promotions_remain_blocked(self):
         boundary = self.decision["meaningBoundary"]
@@ -87,7 +111,7 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
             self.assertFalse(boundary[key])
         self.assertEqual(
             self.decision["nextGate"]["status"],
-            "LOCAL_PARAMETER_BRACKET_REQUIRED_NO_YODA_LAUNCH",
+            "BLOCKED_SCENARIO_MISMATCH_AND_REGULATING_GATE_ID_UNRESOLVED_NO_YODA_LAUNCH",
         )
         for key in ("parameterizedInterlockImplementation", "parameterizedInterlockTargetTest"):
             self.assertTrue((ROOT / self.decision["nextGate"][key]).is_file())

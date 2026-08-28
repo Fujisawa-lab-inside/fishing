@@ -98,6 +98,10 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
         self.assertEqual(applicability["publishedOperationBandM3S"]["control"], "regulating_main_gate")
         self.assertFalse(applicability["stage4A3ToA6OpeningApplicableToThisBand"])
         self.assertFalse(applicability["exactNumberedRegulatingMainGateKnown"])
+        resolution_path = applicability["localCompositeRegulatingMainGateResolution"].split("#", 1)[0]
+        resolution = json.loads((ROOT / resolution_path).read_text())
+        self.assertEqual(resolution["resolution"]["regulatingMainGateId"], 8)
+        self.assertIn("REJECTED", applicability["existingGate5Mapping"])
 
     def test_downstream_promotions_remain_blocked(self):
         boundary = self.decision["meaningBoundary"]
@@ -111,7 +115,7 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
             self.assertFalse(boundary[key])
         self.assertEqual(
             self.decision["nextGate"]["status"],
-            "BLOCKED_SCENARIO_MISMATCH_AND_REGULATING_GATE_ID_UNRESOLVED_NO_YODA_LAUNCH",
+            "LOCAL_A8_ONLY_DIAGNOSTIC_PREPARATION_ALLOWED_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
         )
         for key in ("parameterizedInterlockImplementation", "parameterizedInterlockTargetTest"):
             self.assertTrue((ROOT / self.decision["nextGate"][key]).is_file())

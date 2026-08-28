@@ -76,7 +76,8 @@
     "stage4A3ToA6OpeningApplicableToThisBand": false,
     "stagedMainGateDriveMinimumDischargeM3S": 270.0,
     "exactNumberedRegulatingMainGateKnown": false,
-    "existingGate5Mapping": "WORKING_HYPOTHESIS_ONLY",
+    "localCompositeRegulatingMainGateResolution": "config/stage20_barrage_regulating_main_gate_resolution_v1.json#gate8",
+    "existingGate5Mapping": "REJECTED_BY_OFFICIAL_GATE5_CONTROL_GATE_LABEL",
     "interpretation": "The failed A3-A6 run is useful as an adverse-head stress diagnostic, but it is not an operationally applicable gate schedule for the bound 38 m3/s forcing."
   },
   "decision": {
@@ -105,19 +106,19 @@
     "releaseAuthorized": false
   },
   "nextGate": {
-    "status": "BLOCKED_SCENARIO_MISMATCH_AND_REGULATING_GATE_ID_UNRESOLVED_NO_YODA_LAUNCH",
+    "status": "LOCAL_A8_ONLY_DIAGNOSTIC_PREPARATION_ALLOWED_MICRO_GATE_GEOMETRY_UNRESOLVED_NO_YODA_LAUNCH",
     "parameterizedInterlockImplementation": "tools/stage20_barrage_gate_net_interlock_v1.py",
     "parameterizedInterlockTargetTest": "tests/test_stage20_barrage_gate_net_interlock_v1.py",
     "requiredInputs": [
-      "The numbered identity of the regulating main gate, or an explicit decision to retain it as an unvalidated hypothesis",
       "A forcing scenario in the applicable published operation band",
+      "A reviewed hydraulic representation of the separate micro-adjustment gate",
       "A defensible gate closing-time range",
       "A defensible upstream-downstream head or net-flow safety margin",
       "A cumulative adverse-volume limit or a salinity-transport criterion"
     ],
     "permittedWork": [
       "Local operation-band dispatch validation",
-      "Local regulating-gate identity and geometry audit",
+      "Local A8-only regulating-gate diagnostic preparation",
       "Local parameterized sensitivity runs",
       "Fail-closed target tests",
       "Evidence and provenance updates"

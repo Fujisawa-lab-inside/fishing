@@ -1,0 +1,72 @@
+{
+  "schema": "onga-stage20-barrage-regulating-main-gate-resolution-v1",
+  "status": "PASS_LOCAL_COMPOSITE_ROLE_RESOLUTION_GATE8_NOT_PHYSICAL_ADOPTION",
+  "classification": "OFFICIAL_TEXT_PLUS_OFFICIAL_PHOTO_PLUS_LOCAL_NUMBERING_INFERENCE",
+  "question": "Which numbered A1-A8 main gate is the single regulating main gate?",
+  "answer": "Gate A8 is the local diagnostic resolution. The official sources do not directly publish the A-number, so this is a composite visual inference rather than physical authority.",
+  "evidence": [
+    {
+      "role": "official_gate_inventory_and_numbered_control_gate_exclusion",
+      "path": "docs/results/stage20-premesh-problem-closure-v1/official-sources/mlit-onga-barrage-gate-spec-20100520.pdf",
+      "sha256": "837ebb807f203632ac09ae787003943faf53064c44ce624648fa35b509cc7ad5",
+      "reviewedPageOneBased": 2,
+      "facts": [
+        "There are seven control main gates and one two-leaf regulating main gate.",
+        "The document explicitly calls numbered gates 5 and 7 control gates, excluding both from the regulating-main-gate role."
+      ]
+    },
+    {
+      "role": "official_visual_position_of_regulating_main_gate",
+      "path": "docs/results/stage20-premesh-problem-closure-v1/official-sources/mlit-onga-barrage-pamphlet-202203.pdf",
+      "sha256": "038f373903904ba852a4bff90c85685879371d687725e0e707b79a99a9a1ce28",
+      "reviewedPageOneBased": 2,
+      "facts": [
+        "The official aerial photograph labels the regulating main gate as the end main gate adjacent to the barrage management office.",
+        "The micro-adjustment gate and fishway are separately labelled at the opposite end."
+      ]
+    },
+    {
+      "role": "local_numbering_orientation",
+      "path": "docs/results/stage20-barrage-pink-structure-alignment-candidate-v2/gate-reference-anchor-authority-v2.geojson",
+      "sha256": "8e5197fd4fd747dc8d7b0645e59edb2d4c98d699f1a8dbebeb2f06922e7f3ef8",
+      "facts": [
+        "A1-A8 are ordered west to east.",
+        "A8 is the eastern end main gate adjacent to the management-office side."
+      ]
+    }
+  ],
+  "resolution": {
+    "regulatingMainGateId": 8,
+    "directOfficialNumberLabelPublished": false,
+    "resolvedForLocalDiagnosticCandidate": true,
+    "physicalRoleAdopted": false,
+    "independentSecondVisualReviewRequiredBeforePhysicalAdoption": true,
+    "priorGate5WorkingHypothesis": "REJECTED_BY_OFFICIAL_GATE5_CONTROL_GATE_LABEL",
+    "gate7IsAlsoExcluded": true
+  },
+  "lowFlowScenarioImplication": {
+    "boundDiagnosticTotalInflowM3S": 38.0,
+    "publishedBandMinimumM3S": 24.0,
+    "publishedBandMaximumM3S": 270.0,
+    "candidateMainGateCommandById1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "PARAMETERIZED_A8_ONLY"],
+    "a3ToA6Stage4Applicable": false,
+    "microAdjustmentGateExpectedByPublishedBand": "OPEN",
+    "microAdjustmentGateHydraulicGeometryKnown": false,
+    "fullPhysicalLowFlowScenarioReady": false
+  },
+  "supersedes": {
+    "path": "config/stage20_barrage_sequential_operation_candidate_v1.json",
+    "sha256": "c56f57271ad541f8f1901d09e41f8bebe815a44f68341963173424c7a114dfa6",
+    "scope": "Only the gate-5 regulating-main-gate working hypothesis is superseded. Published flow bands and user-provided opening order remain separate evidence."
+  },
+  "decisionBoundary": {
+    "a8OnlyLocalDiagnosticPreparationPermitted": true,
+    "a8OnlyYodaLaunchPermitted": false,
+    "microAdjustmentGateMayBeInvented": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "onga-stage20-regularized-multizone-900s-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-08-28T18:10:00+09:00",
+  "status": "MATCHED_CANARY_RUNNER_READY_EXTERNAL_ACTIVATION_REQUIRED",
+  "classification": "UNADOPTED_NUMERICAL_MESH_COMPARISON_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_RELEASE",
+  "scope": {
+    "meshId": "regularized_multizone_5p5m_ring_v1",
+    "cellCount": 28746,
+    "durationModelSeconds": 900,
+    "cflTarget": 0.12,
+    "maximumKernelDtSeconds": 0.05,
+    "mainGateCapacityByGateId1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "fishwayMode": "DISABLED_FOR_MATCHED_MESH_COMPARISON",
+    "fishwayDischargeM3S": 0.0,
+    "initialMomentumPolicy": "ZERO"
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "maximumWallSeconds": 1800,
+    "maximumAcceptedStepCount": 500000,
+    "maximumAcceptedDtStorageBytes": 4000000,
+    "outputBase": ".stage20-local-only/stage20-regularized-multizone-900s-canary-20260828",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_regularized_multizone_900s_activation_20260828_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "localOneStepTestPermitted": true,
+    "fullCanaryExecutionConnected": true,
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "expectedArrays": {
+    "depthRawSha256": "ef2a5ae6ea45d4b44a31d555e5699f8ddcf3866e83ea421910120c585e39a05a",
+    "bedRawSha256": "7112d12222be0d4f67fc602547405340cba7b6ae5bc38bd470d3db2465caaff2",
+    "manningRawSha256": "2a2a5a4fa4d035c6c36e142cab722622b8594c6720d3f1dbae383494daec96d6",
+    "areasRawSha256": "c6e9a2d31b419f003ad313d708e41e0ea08cc10c3f0076092042f81545b6d264",
+    "internalMarkersRawSha256": "0c59a48e001225e57d8e6434190940aeec775f9bbbc2bbe8d6fc54cec5fb57e1",
+    "upstreamMaskRawSha256": "8f92dfa08dcf9a78ab420e65f02b0a9d7836702b18ae13dbdfadf8f12bff1bef",
+    "p2DonorRawSha256": "5fa1a6ff7b697cb81b9ab1703ec0adfd0c8b9558c48c193fe15bfe99d920a9be",
+    "p2ReceiverRawSha256": "263e4c28695652653123a6a9c4766197a65682dde63abc5bacd82596be2fc6fa",
+    "minimumInitialDepthM": 0.0640738835210806,
+    "maximumInitialDepthM": 6.137842959934558,
+    "minimumBedElevationM": -5.725543917788377,
+    "maximumBedElevationM": 0.34822515862509984
+  },
+  "acceptance": {
+    "numericalSafety": {
+      "simulatedSecondsExactly": 900.0,
+      "maximumCfl": 0.120000000001,
+      "maximumRelativeMassBalanceError": 1e-10,
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0
+    },
+    "minimumUsefulPerformance": {
+      "baselineAcceptedSteps": 179804,
+      "baselineWallSeconds": 348.18228123150766,
+      "maximumAcceptedSteps": 135000,
+      "maximumWallSeconds": 280.0
+    },
+    "postRunDynamicEquivalenceRequiredForMeshAdoption": {
+      "mapping": "candidate_to_R1C_same_component_centroid_interpolation",
+      "maximumWaterSurfaceRmseM": 0.1,
+      "maximumVelocityVectorRmseMPerS": 0.01,
+      "requiredZones": ["full_domain", "barrage_100m", "confluence"]
+    }
+  },
+  "bindings": [
+    {"role": "base_fail_closed_runner", "path": "tools/stage20_continuous_all_closed_successor_runner_v1.py", "sha256": "3730fc9b43f29b3069d17dcaca12999c3290bef6d7225aa758a6f98e4ac1a04e"},
+    {"role": "diagnostic_forcing", "path": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json", "sha256": "138d12f04549dbcde83eb03b64d155c960213bef4f30f9484d0f76bd3f123967"},
+    {"role": "same_pass_limiter_kernel", "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py", "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"},
+    {"role": "bounded_telemetry", "path": "tools/stage20_dynamic_mesh_comparison_telemetry_v1.py", "sha256": "993ca6e04a672b22db374208f0cb0891657fb0633dca09d776579028212c18ca"},
+    {"role": "candidate_mesh", "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz", "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6"},
+    {"role": "candidate_mesh_report", "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/report.json", "sha256": "019a7daf5bbbce2fb55b66ad4ec1c73a8fb201075eb1894597eb1ae7147e28a1"},
+    {"role": "candidate_fields", "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz", "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"},
+    {"role": "candidate_fields_report", "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/report.json", "sha256": "8b79cb5da8167c3387102841113f317894a82698edf21c973bf080a5e9fcba8f"},
+    {"role": "spatial_mapping", "path": "tools/evaluate_stage20_R20_multizone_field_convergence_v1.py", "sha256": "3555374134797e8f6b810b014f64abba00818e21ae81385fc40dcc9f1b265137"},
+    {"role": "barrage_geometry", "path": "tools/generate_stage20_barrage_H2_boundary_spacing_comparison_v1.py", "sha256": "0a3b1462b508088b9e2501d2096f2042135c735d9e7554788a5e2777892b256a"},
+    {"role": "fishway_geometry", "path": "tools/generate_stage20_fishway_F3_review_mesh_v1.py", "sha256": "e24fd084a21e1ed08824bbcb0bf152a2e7a90c31b01baf9aabec369c25ec6511"},
+    {"role": "pilot_loader", "path": "tools/run_stage20_physical_pilot_v2.py", "sha256": "74ea7d017b0bcadf4d1bfbf7c2dc5ddf0c5681dde18337d48dd420ca574a9b3d"},
+    {"role": "reference_kernel", "path": "tools/stage19_shallow_water_kernel_v1.py", "sha256": "6c7fc458dd2294bfe77c43367881cea179e7355b39c31e26ca3ad8cc1c0c5b67"},
+    {"role": "compiled_kernel", "path": "tools/stage20_shallow_water_kernel_v3.py", "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14"},
+    {"role": "solver_inputs", "path": "tools/stage19_solver_inputs.py", "sha256": "ca5617b1106d8aa34bdb72265416b277ddf346701722a9f8473b1e90a184b8ab"},
+    {"role": "pilot_contract", "path": "config/stage20_physical_pilot_v2_contract_v1.json", "sha256": "17e391749ffad8dc7ef1ea4a73bca3e0d0c5a374f9f92ee532b51be84a1d8f1f"},
+    {"role": "pilot_fields", "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-final-fields.npz", "sha256": "3e8fed6ee564a34761081728aa2c1d244cdccfee8a78e9203641f2c985613c3b"},
+    {"role": "water_mask_manifest", "path": "data/onga_unified_water_manifest_r3.json", "sha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"}
+  ],
+  "forbidden": [
+    "positive_main_gate_capacity_or_motion",
+    "fishway_flow_or_fishway_yore_claim",
+    "automatic_retry",
+    "mesh_adoption_before_dynamic_equivalence",
+    "physical_forecast_fishing_gui_or_release_claim"
+  ]
+}

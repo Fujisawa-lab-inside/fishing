@@ -76,6 +76,7 @@
     "stage4A3ToA6OpeningApplicableToThisBand": false,
     "stagedMainGateDriveMinimumDischargeM3S": 270.0,
     "exactNumberedRegulatingMainGateKnown": false,
+    "localCompositeA8DiagnosticResolutionAvailable": true,
     "localCompositeRegulatingMainGateResolution": "config/stage20_barrage_regulating_main_gate_resolution_v1.json#gate8",
     "existingGate5Mapping": "REJECTED_BY_OFFICIAL_GATE5_CONTROL_GATE_LABEL",
     "interpretation": "The failed A3-A6 run is useful as an adverse-head stress diagnostic, but it is not an operationally applicable gate schedule for the bound 38 m3/s forcing."
@@ -106,12 +107,16 @@
     "releaseAuthorized": false
   },
   "nextGate": {
-    "status": "BLOCKED_MICRO_ADJUSTMENT_GATE_GEOMETRY_AND_PHYSICAL_ROLE_VALIDATION_NO_YODA_LAUNCH",
+    "status": "BLOCKED_MICRO_ADJUSTMENT_GATE_PHYSICAL_Q_LAW_AND_A8_PHYSICAL_ROLE_NO_YODA_LAUNCH",
     "parameterizedInterlockImplementation": "tools/stage20_barrage_gate_net_interlock_v1.py",
     "parameterizedInterlockTargetTest": "tests/test_stage20_barrage_gate_net_interlock_v1.py",
+    "microAdjustmentGateReadiness": "config/stage20_micro_adjustment_gate_readiness_v1.json",
+    "microAdjustmentGateTransferPrimitive": "tools/stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+    "microAdjustmentGateTransferContract": "config/stage20_micro_adjustment_gate_transfer_primitive_v1.json",
     "requiredInputs": [
       "A forcing scenario in the applicable published operation band",
-      "A reviewed hydraulic representation of the separate micro-adjustment gate",
+      "A reviewed physical representation or explicitly bounded diagnostic aggregation for the separate micro-adjustment gate",
+      "An evidenced tilting-gate discharge law or observed rating; width alone and a generic vertical-sluice law are insufficient",
       "Independent visual confirmation of the composite A8 regulating-gate role before physical adoption",
       "A defensible gate closing-time range",
       "A defensible upstream-downstream head or net-flow safety margin",
@@ -119,7 +124,7 @@
     ],
     "permittedWork": [
       "Local operation-band dispatch validation",
-      "Local micro-adjustment-gate geometry candidate preparation without solver connection",
+      "Local micro-adjustment-gate law and geometry evidence preparation without solver connection",
       "Local parameterized sensitivity runs",
       "Fail-closed target tests",
       "Evidence and provenance updates"

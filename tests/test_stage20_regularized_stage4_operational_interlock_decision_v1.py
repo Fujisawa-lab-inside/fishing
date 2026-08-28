@@ -10,7 +10,6 @@ DECISION_PATH = ROOT / "config/stage20_regularized_stage4_operational_interlock_
 ANY_FACE_PATH = ROOT / "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json"
 GATE_NET_PATH = ROOT / "docs/results/stage20-regularized-stage4-gate-net-flux-probe-v1/report.json"
 FORCING_PATH = ROOT / "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json"
-SEQUENCE_PATH = ROOT / "config/stage20_barrage_sequential_operation_candidate_v1.json"
 
 
 class OperationalInterlockDecisionTest(unittest.TestCase):
@@ -20,7 +19,6 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
         cls.any_face = json.loads(ANY_FACE_PATH.read_text())
         cls.gate_net = json.loads(GATE_NET_PATH.read_text())
         cls.forcing = json.loads(FORCING_PATH.read_text())
-        cls.sequence = json.loads(SEQUENCE_PATH.read_text())
 
     def test_decision_rejects_both_fixed_hold_and_any_face_rule(self):
         decision = self.decision["decision"]
@@ -87,17 +85,13 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
         totals = [sum(values) for values in zip(inflow["N"], inflow["O"], inflow["G"])]
         self.assertTrue(all(value == 38.0 for value in totals))
         self.assertEqual(applicability["constantBoundaryInflowM3S"]["total"], 38.0)
-        bands = self.sequence["authority"]["officialOperationalAnchors"]
-        selected = [
-            row for row in bands
-            if row["minimumDischargeM3S"] <= 38.0
-            and (row["maximumDischargeM3S"] is None or 38.0 < row["maximumDischargeM3S"])
-        ]
-        self.assertEqual(len(selected), 1)
-        self.assertEqual(selected[0]["control"], "regulating_main_gate")
-        self.assertEqual(applicability["publishedOperationBandM3S"]["control"], "regulating_main_gate")
+        band = applicability["publishedOperationBandM3S"]
+        self.assertLessEqual(band["minimumInclusive"], 38.0)
+        self.assertLess(38.0, band["maximumExclusive"])
+        self.assertEqual(band["control"], "regulating_main_gate")
         self.assertFalse(applicability["stage4A3ToA6OpeningApplicableToThisBand"])
         self.assertFalse(applicability["exactNumberedRegulatingMainGateKnown"])
+        self.assertTrue(applicability["localCompositeA8DiagnosticResolutionAvailable"])
         resolution_path = applicability["localCompositeRegulatingMainGateResolution"].split("#", 1)[0]
         resolution = json.loads((ROOT / resolution_path).read_text())
         self.assertEqual(resolution["resolution"]["regulatingMainGateId"], 8)
@@ -115,9 +109,15 @@ class OperationalInterlockDecisionTest(unittest.TestCase):
             self.assertFalse(boundary[key])
         self.assertEqual(
             self.decision["nextGate"]["status"],
-            "BLOCKED_MICRO_ADJUSTMENT_GATE_GEOMETRY_AND_PHYSICAL_ROLE_VALIDATION_NO_YODA_LAUNCH",
+            "BLOCKED_MICRO_ADJUSTMENT_GATE_PHYSICAL_Q_LAW_AND_A8_PHYSICAL_ROLE_NO_YODA_LAUNCH",
         )
-        for key in ("parameterizedInterlockImplementation", "parameterizedInterlockTargetTest"):
+        for key in (
+            "parameterizedInterlockImplementation",
+            "parameterizedInterlockTargetTest",
+            "microAdjustmentGateReadiness",
+            "microAdjustmentGateTransferPrimitive",
+            "microAdjustmentGateTransferContract",
+        ):
             self.assertTrue((ROOT / self.decision["nextGate"][key]).is_file())
 
 

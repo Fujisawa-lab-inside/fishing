@@ -1,0 +1,156 @@
+{
+  "schema": "onga-stage20-regularized-stage4-gate-net-flux-probe-v1",
+  "status": "PASS_LOCAL_GATE_NET_INTERLOCK_STAGE4_HOLD_NOT_ACHIEVED",
+  "classification": "LOCAL_GATE_NET_FLOW_CONTROL_PROBE_NOT_SALINITY_VALIDATION_NOT_PHYSICAL_FORECAST",
+  "simulatedSeconds": 600.0,
+  "acceptedSteps": 72267,
+  "wallSeconds": 156.03899699999965,
+  "maximumCfl": 0.12000000000000004,
+  "maximumRelativeMassBalanceError": 1.2501676083030893e-14,
+  "requestedFinalCapacityByGateId1To8": [
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    0.0
+  ],
+  "effectiveFinalCapacityByGateId1To8": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "latchedClosedGateIds": [
+    3,
+    4,
+    5,
+    6
+  ],
+  "interlockEvents": [
+    {
+      "modelSeconds": 337.7967284313792,
+      "gateIds": [
+        6
+      ],
+      "netReverseTripGateIds": [
+        6
+      ],
+      "wetnessTripGateIds": []
+    },
+    {
+      "modelSeconds": 346.2073826951465,
+      "gateIds": [
+        5
+      ],
+      "netReverseTripGateIds": [
+        5
+      ],
+      "wetnessTripGateIds": []
+    },
+    {
+      "modelSeconds": 348.2223031576733,
+      "gateIds": [
+        4
+      ],
+      "netReverseTripGateIds": [
+        4
+      ],
+      "wetnessTripGateIds": []
+    },
+    {
+      "modelSeconds": 362.4430230314317,
+      "gateIds": [
+        3
+      ],
+      "netReverseTripGateIds": [
+        3
+      ],
+      "wetnessTripGateIds": []
+    }
+  ],
+  "allAcceptedActiveGateNetFluxOutward": true,
+  "stage4HeldThroughRequestedHold": false,
+  "requestedHoldUnachievableUnderCurrentForcing": true,
+  "gateFluxAccounting": [
+    {
+      "gateId": 1,
+      "cumulativeLocalAdverseVolumeM3": 0.0,
+      "cumulativeSignedNetVolumeM3": 0.0,
+      "maximumLocalAdverseDischargeRateM3S": 0.0,
+      "maximumLocalAdverseToPositiveRateRatio": 0.0,
+      "minimumGateNetSignedOutwardDischargeM3S": null
+    },
+    {
+      "gateId": 2,
+      "cumulativeLocalAdverseVolumeM3": 0.0,
+      "cumulativeSignedNetVolumeM3": 0.0,
+      "maximumLocalAdverseDischargeRateM3S": 0.0,
+      "maximumLocalAdverseToPositiveRateRatio": 0.0,
+      "minimumGateNetSignedOutwardDischargeM3S": null
+    },
+    {
+      "gateId": 3,
+      "cumulativeLocalAdverseVolumeM3": 27.38090587002913,
+      "cumulativeSignedNetVolumeM3": 6843.855269158601,
+      "maximumLocalAdverseDischargeRateM3S": 2.4395797367506287,
+      "maximumLocalAdverseToPositiveRateRatio": 0.9989619424611087,
+      "minimumGateNetSignedOutwardDischargeM3S": 9.43944641322261e-08
+    },
+    {
+      "gateId": 4,
+      "cumulativeLocalAdverseVolumeM3": 3.849281977313795,
+      "cumulativeSignedNetVolumeM3": 6814.916030346885,
+      "maximumLocalAdverseDischargeRateM3S": 1.184421293245765,
+      "maximumLocalAdverseToPositiveRateRatio": 0.9974046456571187,
+      "minimumGateNetSignedOutwardDischargeM3S": 1.0079462453050216e-07
+    },
+    {
+      "gateId": 5,
+      "cumulativeLocalAdverseVolumeM3": 29.134953416217478,
+      "cumulativeSignedNetVolumeM3": 6801.331437923285,
+      "maximumLocalAdverseDischargeRateM3S": 2.9723482153350727,
+      "maximumLocalAdverseToPositiveRateRatio": 0.9992616794933018,
+      "minimumGateNetSignedOutwardDischargeM3S": 9.959888575950149e-08
+    },
+    {
+      "gateId": 6,
+      "cumulativeLocalAdverseVolumeM3": 27.584781502827536,
+      "cumulativeSignedNetVolumeM3": 5873.238267740344,
+      "maximumLocalAdverseDischargeRateM3S": 2.6443174525832562,
+      "maximumLocalAdverseToPositiveRateRatio": 0.9991487015918836,
+      "minimumGateNetSignedOutwardDischargeM3S": 9.2669038792013e-08
+    },
+    {
+      "gateId": 7,
+      "cumulativeLocalAdverseVolumeM3": 0.0,
+      "cumulativeSignedNetVolumeM3": 0.0,
+      "maximumLocalAdverseDischargeRateM3S": 0.0,
+      "maximumLocalAdverseToPositiveRateRatio": 0.0,
+      "minimumGateNetSignedOutwardDischargeM3S": null
+    },
+    {
+      "gateId": 8,
+      "cumulativeLocalAdverseVolumeM3": 0.0,
+      "cumulativeSignedNetVolumeM3": 0.0,
+      "maximumLocalAdverseDischargeRateM3S": 0.0,
+      "maximumLocalAdverseToPositiveRateRatio": 0.0,
+      "minimumGateNetSignedOutwardDischargeM3S": null
+    }
+  ],
+  "netReverseToleranceM3S": 1e-10,
+  "localFaceReverseIsRecordedNotClipped": true,
+  "localAdverseVolumeIsHydrodynamicFaceExchangeNotSaltTransport": true,
+  "salinityTransportEvaluated": false,
+  "negativeDepthCount": 0,
+  "nonFiniteValueCount": 0,
+  "fishwayDischargeM3S": 0.0,
+  "meshAdopted": false,
+  "physicalValidation": false
+}

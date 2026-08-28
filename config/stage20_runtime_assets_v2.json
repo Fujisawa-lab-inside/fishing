@@ -1,0 +1,320 @@
+{
+  "schema": "onga-stage20-runtime-assets-v2",
+  "version": 2,
+  "status": "LOCAL_CONTENT_ADDRESSED_REGISTRY_NO_FETCH",
+  "purpose": "Separate large derived runtime artifacts from the tracked M0 source baseline while retaining exact local identity checks.",
+  "policy": {
+    "networkFetchAllowed": false,
+    "automaticMaterializationAllowed": false,
+    "normalGitTrackingAllowedForLargeAssets": false,
+    "verifySha256AndByteLengthWhenPresent": true,
+    "missingAssetDisablesOnlyDependentModes": true,
+    "missingAssetNeverAuthorizesRegeneration": true
+  },
+  "assets": [
+    {
+      "id": "synthetic_mesh_binary",
+      "path": "public/data/onga/stage20/mesh-v2.bin",
+      "role": "shared_synthetic_browser_and_local_solver_source_mesh",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 2296216,
+      "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+      "requiredByModes": [
+        "synthetic",
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "synthetic_response_pack_binary",
+      "path": "public/data/onga/stage20/response-pack-synthetic-v2.bin",
+      "role": "default_synthetic_browser_response_pack",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3614328,
+      "sha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+      "requiredByModes": [
+        "synthetic"
+      ]
+    },
+    {
+      "id": "jma_hakata_2026_hourly_tide_snapshot",
+      "path": "data/jma_hakata_2026_hourly_tide_QF.txt",
+      "role": "offline_forcing_tide_snapshot",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 50005,
+      "sha256": "2f6339ae6d6cf3a282f5f88dce03996f1c89bd0f4a23e93ed56d98ee8a7aaee9",
+      "requiredByModes": []
+    },
+    {
+      "id": "physical_pilot_source_contract",
+      "path": "config/stage20_physical_pilot_v2_contract_v1.json",
+      "role": "local_solver_source_contract",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3878,
+      "sha256": "17e391749ffad8dc7ef1ea4a73bca3e0d0c5a374f9f92ee532b51be84a1d8f1f",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "physical_pilot_source_mesh_manifest",
+      "path": "public/data/onga/stage20/mesh-v2.json",
+      "role": "local_solver_source_mesh_manifest",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3832,
+      "sha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "onga_water_mask_manifest_r3",
+      "path": "data/onga_unified_water_manifest_r3.json",
+      "role": "local_solver_water_mask_manifest",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 4311,
+      "sha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "onga_water_mask_rows_r3_0",
+      "path": "data/onga_water_rows_r3_0.json",
+      "role": "local_solver_water_mask_chunk",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3845,
+      "sha256": "ecbedb7475c53357f60650e194b58e88f25f9cbc13aa6b6277ecb2293a0a47c0",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "onga_water_mask_rows_r3_1",
+      "path": "data/onga_water_rows_r3_1.json",
+      "role": "local_solver_water_mask_chunk",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 6295,
+      "sha256": "ef373644c0b325d396ed8f03c1fcf6b4a34dfb8d4330e363e99118b5bdaa0ee8",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "onga_water_mask_rows_r3_2",
+      "path": "data/onga_water_rows_r3_2.json",
+      "role": "local_solver_water_mask_chunk",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 8595,
+      "sha256": "0bebd9f5b735bfc990f7d9e00b564e7d9a9aca64bb1b17006fe128bcd452f443",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "onga_water_mask_rows_r3_3",
+      "path": "data/onga_water_rows_r3_3.json",
+      "role": "local_solver_water_mask_chunk",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 10155,
+      "sha256": "9e55ca5fc0fddfbbfdd83d0dcea6b28ad41c91eb78adf5e39fc8eca1cf5ee48e",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "physical_pilot_final_fields",
+      "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-final-fields.npz",
+      "role": "local_solver_initial_condition_fields",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 1138726,
+      "sha256": "3e8fed6ee564a34761081728aa2c1d244cdccfee8a78e9203641f2c985613c3b",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "stage19_m_boundary_tide_candidate",
+      "path": "config/stage19_m_boundary_tide_candidate_v1.json",
+      "role": "local_solver_tide_config",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3754,
+      "sha256": "a780f618089d295731dc6a87484b6a30f8a7895aac17c507876ede06c20720ea",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "physical_pilot_report",
+      "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-report.json",
+      "role": "local_solver_source_timing_report",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 3581,
+      "sha256": "5ab3f0285c362c853732df6303f9ac3261f0685294b21f9a595286f76d4e0670",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "fishway_constant_weak_flow_coupling_candidate",
+      "path": "config/stage20_fishway_constant_weak_flow_coupling_candidate_v1.json",
+      "role": "local_solver_runtime_config",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 60680,
+      "sha256": "7afe958520537b4f0ca2c1bf493160919b85a897cabb63639b83b07104be5313",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "r1c_review_mesh_summary",
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-review-mesh-v1/mesh-summary.json",
+      "role": "local_solver_mesh_summary",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 17521,
+      "sha256": "bfb67225311e55c2c4cd10b297329a04a928a126801f0e1b4e8c4a17eed19490",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "fishway_c2_storage_candidate",
+      "path": "config/stage20_fishway_1d_link_C2_storage_candidate_v1.json",
+      "role": "local_solver_runtime_config",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 7257,
+      "sha256": "0deb8c16bdfe97548781115a7ea337584577a71f6aadef0f5e88b1ad7507b8b6",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "r1c_review_mesh",
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-next-stage-review-approval-v1/review-mesh.npz",
+      "role": "small_runtime_fixture",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 564856,
+      "sha256": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164",
+      "requiredByModes": [
+        "r1c_saved_replay",
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "r1c_initial_checkpoint",
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-D2-full-history-v1/R1C-full-history-checkpoints.npz",
+      "role": "local_solver_seed_history",
+      "sizeClass": "large_external",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 178050685,
+      "sha256": "2ce73ec98cd84eb7dc60d2fee474eceab0de543c3e40b875dd7a07904382182f",
+      "requiredByModes": [
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "r1c_diagnostic_replay_binary",
+      "path": "docs/results/stage20-R1C-browser-replay-candidate-v1/replay-fields.bin",
+      "role": "saved_replay_fields",
+      "sizeClass": "large_external",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 78210991,
+      "sha256": "4056d994cf91bef37af2eabbc67f10ead1a753e6c2018845b8d88382590c336a",
+      "requiredByModes": [
+        "r1c_saved_replay",
+        "local_r1c_experiment"
+      ]
+    },
+    {
+      "id": "reference_v2_replay_binary",
+      "path": "docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/replay-fields.bin",
+      "role": "saved_replay_fields",
+      "sizeClass": "large_external",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 17518480,
+      "sha256": "d6d226b054869cde0f1a865a5fe524982a48ec92f5f400cc20ef846a7d443822",
+      "requiredByModes": []
+    },
+    {
+      "id": "n4p8d_replay_binary",
+      "path": "docs/results/stage20-n4p8d-36h-browser-sidecar-20260805-v1/replay-fields.bin",
+      "role": "saved_replay_fields",
+      "sizeClass": "large_external",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 17520552,
+      "sha256": "c6e0b16c3ad0efc057184cbb148bd396524a541a38e5821bff2788766b7898f5",
+      "requiredByModes": []
+    },
+    {
+      "id": "f59_saved_replay_binary",
+      "path": "docs/results/practical-wetdry-f59-v19-public-sidecar-20260825-v1/f59-public-37hour-response-pack.bin",
+      "role": "saved_f59_reference_fields",
+      "sizeClass": "large_external",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 17521640,
+      "sha256": "e626f7bcf30b30c90569e70dab3c2a7a3ea1901cc1604f6c3f03fb1abb408de8",
+      "requiredByModes": [
+        "f59_saved_replay",
+        "fishing_decision_replay",
+        "public_f59_viewer"
+      ]
+    },
+    {
+      "id": "fishing_decision_sidecar",
+      "path": "docs/results/fishing-decision-sidecar-20260825-v1/decision-sidecar.json",
+      "role": "small_runtime_fixture",
+      "sizeClass": "small_trackable",
+      "trackingPolicy": "required_tracked_at_baseline_promotion",
+      "byteLength": 20882,
+      "sha256": "c1fb6293509adfa24947fb1ce119f2b24418351bfdd12317c18ce3151d590a3a",
+      "requiredByModes": [
+        "fishing_decision_replay"
+      ]
+    },
+    {
+      "id": "contract_recovery_bundle",
+      "path": "docs/results/stage20-contract-lint-and-recovery-v1/stage20-json-contract-recovery-v1.zip",
+      "role": "optional_verified_lazy_download_bundle",
+      "sizeClass": "derived_external_bundle",
+      "trackingPolicy": "must_not_be_added_to_normal_git",
+      "byteLength": 1564659,
+      "sha256": "889eb5c2bf05224aea150fddea242367de53f0f5dc50e705b8ea95412d5a2869",
+      "requiredByModes": []
+    }
+  ],
+  "optionalRuntimeCollections": [
+    {
+      "id": "gsi_seamlessphoto_tile_cache",
+      "pathPrefix": "data/external/gsi/seamlessphoto/",
+      "role": "optional_local_visual_tile_collection",
+      "trackingPolicy": "optional_local_external_collection_not_required_by_baseline",
+      "filePattern": "z{zoom}/{x}-{y}.jpg",
+      "metadataPath": "data/external/gsi/seamlessphoto/README.md",
+      "networkFetchAllowed": false,
+      "runtimeRequired": false
+    }
+  ],
+  "authorityBoundary": {
+    "yodaAccessAllowed": false,
+    "networkFetchAllowed": false,
+    "solverOrScenarioRunAllowed": false,
+    "artifactRegenerationAllowed": false,
+    "deploymentAllowed": false
+  }
+}

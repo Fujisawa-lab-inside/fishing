@@ -1,0 +1,9 @@
+{
+  "schema": "onga-stage20-runtime-capability-negative-fixture-v1",
+  "mutation": {
+    "modeId": "public_f59_viewer",
+    "field": "publicRuntime",
+    "value": true
+  },
+  "expectedError": "E_FORBIDDEN_PUBLICRUNTIME"
+}

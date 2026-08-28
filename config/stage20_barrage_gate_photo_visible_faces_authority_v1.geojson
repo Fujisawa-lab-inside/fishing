@@ -1,0 +1,263 @@
+{
+  "type": "FeatureCollection",
+  "name": "stage20_barrage_gate_photo_visible_faces_authority_v1",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "properties": {
+    "schema": "onga-stage20-barrage-gate-photo-visible-faces-authority-v1",
+    "version": 1,
+    "status": "all_16_photo_visible_gate_endpoints_user_approved_coordinate_authority",
+    "coordinateOrder": [
+      "longitude",
+      "latitude"
+    ],
+    "crs": "EPSG:4326",
+    "meaning": "user-confirmed endpoints of the blue gate spans visible in the pinned aerial photograph",
+    "gateOrder": "west_1_to_east_8",
+    "fishwayExcluded": true,
+    "hydraulicWidthContractM": 46.5,
+    "hydraulicWidthRepresentation": "pending_separate_decision_not_encoded_by_geometry_length_yet",
+    "physicalMeshUseAuthorized": false,
+    "sourceCandidate": {
+      "path": "config/stage20_barrage_gate_photo_visible_faces_candidate_v2.geojson",
+      "sha256": "e256ff2fc3ca810f2845bc3e68d4a5a3e6d5ff83b32f02cfe41342b825c7956a",
+      "byteLength": 8467
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "barrage_gate_1_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 1,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P0",
+        "east_structure": "P1",
+        "photo_visible_width_m": 41.45184959884328,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.67471753413372,
+            33.88884789280548
+          ],
+          [
+            130.67516311465516,
+            33.88888749950809
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_2_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 2,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P1",
+        "east_structure": "P2",
+        "photo_visible_width_m": 42.13954862435115,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "gate2_west_revision": {
+          "previousOffsetReviewPx": 18.0,
+          "newOffsetReviewPx": 21.0,
+          "eastwardShiftM": 0.5760289766106577,
+          "status": "pending_user_visual_confirmation"
+        },
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.6752539297786,
+            33.88889557186853
+          ],
+          [
+            130.67570690287266,
+            33.88893583565848
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_3_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 3,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P2",
+        "east_structure": "P3",
+        "photo_visible_width_m": 42.27000455934867,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.67579565401604,
+            33.88894372455174
+          ],
+          [
+            130.67625002968327,
+            33.88898411299052
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_4_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 4,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P3",
+        "east_structure": "P4",
+        "photo_visible_width_m": 42.3935366715757,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.67633671684655,
+            33.8889918184168
+          ],
+          [
+            130.67679242066146,
+            33.889032324888795
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_5_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 5,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P4",
+        "east_structure": "P5",
+        "photo_visible_width_m": 42.16480740354931,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.67687910782473,
+            33.889040030310724
+          ],
+          [
+            130.6773323531985,
+            33.88908031823478
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_6_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 6,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P5",
+        "east_structure": "P6",
+        "photo_visible_width_m": 42.3006979935029,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.67742523230203,
+            33.8890885740393
+          ],
+          [
+            130.67787993867273,
+            33.88912899180493
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_7_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 7,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P6",
+        "east_structure": "P7",
+        "photo_visible_width_m": 42.752649676677045,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.6779624978758,
+            33.8891363302937
+          ],
+          [
+            130.67842206270512,
+            33.88917717989318
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "barrage_gate_8_photo_visible_faces_authority_v1",
+      "properties": {
+        "gate_no": 8,
+        "kind": "approved_photo_visible_gate_face_pair",
+        "status": "user_approved_coordinate_authority_no_physical_mesh_use_yet",
+        "west_structure": "P7",
+        "east_structure": "P8",
+        "photo_visible_width_m": 42.09677889100602,
+        "hydraulic_contract_width_m": 46.5,
+        "must_not_replace_hydraulic_width_without_separate_reconciliation": true,
+        "endpointApproval": "both_west_and_east_approved"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            130.6785108138485,
+            33.88918506876411
+          ],
+          [
+            130.6789633287238,
+            33.88922529168748
+          ]
+        ]
+      }
+    }
+  ]
+}

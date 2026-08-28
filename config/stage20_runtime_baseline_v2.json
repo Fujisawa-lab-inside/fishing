@@ -1,0 +1,543 @@
+{
+  "schema": "onga-stage20-runtime-baseline-v2",
+  "version": 2,
+  "status": "M0_1_CANDIDATE_TRACKING_GATE_ENFORCED",
+  "purpose": "Define the smallest reviewable source, configuration, test, small-fixture, and dynamic browser-data baseline for the Stage 20 local runtime without authorizing YODA, network, solver, deployment, or public-runtime work.",
+  "assetRegistryPath": "config/stage20_runtime_assets_v2.json",
+  "capabilityContractPath": "config/stage20_runtime_capabilities_v2.json",
+  "trackingPolicy": {
+    "requiredTrackedAtPromotion": true,
+    "largeArtifactMinimumBytes": 10000000,
+    "largeArtifactsInNormalGitForbidden": true,
+    "forbiddenTrackedPathPrefixes": [
+      ".stage20-local-only/",
+      ".build/",
+      ".pnpm-store/",
+      "tests/__pycache__/",
+      "docs/results/stage20-local-simulator-jobs/"
+    ],
+    "forbiddenTrackedPathSuffixes": [
+      ".pyc",
+      ".pyo"
+    ]
+  },
+  "absolutePathPolicy": {
+    "forbiddenPrefixes": [
+      "/Users/",
+      "/home/",
+      "/private/tmp/",
+      "/tmp/",
+      "/Volumes/",
+      "C:\\Users\\"
+    ],
+    "sourceOnlyForbiddenPrefixes": [
+      "file://"
+    ],
+    "scanRoles": [
+      "browser_source",
+      "python_source",
+      "runtime_config",
+      "validator",
+      "test",
+      "workflow",
+      "documentation"
+    ],
+    "jsonValueExemptions": [
+      {
+        "path": "config/stage20_fishway_constant_weak_flow_coupling_candidate_v1.json",
+        "jsonPointer": "/judgmentVisual/inlinePath",
+        "forbiddenPrefix": "/Users/",
+        "valueSha256": "d5970922e07ddeba3a9db77b28aeeaf59b35cc213176f8699820c5a4a4bacc4a",
+        "runtimeConsumed": false,
+        "reason": "Preserve the approved whole-artifact SHA while explicitly classifying its historical visualization locator as inert provenance."
+      }
+    ]
+  },
+  "importClosure": {
+    "javascriptEntrypoints": [
+      "onga_stage20_gui.mjs",
+      "onga_stage20_hybrid_worker.mjs"
+    ],
+    "pythonEntrypoints": [
+      "tools/serve_stage20_local_simulator_v1.py",
+      "tools/run_stage20_local_R1C_simulation_v1.py",
+      "tools/stage20_parallel_forcing_integration_v1.py"
+    ],
+    "javascriptExtensions": [
+      ".mjs",
+      ".js",
+      ".json"
+    ],
+    "pythonModuleRoots": [
+      ".",
+      "tools"
+    ],
+    "localImportsMustExist": true,
+    "localImportsMustBeTrackedAtPromotion": true
+  },
+  "dynamicBrowserRuntime": {
+    "expectedRequiredTrackedPathCount": 31,
+    "requiredTrackedGroups": [
+      {
+        "id": "synthetic_runtime_documents",
+        "role": "browser_runtime_document",
+        "identityPolicy": "git_blob_at_promoted_commit",
+        "rationale": "Small same-origin documents fetched by the default synthetic GUI path.",
+        "paths": [
+          "config/stage20_runtime_capabilities_v2.json",
+          "public/data/onga/stage20/mesh-v2.json",
+          "public/data/onga/stage20/response-pack-synthetic-v2.json",
+          "public/data/onga/stage20/hybrid-synthetic-input-v1.json",
+          "data/onga_unified_water_manifest_r3.json",
+          "public/data/onga/onga_geometry.geojson"
+        ]
+      },
+      {
+        "id": "synthetic_runtime_binaries",
+        "role": "browser_runtime_binary",
+        "identityPolicy": "asset_registry_sha256",
+        "rationale": "Bounded synthetic binary fixtures are already tracked and remain content-addressed.",
+        "paths": [
+          "public/data/onga/stage20/mesh-v2.bin",
+          "public/data/onga/stage20/response-pack-synthetic-v2.bin"
+        ]
+      },
+      {
+        "id": "gui_authority_readiness_and_provenance",
+        "role": "browser_runtime_authority_or_provenance",
+        "identityPolicy": "binding_manifest_sha256_and_git_blob_at_promoted_commit",
+        "rationale": "Thirteen small authority, readiness, provenance, and verified-download records referenced by the current GUI integration manifests.",
+        "paths": [
+          "config/stage20_gui_integration_status_manifest_v1.json",
+          "config/stage20_parallel_readiness_gui_integration_v1.json",
+          "config/stage20_contract_recovery_gui_integration_v1.json",
+          "docs/results/stage20-barrage-pink-structure-alignment-candidate-v2/gate-reference-anchor-authority-v2.geojson",
+          "config/stage20_barrage_gate_photo_visible_faces_authority_v1.geojson",
+          "config/stage20_parallel_readiness_package_v1.json",
+          "docs/results/stage20-parallel-readiness-package-v1/static-validation.json",
+          "docs/results/stage20-boundary-mesh-impact-v1/report.json",
+          "config/stage20_field_gate_observation_schema_v1.json",
+          "config/stage20_result_provenance_schema_v1.json",
+          "config/stage20_contract_lint_recovery_scope_v1.json",
+          "docs/results/stage20-contract-lint-and-recovery-v1/report.json",
+          "docs/STAGE20_PHYSICAL_VALIDATION_PLAN_V1.md"
+        ]
+      },
+      {
+        "id": "saved_replay_metadata",
+        "role": "browser_runtime_saved_replay_metadata",
+        "identityPolicy": "consumer_pinned_sha256_and_git_blob_at_promoted_commit",
+        "rationale": "Small approval, manifest, and validation records fetched lazily by R1C, N4P8d, and reference-v2 replay modes.",
+        "paths": [
+          "config/stage20_R1C_diagnostic_replay_GUI_integration_approval_v1.json",
+          "docs/results/stage20-R1C-diagnostic-replay-GUI-integration-approval-v1/static-validation.json",
+          "docs/results/stage20-R1C-browser-replay-candidate-v1/manifest.json",
+          "docs/results/stage20-R1C-browser-replay-candidate-v1/static-validation.json",
+          "config/stage20_n4p8d_gui_readonly_integration_approval_20260805_v1.json",
+          "docs/results/stage20-n4p8d-36h-browser-sidecar-20260805-v1/manifest.json",
+          "docs/results/stage20-n4p8d-36h-browser-sidecar-20260805-v1/static-validation.json",
+          "config/stage20_n4p8d_land_flow_visual_approval_20260806_v1.json",
+          "docs/results/stage20-n4p8d-land-flow-visual-approval-20260806-v1/static-validation.json",
+          "docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/manifest.json"
+        ]
+      }
+    ],
+    "bindingManifests": [
+      {
+        "path": "config/stage20_gui_integration_status_manifest_v1.json",
+        "bindingsKey": "authorityBindings",
+        "consumedIdsPath": "guiIntegrationContract.runtimeConsumedBindingIds",
+        "requiredBindingIds": [
+          "gate_reference_anchor_authority_v2",
+          "gate_photo_visible_endpoint_authority_v1",
+          "current_synthetic_GUI_mesh_manifest",
+          "current_synthetic_GUI_mesh_binary",
+          "current_synthetic_GUI_response_manifest",
+          "current_synthetic_GUI_response_binary"
+        ],
+        "optionalExternalBindings": {}
+      },
+      {
+        "path": "config/stage20_parallel_readiness_gui_integration_v1.json",
+        "bindingsKey": "bindings",
+        "consumedIdsPath": "integrationContract.runtimeConsumedBindingIds",
+        "requiredBindingIds": [
+          "parallel_readiness_package_v1",
+          "parallel_readiness_static_validation_v1",
+          "boundary_mesh_impact_report_v1",
+          "field_gate_observation_schema_v1",
+          "result_provenance_schema_v1"
+        ],
+        "optionalExternalBindings": {}
+      },
+      {
+        "path": "config/stage20_contract_recovery_gui_integration_v1.json",
+        "bindingsKey": "bindings",
+        "consumedIdsPath": "integrationContract.offlineValidatedBindingIds",
+        "requiredBindingIds": [
+          "contract_lint_scope_v1",
+          "contract_lint_report_v1",
+          "physical_validation_plan_v1"
+        ],
+        "optionalExternalBindings": {
+          "json_contract_recovery_bundle_v1": "contract_recovery_bundle"
+        }
+      }
+    ],
+    "optionalExternalAssetIds": [
+      "r1c_diagnostic_replay_binary",
+      "reference_v2_replay_binary",
+      "n4p8d_replay_binary",
+      "contract_recovery_bundle"
+    ],
+    "optionalRuntimeCollectionIds": [
+      "gsi_seamlessphoto_tile_cache"
+    ],
+    "allowedSameOriginApiPrefixes": [
+      "/api/stage20/forcing/capabilities",
+      "/api/stage20/forcing/build",
+      "/api/stage20/local/capabilities",
+      "/api/stage20/local/jobs"
+    ],
+    "allowedTemplateExpressions": [
+      "./${anchorBinding.path}",
+      "./${binding.path}",
+      "./${boundaryImpactBinding.path}",
+      "./${fieldObservationSchemaBinding.path}",
+      "./${meshManifestBinding.path}",
+      "./${photoEndpointBinding.path}",
+      "./${readinessPackageBinding.path}",
+      "./${readinessValidationBinding.path}",
+      "./${responseManifestBinding.path}",
+      "./${resultProvenanceSchemaBinding.path}"
+    ],
+    "composedPathDeclarations": [
+      {
+        "source": "onga_stage20_reference_v2_sidecar_loader_20260730_l9e4.mjs",
+        "literalPrefix": "docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/",
+        "resolvedPaths": [
+          "docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/manifest.json",
+          "docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/replay-fields.bin"
+        ]
+      }
+    ],
+    "runtimeGeneratedUrls": [
+      {
+        "source": "onga_stage20_local_simulation.mjs",
+        "expression": "job.manifestUrl",
+        "classification": "local_job_output_only"
+      },
+      {
+        "source": "onga_stage20_local_simulation.mjs",
+        "expression": "job.binaryUrl",
+        "classification": "local_job_output_only"
+      }
+    ]
+  },
+  "paths": [
+    {
+      "path": ".gitignore",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_runtime_baseline_v2.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_runtime_assets_v2.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_runtime_capabilities_v2.schema.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_runtime_capabilities_v2.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "onga_stage20_gui.mjs",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "onga_stage20_gui_data.mjs",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "onga_stage20_R1C_diagnostic_replay.mjs",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "onga_stage20_local_simulation.mjs",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "onga_stage20_forcing_integration.mjs",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "stage20-hybrid-gui.html",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "stage20-hybrid-gui.css",
+      "role": "browser_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/serve_stage20_local_simulator_v1.py",
+      "role": "python_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/run_stage20_local_R1C_simulation_v1.py",
+      "role": "python_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/stage20_parallel_forcing_integration_v1.py",
+      "role": "python_source",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/requirements-stage20-kernel-v3.txt",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_taskA_uncalibrated_inflow_model_reference_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_taskA_jma_station_specs_reference_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "config/stage20_physical_pilot_v2_contract_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "config/stage19_m_boundary_tide_candidate_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "config/stage20_fishway_constant_weak_flow_coupling_candidate_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "config/stage20_fishway_1d_link_C2_storage_candidate_v1.json",
+      "role": "runtime_config",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/jma_hakata_2026_hourly_tide_QF.txt",
+      "role": "offline_forcing_input",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/onga_unified_water_manifest_r3.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/onga_water_rows_r3_0.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/onga_water_rows_r3_1.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/onga_water_rows_r3_2.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "data/onga_water_rows_r3_3.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "public/data/onga/stage20/mesh-v2.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "public/data/onga/stage20/mesh-v2.bin",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-final-fields.npz",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-report.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-next-stage-review-approval-v1/review-mesh.npz",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-review-mesh-v1/mesh-summary.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "docs/results/fishing-decision-sidecar-20260825-v1/decision-sidecar.json",
+      "role": "small_fixture",
+      "trackedExpectation": "required",
+      "sha256Policy": "registry_sha256"
+    },
+    {
+      "path": "tests/test_stage20_parallel_forcing_integration_v1.py",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/test_stage20_local_service_m0.py",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/test_stage20_runtime_baseline_v2.py",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/stage20_local_simulator_input_lock_20260806_test_v1.test.mjs",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/fixtures/stage20-runtime-capabilities-v2/invalid-field-prediction.json",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/fixtures/stage20-runtime-capabilities-v2/invalid-local-display-only.json",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/fixtures/stage20-runtime-capabilities-v2/invalid-local-river-tide-connected.json",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tests/fixtures/stage20-runtime-capabilities-v2/invalid-public-runtime.json",
+      "role": "test",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/validate_stage20_runtime_baseline_v2.py",
+      "role": "validator",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "tools/validate_stage20_runtime_capabilities_v2.mjs",
+      "role": "validator",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": ".github/workflows/stage20-runtime-v2.yml",
+      "role": "workflow",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "docs/STAGE20_HYBRID_GUI_PROTOTYPE.md",
+      "role": "documentation",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    },
+    {
+      "path": "docs/STAGE20_GATE_INPUT_UI_CANDIDATE.md",
+      "role": "documentation",
+      "trackedExpectation": "required",
+      "sha256Policy": "git_blob_at_promoted_commit"
+    }
+  ],
+  "generatedLocalOnlyPaths": [
+    ".stage20-local-only/",
+    ".build/",
+    ".pnpm-store/",
+    "tests/__pycache__/",
+    "docs/results/stage20-local-simulator-jobs/"
+  ],
+  "authorityBoundary": {
+    "yodaAccessAllowed": false,
+    "networkFetchAllowed": false,
+    "solverRunAllowedByThisManifest": false,
+    "scenarioRunAllowed": false,
+    "deploymentAllowed": false,
+    "publicRuntimeAllowed": false,
+    "gitStageOrCommitAllowedByThisManifest": false
+  }
+}

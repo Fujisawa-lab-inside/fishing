@@ -11,6 +11,7 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
     private let resultURL: URL
     private let scrollTarget: String?
     private var attempts = 0
+    private var sawRuntimeAlert = false
 
     init(
         application: NSApplication,
@@ -56,11 +57,21 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             return
         }
         let script = """
-        (() => ({
-          phase: document.querySelector('#app-shell')?.dataset.phase || '',
+        (() => {
+          const app = document.querySelector('#app-shell');
+          const alert = document.querySelector('#runtime-version-alert');
+          const workspace = document.querySelector('#workspace');
+          return {
+          phase: app?.dataset.phase || '',
+          freshness: app?.dataset.runtimeFreshness || '',
+          expectedContract: app?.dataset.browserContractVersion || '',
+          activeContract: app?.dataset.activeBrowserContractVersion || '',
+          alertVisible: Boolean(alert && !alert.hidden),
+          workspaceInert: Boolean(workspace?.inert),
           overlay: document.querySelector('#overlay-message')?.textContent || '',
           title: document.title
-        }))()
+          };
+        })()
         """
         webView.evaluateJavaScript(script) { [weak self] value, error in
             guard let self else { return }
@@ -72,7 +83,16 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
                 self.finishWithError("unexpected readiness result")
                 return
             }
-            if record["phase"] as? String == "ready" {
+            if record["alertVisible"] as? Bool == true {
+                self.sawRuntimeAlert = true
+            }
+            let contractMatches = record["expectedContract"] as? String == "m0.2-ui-20260826-01"
+                && record["activeContract"] as? String == record["expectedContract"] as? String
+            if record["phase"] as? String == "ready",
+               record["freshness"] as? String == "current",
+               contractMatches,
+               record["alertVisible"] as? Bool == false,
+               record["workspaceInert"] as? Bool == false {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                     self.exerciseInterface()
                 }
@@ -92,10 +112,11 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
         let script = """
         (() => {
           const gateButtons = [...document.querySelectorAll('[data-gate]')];
-          const initiallyUnset = document.querySelector('#gate-summary-badge').textContent.trim() === '未入力'
-            && gateButtons.every(button => button.getAttribute('aria-pressed') === 'mixed');
+          const initiallyAutomatic = document.querySelector('#gate-summary-badge').textContent.trim() === '自動推定・段階8/8'
+            && gateButtons.every(button => button.getAttribute('aria-pressed') === 'true');
           const fieldValuesBefore = ['metric-speed', 'metric-barrage', 'timeline-current']
             .map(id => document.querySelector(`#${id}`).textContent.trim()).join('|');
+          document.querySelector('#gate-mode-field').click();
           document.querySelector('[data-gate-preset="closed"]').click();
           for (const gate of ['0', '3', '7']) document.querySelector(`[data-gate="${gate}"]`).click();
           const gateInputWorked = gateButtons
@@ -112,7 +133,7 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
           slider.value = '35';
           slider.dispatchEvent(new Event('input', { bubbles: true }));
           document.querySelector('#play-button').click();
-          return initiallyUnset && gateInputWorked && fieldValuesUnchanged;
+          return initiallyAutomatic && gateInputWorked && fieldValuesUnchanged;
         })()
         """
         webView.evaluateJavaScript(script) { [weak self] value, error in
@@ -122,7 +143,7 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
                 return
             }
             guard value as? Bool == true else {
-                self.finishWithError("GUI gate input did not transition from unset to 1,4,8 open")
+                self.finishWithError("GUI gate input did not transition from automatic stage 8 to field gates 1,4,8 open")
                 return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -231,9 +252,15 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
           const activeView = document.querySelector('[data-view].active');
           const activeLayer = document.querySelector('[data-layer].active');
           const sourceBadge = document.querySelector('.source-badge');
-          const warning = document.querySelector('.warning-hud');
+          const warning = document.querySelector('#warning-hud');
+          const calculationBanner = document.querySelector('#local-calculation-banner');
+          const calculationJump = document.querySelector('#local-calculation-jump');
+          const app = document.querySelector('#app-shell');
+          const runtimeAlert = document.querySelector('#runtime-version-alert');
           const slider = document.querySelector('#time-slider');
           const workspace = document.querySelector('#workspace');
+          const controlPanel = document.querySelector('#control-panel');
+          const mapSection = document.querySelector('#map-section');
           const gateButtons = [...document.querySelectorAll('[data-gate]')];
           const gateContract = document.querySelector('.gate-contract');
           const mobile = matchMedia('(max-width: 760px)').matches;
@@ -242,8 +269,15 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             const box = element.getBoundingClientRect();
             return style.display !== 'none' && style.visibility !== 'hidden' && box.width > 0 && box.height > 0;
           };
+          const controlOrder = Number.parseInt(getComputedStyle(controlPanel).order, 10) || 0;
+          const mapOrder = Number.parseInt(getComputedStyle(mapSection).order, 10) || 0;
           return {
-            phase: document.querySelector('#app-shell').dataset.phase,
+            phase: app.dataset.phase,
+            runtimeFreshness: app.dataset.runtimeFreshness,
+            expectedBrowserContract: app.dataset.browserContractVersion,
+            activeBrowserContract: app.dataset.activeBrowserContractVersion,
+            runtimeAlertVisible: isVisible(runtimeAlert),
+            workspaceInert: Boolean(workspace.inert),
             title: document.title,
             activeView: activeView?.textContent.trim(),
             activeViewId: activeView?.dataset.view,
@@ -262,7 +296,7 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             mapGateLabel: document.querySelector('#map-gate-label').textContent.trim(),
             gateFieldsUnchanged: document.documentElement.dataset.gateFieldsUnchanged === 'true',
             gatePositionSource: canvas.dataset.gatePositionSource || '',
-            gateWidthMetres: canvas.dataset.gateWidthMetres || '',
+            gateModelOpeningWidthMetres: canvas.dataset.gateModelOpeningWidthMetres || '',
             fishwaySeparated: canvas.dataset.fishwaySeparated === 'true',
             canvasWidth: Math.round(rect.width),
             canvasHeight: Math.round(rect.height),
@@ -270,9 +304,15 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
             demoBadge: document.querySelector('.demo-badge').textContent.trim(),
             sourceBadge: sourceBadge.textContent.trim(),
             sourceBadgeVisible: isVisible(sourceBadge),
-            warning: warning.textContent.trim(),
+            warning: warning.textContent.replace(/\\s+/g, ' ').trim(),
             warningVisible: isVisible(warning),
-            documentOrderMatchesVisual: workspace.firstElementChild.id === (mobile ? 'map-section' : 'control-panel'),
+            calculationStatus: calculationBanner.dataset.status,
+            calculationTitle: document.querySelector('#local-calculation-title').textContent.trim(),
+            calculationNote: document.querySelector('#local-calculation-note').textContent.trim(),
+            calculationBannerVisible: isVisible(calculationBanner),
+            calculationJumpVisible: isVisible(calculationJump),
+            mobile,
+            documentOrderMatchesVisual: mobile ? mapOrder < controlOrder : controlOrder <= mapOrder,
             viewCount: document.querySelectorAll('[data-view]').length,
             layerCount: document.querySelectorAll('[data-layer]').length,
             horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
@@ -290,8 +330,14 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
                 return
             }
             guard record["phase"] as? String == "ready",
+                  record["runtimeFreshness"] as? String == "current",
+                  record["expectedBrowserContract"] as? String == "m0.2-ui-20260826-01",
+                  record["activeBrowserContract"] as? String == record["expectedBrowserContract"] as? String,
+                  record["runtimeAlertVisible"] as? Bool == false,
+                  record["workspaceInert"] as? Bool == false,
+                  self.sawRuntimeAlert == false,
                   record["viewCount"] as? Int == 4,
-                  record["layerCount"] as? Int == 2,
+                  record["layerCount"] as? Int == 3,
                   record["activeViewId"] as? String == "barrage",
                   record["activeLayerId"] as? String == "depth",
                   record["timeline"] as? String == "+6時間",
@@ -300,21 +346,27 @@ final class HybridGuiCaptureController: NSObject, WKNavigationDelegate {
                   record["selectionMethod"] as? String == "keyboard",
                   record["gateCount"] as? Int == 8,
                   record["openGates"] as? String == "1,4,8",
-                  record["gateSummary"] as? String == "個別・3/8門",
-                  (record["gateContract"] as? String)?.contains("流れの図には未反映") == true,
+                  record["gateSummary"] as? String == "現地・標準順序外",
+                  (record["gateContract"] as? String)?.contains("8門入力・R1Cローカル計算") == true,
+                  (record["gateContract"] as? String)?.contains("入力を流れ図へ反映") == true,
                   record["gateContractVisible"] as? Bool == true,
-                  (record["mapGateLabel"] as? String)?.contains("1・4・8番開") == true,
-                  (record["mapGateLabel"] as? String)?.contains("流れの図には未反映") == true,
-                  (record["mapGateLabel"] as? String)?.contains("46.5m×8・魚道別") == true,
+                  (record["mapGateLabel"] as? String)?.contains("現地入力：標準順序外") == true,
+                  (record["mapGateLabel"] as? String)?.contains("実行ボタンで水門状態だけR1C物理計算へ反映") == true,
                   record["gateFieldsUnchanged"] as? Bool == true,
-                  record["gatePositionSource"] as? String == "provided-centers-published-width",
-                  record["gateWidthMetres"] as? String == "46.5",
+                  record["gatePositionSource"] as? String == "gate-reference-anchor-authority-v2",
+                  record["gateModelOpeningWidthMetres"] as? String == "46.5",
                   record["fishwaySeparated"] as? Bool == true,
-                  (record["canvasAria"] as? String)?.contains("主水門は提供中心ごとに46.5m幅で、魚道は別構造") == true,
+                  (record["canvasAria"] as? String)?.contains("A1〜A8は水門番号の参照アンカー") == true,
+                  (record["canvasAria"] as? String)?.contains("魚道は主水門1〜8とは別") == true,
                   (record["sourceBadge"] as? String)?.contains("合成データ") == true,
-                  record["sourceBadgeVisible"] as? Bool == true,
-                  record["warning"] as? String == "物理予測ではありません",
+                  record["sourceBadgeVisible"] as? Bool == !((record["mobile"] as? Bool) ?? false),
+                  (record["warning"] as? String)?.contains("合成データ（物理計算未実行・予測ではありません）") == true,
                   record["warningVisible"] as? Bool == true,
+                  record["calculationStatus"] as? String == "not-run",
+                  record["calculationTitle"] as? String == "ローカル計算：未実行",
+                  (record["calculationNote"] as? String)?.contains("計算は明示操作後に開始します") == true,
+                  record["calculationBannerVisible"] as? Bool == true,
+                  record["calculationJumpVisible"] as? Bool == true,
                   record["documentOrderMatchesVisual"] as? Bool == true,
                   (record["canvasWidth"] as? Int ?? 0) >= 280,
                   (record["canvasHeight"] as? Int ?? 0) >= 320,

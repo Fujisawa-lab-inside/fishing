@@ -1,0 +1,29 @@
+{
+  "schema": "onga-stage20-n4p8d-gui-readonly-integration-approval-20260805-v1",
+  "version": 1,
+  "status": "APPROVED_LOCAL_OPT_IN_READ_ONLY_GUI_CONNECTION",
+  "classification": "未較正・モデル参考値",
+  "userEvidence": {
+    "text": "目視判断が必要になるまで作業を進めて",
+    "precedingVisualDecision": "不自然な箇所はなさそうだ"
+  },
+  "authorizedScope": {
+    "addOptInN4P8dReplayMode": true,
+    "existingDefaultModeUnchanged": true,
+    "lazyLoadOnlyAfterSelection": true,
+    "readOnlySavedReplay": true,
+    "savedTimeSelectionOnly": true,
+    "fieldGateInputMayChangeReplay": false,
+    "automaticGateEstimatorMayChangeReplay": false,
+    "fishwayAlwaysEnabled": true,
+    "microEquivalentAggregatedIntoFishway": true,
+    "uncalibratedLabelsRequired": true,
+    "newSolverRunCount": 0
+  },
+  "notAuthorized": [
+    "public_or_main_promotion",
+    "calibrated_forecast_claim",
+    "mesh_geometry_or_solver_change",
+    "overwrite_existing_replay_modes"
+  ]
+}

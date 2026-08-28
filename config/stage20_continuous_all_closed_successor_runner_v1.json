@@ -1,0 +1,69 @@
+{
+  "schema": "onga-stage20-continuous-all-closed-successor-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-08-28T16:20:00+09:00",
+  "status": "FULL_CANARY_RUNNER_READY_EXTERNAL_ACTIVATION_REQUIRED",
+  "classification": "DIAGNOSTIC_ALL_CLOSED_BASELINE_NOT_FORECAST_NOT_PHYSICAL_VALIDATION_NOT_RELEASE",
+  "scope": {
+    "meshId": "candidate_C_R1C_exact_confluence_R20_patches",
+    "cellCount": 37724,
+    "durationModelSeconds": 900,
+    "cflTarget": 0.12,
+    "maximumKernelDtSeconds": 0.05,
+    "mainGateCapacityByGateId1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "fishwayMode": "DISABLED",
+    "fishwayDischargeM3S": 0.0,
+    "initialMomentumPolicy": "ZERO",
+    "initialDepthField": "continuous_candidate_depth_m",
+    "bedElevationField": "continuous_candidate_bed_elevation_m"
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "maximumWallSeconds": 1800,
+    "maximumAcceptedStepCount": 500000,
+    "maximumAcceptedDtStorageBytes": 4000000,
+    "outputBase": ".stage20-local-only/stage20-continuous-all-closed-canary-20260828",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_continuous_all_closed_canary_activation_20260828_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "localOneStepTestPermitted": true,
+    "fullCanaryExecutionConnected": true,
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "expectedArrays": {
+    "depthRawFloat64Sha256": "6dfe4baff30bd519749282f34a2366bc3fd58f9289f8447a64dabf3301a201df",
+    "bedRawFloat64Sha256": "000d0b8988fecd97f9ab370582a655a6845c1725fdffa7bbac4d85a2c1962588",
+    "manningRawFloat64Sha256": "3b770a901f1e059b244beb718a34ca932363ca85d9caff5149c799c98add7c04",
+    "areasRawFloat64Sha256": "c821d0918feb8ff158fd7fcd26a10bf0b43cd6613360258b8898c701ab8e961c",
+    "minimumInitialDepthM": 0.06306809389032882,
+    "maximumInitialDepthM": 6.138361172085903,
+    "minimumBedElevationM": -5.726062129939722,
+    "maximumBedElevationM": 0.3492309482558516
+  },
+  "bindings": [
+    {"role": "preflight_contract", "path": "config/stage20_continuous_all_closed_successor_preflight_v1.json", "sha256": "ff6e078963eba0ad0ad8be615f9ea349bcad03678c49f9a354bdf5025f4ade39"},
+    {"role": "diagnostic_forcing", "path": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json", "sha256": "138d12f04549dbcde83eb03b64d155c960213bef4f30f9484d0f76bd3f123967"},
+    {"role": "same_pass_limiter_kernel", "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py", "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"},
+    {"role": "bounded_telemetry", "path": "tools/stage20_dynamic_mesh_comparison_telemetry_v1.py", "sha256": "993ca6e04a672b22db374208f0cb0891657fb0633dca09d776579028212c18ca"},
+    {"role": "R1C_mesh", "path": "docs/results/stage20-barrage-candidate-C-R1C-next-stage-review-approval-v1/review-mesh.npz", "sha256": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164"},
+    {"role": "continuity_bathymetry", "path": "docs/results/stage20-constrained-bathymetry-continuity-v2-20260828/continuity-fields.npz", "sha256": "7d345f98185d592bc0af50787b4eea98753e6ab17bf1f8f7104a19cdc0b2320c"},
+    {"role": "spatial_mapping", "path": "tools/evaluate_stage20_R20_multizone_field_convergence_v1.py", "sha256": "3555374134797e8f6b810b014f64abba00818e21ae81385fc40dcc9f1b265137"},
+    {"role": "barrage_geometry", "path": "tools/generate_stage20_barrage_H2_boundary_spacing_comparison_v1.py", "sha256": "0a3b1462b508088b9e2501d2096f2042135c735d9e7554788a5e2777892b256a"},
+    {"role": "fishway_geometry", "path": "tools/generate_stage20_fishway_F3_review_mesh_v1.py", "sha256": "e24fd084a21e1ed08824bbcb0bf152a2e7a90c31b01baf9aabec369c25ec6511"},
+    {"role": "pilot_loader", "path": "tools/run_stage20_physical_pilot_v2.py", "sha256": "74ea7d017b0bcadf4d1bfbf7c2dc5ddf0c5681dde18337d48dd420ca574a9b3d"},
+    {"role": "reference_kernel", "path": "tools/stage19_shallow_water_kernel_v1.py", "sha256": "6c7fc458dd2294bfe77c43367881cea179e7355b39c31e26ca3ad8cc1c0c5b67"},
+    {"role": "compiled_kernel", "path": "tools/stage20_shallow_water_kernel_v3.py", "sha256": "c12864a18d8e0df57d29c3f40816e3c7e9c49bb5f14649318406e4fd6ed6ca14"},
+    {"role": "solver_inputs", "path": "tools/stage19_solver_inputs.py", "sha256": "ca5617b1106d8aa34bdb72265416b277ddf346701722a9f8473b1e90a184b8ab"},
+    {"role": "pilot_contract", "path": "config/stage20_physical_pilot_v2_contract_v1.json", "sha256": "17e391749ffad8dc7ef1ea4a73bca3e0d0c5a374f9f92ee532b51be84a1d8f1f"},
+    {"role": "pilot_fields", "path": "docs/results/stage20-kernel-v3-physical-pilot-29411976467/pilot-final-fields.npz", "sha256": "3e8fed6ee564a34761081728aa2c1d244cdccfee8a78e9203641f2c985613c3b"},
+    {"role": "water_mask_manifest", "path": "data/onga_unified_water_manifest_r3.json", "sha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7"}
+  ],
+  "forbidden": [
+    "positive_main_gate_capacity_or_motion",
+    "fishway_flow_or_fishway_yore_claim",
+    "consumed_operational_runner_import_or_resume",
+    "automatic_retry",
+    "forecast_physical_validation_mesh_adoption_fishing_or_release_claim",
+    "gui_commit_push_or_stage_mutation"
+  ]
+}

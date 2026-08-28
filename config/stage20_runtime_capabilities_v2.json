@@ -1,0 +1,164 @@
+{
+  "schema": "onga-stage20-runtime-capabilities-v2",
+  "version": 2,
+  "status": "M0_CANDIDATE_NOT_PUBLIC_RUNTIME_AUTHORITY",
+  "defaultModeId": "synthetic",
+  "assetRegistryPath": "config/stage20_runtime_assets_v2.json",
+  "modes": [
+    {
+      "id": "synthetic",
+      "labelJa": "合成プロトタイプ",
+      "availability": "built_in",
+      "executionKind": "browser_synthetic",
+      "gateEffect": "display_only",
+      "riverTideBoundaryPhysics": "synthetic_only",
+      "fishwayRepresentation": "display_only_topology",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "synthetic_mesh_binary",
+        "synthetic_response_pack_binary"
+      ],
+      "limitationsJa": [
+        "画面と操作の確認用に生成した値であり、観測・予報・物理計算結果ではない。",
+        "水門入力は表示だけを変更し、流れ場を再計算しない。"
+      ]
+    },
+    {
+      "id": "r1c_saved_replay",
+      "labelJa": "R1C保存済み診断リプレイ",
+      "availability": "local_asset_required",
+      "executionKind": "saved_replay_no_execution",
+      "gateEffect": "saved_artifact_only",
+      "riverTideBoundaryPhysics": "saved_artifact_only",
+      "fishwayRepresentation": "saved_uncalibrated_lumped_C2_1",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "r1c_review_mesh",
+        "r1c_diagnostic_replay_binary"
+      ],
+      "limitationsJa": [
+        "保存済み未較正計算の読み取り専用表示であり、現在の水門入力では変化しない。"
+      ]
+    },
+    {
+      "id": "local_r1c_experiment",
+      "labelJa": "ローカルR1C実験",
+      "availability": "local_asset_required",
+      "executionKind": "local_bounded_solver_explicit_only",
+      "gateEffect": "explicit_run_updates_local_solver",
+      "riverTideBoundaryPhysics": "unconnected_fixed_local_conditions",
+      "fishwayRepresentation": "local_uncalibrated_lumped_C2_1",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "r1c_review_mesh",
+        "r1c_initial_checkpoint",
+        "r1c_diagnostic_replay_binary",
+        "fishway_constant_weak_flow_coupling_candidate",
+        "r1c_review_mesh_summary",
+        "fishway_c2_storage_candidate",
+        "physical_pilot_source_contract",
+        "physical_pilot_source_mesh_manifest",
+        "synthetic_mesh_binary",
+        "onga_water_mask_manifest_r3",
+        "onga_water_mask_rows_r3_0",
+        "onga_water_mask_rows_r3_1",
+        "onga_water_mask_rows_r3_2",
+        "onga_water_mask_rows_r3_3",
+        "physical_pilot_final_fields",
+        "stage19_m_boundary_tide_candidate",
+        "physical_pilot_report"
+      ],
+      "limitationsJa": [
+        "明示したローカル実行後に限り8門入力がローカルsolverへ反映される。",
+        "表示中の河川流量と潮位はローカル物理境界へ未接続で、固定初期・境界条件を使う。",
+        "魚道は未較正の集約C2.1 storage表現であり、現地魚道の再現ではない。"
+      ]
+    },
+    {
+      "id": "f59_saved_replay",
+      "labelJa": "F59保存済みリプレイ",
+      "availability": "local_asset_required",
+      "executionKind": "saved_replay_no_execution",
+      "gateEffect": "saved_artifact_only",
+      "riverTideBoundaryPhysics": "saved_artifact_only",
+      "fishwayRepresentation": "not_exposed_by_consumer",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "f59_saved_replay_binary"
+      ],
+      "limitationsJa": [
+        "単一の保存済み未較正条件であり、ライブ条件や複数シナリオを表さない。"
+      ]
+    },
+    {
+      "id": "fishing_decision_replay",
+      "labelJa": "釣行判断リプレイ",
+      "availability": "local_asset_required",
+      "executionKind": "saved_replay_no_execution",
+      "gateEffect": "not_exposed",
+      "riverTideBoundaryPhysics": "not_exposed",
+      "fishwayRepresentation": "not_exposed_by_consumer",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "f59_saved_replay_binary",
+        "fishing_decision_sidecar"
+      ],
+      "limitationsJa": [
+        "保存済みF59から作った候補表示であり、ライブ予報・釣果確率・安全判断ではない。"
+      ]
+    },
+    {
+      "id": "public_f59_viewer",
+      "labelJa": "F59公開viewer候補",
+      "availability": "candidate_not_deployed",
+      "executionKind": "saved_replay_no_execution",
+      "gateEffect": "saved_artifact_only",
+      "riverTideBoundaryPhysics": "saved_artifact_only",
+      "fishwayRepresentation": "not_exposed_by_consumer",
+      "calibrated": false,
+      "fieldPrediction": false,
+      "catchProbability": false,
+      "operationalFishingAdvice": false,
+      "safetyAuthority": false,
+      "publicRuntime": false,
+      "requiredAssets": [
+        "f59_saved_replay_binary"
+      ],
+      "limitationsJa": [
+        "公開候補artifactの保存済み表示であり、このcontractはdeployや公開runtime接続を承認しない。"
+      ]
+    }
+  ],
+  "authorityBoundary": {
+    "yodaExecutionAuthorized": false,
+    "networkFetchAuthorized": false,
+    "solverExecutionAuthorizedByContract": false,
+    "scenarioExecutionAuthorized": false,
+    "deploymentAuthorized": false
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "onga-stage20-R1C-diagnostic-replay-GUI-integration-approval-v1",
+  "version": 1,
+  "status": "approved_local_private_R1C_diagnostic_GUI_connection",
+  "approvedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "userEvidence": {
+    "text": "承認する",
+    "context": "航空写真上の白い水面陸地境界、青い水門1〜8、紫の魚道を確認した後に提示した、R1C未較正診断リプレイの非公開GUI候補接続判断。",
+    "interpretation": "既存合成表示を既定として維持し、選択式R1C診断モードをローカル非公開GUIへ追加する。"
+  },
+  "authorizedScope": {
+    "addOptInR1CDiagnosticReplayMode": true,
+    "existingSyntheticModeRemainsDefault": true,
+    "lazyLoadOnlyAfterR1CSelection": true,
+    "readOnlySavedReplay": true,
+    "fieldGateInputMayChangeReplay": false,
+    "automaticGateEstimatorMayChangeReplay": false,
+    "fishwayAlwaysEnabledAndNotControllable": true,
+    "uncalibratedLabelsRequired": true,
+    "newSolverRunCount": 0,
+    "modifyExisting": [
+      "stage20-hybrid-gui.html",
+      "stage20-hybrid-gui.css",
+      "onga_stage20_gui.mjs",
+      "onga_stage20_gui_data.mjs"
+    ],
+    "addNew": [
+      "onga_stage20_R1C_diagnostic_replay.mjs",
+      "tools/validate_stage20_R1C_diagnostic_GUI_runtime_v1.mjs"
+    ]
+  },
+  "failClosedRequirements": [
+    "approval_plan_validation_manifest_binary_and_array_shapes_must_match",
+    "R1C_load_failure_must_leave_or_restore_existing_synthetic_mode",
+    "R1C_replay_must_not_mutate_field_or_automatic_gate_input",
+    "field_or_automatic_gate_input_must_not_mutate_R1C_replay",
+    "public_assets_must_remain_byte_identical"
+  ],
+  "bindings": [
+    {
+      "id": "integration_plan",
+      "path": "config/stage20_R1C_diagnostic_replay_GUI_integration_plan_candidate_v1.json",
+      "sha256": "1d86835ef15dd11810600ef980b49e10cd057a6083c400a7c9e2533b1d7f1d99",
+      "byteLength": 8173
+    },
+    {
+      "id": "integration_plan_validation",
+      "path": "docs/results/stage20-R1C-diagnostic-replay-GUI-integration-plan-v1/static-validation.json",
+      "sha256": "156bc7121deb18e79d91c5e870dac480ed759dc13f7c3d5fa33f431653772446",
+      "byteLength": 12142
+    }
+  ],
+  "notAuthorized": [
+    "replace_or_modify_public_mesh_or_response_pack",
+    "make_R1C_the_production_mesh",
+    "claim_absolute_field_accuracy_or_physical_calibration",
+    "allow_gate_input_to_synthesize_uncomputed_R1C_flow",
+    "run_solver_or_precomputation",
+    "deploy_or_publish",
+    "merge_main"
+  ]
+}

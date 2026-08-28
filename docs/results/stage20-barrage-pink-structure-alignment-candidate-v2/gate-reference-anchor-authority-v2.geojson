@@ -1,0 +1,203 @@
+{
+  "type": "FeatureCollection",
+  "name": "onga_stage20_gate_reference_anchor_authority_v2",
+  "properties": {
+    "crs": "EPSG:4326",
+    "status": "approved_reference_semantics_only_unchanged_v2",
+    "redefines_without_moving": true,
+    "supersedes_old_geometry": false,
+    "supersedes_semantics_of": "docs/results/stage20-barrage-authority-review-v1/confirmed-partial-authority.geojson#kind=confirmed_gate_center",
+    "old_confirmed_gate_center_semantics_withdrawn": true,
+    "old_file_retained_for_hash_pinned_history": true,
+    "old_authority_path": "docs/results/stage20-barrage-authority-review-v1/confirmed-partial-authority.geojson",
+    "old_authority_sha256": "910c49b51b6c668a2ec195ce12382168f8e25a51efbe0656b572e7878aae02d5",
+    "v1_geometry_moved": false,
+    "pink_structure_alignment_used_for_anchor_fit": false
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_1",
+        "kind": "gate_reference_anchor",
+        "gate_no": 1,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67497222,
+          33.88886111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_2",
+        "kind": "gate_reference_anchor",
+        "gate_no": 2,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67552778,
+          33.88891667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_3",
+        "kind": "gate_reference_anchor",
+        "gate_no": 3,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67608333,
+          33.88897222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_4",
+        "kind": "gate_reference_anchor",
+        "gate_no": 4,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67661111,
+          33.88902778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_5",
+        "kind": "gate_reference_anchor",
+        "gate_no": 5,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67713889,
+          33.88908333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_6",
+        "kind": "gate_reference_anchor",
+        "gate_no": 6,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67772222,
+          33.88911111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_7",
+        "kind": "gate_reference_anchor",
+        "gate_no": 7,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67825,
+          33.88916667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gate_reference_anchor_8",
+        "kind": "gate_reference_anchor",
+        "gate_no": 8,
+        "order": "west_1_to_east_8",
+        "movement_m": 0.0,
+        "locked": true,
+        "user_confirmed": true,
+        "is_exact_geometric_center": false,
+        "previous_confirmed_gate_center_semantics_withdrawn": true,
+        "physical_endpoint_derivation_authorized": false,
+        "source_scope": "user_provided_EPSG4326_coordinate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.67875,
+          33.88922222
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "onga-stage20-runtime-capability-negative-fixture-v1",
+  "mutation": {
+    "modeId": "local_r1c_experiment",
+    "field": "gateEffect",
+    "value": "display_only"
+  },
+  "expectedError": "E_LOCAL_GATE_EFFECT"
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "onga-stage20-parallel-readiness-gui-integration-v1",
+  "version": 1,
+  "status": "integrated_read_only_into_stage20_hybrid_GUI",
+  "recordedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "authorization": {
+    "authorizedBy": "user_instruction",
+    "instruction": "「GUI開発統合」に統合して",
+    "scope": [
+      "load_and_display_the_pinned_parallel_readiness_package",
+      "display_boundary_mesh_and_precompute_decisions",
+      "display_individual_gate_basis_and_cost_forecasts",
+      "validate_and_import_local_field_gate_observation_JSON",
+      "download_current_field_gate_observation_as_canonical_JSON",
+      "display_result_provenance_classification"
+    ],
+    "doesNotAuthorize": [
+      "apply_boundary_to_a_mesh",
+      "select_a_production_mesh",
+      "connect_gate_input_to_the_solver_worker_or_response_pack",
+      "run_precomputation",
+      "claim_physical_or_forecast_validation",
+      "upload_or_transmit_field_observations",
+      "change_public_runtime",
+      "merge_main"
+    ]
+  },
+  "integrationContract": {
+    "state": "read_only_readiness_and_local_observation_IO_integrated",
+    "failClosed": true,
+    "allBindingsPinnedBySha256AndByteLength": true,
+    "runtimeConsumedBindingIds": [
+      "parallel_readiness_package_v1",
+      "parallel_readiness_static_validation_v1",
+      "boundary_mesh_impact_report_v1",
+      "field_gate_observation_schema_v1",
+      "result_provenance_schema_v1"
+    ],
+    "requiredBehavior": [
+      "show_11_of_11_tasks_and_22_of_22_checks",
+      "show_boundary_changed_rebuild_mesh_and_precompute",
+      "show_formal_R20_as_first_precompute_not_recalculation",
+      "show_global_50_percent_interpolation_as_candidate_not_adopted",
+      "show_binary_9_basis_plus_5_holdouts_and_continuous_17_plus_5",
+      "show_cost_forecasts_as_planning_only",
+      "keep_field_observation_import_export_local_to_the_browser",
+      "keep_gate_input_disconnected_from_displayed_flow",
+      "label_current_flow_fields_as_synthetic_fixture"
+    ]
+  },
+  "displayContract": {
+    "completion": {
+      "taskCount": 11,
+      "completedTaskCount": 11,
+      "checkCount": 22,
+      "passedCheckCount": 22,
+      "recoveryBindingCount": 30,
+      "binaryPatternCount": 256
+    },
+    "boundary": {
+      "classification": "BOUNDARY_CHANGED_REBUILD_MESH_AND_PRECOMPUTE",
+      "changedPixelCount": 116403,
+      "changedHistoricalMeshCentroidMembershipCount": 14859,
+      "existingHistoricalPackReusableAfterBoundaryAdoption": false
+    },
+    "formalR20": {
+      "precomputationExists": false,
+      "recalculationRequiredNow": false,
+      "firstPrecomputationRequiredAfterProductionMeshSelection": true
+    },
+    "individualGates": {
+      "binaryTrainingBasisCount": 9,
+      "binaryInteractionHoldoutCount": 5,
+      "continuousAxisBasisCount": 17,
+      "continuousInteractionHoldoutCount": 5,
+      "globalFiftyPercentStatus": "candidate_not_adopted",
+      "gateInputDrivesDisplayedFlow": false
+    },
+    "checkpoint": {
+      "segmentDurationHours": 8,
+      "segmentCountPerBasis": 6,
+      "restartStateCountPerBasis": 7,
+      "displaySnapshotCountPerBasis": 37
+    },
+    "provenance": {
+      "currentFlowClassification": "synthetic_fixture",
+      "currentFlowLabelJa": "合成データ・物理計算未接続",
+      "physicalValidationPassed": false,
+      "forecastValidationPassed": false
+    }
+  },
+  "bindings": [
+    {
+      "id": "parallel_readiness_package_v1",
+      "path": "config/stage20_parallel_readiness_package_v1.json",
+      "sha256": "b3763daa7168205f6529ad97154d9f934f06673f56d10acb90ca2060514a0771",
+      "byteLength": 30570
+    },
+    {
+      "id": "parallel_readiness_static_validation_v1",
+      "path": "docs/results/stage20-parallel-readiness-package-v1/static-validation.json",
+      "sha256": "4d926eabd582e09b48f0068e1a5b219de12e6042afbe15909a3d0dc230c15768",
+      "byteLength": 3326
+    },
+    {
+      "id": "boundary_mesh_impact_report_v1",
+      "path": "docs/results/stage20-boundary-mesh-impact-v1/report.json",
+      "sha256": "2acca1a6cdb75374beac31916cea4454dbc62ef0dff905dc2d109c0b6b0e3783",
+      "byteLength": 2022
+    },
+    {
+      "id": "field_gate_observation_schema_v1",
+      "path": "config/stage20_field_gate_observation_schema_v1.json",
+      "sha256": "f69e909a5336b72c69d375f8ce47fb4d82878e412e04f7133400e230bff5eaa5",
+      "byteLength": 5800
+    },
+    {
+      "id": "result_provenance_schema_v1",
+      "path": "config/stage20_result_provenance_schema_v1.json",
+      "sha256": "7b741014811d0d85ad4a2e0379262887e1729698bc0fee06c21c60bae3b06b1f",
+      "byteLength": 7419
+    }
+  ],
+  "safeguards": {
+    "meshChanged": false,
+    "solverChanged": false,
+    "workerChanged": false,
+    "responsePackChanged": false,
+    "precomputationRun": false,
+    "fieldObservationNetworkTransmissionAdded": false,
+    "publicRuntimeChanged": false,
+    "mainMerged": false
+  }
+}

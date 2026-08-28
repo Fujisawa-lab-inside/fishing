@@ -1,3 +1,16 @@
 .venv-stage20/
 stage20-mesh-probe/
 tools/__pycache__/
+.stage20-local-only/
+.build/
+.pnpm-store/
+tests/__pycache__/
+docs/results/stage20-local-simulator-jobs/
+
+# Content-addressed runtime artifacts: local-only, never normal Git inputs.
+docs/results/stage20-barrage-candidate-C-R1C-D2-full-history-v1/R1C-full-history-checkpoints.npz
+docs/results/stage20-R1C-browser-replay-candidate-v1/replay-fields.bin
+docs/results/stage20-reference-v2-browser-sidecar-20260730-s8a1-v1/replay-fields.bin
+docs/results/stage20-n4p8d-36h-browser-sidecar-20260805-v1/replay-fields.bin
+docs/results/practical-wetdry-f59-v19-public-sidecar-20260825-v1/f59-public-37hour-response-pack.bin
+docs/results/stage20-contract-lint-and-recovery-v1/stage20-json-contract-recovery-v1.zip

@@ -1,0 +1,56 @@
+{
+  "schema": "onga-stage20-boundary-mesh-impact-report-v1",
+  "version": 1,
+  "status": "PASS_READ_ONLY_AUDIT_COMPLETED",
+  "recordedAtLocalDate": "2026-07-26",
+  "classification": "BOUNDARY_CHANGED_REBUILD_MESH_AND_PRECOMPUTE",
+  "tool": {
+    "path": "tools/audit_stage20_boundary_mesh_impact.py",
+    "sha256": "674ed04af1fb5edf6cc6176a049b9a62533003d78a68d6280d10c299313b48f7",
+    "byteLength": 16644
+  },
+  "authority": {
+    "bindingProven": true,
+    "candidatePath": "config/stage20_estuary_confirmed_integration_v3.geojson",
+    "candidateSha256": "2868cf998e9b8886d0306db7d774b2de6c0591474ef6755506ce76a18ad4233e"
+  },
+  "waterMaskDifference": {
+    "width": 2048,
+    "height": 1232,
+    "baselineWetPixelCount": 680633,
+    "candidateWetPixelCount": 591198,
+    "addedWetPixelCount": 13484,
+    "removedWetPixelCount": 102919,
+    "changedPixelCount": 116403,
+    "changedFractionOfRaster": 0.04613425514914773
+  },
+  "historicalMeshCentroidImpact": {
+    "cellCount": 50199,
+    "baselineWetCentroidCount": 50194,
+    "candidateWetCentroidCount": 35335,
+    "changedMembershipCount": 14859,
+    "baselineWetToCandidateDryCount": 14859,
+    "baselineDryToCandidateWetCount": 0
+  },
+  "packMeshIdentity": {
+    "matches": true,
+    "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+    "responsePackSha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+    "cellCount": 50199
+  },
+  "decision": {
+    "existingHistoricalPackReusableAfterBoundaryAdoption": false,
+    "meshRebuildRequiredBeforeBoundaryAdoption": true,
+    "precomputationRequiredAfterMeshRebuild": true,
+    "formalR20PrecomputationExists": false,
+    "formalR20Interpretation": "freeze the boundary, select/build a production mesh, then run the first separately authorized precomputation"
+  },
+  "safeguards": {
+    "maskChanged": false,
+    "meshChanged": false,
+    "solverRun": false,
+    "precomputationRun": false,
+    "responsePackChanged": false,
+    "publicChanged": false
+  }
+}

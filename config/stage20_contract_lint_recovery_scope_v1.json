@@ -1,0 +1,58 @@
+{
+  "schema": "onga-stage20-contract-lint-recovery-scope-v1",
+  "version": 1,
+  "status": "static_audit_scope_no_solver_or_runtime_mutation",
+  "recordedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "purpose": "lint Stage 20 JSON contracts and decision evidence as strict JSON, inventory repository-relative artifact bindings, and create a byte-complete recovery bundle without changing any source artifact",
+  "includeGlobs": [
+    "config/stage20*.json",
+    "docs/results/stage20-*/**/manifest.json",
+    "docs/results/stage20-*/**/*-manifest.json",
+    "docs/results/stage20-*/**/static-validation.json",
+    "docs/results/stage20-*/**/independent-validation.json",
+    "docs/results/stage20-*/**/diagnostic-summary.json",
+    "docs/results/stage20-*/**/decision-readiness.json",
+    "docs/results/stage20-*/**/approval-summary.json",
+    "docs/results/stage20-*/**/handoff.json"
+  ],
+  "excludeGlobs": [
+    "config/stage20_contract_recovery_gui_integration_v*.json"
+  ],
+  "supplementalRecoveryFiles": [
+    "tools/audit_stage20_contracts_and_recovery_v1.py",
+    "docs/STAGE20_CONTRACT_LINT_AND_RECOVERY.md",
+    "docs/STAGE20_PHYSICAL_VALIDATION_PLAN_V1.md"
+  ],
+  "maximumDocumentBytes": 52428800,
+  "referencePolicy": {
+    "invalidShaShapeSeverity": "warning",
+    "missingReferencedFileSeverity": "warning",
+    "referencedDigestMismatchSeverity": "warning",
+    "externalReferenceSeverity": "warning",
+    "unsafeRepositoryPathSeverity": "error",
+    "note": "generic reference findings are advisory because historical and candidate records intentionally coexist; domain-specific validators remain authoritative"
+  },
+  "recoveryPolicy": {
+    "bundleFormat": "deterministic_zip_with_embedded_manifest",
+    "includeExactSourceBytes": true,
+    "verifyEveryEntryAfterWrite": true,
+    "overwriteSourceFilesDuringRestore": false,
+    "restoreTargetMustBeNewOrEmpty": true
+  },
+  "derivedIndexPolicy": {
+    "excludedGuiSidecarPattern": "config/stage20_contract_recovery_gui_integration_v*.json",
+    "reason": "the GUI sidecar pins the report and recovery ZIP identities, so including that sidecar in the pinned report would create a recursive digest dependency",
+    "sidecarStillRequiresIndependentByteAndSemanticValidation": true
+  },
+  "safeguards": {
+    "readSourceFilesOnly": true,
+    "solverInvoked": false,
+    "precomputationInvoked": false,
+    "networkAccessAttempted": false,
+    "activeGuiFilesModified": false,
+    "activeFishwayFilesModified": false,
+    "physicalValidationClaimAllowed": false,
+    "publicRuntimeConnected": false
+  }
+}

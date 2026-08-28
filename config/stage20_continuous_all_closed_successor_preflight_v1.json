@@ -1,0 +1,118 @@
+{
+  "schema": "onga-stage20-continuous-all-closed-successor-preflight-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-08-28T15:30:00+09:00",
+  "status": "PREPARE_ONLY_BLOCKED_BEFORE_EXTERNAL_ACTIVATION_AND_FORCING",
+  "classification": "DIAGNOSTIC_ALL_CLOSED_BASELINE_NOT_FORECAST_NOT_PHYSICAL_VALIDATION",
+  "purpose": "R1Cと連続性制約付き河床を用いる900秒の全閉基準計測について、同一passのCFL limiter trace、入力identity、禁止事項を固定する。YODA投入、solver実行、正の開門、魚道流量、予測・物理妥当性・採用判定は含まない。",
+  "scope": {
+    "meshId": "candidate_C_R1C_exact_confluence_R20_patches",
+    "cellCount": 37724,
+    "durationModelSecondsInclusive": [900, 1200],
+    "proposedDurationModelSeconds": 900,
+    "cflTarget": 0.12,
+    "maximumKernelDtSeconds": 0.05,
+    "mainGateIds": [1, 2, 3, 4, 5, 6, 7, 8],
+    "requestedCapacityByGateId1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    "positiveMainGateMotionPermitted": false,
+    "fishwayMode": "DISABLED_FOR_BASELINE_NO_OUTLET_MOMENTUM_CLAIM",
+    "fishwayDischargeM3S": 0.0,
+    "initialConditionPolicy": "FRESH_CONSTANT_SURFACE_FROM_IDENTITY_BOUND_BATHYMETRY_AND_FUTURE_FORCING_MANIFEST",
+    "continuationFromConsumedOperationalOneHourCheckpoint": false
+  },
+  "telemetry": {
+    "samePassLimiterTraceRequired": true,
+    "fullCellScanRequiredForEveryAcceptedStep": true,
+    "expectedCandidateCountPerStep": 37724,
+    "maximumAcceptedStepCount": 500000,
+    "maximumAcceptedDtStorageBytes": 4000000,
+    "perStepFilesystemIoAllowed": false,
+    "resultMeaning": "BOUNDED_COST_AND_NUMERICAL_SAFETY_EVIDENCE_ONLY_NOT_MESH_ADOPTION"
+  },
+  "authority": {
+    "prepareOnly": true,
+    "solverImportAuthorizedNow": false,
+    "solverRunAuthorizedNow": false,
+    "yodaAuthorizedNow": false,
+    "commitAuthorizedNow": false,
+    "pushAuthorizedNow": false,
+    "stageMutationAuthorizedNow": false,
+    "requiredExternalActivationPath": "config/stage20_continuous_all_closed_canary_activation_20260828_v1.json",
+    "requiredForcingManifestPath": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json",
+    "requiredSuccessorRunnerPath": "tools/stage20_continuous_all_closed_successor_runner_v1.py",
+    "missingArtifactBehavior": "FAIL_BEFORE_SOLVER_IMPORT_OUTPUT_CREATION_OR_REMOTE_CONNECTION"
+  },
+  "requiredFutureArtifacts": [
+    {
+      "role": "external_single_use_activation",
+      "path": "config/stage20_continuous_all_closed_canary_activation_20260828_v1.json",
+      "presentAtContractIssue": false,
+      "sha256RequiredBeforeLaunch": true
+    },
+    {
+      "role": "identity_bound_tide_and_river_forcing_manifest",
+      "path": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json",
+      "presentAtContractIssue": false,
+      "sha256RequiredBeforeLaunch": true
+    },
+    {
+      "role": "reviewed_successor_runner",
+      "path": "tools/stage20_continuous_all_closed_successor_runner_v1.py",
+      "presentAtContractIssue": false,
+      "sha256RequiredBeforeLaunch": true
+    }
+  ],
+  "bindings": [
+    {
+      "role": "continuous_operational_backbone_contract",
+      "path": "config/stage20_continuous_operational_backbone_v1.json",
+      "sha256": "12392e1c605e66afe09b54b7756a9b40ac2b665237477264ab2d7e186d668e63"
+    },
+    {
+      "role": "per_gate_diagnostic_control_mechanics",
+      "path": "tools/stage20_barrage_per_gate_predictive_control_v2.py",
+      "sha256": "1fdec7b1ea245c761df91d6c7c33cdbbc1e7106ceb7769210e2e17569b485b36"
+    },
+    {
+      "role": "fail_closed_no_positive_motion_r1c_adapter",
+      "path": "tools/stage20_barrage_per_gate_predictive_r1c_adapter_v2.py",
+      "sha256": "f46bfeb31b239343ee4836b1396ba643e308efee42dbad65641a3d260f234f92"
+    },
+    {
+      "role": "same_pass_limiter_trace_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "bounded_dynamic_mesh_telemetry",
+      "path": "tools/stage20_dynamic_mesh_comparison_telemetry_v1.py",
+      "sha256": "993ca6e04a672b22db374208f0cb0891657fb0633dca09d776579028212c18ca"
+    },
+    {
+      "role": "R1C_mesh",
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-next-stage-review-approval-v1/review-mesh.npz",
+      "sha256": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164"
+    },
+    {
+      "role": "continuity_v2_bathymetry_fields",
+      "path": "docs/results/stage20-constrained-bathymetry-continuity-v2-20260828/continuity-fields.npz",
+      "sha256": "7d345f98185d592bc0af50787b4eea98753e6ab17bf1f8f7104a19cdc0b2320c"
+    },
+    {
+      "role": "continuity_v2_bathymetry_summary",
+      "path": "docs/results/stage20-constrained-bathymetry-continuity-v2-20260828/continuity-summary.json",
+      "sha256": "9b2f8812e2ccd236ea91ae361de1bf61f916a320e594fad09d11d132a7eb4d04"
+    }
+  ],
+  "forbidden": [
+    "import_or_call_consumed_operational_1h_runner",
+    "positive_main_gate_motion_or_positive_capacity",
+    "fishway_flow_or_fishway_yore_claim_in_baseline",
+    "reuse_legacy_tide_artifact_by_rewriting_expected_sha",
+    "create_activation_or_authorize_yoda_from_this_contract",
+    "create_solver_output_or_remote_connection_in_preflight",
+    "automatic_retry_or_resume_from_consumed_checkpoint",
+    "claim_forecast_physical_validation_mesh_adoption_fishing_or_release",
+    "commit_push_or_stage_mutation"
+  ]
+}

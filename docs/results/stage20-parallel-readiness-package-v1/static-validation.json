@@ -1,0 +1,86 @@
+{
+  "schema": "onga-stage20-parallel-readiness-static-validation-v1",
+  "version": 1,
+  "status": "PASS",
+  "recordedAtLocalDate": "2026-07-26",
+  "package": {
+    "path": "config/stage20_parallel_readiness_package_v1.json",
+    "sha256": "b3763daa7168205f6529ad97154d9f934f06673f56d10acb90ca2060514a0771",
+    "byteLength": 30570
+  },
+  "validator": {
+    "path": "tools/validate_stage20_parallel_readiness_package_v1.py",
+    "sha256": "829b466ef86c3dd56b930944346c1555d36bb5ab569152b07a50b354c9be8dc1",
+    "byteLength": 38308
+  },
+  "summary": {
+    "checkCount": 22,
+    "passCount": 22,
+    "failureCount": 0,
+    "recoveryBindingCount": 30,
+    "recoveryBindingPassCount": 30,
+    "binaryPatternCount": 256,
+    "binaryPatternPassCount": 256,
+    "goldenVectorCount": 4,
+    "goldenGateMapCount": 27,
+    "boundarySelfTestCount": 4,
+    "boundarySelfTestPassCount": 4,
+    "boundaryChangedPixelCount": 116403,
+    "boundaryChangedHistoricalMeshCentroidMembershipCount": 14859
+  },
+  "passedChecks": [
+    "package_identity",
+    "all_11_independent_tasks_complete",
+    "no_execution_or_public_authority_expansion",
+    "recovery_manifest_all_bytes_verified",
+    "boundary_classifier_self_test_4_of_4",
+    "actual_boundary_impact_matches_pinned_decision",
+    "formal_R20_is_first_precompute_not_recalculation",
+    "gate_geometry_adoption_stage_counts_and_nonproduction_state",
+    "GUI_candidate_and_package_gate_order_match",
+    "all_256_binary_patterns_preserve_gate_identity",
+    "GUI_stage_0_through_8_patterns_are_exact",
+    "continuous_gate_contract_exact_keys_range_and_fail_closed_tests",
+    "binary_projection_rejects_boolean_missing_and_partial_values",
+    "golden_vectors_exact_gate_keys_and_ranges",
+    "field_observation_schema_positive_and_6_negative_tests",
+    "result_provenance_positive_and_4_negative_tests",
+    "cost_and_storage_forecast_recomputes_from_s01_s02",
+    "review_mesh_cell_counts_match_forecast",
+    "checkpoint_restart_plan_is_complete_and_chainable",
+    "legacy_compatibility_matrix_fail_closed",
+    "individual_gate_basis_holdouts_and_50_percent_gate_complete",
+    "package_safeguards_all_hold"
+  ],
+  "reproduction": {
+    "command": ".venv-stage20/bin/python tools/validate_stage20_parallel_readiness_package_v1.py",
+    "exitCode": 0
+  },
+  "relatedValidatorCrossChecks": [
+    {
+      "id": "GUI_integration_manifest",
+      "status": "PASS",
+      "checkCount": 194,
+      "negativeTestCount": 6,
+      "failedCount": 0,
+      "mode": "check_only"
+    },
+    {
+      "id": "GUI_integration_runtime",
+      "status": "PASS",
+      "checkCount": 74,
+      "negativeTestCount": 6,
+      "failedCount": 0,
+      "mode": "stdout_only"
+    },
+    {
+      "id": "sequential_operation_integration",
+      "status": "PASS",
+      "checkCount": 40,
+      "passedCount": 40,
+      "failedCount": 0,
+      "output": "docs/results/stage20-parallel-readiness-package-v1/existing-sequential-validator-crosscheck.json"
+    }
+  ],
+  "interpretation": "PASS proves static consistency, byte identity, gate-key preservation, schema fail-closed behavior, forecast arithmetic, and restart design. It does not select a production mesh, adopt physical gate geometry, run a solver or precomputation, validate physics or forecasts, change a response pack/public runtime, or merge main."
+}

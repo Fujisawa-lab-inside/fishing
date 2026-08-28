@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fujisawa-lab.invalid/schemas/stage20-runtime-capabilities-v2.schema.json",
+  "title": "Stage 20 runtime capability contract v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "status",
+    "defaultModeId",
+    "assetRegistryPath",
+    "modes",
+    "authorityBoundary"
+  ],
+  "properties": {
+    "schema": {
+      "const": "onga-stage20-runtime-capabilities-v2"
+    },
+    "version": {
+      "const": 2
+    },
+    "status": {
+      "const": "M0_CANDIDATE_NOT_PUBLIC_RUNTIME_AUTHORITY"
+    },
+    "defaultModeId": {
+      "const": "synthetic"
+    },
+    "assetRegistryPath": {
+      "const": "config/stage20_runtime_assets_v2.json"
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/mode"
+      }
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "yodaExecutionAuthorized",
+        "networkFetchAuthorized",
+        "solverExecutionAuthorizedByContract",
+        "scenarioExecutionAuthorized",
+        "deploymentAuthorized"
+      ],
+      "properties": {
+        "yodaExecutionAuthorized": { "const": false },
+        "networkFetchAuthorized": { "const": false },
+        "solverExecutionAuthorizedByContract": { "const": false },
+        "scenarioExecutionAuthorized": { "const": false },
+        "deploymentAuthorized": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "labelJa",
+        "availability",
+        "executionKind",
+        "gateEffect",
+        "riverTideBoundaryPhysics",
+        "fishwayRepresentation",
+        "calibrated",
+        "fieldPrediction",
+        "catchProbability",
+        "operationalFishingAdvice",
+        "safetyAuthority",
+        "publicRuntime",
+        "requiredAssets",
+        "limitationsJa"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "synthetic",
+            "r1c_saved_replay",
+            "local_r1c_experiment",
+            "f59_saved_replay",
+            "fishing_decision_replay",
+            "public_f59_viewer"
+          ]
+        },
+        "labelJa": { "type": "string", "minLength": 1 },
+        "availability": {
+          "enum": [
+            "built_in",
+            "local_asset_required",
+            "candidate_not_deployed"
+          ]
+        },
+        "executionKind": {
+          "enum": [
+            "browser_synthetic",
+            "saved_replay_no_execution",
+            "local_bounded_solver_explicit_only"
+          ]
+        },
+        "gateEffect": {
+          "enum": [
+            "display_only",
+            "saved_artifact_only",
+            "explicit_run_updates_local_solver",
+            "not_exposed"
+          ]
+        },
+        "riverTideBoundaryPhysics": {
+          "enum": [
+            "synthetic_only",
+            "saved_artifact_only",
+            "unconnected_fixed_local_conditions",
+            "not_exposed"
+          ]
+        },
+        "fishwayRepresentation": {
+          "enum": [
+            "display_only_topology",
+            "saved_uncalibrated_lumped_C2_1",
+            "local_uncalibrated_lumped_C2_1",
+            "not_exposed_by_consumer"
+          ]
+        },
+        "calibrated": { "const": false },
+        "fieldPrediction": { "const": false },
+        "catchProbability": { "const": false },
+        "operationalFishingAdvice": { "const": false },
+        "safetyAuthority": { "const": false },
+        "publicRuntime": { "const": false },
+        "requiredAssets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "limitationsJa": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

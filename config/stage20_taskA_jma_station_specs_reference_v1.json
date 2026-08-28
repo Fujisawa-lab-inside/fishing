@@ -1,0 +1,28 @@
+{
+  "schema": "onga-stage20-taskA-jma-station-specs-reference-v1",
+  "status": "reference_selection_for_uncalibrated_spatial_weighting",
+  "stations": [
+    {
+      "id": "yahata",
+      "name": "八幡",
+      "providerStationCode": ""
+    },
+    {
+      "id": "iizuka",
+      "name": "飯塚",
+      "providerStationCode": "47809"
+    },
+    {
+      "id": "soeda",
+      "name": "添田",
+      "providerStationCode": "1046"
+    },
+    {
+      "id": "munakata",
+      "name": "宗像",
+      "providerStationCode": "0943"
+    }
+  ],
+  "selectionWarning": "地点選択と流域重みは未較正仮定であり、ティーセン分割・レーダー雨量・流域平均雨量による検証を行っていない。",
+  "officialStationNameEvidence": "https://www.data.jma.go.jp/stats/etrn/view/monthly_h1.php?block_no=00&day=&month=1&prec_no=82&view=p1&year=2026"
+}

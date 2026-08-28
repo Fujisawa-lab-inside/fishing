@@ -1,0 +1,141 @@
+{
+  "schema": "onga-stage20-contract-recovery-gui-integration-v1",
+  "version": 1,
+  "status": "integrated_read_only_into_stage20_hybrid_GUI",
+  "recordedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "authorization": {
+    "authorizedBy": "user_instruction",
+    "instruction": "「GUI開発統合」へ統合せよ",
+    "scope": [
+      "load_this_small_sidecar_at_GUI_startup",
+      "display_contract_lint_and_recovery_summary",
+      "display_physical_validation_plan_status",
+      "download_pinned_audit_report_on_user_action",
+      "download_pinned_recovery_bundle_on_user_action",
+      "download_pinned_physical_validation_plan_on_user_action"
+    ],
+    "doesNotAuthorize": [
+      "load_the_full_audit_report_or_recovery_bundle_at_startup",
+      "auto_fix_historical_or_external_reference_warnings",
+      "restore_files_over_the_current_worktree",
+      "claim_physical_validation",
+      "select_a_production_mesh",
+      "connect_solver_worker_or_response_pack_inputs",
+      "run_precomputation",
+      "change_public_runtime",
+      "merge_main"
+    ]
+  },
+  "integrationContract": {
+    "state": "read_only_contract_recovery_summary_and_verified_downloads_integrated",
+    "failClosed": true,
+    "sidecarLoadedAtStartup": true,
+    "largeArtifactsLoadedAtStartup": false,
+    "allBindingsPinnedBySha256AndByteLength": true,
+    "offlineValidatedBindingIds": [
+      "contract_lint_scope_v1",
+      "contract_lint_report_v1",
+      "json_contract_recovery_bundle_v1",
+      "physical_validation_plan_v1"
+    ],
+    "lazyVerifiedDownloadBindingIds": [
+      "contract_lint_report_v1",
+      "json_contract_recovery_bundle_v1",
+      "physical_validation_plan_v1"
+    ],
+    "requiredBehavior": [
+      "show_PASS_WITH_WARNINGS_without_presenting_warnings_as_bundle_corruption",
+      "show_zero_errors_and_the_exact_warning_breakdown",
+      "show_bundle_verification_PASS_and_exact_document_count",
+      "verify_SHA256_and_byte_length_before_each_browser_download",
+      "show_physical_validation_as_plan_only_not_executed",
+      "show_that_no_user_decision_is_required_now",
+      "keep_solver_precomputation_and_public_runtime_disconnected"
+    ]
+  },
+  "displayContract": {
+    "audit": {
+      "status": "PASS_WITH_WARNINGS",
+      "selectedJsonDocuments": 585,
+      "recoveryDocuments": 588,
+      "recognizableBindingsChecked": 3584,
+      "errorCount": 0,
+      "warningCount": 299,
+      "warningBreakdown": {
+        "externalReferencesNotBundled": 86,
+        "referencedFilesMissing": 175,
+        "referencedSha256Mismatch": 21,
+        "referencedByteLengthMismatch": 11,
+        "rootSchemaIdentifierMissing": 5,
+        "sha256ShapeInvalid": 1
+      },
+      "interpretationJa": "厳密JSONと復旧bundleは成立。warningは履歴・外部参照等であり、自動修正しない"
+    },
+    "recovery": {
+      "bundleVerificationStatus": "PASS",
+      "documentEntriesChecked": 588,
+      "zipEntryCount": 589,
+      "bundleByteLength": 1564659,
+      "restoreTargetMustBeNewOrEmpty": true,
+      "overwriteCurrentWorktreeAllowed": false
+    },
+    "physicalValidation": {
+      "status": "plan_only_not_executed",
+      "labelJa": "物理Validation：計画のみ・未実施",
+      "decisionRequiredNow": false,
+      "nextDecisionGate": "freeze_full_boundary_then_select_production_mesh_then_freeze_physical_input_manifest",
+      "solverRunAuthorized": false,
+      "precomputationAuthorized": false,
+      "physicalValidationClaimAllowed": false
+    }
+  },
+  "bindings": [
+    {
+      "id": "contract_lint_scope_v1",
+      "path": "config/stage20_contract_lint_recovery_scope_v1.json",
+      "sha256": "e76b81516d9b6ff12fffd1776de32435c82452917853ffcbfa6363d397dd1f42",
+      "byteLength": 2579,
+      "mediaType": "application/json",
+      "downloadName": "stage20-contract-lint-recovery-scope-v1.json"
+    },
+    {
+      "id": "contract_lint_report_v1",
+      "path": "docs/results/stage20-contract-lint-and-recovery-v1/report.json",
+      "sha256": "7732a059c8001537d2ce1bb8096ead5aa06cb596b146152818eba11c8049f6f7",
+      "byteLength": 372110,
+      "mediaType": "application/json",
+      "downloadName": "stage20-contract-lint-and-recovery-report-v1.json"
+    },
+    {
+      "id": "json_contract_recovery_bundle_v1",
+      "path": "docs/results/stage20-contract-lint-and-recovery-v1/stage20-json-contract-recovery-v1.zip",
+      "sha256": "889eb5c2bf05224aea150fddea242367de53f0f5dc50e705b8ea95412d5a2869",
+      "byteLength": 1564659,
+      "mediaType": "application/zip",
+      "downloadName": "stage20-json-contract-recovery-v1.zip"
+    },
+    {
+      "id": "physical_validation_plan_v1",
+      "path": "docs/STAGE20_PHYSICAL_VALIDATION_PLAN_V1.md",
+      "sha256": "f61de7cb284c737ae970f37f9d06abcb64c7ec4e7c127d42767e7419207c9bf3",
+      "byteLength": 7489,
+      "mediaType": "text/markdown;charset=utf-8",
+      "downloadName": "STAGE20_PHYSICAL_VALIDATION_PLAN_V1.md"
+    }
+  ],
+  "safeguards": {
+    "sourceArtifactsModifiedBySidecar": false,
+    "largeArtifactStartupFetchAdded": false,
+    "automaticWarningFixAdded": false,
+    "automaticRestoreAdded": false,
+    "meshChanged": false,
+    "solverChanged": false,
+    "workerChanged": false,
+    "responsePackChanged": false,
+    "precomputationRun": false,
+    "physicalValidationClaimEnabled": false,
+    "publicRuntimeChanged": false,
+    "mainMerged": false
+  }
+}

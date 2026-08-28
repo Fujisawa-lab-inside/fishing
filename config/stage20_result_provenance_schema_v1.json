@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "onga-stage20-result-provenance-v1",
+  "title": "Stage 20 result provenance and display-claim contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "artifactId",
+    "classification",
+    "generatedAt",
+    "modelTime",
+    "mesh",
+    "inputContract",
+    "solver",
+    "derivation",
+    "validation",
+    "sourceArtifacts",
+    "displayClaim"
+  ],
+  "properties": {
+    "schema": {
+      "const": "onga-stage20-result-provenance-v1"
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "classification": {
+      "enum": [
+        "synthetic_fixture",
+        "diagnostic_candidate",
+        "direct_solver",
+        "interpolated_candidate",
+        "not_evaluable"
+      ]
+    },
+    "generatedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$"
+    },
+    "modelTime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startHour",
+        "endHour",
+        "snapshotHours"
+      ],
+      "properties": {
+        "startHour": {
+          "type": "number"
+        },
+        "endHour": {
+          "type": "number"
+        },
+        "snapshotHours": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "mesh": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "cellCount",
+        "adoptionState"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "cellCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "adoptionState": {
+          "enum": [
+            "historical_runtime",
+            "review_only",
+            "production"
+          ]
+        }
+      }
+    },
+    "inputContract": {
+      "$ref": "#/$defs/binding"
+    },
+    "solver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "directSolverOutput",
+        "basisArtifactIds"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "direct",
+            "affine_interpolation",
+            "multilinear_interpolation",
+            "synthetic_generation",
+            "not_applicable"
+          ]
+        },
+        "directSolverOutput": {
+          "type": "boolean"
+        },
+        "basisArtifactIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numericalValidationPassed",
+        "holdoutValidationPassed",
+        "physicalValidationPassed",
+        "forecastValidationPassed"
+      ],
+      "properties": {
+        "numericalValidationPassed": {
+          "type": "boolean"
+        },
+        "holdoutValidationPassed": {
+          "type": "boolean"
+        },
+        "physicalValidationPassed": {
+          "type": "boolean"
+        },
+        "forecastValidationPassed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "sourceArtifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sourceBinding"
+      }
+    },
+    "displayClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "labelJa"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "synthetic",
+            "diagnostic",
+            "solver_result_not_physically_validated",
+            "physically_validated",
+            "forecast_validated",
+            "not_evaluable"
+          ]
+        },
+        "labelJa": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "sourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "direct_solver"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "derivation": {
+            "properties": {
+              "method": {
+                "const": "direct"
+              },
+              "directSolverOutput": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "displayClaim": {
+            "properties": {
+              "level": {
+                "const": "physically_validated"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "physicalValidationPassed": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "displayClaim": {
+            "properties": {
+              "level": {
+                "const": "forecast_validated"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "physicalValidationPassed": {
+                "const": true
+              },
+              "forecastValidationPassed": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-display-policy": {
+    "forbiddenWithoutPhysicalValidation": [
+      "観測と一致",
+      "実測",
+      "物理検証済み"
+    ],
+    "forbiddenWithoutForecastValidation": [
+      "予測",
+      "予報",
+      "将来値"
+    ],
+    "requiredForInterpolation": "classification=interpolated_candidate, exact basisArtifactIds, and holdoutValidationPassed must be shown independently",
+    "historicalSyntheticPackLabelJa": "合成データ・物理計算未接続"
+  }
+}

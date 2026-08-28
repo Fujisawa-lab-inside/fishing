@@ -1,0 +1,312 @@
+{
+  "schema": "onga-stage20-gui-integration-status-manifest-v1",
+  "version": 1,
+  "status": "integrated_read_only_into_stage20_hybrid_GUI",
+  "recordedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "purpose": "provide the fail-closed read-only source now integrated into the Stage 20 hybrid GUI for labels, review overlays, adoption stages, compatibility, and runtime guards without connecting physical gate input, the solver, mesh adoption, precomputation, or the public runtime",
+  "integrationAuthorization": {
+    "authorizedBy": "user_instruction",
+    "authorizedAtLocalDate": "2026-07-26",
+    "instruction": "「GUI開発統合」で統合せよ",
+    "scope": [
+      "read_this_manifest_from_the_stage20_hybrid_GUI",
+      "render_status_labels_and_adoption_stages",
+      "render_number_anchors_and_photo_visible_endpoints_as_distinct_review_layers",
+      "reject_mesh_and_response_pack_identity_mismatch"
+    ],
+    "doesNotAuthorize": [
+      "physical_gate_or_fishway_adoption",
+      "solver_or_worker_input_connection",
+      "response_pack_regeneration",
+      "precomputation",
+      "public_runtime_change",
+      "main_merge"
+    ]
+  },
+  "classificationVocabulary": {
+    "authority": "approved source for exactly the stated semantics",
+    "review_only": "validated candidate or evidence that is not a production or runtime authority",
+    "candidate": "isolated design or diagnostic input that is not physically adopted",
+    "historical_runtime": "existing synthetic display data retained for its original mesh only",
+    "in_progress": "bounded diagnostic work that must not be presented as adopted"
+  },
+  "displayState": {
+    "mainGates": {
+      "gateCount": 8,
+      "numbering": "west_1_to_east_8",
+      "stateDomain": [
+        0,
+        1
+      ],
+      "referenceAnchors": {
+        "classification": "authority",
+        "approvedCount": 8,
+        "guiRole": "number_reference_marker_only",
+        "exactGeometricCenters": false,
+        "physicalEndpointDerivationAuthorized": false
+      },
+      "photoVisibleEndpoints": {
+        "classification": "authority",
+        "approvedGateSpanCount": 8,
+        "approvedEndpointCount": 16,
+        "scope": "photo_visible_coordinates_and_numbering_only",
+        "guiRole": "read_only_review_overlay_only",
+        "physicalMeshUseAuthorized": false
+      },
+      "hydraulicWidth": {
+        "classification": "authority",
+        "policyId": "H2",
+        "effectiveWidthMPerGate": 46.5,
+        "implementationStatus": "approved_static_contract_only_not_implemented",
+        "mustNotBeRenderedAsGeographicSpanLength": true
+      },
+      "physicalAdoption": {
+        "productionMeshSelected": false,
+        "solverConnected": false,
+        "responsePackConnected": false,
+        "precomputationAuthorized": false
+      },
+      "recommendedGuiLabelsJa": [
+        "水門番号アンカー 8/8 承認",
+        "写真可視端点 16/16 承認",
+        "物理メッシュ採用：未承認",
+        "H2水理幅：静的契約のみ・未接続",
+        "流れの図には未反映"
+      ]
+    },
+    "fishway": {
+      "classification": "in_progress",
+      "operationalSemantics": "always_enabled",
+      "connects": "upstream_and_downstream",
+      "userControllable": false,
+      "guiControlAllowed": false,
+      "candidateTrack": "C2_1_bounded_diagnostics",
+      "physicalRepresentationAdopted": false,
+      "solverConnected": false,
+      "responsePackConnected": false,
+      "precomputationAuthorized": false,
+      "recommendedGuiLabelsJa": [
+        "魚道：常時有効・操作不可",
+        "候補診断中",
+        "物理solver・応答pack未接続"
+      ]
+    },
+    "sequentialGateOperation": {
+      "classification": "candidate",
+      "interfaceStatus": "draft_prepared_for_GUI_reference_only",
+      "capacityFractionMeaning": "model_capacity_multiplier_not_measured_gate_opening_or_leaf_height",
+      "guiRuntimeImportAllowed": false,
+      "solverMappingApproved": false,
+      "responsePackConnectionAllowed": false
+    },
+    "geometryAndDataProducts": {
+      "formalR20ReviewMesh": {
+        "classification": "review_only",
+        "status": "static_validated_review_mesh_not_production",
+        "cellCount": 44880,
+        "meshSha256": "315636cb6844b4348863e92e33a342b599a2e27f70983651e81a92490d9b920e",
+        "precomputationAuthorized": false
+      },
+      "currentSyntheticGuiMesh": {
+        "classification": "historical_runtime",
+        "status": "synthetic_browser_mesh_for_existing_pack_only",
+        "cellCount": 50199,
+        "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659"
+      },
+      "currentSyntheticResponsePack": {
+        "classification": "historical_runtime",
+        "status": "synthetic_browser_benchmark_only",
+        "cellCount": 50199,
+        "meshSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+        "binarySha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3"
+      },
+      "compatibility": {
+        "formalR20ReviewMeshWithCurrentSyntheticResponsePack": false,
+        "reason": "different_mesh_identity_and_cell_count",
+        "requiredGuiBehavior": "reject_cross_mesh_field_use_and_show_source_classification"
+      }
+    }
+  },
+  "guiIntegrationContract": {
+    "integrationState": "read_only_status_and_review_overlay_integrated",
+    "integratedEntrypoints": [
+      "stage20-hybrid-gui.html",
+      "stage20-hybrid-gui.css",
+      "onga_stage20_gui.mjs",
+      "onga_stage20_gui_data.mjs"
+    ],
+    "allowedNow": [
+      "load_this_manifest_as_read_only_status_data",
+      "render_the_recommended_labels_and_adoption_stages",
+      "use_authority_paths_for_number_markers_and_photo_endpoint_review_layers",
+      "reject_mesh_and_response_pack_identity_mismatch"
+    ],
+    "runtimeConsumedBindingIds": [
+      "gate_reference_anchor_authority_v2",
+      "gate_photo_visible_endpoint_authority_v1",
+      "current_synthetic_GUI_mesh_manifest",
+      "current_synthetic_GUI_mesh_binary",
+      "current_synthetic_GUI_response_manifest",
+      "current_synthetic_GUI_response_binary"
+    ],
+    "runtimeFailClosedChecks": [
+      "manifest_SHA256_identity",
+      "runtime_consumed_binding_path_and_SHA256_identity",
+      "mesh_and_response_pack_mesh_SHA256_match",
+      "mesh_and_response_pack_cell_count_match",
+      "photo_visible_endpoint_scope_is_not_physical_mesh_authority"
+    ],
+    "offlineValidationRequiredForAllBindings": true,
+    "requiredBehavior": [
+      "keep_number_anchors_distinct_from_photo_visible_endpoints",
+      "keep_photo_visible_endpoint_approval_distinct_from_physical_mesh_adoption",
+      "do_not_apply_H2_width_as_a_geographic_display_length",
+      "do_not_apply_gate_input_to_the_current_synthetic_response_pack",
+      "show_fishway_as_always_enabled_and_not_user_controllable",
+      "show_candidate_diagnostics_as_unconnected_and_not_physically_adopted",
+      "fail_closed_when_any_runtime_consumed_binding_digest_changes",
+      "require_offline_validation_for_all_pinned_bindings"
+    ],
+    "forbiddenNow": [
+      "change_the_current_worker_or_response_pack",
+      "connect_gate_or_fishway_candidates_to_physical_output",
+      "select_a_production_mesh",
+      "run_precomputation",
+      "change_public_runtime",
+      "merge_main"
+    ]
+  },
+  "authorityBindings": [
+    {
+      "id": "gate_reference_anchor_authority_v2",
+      "classification": "authority",
+      "path": "docs/results/stage20-barrage-pink-structure-alignment-candidate-v2/gate-reference-anchor-authority-v2.geojson",
+      "sha256": "8e5197fd4fd747dc8d7b0645e59edb2d4c98d699f1a8dbebeb2f06922e7f3ef8",
+      "byteLength": 6112
+    },
+    {
+      "id": "gate_photo_visible_endpoint_approval_v1",
+      "classification": "authority",
+      "path": "config/stage20_barrage_gate_photo_visible_faces_approval_v1.json",
+      "sha256": "a021dfc4fdc3fe633c4eebc9a41433ccf0f5319775738e0c4dfd99903506bcd5",
+      "byteLength": 893
+    },
+    {
+      "id": "gate_photo_visible_endpoint_authority_v1",
+      "classification": "authority",
+      "path": "config/stage20_barrage_gate_photo_visible_faces_authority_v1.geojson",
+      "sha256": "f88deeb2b81de85b3550e1252bf4a194b1d6a8c02482f7cc2ba3109326c7db78",
+      "byteLength": 8184
+    },
+    {
+      "id": "gate_hydraulic_width_H2_approval_v1",
+      "classification": "authority",
+      "path": "config/stage20_barrage_hydraulic_width_representation_approval_v1.json",
+      "sha256": "9f63f6c35da688aaa26451919c380b31620d54dc768dab6057538893821cb218",
+      "byteLength": 1850
+    },
+    {
+      "id": "barrage_hydraulic_topology_approval_v2",
+      "classification": "authority",
+      "path": "config/stage20_barrage_hydraulic_topology_approval_v2.json",
+      "sha256": "ee064a215f82e5d87080ac54865949f7b118fda58ca494f967cb845f5423caf7",
+      "byteLength": 17516
+    },
+    {
+      "id": "formal_R20_review_mesh_closure_v21",
+      "classification": "review_only",
+      "path": "config/stage20_premesh_problem_closure_v21.json",
+      "sha256": "839d2f24acd33304e7bf2593a9be5ade5088b1bf338795fa3e337e178e83286e",
+      "byteLength": 1046
+    },
+    {
+      "id": "formal_R20_review_mesh_manifest",
+      "classification": "review_only",
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/manifest.json",
+      "sha256": "d5aab717907a768d6850b1a44e96a67aff4212512625ac65a175ab7aabfe5882",
+      "byteLength": 2290
+    },
+    {
+      "id": "formal_R20_review_mesh_summary",
+      "classification": "review_only",
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/mesh-summary.json",
+      "sha256": "1c778b8fba2eb36fec507c7b58e6d10ce333b04aea86feab5c6ac6f75c24ab4e",
+      "byteLength": 11427
+    },
+    {
+      "id": "formal_R20_review_mesh_binary",
+      "classification": "review_only",
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/review-mesh.npz",
+      "sha256": "315636cb6844b4348863e92e33a342b599a2e27f70983651e81a92490d9b920e",
+      "byteLength": 547265
+    },
+    {
+      "id": "fishway_C2_1_bounded_diagnostic_approval",
+      "classification": "in_progress",
+      "path": "config/stage20_fishway_C2_1_staged_long_diagnostic_approval_v1.json",
+      "sha256": "7ecac554282fa0a832d44556c58789ca1d4fe50827a4ff6950cdb68878965d25",
+      "byteLength": 4857
+    },
+    {
+      "id": "sequential_gate_operation_GUI_handoff",
+      "classification": "candidate",
+      "path": "config/stage20_barrage_sequential_operation_integration_handoff_v1.json",
+      "sha256": "82316af89caf59801bb695bac30aa65d2381d508159428309299f87478ed2999",
+      "byteLength": 4222
+    },
+    {
+      "id": "sequential_gate_operation_interface_v3_draft",
+      "classification": "candidate",
+      "path": "config/stage20_barrage_continuous_interface_v3_draft.json",
+      "sha256": "c4bde561e382a600e4a231325c230b14a46d6cbc6c00f49b1d7088b5155bed7a",
+      "byteLength": 4722
+    },
+    {
+      "id": "sequential_gate_operation_golden_vectors",
+      "classification": "candidate",
+      "path": "docs/results/stage20-barrage-sequential-operation-integration-v1/golden-test-vectors.json",
+      "sha256": "9341ad2881fabb5218d50cedde9a3bf5faea1ab64f96b078d1f5bc7740660e24",
+      "byteLength": 32986
+    },
+    {
+      "id": "current_synthetic_GUI_mesh_manifest",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/mesh-v2.json",
+      "sha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+      "byteLength": 3832
+    },
+    {
+      "id": "current_synthetic_GUI_mesh_binary",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/mesh-v2.bin",
+      "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+      "byteLength": 2296216
+    },
+    {
+      "id": "current_synthetic_GUI_response_manifest",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+      "sha256": "f7ad29902c195559ddbffca831a916c652bd3a99fbb16c39acc3e351934ceada",
+      "byteLength": 2972
+    },
+    {
+      "id": "current_synthetic_GUI_response_binary",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/response-pack-synthetic-v2.bin",
+      "sha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+      "byteLength": 3614328
+    }
+  ],
+  "changesPerformedByThisTask": {
+    "existingGUIChanged": true,
+    "guiDataAdapterChanged": true,
+    "guiDocumentationChanged": true,
+    "solverChangedOrRun": false,
+    "meshChangedOrGenerated": false,
+    "responsePackChanged": false,
+    "precomputationRun": false,
+    "publicRuntimeChanged": false,
+    "mainMerged": false
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "schema": "onga-stage20-R1C-browser-replay-candidate-static-validation-v1",
+  "version": 1,
+  "status": "PASS",
+  "checkCount": 10,
+  "passedCount": 10,
+  "failedCount": 0,
+  "failed": [],
+  "checks": [
+    {
+      "id": "schema_status_and_private_classification_are_exact",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "id": "all_three_source_bindings_match",
+      "status": "PASS",
+      "observed": [
+        {
+          "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/replay-data.npz",
+          "expectedSha256": "7075184426c323993e641a64de96158ef57cb9e094a3976d7071ea7d0661ddcd",
+          "actualSha256": "7075184426c323993e641a64de96158ef57cb9e094a3976d7071ea7d0661ddcd",
+          "expectedByteLength": 68695052,
+          "actualByteLength": 68695052,
+          "passed": true
+        },
+        {
+          "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/manifest.json",
+          "expectedSha256": "22f1995659cfbec33a65fe3b955bbfbca94fa14617d9bc1e419a28c9f35ef505",
+          "actualSha256": "22f1995659cfbec33a65fe3b955bbfbca94fa14617d9bc1e419a28c9f35ef505",
+          "expectedByteLength": 6591,
+          "actualByteLength": 6591,
+          "passed": true
+        },
+        {
+          "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/static-validation.json",
+          "expectedSha256": "74715ab89922f6a6e2aeab07af6cb507d3b88f03b9ddf28c1cc3b28b35dd66c3",
+          "actualSha256": "74715ab89922f6a6e2aeab07af6cb507d3b88f03b9ddf28c1cc3b28b35dd66c3",
+          "expectedByteLength": 13939,
+          "actualByteLength": 13939,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "browser_binary_hash_and_length_match",
+      "status": "PASS",
+      "observed": {
+        "path": "docs/results/stage20-R1C-browser-replay-candidate-v1/replay-fields.bin",
+        "format": "little_endian_raw_array_concatenation",
+        "byteLength": 78210991,
+        "sha256": "4056d994cf91bef37af2eabbc67f10ead1a753e6c2018845b8d88382590c336a"
+      }
+    },
+    {
+      "id": "all_sixteen_arrays_are_contiguous_and_hash_exact",
+      "status": "PASS",
+      "observed": [
+        {
+          "name": "verticesM",
+          "byteOffset": 0,
+          "byteLength": 316336,
+          "passed": true
+        },
+        {
+          "name": "triangles",
+          "byteOffset": 316336,
+          "byteLength": 452688,
+          "passed": true
+        },
+        {
+          "name": "absoluteTimeS",
+          "byteOffset": 769024,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "sourceStageCode",
+          "byteOffset": 770392,
+          "byteLength": 171,
+          "passed": true
+        },
+        {
+          "name": "sourceCheckpointIndex",
+          "byteOffset": 770563,
+          "byteLength": 684,
+          "passed": true
+        },
+        {
+          "name": "depthM",
+          "byteOffset": 771247,
+          "byteLength": 25803216,
+          "passed": true
+        },
+        {
+          "name": "eastVelocityMPS",
+          "byteOffset": 26574463,
+          "byteLength": 25803216,
+          "passed": true
+        },
+        {
+          "name": "northVelocityMPS",
+          "byteOffset": 52377679,
+          "byteLength": 25803216,
+          "passed": true
+        },
+        {
+          "name": "capacityFractionByGateId",
+          "byteOffset": 78180895,
+          "byteLength": 10944,
+          "passed": true
+        },
+        {
+          "name": "gateFluxM3SByGateId",
+          "byteOffset": 78191839,
+          "byteLength": 10944,
+          "passed": true
+        },
+        {
+          "name": "upstreamP2HeadM",
+          "byteOffset": 78202783,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "downstreamP2HeadM",
+          "byteOffset": 78204151,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "headDifferenceM",
+          "byteOffset": 78205519,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "fishwayOutflowM3S",
+          "byteOffset": 78206887,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "fishwayStorageDepthM",
+          "byteOffset": 78208255,
+          "byteLength": 1368,
+          "passed": true
+        },
+        {
+          "name": "storedVolumeM3",
+          "byteOffset": 78209623,
+          "byteLength": 1368,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "representative_geometry_state_operation_and_fishway_arrays_roundtrip_exactly",
+      "status": "PASS",
+      "observed": [
+        {
+          "name": "verticesM",
+          "passed": true
+        },
+        {
+          "name": "triangles",
+          "passed": true
+        },
+        {
+          "name": "absoluteTimeS",
+          "passed": true
+        },
+        {
+          "name": "depthM",
+          "passed": true
+        },
+        {
+          "name": "eastVelocityMPS",
+          "passed": true
+        },
+        {
+          "name": "northVelocityMPS",
+          "passed": true
+        },
+        {
+          "name": "capacityFractionByGateId",
+          "passed": true
+        },
+        {
+          "name": "fishwayOutflowM3S",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "timeline_mesh_and_component_contract_are_exact",
+      "status": "PASS",
+      "observed": {
+        "timeline": {
+          "absoluteStartS": 0.0,
+          "absoluteEndS": 10200.0,
+          "intervalS": 60.0,
+          "snapshotCount": 171
+        },
+        "mesh": {
+          "id": "candidate_C_R1C_exact_confluence_R20_patches",
+          "cellCount": 37724,
+          "vertexCount": 19771,
+          "triangleCount": 37724,
+          "geometryChangedByExport": false
+        },
+        "components": [
+          "depthM",
+          "eastVelocityMPS",
+          "northVelocityMPS"
+        ]
+      }
+    },
+    {
+      "id": "display_is_replay_only_uncalibrated_and_not_gate_input_driven",
+      "status": "PASS",
+      "observed": {
+        "geometryMustUseEmbeddedVerticesAndTriangles": true,
+        "gateCapacityMeaning": "classification_face_capacity_multiplier_not_measured_gate_lift",
+        "fishwayAlwaysEnabled": true,
+        "uncalibratedBannerRequired": true,
+        "fieldGateInputMayDriveThisReplay": false,
+        "automaticGateEstimatorMayDriveThisReplay": false,
+        "replayTimeSelectionOnly": true
+      }
+    },
+    {
+      "id": "public_assets_remain_byte_identical",
+      "status": "PASS",
+      "observed": [
+        {
+          "path": "public/data/onga/stage20/mesh-v2.bin",
+          "expectedSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+          "actualSha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+          "passed": true
+        },
+        {
+          "path": "public/data/onga/stage20/response-pack-synthetic-v2.bin",
+          "expectedSha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+          "actualSha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+          "passed": true
+        },
+        {
+          "path": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+          "expectedSha256": "f7ad29902c195559ddbffca831a916c652bd3a99fbb16c39acc3e351934ceada",
+          "actualSha256": "f7ad29902c195559ddbffca831a916c652bd3a99fbb16c39acc3e351934ceada",
+          "passed": true
+        },
+        {
+          "path": "public/data/onga/stage20/mesh-v2.json",
+          "expectedSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+          "actualSha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "export_has_no_solver_GUI_production_or_public_side_effect",
+      "status": "PASS",
+      "observed": {
+        "newSolverRunCount": 0,
+        "sourceReplayChanged": false,
+        "geometryChanged": false,
+        "existingGUIChanged": false,
+        "publicDirectoryChanged": false,
+        "productionResponsePackPromoted": false,
+        "precomputationRun": false,
+        "mainMerged": false
+      }
+    },
+    {
+      "id": "next_step_stops_for_user_visual_judgment",
+      "status": "PASS",
+      "observed": {
+        "task": "user_visual_judgment_then_optional_existing_GUI_diagnostic_mode_connection",
+        "userJudgmentRequiredNow": true
+      }
+    }
+  ],
+  "manifestSha256": "b285e5c1c821b5b197b493b9409028994b9f40d500e3b926f848644ce09fab82",
+  "binarySha256": "4056d994cf91bef37af2eabbc67f10ead1a753e6c2018845b8d88382590c336a",
+  "newSolverRunCount": 0,
+  "existingGUIChanged": false,
+  "publicRuntimeChanged": false,
+  "userJudgmentRequiredNow": true
+}

@@ -1,0 +1,230 @@
+{
+  "schema": "onga-stage20-R1C-browser-replay-candidate-v1",
+  "version": 1,
+  "status": "private_browser_candidate_ready_not_GUI_connected",
+  "recordedAtLocalDate": "2026-07-26",
+  "purpose": "検証済みR1C診断リプレイをブラウザで読み取れるlittle-endian raw配列へ機械変換する。既存GUI・publicデータには接続しない。",
+  "classification": {
+    "relativeDiagnosticReplay": true,
+    "physicalFieldAccuracy": false,
+    "productionResponsePack": false,
+    "publicBrowserAsset": false
+  },
+  "mesh": {
+    "id": "candidate_C_R1C_exact_confluence_R20_patches",
+    "cellCount": 37724,
+    "vertexCount": 19771,
+    "triangleCount": 37724,
+    "geometryChangedByExport": false
+  },
+  "timeline": {
+    "absoluteStartS": 0.0,
+    "absoluteEndS": 10200.0,
+    "intervalS": 60.0,
+    "snapshotCount": 171
+  },
+  "componentOrder": [
+    "depthM",
+    "eastVelocityMPS",
+    "northVelocityMPS"
+  ],
+  "binary": {
+    "path": "docs/results/stage20-R1C-browser-replay-candidate-v1/replay-fields.bin",
+    "format": "little_endian_raw_array_concatenation",
+    "byteLength": 78210991,
+    "sha256": "4056d994cf91bef37af2eabbc67f10ead1a753e6c2018845b8d88382590c336a"
+  },
+  "arrays": {
+    "verticesM": {
+      "dtype": "float64",
+      "shape": [
+        19771,
+        2
+      ],
+      "byteOffset": 0,
+      "byteLength": 316336,
+      "sha256": "e57970856c3670f6e3128ce6d4d97f6abd1f8a77ea3c839372c30a9feea90ec4"
+    },
+    "triangles": {
+      "dtype": "int32",
+      "shape": [
+        37724,
+        3
+      ],
+      "byteOffset": 316336,
+      "byteLength": 452688,
+      "sha256": "f4e191ae546e5d4ae19840f408c25c1630337b61bd619d24290f0c927680b0e9"
+    },
+    "absoluteTimeS": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 769024,
+      "byteLength": 1368,
+      "sha256": "0f8aa46a3324c9e171699f45a0eab00d02ffbac967a184b899de8fc63dc151c6"
+    },
+    "sourceStageCode": {
+      "dtype": "uint8",
+      "shape": [
+        171
+      ],
+      "byteOffset": 770392,
+      "byteLength": 171,
+      "sha256": "21b7ea497ab68e6696cd5d2a86531df80eb765ec0863a6bb441958e0cb505d54"
+    },
+    "sourceCheckpointIndex": {
+      "dtype": "int32",
+      "shape": [
+        171
+      ],
+      "byteOffset": 770563,
+      "byteLength": 684,
+      "sha256": "e6f9a0e706158a96156a68b87475739d440fdbf829a4976f0a810df41c21edcc"
+    },
+    "depthM": {
+      "dtype": "float32",
+      "shape": [
+        171,
+        37724
+      ],
+      "byteOffset": 771247,
+      "byteLength": 25803216,
+      "sha256": "be02b0debf168ced07765138895ee0c611837f18f78403a829e1735b59b26ba6"
+    },
+    "eastVelocityMPS": {
+      "dtype": "float32",
+      "shape": [
+        171,
+        37724
+      ],
+      "byteOffset": 26574463,
+      "byteLength": 25803216,
+      "sha256": "91d887880e69863505275f563792b40da4a43121207b5f516b51bf466fff4b72"
+    },
+    "northVelocityMPS": {
+      "dtype": "float32",
+      "shape": [
+        171,
+        37724
+      ],
+      "byteOffset": 52377679,
+      "byteLength": 25803216,
+      "sha256": "0faffb81b59033a74239669e8f29fddd7bab23d521c93ac9a89dfafa394006de"
+    },
+    "capacityFractionByGateId": {
+      "dtype": "float64",
+      "shape": [
+        171,
+        8
+      ],
+      "byteOffset": 78180895,
+      "byteLength": 10944,
+      "sha256": "a01a8dc997dc548b7abfd182c91292b78a2fee22086b15570700d6a3e24c0e8c"
+    },
+    "gateFluxM3SByGateId": {
+      "dtype": "float64",
+      "shape": [
+        171,
+        8
+      ],
+      "byteOffset": 78191839,
+      "byteLength": 10944,
+      "sha256": "b01da61340a1e6243a9cd4d13b07e0d613cd9e9c8708a60f7e48d3c91504f8dc"
+    },
+    "upstreamP2HeadM": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78202783,
+      "byteLength": 1368,
+      "sha256": "e5eaca492366eb7b9df01d0cf8460b184c80570e79f653fb2b518aa16644d921"
+    },
+    "downstreamP2HeadM": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78204151,
+      "byteLength": 1368,
+      "sha256": "9ac9573fe7be437b0e82c893716d4125b5472bb84fb1b01d5815c39a8c1630d3"
+    },
+    "headDifferenceM": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78205519,
+      "byteLength": 1368,
+      "sha256": "e700b738dedc1d9fd991c55437a49dd79a4547e3d4cd0a8e7f97856ff4fdbca7"
+    },
+    "fishwayOutflowM3S": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78206887,
+      "byteLength": 1368,
+      "sha256": "8cc864536d8cd46c9f30361b6016d656da3a1576f8c060450f1f127e936be17d"
+    },
+    "fishwayStorageDepthM": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78208255,
+      "byteLength": 1368,
+      "sha256": "d2d335a15fb8afbef84e2625dc79c619159b5ca8c24aa62d88b0e9abf29afd75"
+    },
+    "storedVolumeM3": {
+      "dtype": "float64",
+      "shape": [
+        171
+      ],
+      "byteOffset": 78209623,
+      "byteLength": 1368,
+      "sha256": "ea265c755bfe65e9adb7b373278272511d611f29437f2b09e889d33655f758f2"
+    }
+  },
+  "displayContract": {
+    "geometryMustUseEmbeddedVerticesAndTriangles": true,
+    "gateCapacityMeaning": "classification_face_capacity_multiplier_not_measured_gate_lift",
+    "fishwayAlwaysEnabled": true,
+    "uncalibratedBannerRequired": true,
+    "fieldGateInputMayDriveThisReplay": false,
+    "automaticGateEstimatorMayDriveThisReplay": false,
+    "replayTimeSelectionOnly": true
+  },
+  "sourceBindings": {
+    "privateReplayPack": {
+      "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/replay-data.npz",
+      "sha256": "7075184426c323993e641a64de96158ef57cb9e094a3976d7071ea7d0661ddcd",
+      "byteLength": 68695052
+    },
+    "privateReplayManifest": {
+      "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/manifest.json",
+      "sha256": "22f1995659cfbec33a65fe3b955bbfbca94fa14617d9bc1e419a28c9f35ef505",
+      "byteLength": 6591
+    },
+    "privateReplayValidation": {
+      "path": "docs/results/stage20-R1C-diagnostic-replay-pack-v1/static-validation.json",
+      "sha256": "74715ab89922f6a6e2aeab07af6cb507d3b88f03b9ddf28c1cc3b28b35dd66c3",
+      "byteLength": 13939
+    }
+  },
+  "safeguards": {
+    "newSolverRunCount": 0,
+    "sourceReplayChanged": false,
+    "geometryChanged": false,
+    "existingGUIChanged": false,
+    "publicDirectoryChanged": false,
+    "productionResponsePackPromoted": false,
+    "precomputationRun": false,
+    "mainMerged": false
+  },
+  "nextStep": {
+    "task": "user_visual_judgment_then_optional_existing_GUI_diagnostic_mode_connection",
+    "userJudgmentRequiredNow": true
+  }
+}

@@ -4,11 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07141d">
-  <title>遠賀川フロービュー｜GUI試作</title>
+  <title>遠賀川フロービュー｜ローカル実動版</title>
   <link rel="stylesheet" href="./stage20-hybrid-gui.css">
 </head>
 <body>
-  <div class="app-shell" id="app-shell" data-phase="loading">
+  <div
+    class="app-shell"
+    id="app-shell"
+    data-phase="loading"
+    data-runtime-capability-contract="onga-stage20-runtime-capabilities-v2"
+    data-browser-contract-version="m0.2-ui-20260826-01"
+    data-runtime-freshness="checking"
+  >
     <header class="topbar">
       <div class="brand-block">
         <div class="brand-mark" aria-hidden="true">
@@ -20,13 +27,19 @@
         </div>
       </div>
       <div class="topbar-status">
-        <span class="demo-badge">GUI試作</span>
-        <span class="source-badge" aria-label="合成データ。物理予測ではありません"><i></i> 合成データ／非予測</span>
+        <span class="demo-badge">ローカル実動版</span>
+        <span class="source-badge" id="source-badge" aria-label="合成データ。物理予測ではありません"><i></i> 合成データ／非予測</span>
+        <span class="integration-badge" id="integration-status-badge" aria-label="GUI統合状態manifestを検証中">統合状態：検証中</span>
         <span class="load-status" id="load-status" role="status" aria-live="polite">読み込み中</span>
       </div>
     </header>
 
-    <main class="workspace" id="workspace">
+    <div class="runtime-version-alert" id="runtime-version-alert" role="alert" aria-atomic="true" hidden>
+      <span id="runtime-version-message">画面コードを読み込めないため、画面操作を停止しました。</span>
+      <button type="button" id="runtime-reload-button">ページを再読み込み</button>
+    </div>
+
+    <main class="workspace" id="workspace" inert aria-hidden="true" aria-disabled="true">
       <aside class="control-panel" id="control-panel" aria-label="表示設定">
         <section class="panel-card intro-card">
           <div class="section-heading">
@@ -36,25 +49,138 @@
             </div>
             <span class="frame-count" id="frame-count">13 / 37</span>
           </div>
+          <div class="data-mode-switch" role="group" aria-label="表示データ">
+            <button type="button" id="data-mode-synthetic" data-data-mode="synthetic" data-capability-mode="synthetic" class="active" aria-pressed="true">
+              <strong>合成プロトタイプ</strong>
+              <small>既定・37時点</small>
+            </button>
+            <button type="button" id="data-mode-r1c" data-data-mode="r1c" data-capability-mode="r1c_saved_replay" aria-pressed="false">
+              <strong>R1C診断リプレイ</strong>
+              <small>選択時だけ読込・171時点</small>
+            </button>
+            <button type="button" id="data-mode-reference-v2" data-data-mode="reference-v2" data-capability-mode="r1c_saved_replay" aria-pressed="false">
+              <strong>48時間基準リプレイ</strong>
+              <small>固定S4・37時点・約17MiB</small>
+            </button>
+            <button type="button" id="data-mode-n4p8d" data-data-mode="n4p8d" data-capability-mode="r1c_saved_replay" aria-pressed="false">
+              <strong>承認済み36時間</strong>
+              <small>N4P8d・37時点・約17MiB</small>
+            </button>
+            <button type="button" id="data-mode-local" data-data-mode="local" data-capability-mode="local_r1c_experiment" aria-pressed="false" disabled>
+              <strong>今回の物理計算</strong>
+              <small>8門入力で実行後に表示</small>
+            </button>
+          </div>
+          <p class="data-mode-status" id="data-mode-status" role="status" aria-live="polite">合成プロトタイプを表示しています。</p>
           <div class="metric-grid">
             <div class="metric-item">
-              <span>相対潮位</span>
+              <span id="metric-tide-label">相対潮位</span>
               <strong id="metric-tide">—</strong>
             </div>
             <div class="metric-item">
-              <span>河口堰（合成開度）</span>
+              <span id="metric-barrage-label">河口堰（合成開度）</span>
               <strong id="metric-barrage">—</strong>
             </div>
             <div class="metric-item">
-              <span>遠賀川流量</span>
+              <span id="metric-onga-label">遠賀川流量</span>
               <strong id="metric-onga">—</strong>
             </div>
             <div class="metric-item">
-              <span>最大流速</span>
+              <span id="metric-speed-label">最大流速</span>
               <strong id="metric-speed">—</strong>
             </div>
           </div>
-          <p class="synthetic-note">画面・操作の確認用に生成した値です。観測値や物理予測ではありません。</p>
+          <p class="synthetic-note" id="data-mode-note">画面・操作の確認用に生成した値です。観測値や物理予測ではありません。</p>
+        </section>
+
+        <section
+          class="panel-card forcing-card"
+          id="forcing-input-card"
+          aria-labelledby="forcing-input-title"
+          data-integration-status="checking"
+          data-physics-connection="gate-only"
+        >
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">DATE · RAIN · TIDE</p>
+              <h2 id="forcing-input-title">日付と過去の降水量</h2>
+            </div>
+            <span class="forcing-badge" id="forcing-badge">接続確認中</span>
+          </div>
+          <p class="forcing-intro">
+            気象庁の降水量CSVと、このPCに保存済みの潮位表から37時間の参考入力を作ります。ネットワーク取得は行いません。
+            値は未較正で、観測流量や操作指示ではありません。
+          </p>
+          <div class="forcing-form">
+            <label>
+              <span>確認する日</span>
+              <input id="forcing-date" type="date" value="2026-02-15" min="2026-01-02" max="2026-12-30">
+            </label>
+            <label class="forcing-file-label">
+              <span>気象庁の降水量CSV</span>
+              <input id="forcing-jma-csv" type="file" accept=".csv,text/csv">
+            </label>
+          </div>
+          <p class="forcing-file-help" id="forcing-date-help">
+            現在の保存済み潮位表で作成できる日付は、2026-01-02〜2026-12-30です。
+          </p>
+          <p class="forcing-file-help">
+            八幡・飯塚・添田・宗像の時別降水量と品質情報を、指定日の4日前12時から翌日0時まで含めてください。
+          </p>
+          <button type="button" class="forcing-build-button" id="forcing-build-button" disabled>
+            37時間の入力を作る
+          </button>
+          <p class="forcing-status" id="forcing-status" role="status" aria-live="polite">
+            ローカル入力サービスを確認しています。
+          </p>
+          <button type="button" class="service-reprobe-button" id="forcing-reprobe-button" hidden>
+            ローカル入力サービスを再確認
+          </button>
+          <dl class="forcing-values" id="forcing-values" hidden>
+            <div><dt>時刻</dt><dd id="forcing-current-time">—</dd></div>
+            <div><dt>遠賀川</dt><dd id="forcing-onga">—</dd></div>
+            <div><dt>西川</dt><dd id="forcing-nishi">—</dd></div>
+            <div><dt>曲川</dt><dd id="forcing-magari">—</dd></div>
+            <div><dt>相対潮位</dt><dd id="forcing-tide">—</dd></div>
+            <div><dt>自動開門</dt><dd id="forcing-gates">—</dd></div>
+          </dl>
+          <p class="forcing-source" id="forcing-source">
+            入力未作成。気象庁CSVと保存済み潮位表は、このPC内のローカル処理だけに使用します。
+          </p>
+          <div class="forcing-connection-note" id="forcing-connection-note">
+            <strong>物理計算への接続範囲</strong>
+            <span>自動選択した水門1〜8だけをローカル計算へ渡します。河川流量・潮位境界は、対応する事前計算が完成するまで流れ図へ未反映です。</span>
+          </div>
+        </section>
+
+        <section class="panel-card r1c-replay-card" id="r1c-replay-card" aria-labelledby="r1c-replay-title" hidden>
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">R1C DIAGNOSTIC REPLAY</p>
+              <h2 id="r1c-replay-title">保存済み診断値</h2>
+            </div>
+            <span class="r1c-warning-badge" id="r1c-warning-badge">未較正・参考値</span>
+          </div>
+          <div class="r1c-contract">
+            <strong id="r1c-contract-title">現地流量の絶対再現・予測ではありません</strong>
+            <span id="r1c-contract-note">保存済みの標準開閉cycleを読み取り専用で再生します。</span>
+          </div>
+          <dl class="r1c-value-grid">
+            <div><dt>経過時刻</dt><dd id="r1c-current-time">—</dd></div>
+            <div><dt>上流P2水位</dt><dd id="r1c-upstream-head">—</dd></div>
+            <div><dt>下流P2水位</dt><dd id="r1c-downstream-head">—</dd></div>
+            <div><dt>水位差</dt><dd id="r1c-head-difference">—</dd></div>
+            <div><dt>魚道流量（モデル参考値）</dt><dd id="r1c-fishway-flow">—</dd></div>
+            <div><dt>魚道storage水深</dt><dd id="r1c-fishway-depth">—</dd></div>
+            <div><dt>水門別瞬時流量</dt><dd id="r1c-gate-flux">—</dd></div>
+            <div><dt>保存水量</dt><dd id="r1c-stored-volume">—</dd></div>
+          </dl>
+          <div class="r1c-gate-comparison">
+            <span id="r1c-gate-result-label">保存済み8門能力倍率</span>
+            <strong id="r1c-saved-gates">—</strong>
+            <p id="r1c-gate-difference">現地入力・自動推定は比較表示だけで、流れ図を変更しません。</p>
+          </div>
+          <p class="r1c-fishway-fixed">魚道：常時有効・操作不可</p>
         </section>
 
         <section class="panel-card gate-card" id="gate-input-card" aria-labelledby="gate-input-title">
@@ -66,8 +192,47 @@
             <span class="gate-summary-badge" id="gate-summary-badge">自動推定：待機中</span>
           </div>
           <div class="gate-contract">
-            <span>画面内の入力候補</span>
-            <strong>物理solver・応答packとは未接続／流れの図には未反映</strong>
+            <span>8門入力・R1Cローカル計算</span>
+            <strong>「ローカル物理計算を実行」で入力を流れ図へ反映</strong>
+          </div>
+          <div
+            class="gate-reference-status"
+            id="gate-reference-status"
+            data-gate-reference-semantics="reference-anchor-not-exact-center"
+            data-photo-visible-endpoints-approved="16"
+            data-photo-visible-endpoints-required="16"
+            data-physical-mesh-use-authorized="false"
+            aria-label="番号参照アンカー8点と写真可視端点16点は承認済みです。写真可視端点はレビュー表示専用で、計算面への採用はしていません。ローカル物理計算は別の承認済みR1C内部インターフェースを使用します。46.5メートルはモデル開口幅の静的契約で、地理的な実位置線ではありません。"
+          >
+            <small>GUI INTEGRATION STATUS</small>
+            <strong id="gate-integration-title">状態manifestを検証中</strong>
+            <span id="gate-integration-note">番号アンカーと写真可視端点を別の意味として確認します</span>
+            <dl>
+              <div><dt>番号アンカー</dt><dd id="gate-anchor-status">8/8 承認</dd></div>
+              <div><dt>写真可視端点</dt><dd id="gate-photo-endpoint-status">16/16 承認</dd></div>
+              <div><dt>写真端点の計算採用</dt><dd id="gate-physical-status">未採用</dd></div>
+              <div><dt>H2水理幅</dt><dd id="gate-width-status">46.5m・静的契約のみ</dd></div>
+            </dl>
+          </div>
+          <div
+            class="fishway-connection-status"
+            id="fishway-connection-status"
+            data-fishway-state="always-on"
+            aria-label="魚道：常時有効、操作不可。主水門1から8が全閉でも上流と下流を接続。"
+          >
+            <span class="fishway-connection-icon" aria-hidden="true"><i></i></span>
+            <span class="fishway-connection-copy">
+              <small>FISHWAY CONNECTION</small>
+              <strong>魚道：常時有効・操作不可</strong>
+              <span>主水門1〜8が全閉でも、上流と下流を接続</span>
+            </span>
+            <span class="fishway-connection-badge" aria-hidden="true">固定</span>
+          </div>
+          <p class="fishway-connection-note" id="fishway-integration-note">魚道はローカル物理計算でも常時有効です。</p>
+          <div class="integration-compatibility-status" id="integration-compatibility-status">
+            <small>DATA COMPATIBILITY</small>
+            <strong id="synthetic-pair-status">現行synthetic組合せを検証中</strong>
+            <span id="r20-compatibility-status">R20レビュー用メッシュとの互換性を確認中</span>
           </div>
           <div class="gate-mode-switch" role="group" aria-label="開門入力モード">
             <button type="button" id="gate-mode-auto" data-gate-mode="auto" class="active" aria-pressed="true">
@@ -100,12 +265,21 @@
                 <option value="現地目視">現地目視</option>
                 <option value="現地連絡">現地からの連絡</option>
                 <option value="点検記録">点検記録</option>
+                <option value="インポートJSON">インポートJSON</option>
               </select>
             </label>
             <label>
               <span>観測時刻</span>
               <input id="gate-observed-at" type="datetime-local">
             </label>
+          </div>
+          <div class="gate-observation-io" id="gate-observation-io">
+            <input id="gate-observation-import-file" type="file" accept="application/json,.json" hidden>
+            <div>
+              <button type="button" id="gate-observation-import-button" disabled>観測JSONを読込</button>
+              <button type="button" id="gate-observation-export-button" disabled>現在入力をJSONでDL</button>
+            </div>
+            <p id="gate-observation-io-status" role="status" aria-live="polite">観測schemaを検証中です。</p>
           </div>
           <div class="gate-axis" aria-hidden="true">
             <span>西</span><span>1 → 8</span><span>東</span>
@@ -129,8 +303,164 @@
           </div>
           <p class="gate-detail" id="gate-detail" role="status" aria-live="polite">自動推定の準備中です。</p>
           <button type="button" class="gate-return-button" id="gate-return-auto" disabled>現地入力を解除して自動推定へ戻す</button>
-          <p class="gate-disclaimer">自動推定は全体の開門段階0〜8を、固定順序 5→4→6→3→7→2→8→1 に従う各門0%／100%へ変換します。現地目視入力は自動推定を明示的に上書きし、固定9状態に一致しなければ「標準順序外」と警告します。この入力は画面限りです。番号中心は提供緯度経度、色付き区間は各46.5mの主水門です。魚道は1〜8番に含めません。Stage 20物理solver・応答packへは接続せず、流速・水深・流れの図には未反映です。</p>
+          <div class="local-simulator-card" id="local-simulator-card" data-status="checking" data-capability-mode="local_r1c_experiment" tabindex="-1">
+            <div class="local-simulator-heading">
+              <div>
+                <small>LOCAL R1C PHYSICS</small>
+                <strong>8門状態で流れを再計算</strong>
+              </div>
+              <span id="local-simulator-badge">接続確認中</span>
+            </div>
+            <p class="local-simulator-contract">R1C 37,724セルの物理solverをローカル実行します。統合した気象・潮位入力から渡すのは8門状態だけで、河川流量・潮位境界は固定診断条件です。魚道固有の観測データは存在せず、魚道流量は未較正のモデル参考値です。</p>
+            <div class="local-simulator-controls">
+              <label>
+                <span>計算時間</span>
+                <select id="local-simulation-duration" disabled>
+                  <option value="5">5秒・動作確認</option>
+                  <option value="30" selected>30秒・標準</option>
+                  <option value="60">60秒・詳細</option>
+                  <option value="120">120秒・長時間</option>
+                  <option value="300">300秒・最大</option>
+                </select>
+              </label>
+              <button type="button" id="local-simulation-run" disabled>この8門状態で物理計算</button>
+            </div>
+            <p class="local-simulation-gates" id="local-simulation-gates">水門入力の準備中です。</p>
+            <p class="local-simulation-status" id="local-simulation-status" role="status" aria-live="polite">ローカル計算サービスを確認しています。</p>
+            <button type="button" class="service-reprobe-button" id="local-reprobe-button" hidden>
+              ローカル計算サービスを再確認
+            </button>
+          </div>
+          <p class="gate-disclaimer">自動推定は全体の開門段階0〜8を、固定順序 5→4→6→3→7→2→8→1 に従う各門0%／100%へ変換します。現地目視入力は自動推定を明示的に上書きし、固定9状態に一致しなければ「標準順序外」と警告します。入力は物理計算ボタンを押した時点で固定され、その計算結果にだけ反映されます。地図上のA1〜A8は番号参照アンカーです。写真可視端点16/16は承認済みですが、青線は位置確認用で、それ自体が物理メッシュへの採用を意味しません。物理計算は承認済みR1C内部interfaceを使用します。46.5mはH2モデル開口幅の水理契約で、実扉高ではありません。魚道は1〜8番に含めず、主水門の状態にかかわらず常時有効です。</p>
           <button type="button" class="gate-map-button" id="gate-map-button">河口堰を地図で確認</button>
+        </section>
+
+        <section
+          class="panel-card readiness-card"
+          id="precompute-readiness-card"
+          data-physical-connection="false"
+          aria-labelledby="precompute-readiness-title"
+        >
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">PRECOMPUTE READINESS</p>
+              <h2 id="precompute-readiness-title">事前計算準備</h2>
+            </div>
+            <span class="readiness-validation-badge" id="readiness-validation-badge">検証中</span>
+          </div>
+          <div class="readiness-boundary-decision">
+            <small>BOUNDARY IMPACT</small>
+            <strong id="readiness-boundary-status">境界影響を検証中</strong>
+            <span id="readiness-boundary-note">旧mesh・packとの再利用可否を確認します。</span>
+          </div>
+          <div class="readiness-grid">
+            <div>
+              <span>formal R20</span>
+              <strong id="readiness-r20-status">確認中</strong>
+            </div>
+            <div>
+              <span>個別8門</span>
+              <strong id="readiness-gate-basis-status">確認中</strong>
+            </div>
+            <div>
+              <span>全閉＋全開 50:50</span>
+              <strong id="readiness-fifty-status">確認中</strong>
+            </div>
+            <div>
+              <span>checkpoint</span>
+              <strong id="readiness-checkpoint-status">確認中</strong>
+            </div>
+          </div>
+          <details class="readiness-costs">
+            <summary>個別門 9 basis＋5 holdout の費用概算</summary>
+            <dl>
+              <div>
+                <dt>formal R20 · 44,880セル</dt>
+                <dd id="readiness-formal-cost">計算中</dd>
+              </div>
+              <div>
+                <dt>multizone R20 · 37,168セル</dt>
+                <dd id="readiness-multizone-cost">計算中</dd>
+              </div>
+            </dl>
+            <p>過去2本の8時間segmentをcell数で線形scaleしたplanning estimateです。実行承認ではありません。</p>
+          </details>
+          <div class="readiness-provenance">
+            <small>RESULT PROVENANCE</small>
+            <strong id="readiness-provenance-status">出所schemaを検証中</strong>
+            <span id="readiness-package-status">readiness packageを読込中</span>
+          </div>
+          <p class="readiness-disclaimer">このカードは表示・ローカルJSON入出力のみを扱った過去の事前計算準備記録です。今回のローカルR1C物理計算とは分離し、production事前計算・公開packは変更しません。</p>
+        </section>
+
+        <section
+          class="panel-card contract-recovery-card"
+          id="contract-recovery-card"
+          data-large-artifact-startup-fetch="false"
+          data-physical-validation="plan-only"
+          aria-labelledby="contract-recovery-title"
+        >
+          <div class="section-heading compact">
+            <div>
+              <p class="section-kicker">CONTRACT &amp; RECOVERY</p>
+              <h2 id="contract-recovery-title">契約監査・復旧</h2>
+            </div>
+            <span
+              class="contract-recovery-badge"
+              id="contract-recovery-validation-badge"
+            >検証中</span>
+          </div>
+          <div class="contract-audit-summary">
+            <div>
+              <small>STRICT JSON AUDIT</small>
+              <strong id="contract-audit-status">監査summaryを検証中</strong>
+              <span id="contract-audit-counts">対象件数を確認しています。</span>
+            </div>
+            <dl>
+              <div>
+                <dt>error</dt>
+                <dd id="contract-audit-error-count">—</dd>
+              </div>
+              <div>
+                <dt>warning</dt>
+                <dd id="contract-audit-warning-count">—</dd>
+              </div>
+            </dl>
+          </div>
+          <details class="contract-warning-details">
+            <summary>warningの内訳</summary>
+            <dl>
+              <div><dt>repository外参照</dt><dd id="contract-warning-external">—</dd></div>
+              <div><dt>履歴上の欠落参照</dt><dd id="contract-warning-missing">—</dd></div>
+              <div><dt>SHA・size不一致</dt><dd id="contract-warning-digest">—</dd></div>
+              <div><dt>形式警告</dt><dd id="contract-warning-format">—</dd></div>
+            </dl>
+            <p>warningは復旧ZIPの破損を意味しません。履歴・外部参照をGUIから自動修正しません。</p>
+          </details>
+          <div class="contract-recovery-grid">
+            <div>
+              <small>RECOVERY ZIP</small>
+              <strong id="recovery-bundle-status">bundleを検証中</strong>
+              <span id="recovery-bundle-count">収録entryを確認しています。</span>
+            </div>
+            <div>
+              <small>PHYSICAL VALIDATION</small>
+              <strong id="physical-validation-status">計画状態を検証中</strong>
+              <span id="physical-validation-next">現在の判断要否を確認しています。</span>
+            </div>
+          </div>
+          <div class="contract-download-actions" aria-label="検証済み成果物のダウンロード">
+            <button type="button" id="contract-report-download-button" disabled>監査JSONをDL</button>
+            <button type="button" id="recovery-bundle-download-button" disabled>復旧ZIPをDL</button>
+            <button type="button" id="physical-validation-plan-download-button" disabled>Validation計画をDL</button>
+          </div>
+          <p
+            class="contract-download-status"
+            id="contract-recovery-download-status"
+            role="status"
+            aria-live="polite"
+          >sidecar manifestを検証中です。</p>
+          <p class="contract-recovery-disclaimer">起動時に大容量成果物は読み込みません。ボタン操作時だけ同一originから取得し、SHA-256とbyte lengthが一致した場合だけ保存します。この監査カード自体は現在のworktreeへの自動復元、production事前計算、物理判定を行いません。</p>
         </section>
 
         <section class="panel-card">
@@ -149,11 +479,23 @@
               <span class="layer-icon depth-icon" aria-hidden="true"></span>
               水深
             </button>
+            <button
+              class="segment-button"
+              type="button"
+              id="layer-maximum-speed"
+              data-layer="maximum-speed"
+              aria-pressed="false"
+              aria-disabled="true"
+              disabled
+            >
+              <span class="layer-icon maximum-speed-icon" aria-hidden="true"></span>
+              36時間最大
+            </button>
           </div>
           <label class="switch-row">
             <span>
               <strong>流向の矢印</strong>
-              <small>水深×セル面積でまとめて表示</small>
+              <small id="arrow-note">水深×セル面積でまとめて表示</small>
             </span>
             <input id="arrow-toggle" type="checkbox" checked>
             <i class="switch" aria-hidden="true"></i>
@@ -187,8 +529,10 @@
         <details class="panel-card detail-card">
           <summary>データと検証情報</summary>
           <dl>
-            <div><dt>メッシュ</dt><dd>v2 / 50,199セル</dd></div>
-            <div><dt>時刻</dt><dd>−12〜+24時間 / 1時間間隔</dd></div>
+            <div><dt>メッシュ</dt><dd id="detail-mesh">v2 / 50,199セル</dd></div>
+            <div><dt>時刻</dt><dd id="detail-time">−12〜+24時間 / 1時間間隔</dd></div>
+            <div><dt>GUI統合</dt><dd id="detail-integration">manifest検証中</dd></div>
+            <div><dt>runtime binding</dt><dd id="detail-bindings">検証中</dd></div>
             <div><dt>応答パック</dt><dd id="detail-pack">読み込み中</dd></div>
             <div><dt>合成時間</dt><dd id="detail-timing">—</dd></div>
           </dl>
@@ -211,6 +555,35 @@
           </button>
         </nav>
 
+        <div
+          class="source-classification-banner"
+          id="warning-hud"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span class="warning-dot" aria-hidden="true"></span>
+          <strong>現在表示：</strong>
+          <span id="warning-hud-text">合成データ（物理計算未実行・予測ではありません）</span>
+        </div>
+
+        <div
+          class="local-calculation-banner"
+          id="local-calculation-banner"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          data-status="not-run"
+        >
+          <div>
+            <strong id="local-calculation-title">ローカル計算：未実行</strong>
+            <span id="local-calculation-note">現在は合成データです。計算は明示操作後に開始します。</span>
+          </div>
+          <button type="button" id="local-calculation-jump" aria-controls="local-simulator-card">
+            水門入力と計算へ
+          </button>
+        </div>
+
         <div class="map-frame" id="map-frame">
           <canvas id="flow-map" tabindex="0" aria-keyshortcuts="Enter ArrowLeft ArrowRight Space" aria-label="合成流れデータの地図。読み込み中です。">
             お使いのブラウザでは地図を表示できません。
@@ -220,13 +593,8 @@
           <div class="map-hud top-left">
             <span class="hud-label" id="map-view-label">河口全域</span>
             <strong id="map-time-label">現在相当・0時間</strong>
-            <small id="map-gate-label">自動推定：待機中／主門46.5m×8・魚道別／流れの図には未反映</small>
+            <small id="map-gate-label">自動推定：待機中／A1–A8番号アンカー・写真端点16/16レビュー表示／物理未採用／流れ図未反映</small>
           </div>
-          <div class="map-hud top-right warning-hud">
-            <span class="warning-dot"></span>
-            物理予測ではありません
-          </div>
-
           <div class="map-legend" id="map-legend" aria-label="凡例">
             <div class="legend-head">
               <span id="legend-title">流速</span>
@@ -234,8 +602,11 @@
             </div>
             <div class="legend-gradient speed-gradient" id="legend-gradient"></div>
             <div class="legend-scale"><span id="legend-min">0</span><span>表示上限</span></div>
-            <p>白い矢印：流れの向き</p>
+            <p id="legend-note">白い矢印：流れの向き</p>
           </div>
+          <p class="map-source-credit">
+            背景写真：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener noreferrer">地理院タイル（国土地理院）</a><span>／流れ・メッシュ等を追記</span>
+          </p>
 
           <div class="map-overlay" id="map-overlay" role="status" aria-live="polite" aria-atomic="true">
             <div class="loader" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -257,13 +628,13 @@
           </div>
           <div class="timeline-control">
             <div class="timeline-caption">
-              <span>12時間前</span>
+              <span id="timeline-start">12時間前</span>
               <strong id="timeline-current">0時間</strong>
-              <span>24時間後</span>
+              <span id="timeline-end">24時間後</span>
             </div>
             <input id="time-slider" type="range" min="0" max="36" value="12" step="1" aria-label="表示時刻" aria-valuetext="現在相当・0時間">
             <div class="timeline-track-labels" aria-hidden="true">
-              <span>−12</span><span>−6</span><span>0</span><span>+6</span><span>+12</span><span>+18</span><span>+24</span>
+              <span id="timeline-tick-0">−12</span><span id="timeline-tick-1">−6</span><span id="timeline-tick-2">0</span><span id="timeline-tick-3">+6</span><span id="timeline-tick-4">+12</span><span id="timeline-tick-5">+18</span><span id="timeline-tick-6">+24</span>
             </div>
           </div>
         </div>
@@ -271,6 +642,64 @@
     </main>
   </div>
 
-  <script type="module" src="./onga_stage20_gui.mjs"></script>
+  <script>
+    (() => {
+      const app = document.getElementById('app-shell');
+      const alert = document.getElementById('runtime-version-alert');
+      const message = document.getElementById('runtime-version-message');
+      const reloadButton = document.getElementById('runtime-reload-button');
+      const workspace = document.getElementById('workspace');
+      const expected = app?.dataset?.browserContractVersion;
+      const showContractFailure = (freshness, text) => {
+        if (!app || !alert || !message) return;
+        app.dataset.runtimeFreshness = freshness;
+        message.textContent = text;
+        workspace?.setAttribute('inert', '');
+        workspace?.setAttribute('aria-hidden', 'true');
+        workspace?.setAttribute('aria-disabled', 'true');
+        if (workspace?.contains(document.activeElement)) document.activeElement.blur();
+        alert.hidden = false;
+      };
+      const blockUnverifiedWorkspaceEvent = event => {
+        if (app?.dataset?.runtimeFreshness === 'current') return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      };
+      workspace?.addEventListener('click', blockUnverifiedWorkspaceEvent, true);
+      workspace?.addEventListener('submit', blockUnverifiedWorkspaceEvent, true);
+      if (workspace) {
+        for (const control of workspace.querySelectorAll('button, input, select, textarea')) {
+          if (control.disabled) continue;
+          control.dataset.staleVersionDisabled = 'true';
+          control.disabled = true;
+        }
+        for (const target of workspace.querySelectorAll('a, button, input, select, textarea, summary, [tabindex]')) {
+          target.dataset.staleVersionTabindex = target.getAttribute('tabindex') ?? '';
+          target.setAttribute('tabindex', '-1');
+        }
+      }
+      reloadButton?.addEventListener('click', () => window.location.reload());
+      const moduleScript = document.createElement('script');
+      moduleScript.type = 'module';
+      moduleScript.src = './onga_stage20_gui.mjs';
+      moduleScript.addEventListener('load', () => {
+        if (
+          app?.dataset?.activeBrowserContractVersion === expected
+          && app?.dataset?.runtimeFreshness === 'current'
+        ) return;
+        showContractFailure(
+          'stale',
+          '画面コードの初期化を完了できないため、画面操作を停止しました。専用serviceを再起動してページを開き直してください。',
+        );
+      });
+      moduleScript.addEventListener('error', () => {
+        showContractFailure(
+          'error',
+          '画面コードを読み込めないため、画面操作を停止しました。専用serviceを再起動してページを開き直してください。',
+        );
+      });
+      document.body.append(moduleScript);
+    })();
+  </script>
 </body>
 </html>

@@ -1,0 +1,163 @@
+{
+  "schema": "onga-stage20-fishway-1d-link-C2-storage-candidate-v1",
+  "version": 1,
+  "status": "unconnected_candidate_pending_static_validation",
+  "candidateId": "P2_head_responsive_1D_linear_storage_link_C2_v1",
+  "classification": "review_only_uncalibrated_candidate_not_production",
+  "geometry": {
+    "fishwayCenterAuthority": "config/stage20_fishway_center_lonlat_v2.geojson#fishway_center_v2",
+    "fishwayCenterEPSG4326LongitudeLatitude": [
+      130.67461665311927,
+      33.888827122113916
+    ],
+    "P2PairId": "P2_separated_asymmetric",
+    "upstreamCenterEPSG4326LongitudeLatitude": [
+      130.67463509323798,
+      33.88869230309283
+    ],
+    "downstreamCenterEPSG4326LongitudeLatitude": [
+      130.67459206629434,
+      33.889006880808694
+    ],
+    "footprintRadiusM": 5,
+    "pairSeparationM": 35,
+    "coordinatesChangedByC2": false,
+    "graphRankExpansion": false,
+    "inventedFishwayAxisPolygon": false
+  },
+  "hydraulicComponents": {
+    "cutFaceRoles": [
+      "gate_1_through_gate_8",
+      "fixed_barrage_structure"
+    ],
+    "upstreamComponent": "connected_component_containing_all_upstream_P2_cells_after_removing_every_cut_face",
+    "mandatorySeparation": "no_downstream_P2_cell_may_belong_to_the_upstream_component",
+    "supplyDistribution": "proportional_to_each_upstream_component_cells_volume_above_5cm",
+    "interpretation": "numerical reservoir coupling, not a geometric claim about fishway width or planform"
+  },
+  "headMeasurement": {
+    "upstreamWaterSurfaceM": "sum_i(upstreamP2OverlapWeight_i * (h_i + z_i))",
+    "downstreamWaterSurfaceM": "sum_i(downstreamP2OverlapWeight_i * (h_i + z_i))",
+    "headDifferenceM": "upstreamWaterSurfaceM - downstreamWaterSurfaceM",
+    "syntheticP2DepthUsedAsFishwayInternalDepth": false,
+    "twoDimensionalBathymetryModified": false
+  },
+  "constitutiveLaw": {
+    "availability": "always_true_independent_of_main_gate_states",
+    "directionVersion1": "upstream_to_downstream_only",
+    "adverseHeadFactor": "smoothstep01((deltaEta + adverseHeadShutdownM) / adverseHeadShutdownM)",
+    "inflowCommandM3S": "min(basalDischargeM3S * adverseHeadFactor + headSqrtGainM2p5S * sqrt(max(deltaEta, 0)), maximumDischargeM3S)",
+    "upstreamAvailableVolumeM3": "sum_i(componentArea_i * max(h_i - reserveDepthM, 0))",
+    "upstreamSafetyDischargeM3S": "maximumAvailableVolumeFractionPerStep * upstreamAvailableVolumeM3 / dt",
+    "inflowM3S": "min(inflowCommandM3S, upstreamSafetyDischargeM3S)",
+    "instantaneousZeroMeaning": "link_remains_available_and_graph_edge_present",
+    "silentFixedQSubstitution": false
+  },
+  "independentStorage": {
+    "stateVariable": "storedVolumeM3",
+    "localInvertDatumM": 0,
+    "verticalDatumInterpretation": "internal_local_diagnostic_datum_only_not_a_surveyed_absolute_elevation",
+    "storageAreaM2": 122.5,
+    "reserveStorageVolumeM3": 6.125,
+    "reserveDepthM": 0.05,
+    "residenceTimeS": 60,
+    "releaseM3S": "min(maximumDischargeM3S, max(storedVolumeM3 - reserveStorageVolumeM3, 0) / residenceTimeS, max(storedVolumeM3 - reserveStorageVolumeM3, 0) / dt)",
+    "update": "storedVolumeNextM3 = storedVolumeM3 + dt * (inflowM3S - releaseM3S)",
+    "diagnosticEquilibriumInitialization": "reserveStorageVolumeM3 + inflowCommandM3S * residenceTimeS",
+    "dependsOnSynthetic2DP2Depth": false
+  },
+  "sourceApplication": {
+    "massOwnerCount": 1,
+    "upstreamRemoval": "proportional_to_available_volume_over_the_cut_separated_upstream_component",
+    "downstreamAddition": "proportional_to_approved_P2_downstream_overlap_area",
+    "twoDimensionalMassRateM3S": "outflowM3S - inflowM3S",
+    "storageMassRateM3S": "inflowM3S - outflowM3S",
+    "extendedMassResidualTargetM3S": 0,
+    "maximumAbsoluteExtendedMassResidualM3S": 1e-12,
+    "donorMomentum": "removed_with_withdrawn_mass",
+    "receiverMomentum": "zero_horizontal_momentum_added",
+    "directFishwayFaceFlux": 0,
+    "doubleCountingAllowed": false
+  },
+  "approvedSafetyConstants": {
+    "reserveDepthM": 0.05,
+    "maximumAvailableVolumeFractionPerStep": 0.02,
+    "maximumRelativeExtendedMassBalanceError": 1e-08,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0
+  },
+  "diagnosticPriorsNotPhysicalCalibration": {
+    "basalDischargeM3S": 0.125,
+    "headSqrtGainM2p5S": 0.13103560459023977,
+    "maximumDischargeM3S": 0.5,
+    "adverseHeadShutdownM": 0.02,
+    "storageAreaM2": 122.5,
+    "residenceTimeS": 60,
+    "localInvertDatumM": 0,
+    "reserveDepthM": 0.05,
+    "maximumAvailableVolumeFractionPerStep": 0.02,
+    "storageAreaPriorBasis": "3.5m official gate width times approved 35m P2 separation",
+    "residenceTimePriorBasis": "diagnostic response-time prior",
+    "physicalDefault": false,
+    "calibrated": false,
+    "solverDiagnosticAuthorization": false
+  },
+  "requiredStaticTests": [
+    "cut_separates_P2_footprints",
+    "P2_coordinates_and_safety_constants_unchanged",
+    "positive_flow_when_local_P2_depth_is_below_5cm_but_upstream_component_has_supply",
+    "equilibrium_storage_is_stationary",
+    "step_response_has_storage_lag",
+    "adverse_head_stops_inflow_but_allows_storage_drainage",
+    "storage_never_falls_below_5cm_reserve",
+    "upstream_component_2percent_safety_limit",
+    "maximum_discharge_limit",
+    "extended_mass_conservation",
+    "momentum_option_B",
+    "no_input_state_mutation",
+    "all_256_main_gate_states_leave_link_available",
+    "actual_R20_and_R1C_5300s_checkpoint_audit",
+    "no_graph_rank_expansion",
+    "candidate_not_imported_by_existing_solver_or_GUI"
+  ],
+  "bindings": {
+    "C2StorageApproval": {
+      "path": "config/stage20_fishway_1d_link_C2_storage_approval_v1.json",
+      "sha256": "a7ada699533cbecc85f605f2ad95fef3347d6a77d05f071a6a5c8fdfb86806b5"
+    },
+    "candidateModule": {
+      "path": "tools/stage20_fishway_1d_link_C2_storage_candidate_v1.py",
+      "sha256": "be808c2514d0b19c65085959995cf1ffe686f89f2bdfb9fcf1d8635264f58932"
+    },
+    "C4DepthDiagnosis": {
+      "path": "config/stage20_fishway_C4_P2_depth_diagnosis_v1.json",
+      "sha256": "e1c0a811fce9a2d469b971956953723cb991bb5fbb96a29ea1c05dd423d57989"
+    },
+    "C4DiagnosticSummary": {
+      "path": "docs/results/stage20-fishway-1d-link-C4-60s-v1/diagnostic-summary.json",
+      "sha256": "fb05a255e5c67d553a105151da8de09745559c7498ecf815b70b680a53ad8ee9"
+    },
+    "P2CouplingApproval": {
+      "path": "config/stage20_fishway_constant_weak_flow_coupling_approval_v1.json",
+      "sha256": "b31faab8c28fccadd97cf8c25d66f908fa4aa58fcedd448ef92fcd4b60713e86"
+    },
+    "F2cSafetyApproval": {
+      "path": "config/stage20_fishway_F2c_safety_approval_v1.json",
+      "sha256": "1a8adb1f36fcfb5f4b718b53f47b21bf659b716c5bae29fc4d09dd849c651af6"
+    },
+    "hydraulicTopologyApproval": {
+      "path": "config/stage20_barrage_hydraulic_topology_approval_v2.json",
+      "sha256": "ee064a215f82e5d87080ac54865949f7b118fda58ca494f967cb845f5423caf7"
+    }
+  },
+  "notAuthorized": [
+    "claim_priors_are_physical_or_calibrated",
+    "modify_existing_solver_kernel_mesh_P2_safety_or_2D_bathymetry",
+    "solver_run_before_a_separate_hash_bound_bounded_execution_record",
+    "production_adoption",
+    "precomputation",
+    "GUI_or_response_pack_connection",
+    "public_runtime_change",
+    "main_merge"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "onga-stage20-taskA-uncalibrated-inflow-model-v1",
+  "classification": "未較正・モデル参考値",
+  "purpose": "historical_official_precipitation_to_reference_boundary_inflow",
+  "warmupHours": 72,
+  "acceptedJmaQualityCodes": [
+    8
+  ],
+  "officialAggregateContext": {
+    "ongaRiverSystemCatchmentAreaKm2": 1026.0,
+    "ongaRiverBarrageUpstreamCatchmentAreaKm2": 938.6,
+    "source": "https://www.qsr.mlit.go.jp/onga/pdf/river_info/h29.3_houkoku.pdf",
+    "use": "aggregate_context_only_not_a_three_boundary_partition"
+  },
+  "basins": {
+    "N": {
+      "labelJa": "西川",
+      "catchmentAreaKm2": 22.0,
+      "baseflowM3S": 0.7,
+      "runoffCoefficient": 0.5,
+      "reservoirTimeConstantHours": 6.0,
+      "rainfallWeights": {
+        "yahata": 0.7,
+        "munakata": 0.3
+      },
+      "parameterBasis": "uncalibrated_assumption_not_official_observation"
+    },
+    "O": {
+      "labelJa": "遠賀川",
+      "catchmentAreaKm2": 900.0,
+      "baseflowM3S": 15.0,
+      "runoffCoefficient": 0.45,
+      "reservoirTimeConstantHours": 18.0,
+      "rainfallWeights": {
+        "iizuka": 0.4,
+        "soeda": 0.25,
+        "yahata": 0.2,
+        "munakata": 0.15
+      },
+      "parameterBasis": "uncalibrated_assumption_not_official_observation"
+    },
+    "G": {
+      "labelJa": "曲川",
+      "catchmentAreaKm2": 16.6,
+      "baseflowM3S": 0.5,
+      "runoffCoefficient": 0.55,
+      "reservoirTimeConstantHours": 5.0,
+      "rainfallWeights": {
+        "yahata": 0.6,
+        "munakata": 0.4
+      },
+      "parameterBasis": "uncalibrated_assumption_not_official_observation"
+    }
+  },
+  "partitionWarning": "N/O/Gの面積合計938.6 km2は公式の河口堰上流面積に一致させた未較正の便宜的配分であり、三境界の公式流域界または公式面積ではない。",
+  "sensitivityFactors": {
+    "baseflow": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "runoffCoefficient": [
+      0.6,
+      1.0,
+      1.4
+    ],
+    "reservoirTimeConstant": [
+      0.7,
+      1.0,
+      1.5
+    ]
+  },
+  "sensitivityMeaning": "27 parameter combinations; pointwise envelope only; not a probability or confidence interval",
+  "calibrationStatus": {
+    "boundaryCompatibleDischargeObservationsUsed": false,
+    "ratingCurvesUsed": false,
+    "parameterFittingPerformed": false,
+    "absoluteAccuracyClaimAllowed": false
+  }
+}

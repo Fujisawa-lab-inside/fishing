@@ -1,0 +1,9 @@
+{
+  "schema": "onga-stage20-runtime-capability-negative-fixture-v1",
+  "mutation": {
+    "modeId": "f59_saved_replay",
+    "field": "fieldPrediction",
+    "value": true
+  },
+  "expectedError": "E_FORBIDDEN_FIELDPREDICTION"
+}

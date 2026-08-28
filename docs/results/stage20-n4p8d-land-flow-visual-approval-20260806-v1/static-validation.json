@@ -1,0 +1,224 @@
+{
+  "checkCount": 27,
+  "checks": [
+    {
+      "id": "schema",
+      "observed": "onga-stage20-n4p8d-land-flow-visual-approval-20260806-v1",
+      "status": "PASS"
+    },
+    {
+      "id": "status",
+      "observed": "USER_VISUAL_APPROVED_NO_APPARENT_PROBLEM",
+      "status": "PASS"
+    },
+    {
+      "id": "classification",
+      "observed": "未較正・モデル参考値",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_count",
+      "observed": 3,
+      "status": "PASS"
+    },
+    {
+      "id": "binding_0_regular_file",
+      "observed": "/Users/swarm/Documents/SeaBass/docs/results/stage20-n4p8d-land-flow-heatmap-20260805-v1/report.json",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_0_sha256",
+      "observed": "9e076113a464592b04e612e1a1420fc64a30b2a22c8c86b192280d4998e562ff",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_1_regular_file",
+      "observed": "/Users/swarm/Documents/SeaBass/docs/visuals/stage20-n4p8d-land-flow-heatmap-20260805.webp",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_1_sha256",
+      "observed": "719a5fcb7633d156b7b6f05b1541bdfd801a9a41a1e5bf2c881f51f610e12812",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_2_regular_file",
+      "observed": "/Users/swarm/.codex/visualizations/2026/07/18/019f7538-8861-7831-b3d3-29723d9fb8c3/n4p8d-land-flow-heatmap.html",
+      "status": "PASS"
+    },
+    {
+      "id": "binding_2_sha256",
+      "observed": "064f92553d53571b9825e7439b10bb050ffc6d2b8a770233a5adf59a0302c5f9",
+      "status": "PASS"
+    },
+    {
+      "id": "report_status",
+      "observed": "READY_FOR_STRICT_USER_VISUAL_JUDGMENT",
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_cellCount",
+      "observed": 37724,
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_outsideWaterCentroidCellCount",
+      "observed": 19,
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_outsideWaterCentroidCellIds",
+      "observed": [
+        871,
+        1086,
+        1980,
+        3858,
+        3878,
+        6699,
+        6805,
+        13922,
+        13928,
+        15208,
+        16902,
+        17717,
+        17798,
+        19952,
+        19964,
+        20016,
+        20114,
+        21158,
+        21161
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_outsideWaterCentroidWithMaxSpeedAtLeast0_002MPS",
+      "observed": 18,
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_maximumOutsideWaterCentroidDistanceM",
+      "observed": 0.528142918772958,
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_maximumOutsideWaterVertexDistanceM",
+      "observed": 1.9169513502710966,
+      "status": "PASS"
+    },
+    {
+      "id": "accepted_maximumOutsideWaterCellSpeedMPS",
+      "observed": 0.0662113116264788,
+      "status": "PASS"
+    },
+    {
+      "id": "outside_ids_exact_count",
+      "observed": [
+        871,
+        1086,
+        1980,
+        3858,
+        3878,
+        6699,
+        6805,
+        13922,
+        13928,
+        15208,
+        16902,
+        17717,
+        17798,
+        19952,
+        19964,
+        20016,
+        20114,
+        21158,
+        21161
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "outside_ids_in_range",
+      "observed": [
+        871,
+        1086,
+        1980,
+        3858,
+        3878,
+        6699,
+        6805,
+        13922,
+        13928,
+        15208,
+        16902,
+        17717,
+        17798,
+        19952,
+        19964,
+        20016,
+        20114,
+        21158,
+        21161
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "submetre_centroid_envelope",
+      "observed": 0.528142918772958,
+      "status": "PASS"
+    },
+    {
+      "id": "sub2m_vertex_envelope",
+      "observed": 1.9169513502710966,
+      "status": "PASS"
+    },
+    {
+      "id": "read_only_gui_layer_authorized",
+      "observed": {
+        "addReadOnly36HourMaximumSpeedLayerToLocalGui": true,
+        "keepCurrentSnapshotAndDepthLayers": true,
+        "meshGeometryMutation": false,
+        "newSolverRunCount": 0,
+        "recordApprovalAndValidate": true,
+        "showOutsideWaterCentroidCellsAsMagentaAuditOverlay": true
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "audit_overlay_authorized",
+      "observed": {
+        "addReadOnly36HourMaximumSpeedLayerToLocalGui": true,
+        "keepCurrentSnapshotAndDepthLayers": true,
+        "meshGeometryMutation": false,
+        "newSolverRunCount": 0,
+        "recordApprovalAndValidate": true,
+        "showOutsideWaterCentroidCellsAsMagentaAuditOverlay": true
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "no_solver_run",
+      "observed": 0,
+      "status": "PASS"
+    },
+    {
+      "id": "no_geometry_mutation",
+      "observed": false,
+      "status": "PASS"
+    },
+    {
+      "id": "promotion_remains_blocked",
+      "observed": [
+        "calibrated_forecast_claim",
+        "production_mesh_promotion",
+        "public_or_main_promotion",
+        "shoreline_coordinate_change",
+        "solver_or_precompute_rerun"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "failedCount": 0,
+  "passedCount": 27,
+  "schema": "onga-stage20-n4p8d-land-flow-visual-approval-20260806-static-validation-v1",
+  "status": "PASS"
+}

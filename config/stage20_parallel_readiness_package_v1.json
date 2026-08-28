@@ -1,0 +1,858 @@
+{
+  "schema": "onga-stage20-parallel-readiness-package-v1",
+  "version": 1,
+  "status": "complete_static_readiness_package_no_physical_execution",
+  "recordedAtLocalDate": "2026-07-26",
+  "timezone": "Asia/Tokyo",
+  "purpose": "complete every safe independent task that can precede production-mesh selection and precomputation, while leaving the active GUI, fishway diagnostics, solver, response pack, and public runtime unchanged",
+  "completionMatrix": [
+    {
+      "id": "current_state_ledger_and_recovery_manifest",
+      "status": "complete",
+      "evidence": "stateRegistry and recoveryManifest"
+    },
+    {
+      "id": "boundary_mesh_precompute_impact_checker",
+      "status": "complete",
+      "evidence": "tools/audit_stage20_boundary_mesh_impact.py"
+    },
+    {
+      "id": "eight_gate_cross_contract_validator",
+      "status": "complete",
+      "evidence": "tools/validate_stage20_parallel_readiness_package_v1.py"
+    },
+    {
+      "id": "gate_geometry_adoption_stage_manifest",
+      "status": "complete",
+      "evidence": "gateGeometryAdoption"
+    },
+    {
+      "id": "R20_precompute_cost_and_storage_forecast",
+      "status": "complete",
+      "evidence": "precomputeCostForecast"
+    },
+    {
+      "id": "legacy_artifact_compatibility_matrix",
+      "status": "complete",
+      "evidence": "compatibilityMatrix"
+    },
+    {
+      "id": "individual_gate_basis_and_holdout_design",
+      "status": "complete",
+      "evidence": "individualGateBasisDesign"
+    },
+    {
+      "id": "result_provenance_and_display_contract",
+      "status": "complete",
+      "evidence": "config/stage20_result_provenance_schema_v1.json"
+    },
+    {
+      "id": "field_gate_observation_import_export_schema",
+      "status": "complete",
+      "evidence": "config/stage20_field_gate_observation_schema_v1.json"
+    },
+    {
+      "id": "artifact_SHA_and_reference_audit",
+      "status": "complete",
+      "evidence": "recoveryManifest and tools/validate_stage20_parallel_readiness_package_v1.py"
+    },
+    {
+      "id": "checkpoint_restart_storage_design",
+      "status": "complete",
+      "evidence": "checkpointRestartPlan"
+    }
+  ],
+  "authorization": {
+    "staticDesignAndReadOnlyAuditAuthorized": true,
+    "fileScope": "new independent package files only",
+    "productionMeshSelected": false,
+    "boundaryPhysicallyApplied": false,
+    "individualGateLawPhysicallyAdopted": false,
+    "solverRunAuthorized": false,
+    "precomputationAuthorized": false,
+    "paidComputeAuthorized": false,
+    "responsePackChangeAuthorized": false,
+    "publicRuntimeChangeAuthorized": false,
+    "mainMergeAuthorized": false
+  },
+  "decisionSummary": {
+    "decisionRequiredNow": false,
+    "boundary": "the confirmed v3 boundary differs from the historical r3 mask, so the old mesh/pack may not be reused if v3 is physically adopted",
+    "formalR20": "no precomputation exists for the formal R20 review mesh; after boundary freeze and production-mesh selection this is a first precomputation, not a recalculation",
+    "individualGateInput": "independent gate input requires an independent-gate basis or direct solver evaluation plus interaction holdouts; the historical single barrageOpeningFraction mode is incompatible",
+    "globalFiftyPercent": "a 50:50 field interpolation between all-closed and all-open is only a candidate estimate until a direct 50 percent holdout passes the frozen screening thresholds",
+    "whenToJudge": [
+      "judge boundary compatibility immediately after the boundary authority is frozen and before production-mesh selection",
+      "judge 50 percent interpolation only after a direct same-mesh 50 percent holdout exists",
+      "judge individual-gate basis sufficiency after all five interaction holdouts",
+      "authorize precomputation only after the production mesh, input contract, basis set, checkpoint plan, and provenance contract are pinned"
+    ]
+  },
+  "stateRegistry": [
+    {
+      "id": "confirmed_boundary_v3",
+      "classification": "authority",
+      "status": "coordinate_authority_integrated_not_physically_applied",
+      "physicalAdoption": false
+    },
+    {
+      "id": "gate_number_reference_anchors",
+      "classification": "authority",
+      "status": "8_of_8_approved_for_number_reference_only",
+      "physicalAdoption": false
+    },
+    {
+      "id": "gate_photo_visible_endpoints",
+      "classification": "authority",
+      "status": "16_of_16_approved_for_photo_visible_coordinates_and_numbering_only",
+      "physicalAdoption": false
+    },
+    {
+      "id": "H2_hydraulic_width",
+      "classification": "authority",
+      "status": "46_5_m_static_contract_approved_not_implemented",
+      "physicalAdoption": false
+    },
+    {
+      "id": "formal_R20_review_mesh",
+      "classification": "review_only",
+      "status": "44880_cells_static_validation_27_of_27_pass_not_production",
+      "physicalAdoption": false
+    },
+    {
+      "id": "multizone_R20_H2_review_mesh",
+      "classification": "review_only",
+      "status": "37168_cells_approved_for_bounded_review_and_cost_forecast_not_production",
+      "physicalAdoption": false
+    },
+    {
+      "id": "historical_browser_mesh_and_pack",
+      "classification": "historical_runtime",
+      "status": "50199_cell_synthetic_GUI_pair_only",
+      "physicalAdoption": false
+    },
+    {
+      "id": "sequential_continuous_gate_interface",
+      "classification": "candidate",
+      "status": "draft_not_runtime_not_solver_connected",
+      "physicalAdoption": false
+    },
+    {
+      "id": "fishway_C2_1",
+      "classification": "in_progress",
+      "status": "bounded_diagnostics_separate_task",
+      "physicalAdoption": false
+    },
+    {
+      "id": "production_precomputation",
+      "classification": "not_started",
+      "status": "blocked_by_boundary_freeze_production_mesh_selection_and_separate_authorization",
+      "physicalAdoption": false
+    }
+  ],
+  "boundaryImpactContract": {
+    "tool": "tools/audit_stage20_boundary_mesh_impact.py",
+    "classifications": [
+      "COMPATIBLE_NO_RECOMPUTE",
+      "BOUNDARY_CHANGED_REBUILD_MESH_AND_PRECOMPUTE",
+      "PACK_MESH_MISMATCH_REJECT",
+      "UNPROVEN_MISSING_AUTHORITY_BINDING"
+    ],
+    "actualHistoricalComparison": {
+      "classification": "BOUNDARY_CHANGED_REBUILD_MESH_AND_PRECOMPUTE",
+      "baselineWetPixelCount": 680633,
+      "candidateWetPixelCount": 591198,
+      "addedWetPixelCount": 13484,
+      "removedWetPixelCount": 102919,
+      "changedPixelCount": 116403,
+      "changedHistoricalMeshCentroidMembershipCount": 14859,
+      "historicalPackMeshIdentityMatches": true,
+      "existingHistoricalPackReusableAfterBoundaryAdoption": false
+    },
+    "formalR20Interpretation": {
+      "precomputationExists": false,
+      "recalculationRequiredNow": false,
+      "firstPrecomputationRequiredAfterProductionMeshSelection": true
+    }
+  },
+  "gateCrossContract": {
+    "gateCount": 8,
+    "exactStringKeys": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "gateArrayIndexRule": "array index n-1 is gate string key n",
+    "openingOrder": [
+      5,
+      4,
+      6,
+      3,
+      7,
+      2,
+      8,
+      1
+    ],
+    "binaryDomain": [
+      0,
+      1
+    ],
+    "continuousDomain": {
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "booleanAllowed": false,
+      "meaning": "provisional model capacity multiplier, not measured leaf height"
+    },
+    "requiredExhaustiveChecks": [
+      "all_256_binary_gate_patterns_preserve_identity",
+      "GUI_stages_0_through_8_follow_the_exact_opening_order",
+      "binary_projection_to_v2_is_exact",
+      "partial_fraction_projection_to_v2_is_rejected",
+      "golden_vectors_use_exact_keys_and_finite_in_range_values"
+    ]
+  },
+  "gateGeometryAdoption": {
+    "highestApprovedDecisionStage": 3,
+    "highestProductionAdoptionStage": 0,
+    "stages": [
+      {
+        "stage": 0,
+        "id": "inventory_only",
+        "status": "complete",
+        "productionAdopted": false
+      },
+      {
+        "stage": 1,
+        "id": "number_reference_anchors",
+        "status": "8_of_8_approved",
+        "productionAdopted": false
+      },
+      {
+        "stage": 2,
+        "id": "photo_visible_endpoints",
+        "status": "16_of_16_approved",
+        "productionAdopted": false
+      },
+      {
+        "stage": 3,
+        "id": "H2_effective_hydraulic_width",
+        "status": "46_5_m_static_contract_approved_not_implemented",
+        "productionAdopted": false
+      },
+      {
+        "stage": 4,
+        "id": "production_mesh_face_embedding",
+        "status": "not_selected; review_mesh_markers_do_not_equal_production_adoption",
+        "productionAdopted": false
+      },
+      {
+        "stage": 5,
+        "id": "individual_gate_solver_law",
+        "status": "binary_v2_exists_for_diagnostics; continuous_v3_is_draft; H2_not_implemented",
+        "productionAdopted": false
+      },
+      {
+        "stage": 6,
+        "id": "response_pack",
+        "status": "not_generated_for_review_mesh_or_individual_gates",
+        "productionAdopted": false
+      },
+      {
+        "stage": 7,
+        "id": "public_runtime",
+        "status": "not_connected",
+        "productionAdopted": false
+      }
+    ]
+  },
+  "compatibilityMatrix": [
+    {
+      "producer": "historical_mesh_v2_50199",
+      "consumer": "synthetic_response_pack_v2_50199",
+      "compatible": true,
+      "allowedUse": "existing synthetic GUI display only",
+      "reason": "mesh SHA and cell count are identical"
+    },
+    {
+      "producer": "formal_R20_review_mesh_44880",
+      "consumer": "synthetic_response_pack_v2_50199",
+      "compatible": false,
+      "allowedUse": "none",
+      "reason": "different mesh SHA and cell count"
+    },
+    {
+      "producer": "multizone_R20_review_mesh_37168",
+      "consumer": "synthetic_response_pack_v2_50199",
+      "compatible": false,
+      "allowedUse": "none",
+      "reason": "different mesh SHA and cell count"
+    },
+    {
+      "producer": "confirmed_boundary_v3",
+      "consumer": "historical_mesh_v2_50199",
+      "compatible": false,
+      "allowedUse": "review overlay only",
+      "reason": "116403 raster pixels and 14859 historical mesh centroid memberships differ"
+    },
+    {
+      "producer": "historical_global_barrageOpeningFraction",
+      "consumer": "individual_8_gate_input",
+      "compatible": false,
+      "allowedUse": "legacy synthetic scalar display only",
+      "reason": "one scalar cannot encode 256 binary patterns or eight continuous dimensions"
+    },
+    {
+      "producer": "binary_v2_gate_interface",
+      "consumer": "kernel_v4_diagnostic_path",
+      "compatible": true,
+      "allowedUse": "bounded binary diagnostic only",
+      "reason": "exact keys 1 through 8 and binary values are enforced; H2 production adoption remains absent"
+    },
+    {
+      "producer": "continuous_v3_draft",
+      "consumer": "binary_v2_gate_interface",
+      "compatible": "conditional",
+      "allowedUse": "test projection only when every value is exact numeric 0 or 1",
+      "reason": "partial fractions and booleans must be rejected"
+    }
+  ],
+  "individualGateBasisDesign": {
+    "currentDecision": "required_before_individual_gate_inputs_may_drive_physical_flow_output",
+    "globalFiftyPercentInterpolation": {
+      "meaning": "cellwise 0.5 times all-closed field plus 0.5 times all-open field",
+      "currentStatus": "candidate_not_adopted",
+      "cannotRepresent": [
+        "which individual gate is open",
+        "gate-to-gate hydraulic interaction",
+        "wet_dry_topology_change",
+        "nonlinear momentum response"
+      ],
+      "judgmentTiming": "after a direct same-mesh all-gates-50-percent holdout and before response-pack construction",
+      "adoptionRule": "all screening metrics must pass; otherwise retain direct output or expand the basis"
+    },
+    "binaryTrainingBasis": {
+      "basisCount": 9,
+      "members": [
+        "all_closed",
+        "gate_1_only_open",
+        "gate_2_only_open",
+        "gate_3_only_open",
+        "gate_4_only_open",
+        "gate_5_only_open",
+        "gate_6_only_open",
+        "gate_7_only_open",
+        "gate_8_only_open"
+      ],
+      "interpretation": "first-order additive candidate only, never assumed valid without holdouts"
+    },
+    "binaryInteractionHoldouts": [
+      {
+        "id": "west_pair",
+        "openGateIds": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": "center_pair",
+        "openGateIds": [
+          4,
+          5
+        ]
+      },
+      {
+        "id": "east_pair",
+        "openGateIds": [
+          7,
+          8
+        ]
+      },
+      {
+        "id": "alternating",
+        "openGateIds": [
+          1,
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "id": "all_open",
+        "openGateIds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    ],
+    "continuousAxisBasis": {
+      "basisCount": 17,
+      "reference": "all eight capacity fractions equal 0.5",
+      "members": "reference plus, for each gate independently, one 0.0 and one 1.0 axis endpoint",
+      "currentStatus": "design_only_until_continuous_mapping_and_H2_implementation_are_approved"
+    },
+    "screeningThresholds": {
+      "scope": "GUI diagnostic interpolation screening only; not physical validation",
+      "waterDepthP95AbsoluteErrorMMaximum": 0.05,
+      "velocityVectorP95AbsoluteErrorMPSMaximum": 0.1,
+      "wetDryDisagreementFractionMaximum": 0.01,
+      "relativeMassResidualMaximum": 1e-08,
+      "nonFiniteValueCountMaximum": 0,
+      "negativeDepthCountMaximum": 0,
+      "criticalRegionsMustPassSeparately": [
+        "barrage",
+        "fishway",
+        "open_boundaries_M_N_O_G"
+      ]
+    },
+    "failureExpansionRule": "if any holdout fails, add the failing interaction as a direct basis; repeat until a frozen independent holdout set passes or use direct evaluation instead of interpolation",
+    "timeVaryingOperations": "excluded from static superposition claims; require separate sequential-transition validation"
+  },
+  "precomputeCostForecast": {
+    "status": "planning_estimate_only_not_authorization",
+    "method": "linear cell-count scaling from two completed 8-hour historical reference segments; excludes convergence, I/O, queue, mesh-quality, fishway, and per-gate nonlinear effects",
+    "reference": {
+      "meshCellCount": 50199,
+      "physicalSecondsPerSegment": 28800,
+      "segmentCountPerBasis": 6,
+      "displaySnapshotCountPerBasis": 37,
+      "restartStateCountPerBasis": 7,
+      "componentCount": 3,
+      "restartComponentBytes": 8,
+      "snapshotComponentBytes": 4,
+      "wallSecondsLow": 13695.202115381,
+      "wallSecondsHigh": 14366.264746911002,
+      "planningStorageOverheadFactor": 1.3
+    },
+    "scenarios": {
+      "legacy_11_basis": 11,
+      "binary_training_9_basis": 9,
+      "binary_training_plus_5_holdouts": 14,
+      "continuous_axis_17_basis": 17,
+      "continuous_axis_plus_5_holdouts": 22
+    },
+    "meshes": [
+      {
+        "id": "formal_R20_44880",
+        "classification": "review_only",
+        "cellCount": 44880,
+        "segmentWallSecondsLow": 12244.081972515374,
+        "segmentWallSecondsHigh": 12844.039957795289,
+        "scenarioForecasts": {
+          "legacy_11_basis": {
+            "runnerHoursLow": 224.4748361627819,
+            "runnerHoursHigh": 235.4740658929136,
+            "rawBytesLowerBound": 302132160,
+            "planningBytesAt1_3x": 392771808
+          },
+          "binary_training_9_basis": {
+            "runnerHoursLow": 183.66122958773062,
+            "runnerHoursHigh": 192.66059936692932,
+            "rawBytesLowerBound": 247199040,
+            "planningBytesAt1_3x": 321358752
+          },
+          "binary_training_plus_5_holdouts": {
+            "runnerHoursLow": 285.69524602535876,
+            "runnerHoursHigh": 299.69426568189004,
+            "rawBytesLowerBound": 384531840,
+            "planningBytesAt1_3x": 499891392
+          },
+          "continuous_axis_17_basis": {
+            "runnerHoursLow": 346.9156558879356,
+            "runnerHoursHigh": 363.9144654708665,
+            "rawBytesLowerBound": 466931520,
+            "planningBytesAt1_3x": 607010976
+          },
+          "continuous_axis_plus_5_holdouts": {
+            "runnerHoursLow": 448.9496723255638,
+            "runnerHoursHigh": 470.9481317858272,
+            "rawBytesLowerBound": 604264320,
+            "planningBytesAt1_3x": 785543616
+          }
+        }
+      },
+      {
+        "id": "multizone_R20_37168",
+        "classification": "review_only",
+        "cellCount": 37168,
+        "segmentWallSecondsLow": 10140.10781538439,
+        "segmentWallSecondsHigh": 10636.971416027971,
+        "scenarioForecasts": {
+          "legacy_11_basis": {
+            "runnerHoursLow": 185.90197661538045,
+            "runnerHoursHigh": 195.01114262717948,
+            "rawBytesLowerBound": 250214976,
+            "planningBytesAt1_3x": 325279469
+          },
+          "binary_training_9_basis": {
+            "runnerHoursLow": 152.10161723076587,
+            "runnerHoursHigh": 159.55457124041956,
+            "rawBytesLowerBound": 204721344,
+            "planningBytesAt1_3x": 266137747
+          },
+          "binary_training_plus_5_holdouts": {
+            "runnerHoursLow": 236.60251569230243,
+            "runnerHoursHigh": 248.19599970731932,
+            "rawBytesLowerBound": 318455424,
+            "planningBytesAt1_3x": 413992051
+          },
+          "continuous_axis_17_basis": {
+            "runnerHoursLow": 287.3030547692244,
+            "runnerHoursHigh": 301.3808567874592,
+            "rawBytesLowerBound": 386695872,
+            "planningBytesAt1_3x": 502704634
+          },
+          "continuous_axis_plus_5_holdouts": {
+            "runnerHoursLow": 371.8039532307609,
+            "runnerHoursHigh": 390.02228525435896,
+            "rawBytesLowerBound": 500429952,
+            "planningBytesAt1_3x": 650558938
+          }
+        }
+      }
+    ],
+    "interpretation": "the multizone review mesh is cheaper by cell-count scaling, but neither review mesh is selected for production and these figures are not a compute authorization"
+  },
+  "resultProvenanceContract": {
+    "path": "config/stage20_result_provenance_schema_v1.json",
+    "sha256": "7b741014811d0d85ad4a2e0379262887e1729698bc0fee06c21c60bae3b06b1f",
+    "byteLength": 7419,
+    "requiredClassifications": [
+      "synthetic_fixture",
+      "diagnostic_candidate",
+      "direct_solver",
+      "interpolated_candidate",
+      "not_evaluable"
+    ],
+    "historicalGuiLabelJa": "合成データ・物理計算未接続"
+  },
+  "fieldGateObservationContract": {
+    "path": "config/stage20_field_gate_observation_schema_v1.json",
+    "sha256": "f69e909a5336b72c69d375f8ce47fb4d82878e412e04f7133400e230bff5eaa5",
+    "byteLength": 5800,
+    "canonicalFormat": "UTF-8 canonical JSON with lexicographic object keys and terminal newline",
+    "digest": "SHA-256",
+    "importMustReject": [
+      "missing_or_extra_gate_keys",
+      "boolean_gate_states",
+      "out_of_range_values",
+      "naive_timestamps",
+      "duplicate_observation_ids",
+      "non_increasing_revisions"
+    ]
+  },
+  "checkpointRestartPlan": {
+    "status": "complete_design_not_executed",
+    "modelHourBoundaries": [
+      -24,
+      -16,
+      -8,
+      0,
+      8,
+      16,
+      24
+    ],
+    "segmentDurationHours": 8,
+    "segmentCountPerBasis": 6,
+    "restartStateCountPerBasis": 7,
+    "displaySnapshotHours": {
+      "start": -12,
+      "end": 24,
+      "interval": 1,
+      "count": 37
+    },
+    "restartState": {
+      "precision": "float64",
+      "minimumComponents": [
+        "water_depth",
+        "east_momentum",
+        "north_momentum"
+      ],
+      "storageFormulaBytesLowerBound": "cellCount * 3 * 8",
+      "requiredMetadata": [
+        "basisId",
+        "meshSha256",
+        "solverSha256",
+        "inputContractSha256",
+        "modelHour",
+        "step",
+        "predecessorRestartSha256",
+        "stateSha256"
+      ]
+    },
+    "displaySnapshot": {
+      "precision": "float32",
+      "components": [
+        "depthM",
+        "eastVelocityMPS",
+        "northVelocityMPS"
+      ],
+      "storageFormulaBytes": "cellCount * 3 * 4"
+    },
+    "writeProtocol": [
+      "write_to_same_filesystem_temporary_path",
+      "flush_and_fsync_data",
+      "compute_and_verify_SHA256",
+      "atomic_rename",
+      "write_inventory_manifest_last"
+    ],
+    "restartRules": [
+      "exact predecessor SHA is mandatory",
+      "mesh solver and input-contract SHAs must match",
+      "cross-basis restart is forbidden",
+      "automatic retry is forbidden unless separately authorized",
+      "a failed segment never promotes a partial checkpoint",
+      "all retained files appear in a digest inventory"
+    ],
+    "recoveryPointObjective": "at most one 8-hour model segment",
+    "recoveryTimeObjective": "not committed until the execution environment is selected",
+    "retention": "retain all seven restart states until basis validation and response-pack audit complete; archive or delete only by separate decision"
+  },
+  "artifactAudit": {
+    "scope": "all recoveryManifest bindings plus cross-file semantic identities used by this package",
+    "requiredChecks": [
+      "path_exists",
+      "byte_length_matches",
+      "SHA256_matches",
+      "mesh_pack_SHA_and_cell_count_match",
+      "formal_review_mesh_cell_count_matches_NPZ",
+      "all_8_gate_keys_and_256_binary_patterns_match",
+      "schema_negative_tests_fail_closed",
+      "cost_and_storage_formulas_recompute_exactly",
+      "boundary_actual_audit_matches_pinned_summary"
+    ],
+    "historicalReferencesOutsideRecoveryManifest": "not promoted and intentionally outside this bounded audit"
+  },
+  "recoveryManifest": [
+    {
+      "id": "gui_integration_manifest",
+      "classification": "authority",
+      "path": "config/stage20_gui_integration_status_manifest_v1.json",
+      "sha256": "34e88d3dfd3633a9ebb61b11cd6e8678e0aba3d55adc91bc5bf26300876056ff",
+      "byteLength": 12813
+    },
+    {
+      "id": "confirmed_boundary_authority_record",
+      "classification": "authority",
+      "path": "config/stage20_estuary_confirmed_integration_v3.json",
+      "sha256": "ab1847d156bd03e464d8cbaa4c666ad9d516e7f6e6bd0ba18c2be406277aa7cd",
+      "byteLength": 1496
+    },
+    {
+      "id": "confirmed_boundary_geojson",
+      "classification": "authority",
+      "path": "config/stage20_estuary_confirmed_integration_v3.geojson",
+      "sha256": "2868cf998e9b8886d0306db7d774b2de6c0591474ef6755506ce76a18ad4233e",
+      "byteLength": 1198286
+    },
+    {
+      "id": "historical_water_manifest_r3",
+      "classification": "historical_runtime",
+      "path": "data/onga_unified_water_manifest_r3.json",
+      "sha256": "964eaa8d43607d0ac4cc6d81f37fa8a9ed8dc23563894ddce85b4252938fcbf7",
+      "byteLength": 4311
+    },
+    {
+      "id": "historical_mesh_manifest_v2",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/mesh-v2.json",
+      "sha256": "17850a07821f409f13bd3c38446982ae6124743ad9e6437d5d612da447f421c8",
+      "byteLength": 3832
+    },
+    {
+      "id": "historical_mesh_binary_v2",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/mesh-v2.bin",
+      "sha256": "09dd7e6b667fcdb334ec6db8daa72851d8cba78b7a823ca828980ec0a5ed7659",
+      "byteLength": 2296216
+    },
+    {
+      "id": "historical_response_manifest_v2",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/response-pack-synthetic-v2.json",
+      "sha256": "f7ad29902c195559ddbffca831a916c652bd3a99fbb16c39acc3e351934ceada",
+      "byteLength": 2972
+    },
+    {
+      "id": "historical_response_binary_v2",
+      "classification": "historical_runtime",
+      "path": "public/data/onga/stage20/response-pack-synthetic-v2.bin",
+      "sha256": "2d92e67d2ececf8e3c9e540003cd5546e3f6a38b234de7b5122aa4448c3478a3",
+      "byteLength": 3614328
+    },
+    {
+      "id": "formal_R20_closure",
+      "classification": "review_only",
+      "path": "config/stage20_premesh_problem_closure_v21.json",
+      "sha256": "839d2f24acd33304e7bf2593a9be5ade5088b1bf338795fa3e337e178e83286e",
+      "byteLength": 1046
+    },
+    {
+      "id": "formal_R20_manifest",
+      "classification": "review_only",
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/manifest.json",
+      "sha256": "d5aab717907a768d6850b1a44e96a67aff4212512625ac65a175ab7aabfe5882",
+      "byteLength": 2290
+    },
+    {
+      "id": "formal_R20_mesh",
+      "classification": "review_only",
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/review-mesh.npz",
+      "sha256": "315636cb6844b4348863e92e33a342b599a2e27f70983651e81a92490d9b920e",
+      "byteLength": 547265
+    },
+    {
+      "id": "multizone_R20_authority",
+      "classification": "review_only",
+      "path": "config/stage20_R20_multizone_v2_H2_review_mesh_authority_v1.json",
+      "sha256": "f19468ea1a597eceeb088d920bbc332f3ad0c9279eca87a6119e3a7ef9ca6c0d",
+      "byteLength": 2561
+    },
+    {
+      "id": "multizone_R20_mesh",
+      "classification": "review_only",
+      "path": "docs/results/stage20-R20-multizone-v2-H2-approved-review-mesh-v1/review-mesh.npz",
+      "sha256": "e7de2e31085412a3a66bd42b70587d9eceed94e2d69a42f336f2a2f710711505",
+      "byteLength": 480461
+    },
+    {
+      "id": "gate_reference_anchors",
+      "classification": "authority",
+      "path": "docs/results/stage20-barrage-pink-structure-alignment-candidate-v2/gate-reference-anchor-authority-v2.geojson",
+      "sha256": "8e5197fd4fd747dc8d7b0645e59edb2d4c98d699f1a8dbebeb2f06922e7f3ef8",
+      "byteLength": 6112
+    },
+    {
+      "id": "gate_photo_endpoint_approval",
+      "classification": "authority",
+      "path": "config/stage20_barrage_gate_photo_visible_faces_approval_v1.json",
+      "sha256": "a021dfc4fdc3fe633c4eebc9a41433ccf0f5319775738e0c4dfd99903506bcd5",
+      "byteLength": 893
+    },
+    {
+      "id": "gate_photo_endpoint_authority",
+      "classification": "authority",
+      "path": "config/stage20_barrage_gate_photo_visible_faces_authority_v1.geojson",
+      "sha256": "f88deeb2b81de85b3550e1252bf4a194b1d6a8c02482f7cc2ba3109326c7db78",
+      "byteLength": 8184
+    },
+    {
+      "id": "H2_width_approval",
+      "classification": "authority",
+      "path": "config/stage20_barrage_hydraulic_width_representation_approval_v1.json",
+      "sha256": "9f63f6c35da688aaa26451919c380b31620d54dc768dab6057538893821cb218",
+      "byteLength": 1850
+    },
+    {
+      "id": "hydraulic_topology_approval",
+      "classification": "authority",
+      "path": "config/stage20_barrage_hydraulic_topology_approval_v2.json",
+      "sha256": "ee064a215f82e5d87080ac54865949f7b118fda58ca494f967cb845f5423caf7",
+      "byteLength": 17516
+    },
+    {
+      "id": "binary_gate_interface",
+      "classification": "diagnostic_code",
+      "path": "tools/stage20_barrage_interface_v2.py",
+      "sha256": "3723b3afbfda4c324bb2398d7f6c3544921b0ee80ec57e90f3a8a95cbd514de0",
+      "byteLength": 8351
+    },
+    {
+      "id": "kernel_v4",
+      "classification": "diagnostic_code",
+      "path": "tools/stage20_shallow_water_kernel_v4.py",
+      "sha256": "e5a68cc254f2917eb4f76e0969fb7c9a0e3effa3b8900964097fc2af4a9423df",
+      "byteLength": 10075
+    },
+    {
+      "id": "continuous_mapping_candidate",
+      "classification": "candidate",
+      "path": "config/stage20_barrage_continuous_face_mapping_candidate_v1.json",
+      "sha256": "62bd088bf2d3bb496f2a67e53921ce1a5f626a5904f82db58c4c4133892617f4",
+      "byteLength": 7632
+    },
+    {
+      "id": "continuous_interface_draft",
+      "classification": "candidate",
+      "path": "config/stage20_barrage_continuous_interface_v3_draft.json",
+      "sha256": "c4bde561e382a600e4a231325c230b14a46d6cbc6c00f49b1d7088b5155bed7a",
+      "byteLength": 4722
+    },
+    {
+      "id": "sequential_operation_candidate",
+      "classification": "candidate",
+      "path": "config/stage20_barrage_sequential_operation_candidate_v1.json",
+      "sha256": "c56f57271ad541f8f1901d09e41f8bebe815a44f68341963173424c7a114dfa6",
+      "byteLength": 6503
+    },
+    {
+      "id": "sequential_operation_golden_vectors",
+      "classification": "candidate_fixture",
+      "path": "docs/results/stage20-barrage-sequential-operation-integration-v1/golden-test-vectors.json",
+      "sha256": "9341ad2881fabb5218d50cedde9a3bf5faea1ab64f96b078d1f5bc7740660e24",
+      "byteLength": 32986
+    },
+    {
+      "id": "reference_s01_result",
+      "classification": "historical_cost_evidence",
+      "path": "config/stage20_reference_s01_canary_result_v1.json",
+      "sha256": "7b284f591dd61f7cfc3cf6b2d0c42242532e95bd54c4d2c09acb1fe42a4d5ef1",
+      "byteLength": 3974
+    },
+    {
+      "id": "reference_s02_result",
+      "classification": "historical_cost_evidence",
+      "path": "config/stage20_reference_s02_result_v1.json",
+      "sha256": "992d586aeadc6731ca54c20cffc7500527ef0edbb419e94f5393f36e9f990663",
+      "byteLength": 4455
+    },
+    {
+      "id": "field_gate_observation_schema",
+      "classification": "new_contract",
+      "path": "config/stage20_field_gate_observation_schema_v1.json",
+      "sha256": "f69e909a5336b72c69d375f8ce47fb4d82878e412e04f7133400e230bff5eaa5",
+      "byteLength": 5800
+    },
+    {
+      "id": "result_provenance_schema",
+      "classification": "new_contract",
+      "path": "config/stage20_result_provenance_schema_v1.json",
+      "sha256": "7b741014811d0d85ad4a2e0379262887e1729698bc0fee06c21c60bae3b06b1f",
+      "byteLength": 7419
+    },
+    {
+      "id": "boundary_impact_tool",
+      "classification": "new_read_only_tool",
+      "path": "tools/audit_stage20_boundary_mesh_impact.py",
+      "sha256": "674ed04af1fb5edf6cc6176a049b9a62533003d78a68d6280d10c299313b48f7",
+      "byteLength": 16644
+    },
+    {
+      "id": "parallel_readiness_validator",
+      "classification": "new_read_only_tool",
+      "path": "tools/validate_stage20_parallel_readiness_package_v1.py",
+      "sha256": "829b466ef86c3dd56b930944346c1555d36bb5ab569152b07a50b354c9be8dc1",
+      "byteLength": 38308
+    }
+  ],
+  "safeguards": {
+    "existingGUIFilesChangedByThisPackage": false,
+    "existingFishwayFilesChangedByThisPackage": false,
+    "meshChanged": false,
+    "solverChanged": false,
+    "responsePackChanged": false,
+    "publicChanged": false,
+    "precomputationRun": false,
+    "mainMerged": false
+  }
+}

@@ -1,0 +1,63 @@
+name: Stage 20 runtime v2 focused validation
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage20-runtime-v2.yml'
+      - 'config/stage20_runtime_*.json'
+      - 'onga_stage20_*.mjs'
+      - 'stage20-hybrid-gui.*'
+      - 'tools/serve_stage20_local_simulator_v1.py'
+      - 'tools/run_stage20_local_R1C_simulation_v1.py'
+      - 'tools/stage20_parallel_forcing_integration_v1.py'
+      - 'tools/validate_stage20_runtime_*'
+      - 'tests/stage20_local_simulator_input_lock_20260806_test_v1.test.mjs'
+      - 'tests/test_stage20_parallel_forcing_integration_v1.py'
+      - 'tests/test_stage20_local_service_m0.py'
+      - 'tests/test_stage20_runtime_baseline_v2.py'
+      - 'tests/fixtures/stage20-runtime-capabilities-v2/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-runtime-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout tracked baseline
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate tracked runtime baseline
+        run: python tools/validate_stage20_runtime_baseline_v2.py --release
+
+      - name: Validate runtime capabilities
+        run: node tools/validate_stage20_runtime_capabilities_v2.mjs
+
+      - name: Test runtime baseline dynamic closure
+        run: python -m unittest tests/test_stage20_runtime_baseline_v2.py -v
+
+      - name: Validate forcing integration without solver execution
+        run: python -m unittest tests/test_stage20_parallel_forcing_integration_v1.py -v
+
+      - name: Validate local service isolation without solver execution
+        run: python -m unittest tests/test_stage20_local_service_m0.py -v
+
+      - name: Validate local input lock without solver execution
+        run: node --test tests/stage20_local_simulator_input_lock_20260806_test_v1.test.mjs
+
+      - name: Confirm tests produced no tracked diff
+        run: git diff --exit-code

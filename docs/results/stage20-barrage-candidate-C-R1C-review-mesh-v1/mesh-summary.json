@@ -1,0 +1,670 @@
+{
+  "schema": "onga-stage20-barrage-candidate-C-R1C-review-mesh-summary-v1",
+  "version": 1,
+  "status": "PASS_STATIC_REVIEW_ONLY_AWAITING_VISUAL_AND_USER_JUDGMENT",
+  "policy": {
+    "id": "C_R1C",
+    "baseMeshPolicy": "approved_candidate_C_200m_fixed_30_45_60m2",
+    "exactFormalR20Patches": {
+      "existingMainChannelWithin200M": true,
+      "nishikawaSavedC2bS1MaskWithin150M": true,
+      "magarigawaSavedC2bS1MaskWithin180M": true
+    },
+    "diagnosticMaskFormalCellCount": 7638,
+    "expectedExactFixedUnionFormalCellCount": 16876,
+    "nishikawaMainPatchOverlapFormalCellCount": 23,
+    "transitionOutsideDiagnosticPatches": {
+      "widthM": 30.0,
+      "maximumAreaM2": 30.0
+    },
+    "outsideTransition": "preserve_candidate_C_30_45_60m2_policy",
+    "fishwayP2MaximumAreaM2": 3.0,
+    "minimumAngleDegree": 30.0,
+    "minimumCellEdgeM": 0.25,
+    "preserveExactFixedR20CellsAndEdges": true,
+    "preserveGateFishwayShorelineAndOpenBoundaryGeometry": true,
+    "estimatedCellCountRangeFromDesign": [
+      38026,
+      38619
+    ]
+  },
+  "mesh": {
+    "vertexCount": 19771,
+    "cellCount": 37724,
+    "segmentCount": 27087,
+    "fixedR20CellCounts": {
+      "main200": 9261,
+      "nishikawa150": 3206,
+      "magarigawa180": 4432,
+      "mainAndNishikawaOverlap": 23,
+      "uniqueUnion": 16876
+    },
+    "transition30MNonfixedCellCount": 2496,
+    "targetAreaDistribution": {
+      "3.0": 143,
+      "30.0": 22981,
+      "45.0": 9985,
+      "60.0": 4615
+    },
+    "minimumAreaM2": 0.08721478245263632,
+    "medianAreaM2": 20.26184654967804,
+    "maximumAreaM2": 59.97013530761161,
+    "minimumAngleDegree": 30.000000002921624,
+    "minimumCellEdgeM": 0.3870142296069747,
+    "maximumAreaExcessM2": -9.996653684396506e-06,
+    "duplicateCellCount": 0,
+    "nonmanifoldFaceCount": 0
+  },
+  "hydraulic": {
+    "allClosedMainCutComponents": 2,
+    "anyOpenMainCutOne": true,
+    "fishwayAll256One": true,
+    "fixedCutFaceCount": 15,
+    "gateFaceCounts": {
+      "1": 8,
+      "2": 8,
+      "3": 8,
+      "4": 8,
+      "5": 8,
+      "6": 8,
+      "7": 8,
+      "8": 9
+    },
+    "gateExactFaceLengthsM": {
+      "1": 41.44752839884414,
+      "2": 42.13516375975456,
+      "3": 42.265614207866186,
+      "4": 42.38914159310681,
+      "5": 42.16044409228326,
+      "6": 42.296328787522214,
+      "7": 42.74824193848342,
+      "8": 42.09244687489285
+    },
+    "P2": {
+      "upstream": {
+        "cellCount": 77,
+        "weightSumResidual": 0.0,
+        "overlapAreaResidual": 1.4624715045512905e-12,
+        "cellIds": [
+          2575,
+          2576,
+          2577,
+          2578,
+          2580,
+          2604,
+          2606,
+          2607,
+          2608,
+          2609,
+          2610,
+          2611,
+          2612,
+          2614,
+          2615,
+          2616,
+          2617,
+          2619,
+          2621,
+          2622,
+          2625,
+          2630,
+          2632,
+          2634,
+          2635,
+          2636,
+          2637,
+          2638,
+          2639,
+          2640,
+          2641,
+          2643,
+          2652,
+          2653,
+          2658,
+          2660,
+          2662,
+          2664,
+          2665,
+          2666,
+          2667,
+          2668,
+          2669,
+          2670,
+          2671,
+          2672,
+          2673,
+          2674,
+          2675,
+          2676,
+          2677,
+          2678,
+          2679,
+          2680,
+          2681,
+          2682,
+          2683,
+          2684,
+          2685,
+          2686,
+          2688,
+          2689,
+          2690,
+          2691,
+          2694,
+          2696,
+          2697,
+          2698,
+          2700,
+          2701,
+          2702,
+          2802,
+          2803,
+          2805,
+          2808,
+          2809,
+          2821
+        ],
+        "weights": [
+          0.0008158949954327056,
+          0.0013623633655921944,
+          0.000683272964775732,
+          0.007065721751455139,
+          0.007408891190936344,
+          0.0001780434588877739,
+          0.008516877698546492,
+          0.009982865682768955,
+          0.002210690774060128,
+          0.030877093561318635,
+          9.169352158124631e-05,
+          0.0011364937988569456,
+          0.013725380199273298,
+          0.014531394292943922,
+          0.004436572435730391,
+          0.003225528005555329,
+          0.023803524007751306,
+          0.00012387176784239975,
+          0.013084536517532316,
+          0.020060344292834886,
+          0.015411542869293604,
+          0.0018313675586962986,
+          0.0004091010583861259,
+          0.0021573845540720283,
+          0.009974837930806956,
+          0.014181606060569913,
+          0.008316948240177988,
+          0.032261152162914024,
+          0.004564094131706086,
+          0.026466454862993715,
+          0.0002051406792242557,
+          0.03064680332134095,
+          0.0032371625548281496,
+          0.006817547082641681,
+          0.025651892553213707,
+          0.025936507384430426,
+          0.03735171756793796,
+          0.018118900609462772,
+          0.018508300981903317,
+          0.020967709402768316,
+          0.021621223269495938,
+          0.016547243240005817,
+          0.024971039108365612,
+          0.021763431725061785,
+          0.027709372798989856,
+          0.024887403523238653,
+          0.027322333166236855,
+          0.019041957123509264,
+          0.02332521226755598,
+          0.012715042962762678,
+          0.01921468216602169,
+          0.020475453770342288,
+          0.02723125338928084,
+          0.020875407093030374,
+          0.01863920823913488,
+          0.011452007248612717,
+          0.026196173220625188,
+          0.00017798994174435178,
+          0.00434054974545134,
+          0.00023486617795997453,
+          0.019098449815561826,
+          0.0012243394238385702,
+          0.005034260461136688,
+          0.019978360235654285,
+          0.00035314091167805287,
+          0.00254059720908895,
+          0.0057721377300659375,
+          0.012558520869632862,
+          0.009390968487371637,
+          0.02467640464005233,
+          0.02741843469689441,
+          0.005619423277209676,
+          0.01267877479396767,
+          0.0014679918242971805,
+          0.0017969652676782222,
+          0.011275909987015617,
+          0.0040362443403856
+        ]
+      },
+      "downstream": {
+        "cellCount": 56,
+        "weightSumResidual": 0.0,
+        "overlapAreaResidual": 1.1717478427025507e-12,
+        "cellIds": [
+          2894,
+          2895,
+          2896,
+          2897,
+          2898,
+          2901,
+          2922,
+          2924,
+          2925,
+          2926,
+          2927,
+          2928,
+          2929,
+          2930,
+          2931,
+          2932,
+          2933,
+          2934,
+          2935,
+          2936,
+          2937,
+          2939,
+          2943,
+          2982,
+          2983,
+          2984,
+          2985,
+          2986,
+          2987,
+          2988,
+          2990,
+          2991,
+          2992,
+          2993,
+          2994,
+          2995,
+          2996,
+          2997,
+          2998,
+          2999,
+          3016,
+          3018,
+          3019,
+          3020,
+          3022,
+          3044,
+          3045,
+          3047,
+          3059,
+          3061,
+          3102,
+          3103,
+          3105,
+          3108,
+          3109,
+          3111
+        ],
+        "weights": [
+          0.01579748379694685,
+          0.0027911248913768004,
+          0.022594766908320112,
+          0.01324406993303653,
+          0.028222434049185258,
+          0.014996630589253079,
+          0.0068850856971235325,
+          0.02119133042789149,
+          0.03149556413518287,
+          0.026566110673421885,
+          0.03414990026025571,
+          0.012694479680261956,
+          0.009670444071303812,
+          0.01267562828581213,
+          0.0021444629685903396,
+          0.028645460743109787,
+          0.022400427333647773,
+          0.02563172104800029,
+          0.024822890387471486,
+          0.006841304144287178,
+          0.02240042733560527,
+          0.03305092444028558,
+          0.022386306885908872,
+          0.025204510134760837,
+          0.029356449794829577,
+          0.014330287328581897,
+          0.008088632091895254,
+          0.02520451013663575,
+          0.0028068309859462805,
+          0.02935644979728894,
+          0.023777051557961185,
+          0.022378931703659174,
+          0.016110862642283258,
+          0.026467522187385642,
+          0.002636774496652886,
+          0.015099575146912122,
+          0.013718842126628182,
+          0.022775131216197866,
+          0.02937084406194926,
+          0.011667795355555613,
+          0.013444159815715864,
+          0.02252460379651633,
+          0.014271814832123877,
+          0.002720660473991294,
+          0.027897283396659006,
+          0.007352702262542886,
+          0.024288948676582864,
+          0.0071973132437888184,
+          0.019547395075467183,
+          0.021516791635300916,
+          0.003548413035141272,
+          0.01810404648550991,
+          0.008747311607372278,
+          0.01804784345805538,
+          0.022524603795742597,
+          0.008616128958087268
+        ]
+      }
+    },
+    "boundaryChains": {
+      "M": {
+        "faceCount": 46,
+        "chainCount": 1,
+        "endpointCount": 2
+      },
+      "N": {
+        "faceCount": 20,
+        "chainCount": 1,
+        "endpointCount": 2
+      },
+      "O": {
+        "faceCount": 86,
+        "chainCount": 1,
+        "endpointCount": 2
+      },
+      "G": {
+        "faceCount": 14,
+        "chainCount": 1,
+        "endpointCount": 2
+      }
+    },
+    "nonmanifoldFaceCount": 0
+  },
+  "comparison": {
+    "candidateC": 34940,
+    "R1C": 37724,
+    "formalR20": 44880,
+    "R1CChangeFromCandidateCPercent": 7.967945048654834,
+    "R1CReductionFromFormalR20Percent": 15.944741532976824,
+    "insideDesignEstimateRange": false
+  },
+  "generation": {
+    "triangleOptions": {
+      "initial": "pq30YYQ",
+      "refinement": "prq30aYYQ"
+    },
+    "preRepair": {
+      "termination": "fixed_interface_area_refinement_stagnation",
+      "iterations": [
+        {
+          "iteration": 1,
+          "cellCount": 24246,
+          "fixedCellCount": 16876,
+          "areaViolationCount": 2515,
+          "angleViolationCount": 0,
+          "maximumAreaExcessM2": 3335.645313693389,
+          "minimumAngleDegree": 30.000000002921624
+        },
+        {
+          "iteration": 2,
+          "cellCount": 37602,
+          "fixedCellCount": 16876,
+          "areaViolationCount": 76,
+          "angleViolationCount": 0,
+          "maximumAreaExcessM2": 10.85322312773279,
+          "minimumAngleDegree": 30.000000002921624
+        },
+        {
+          "iteration": 3,
+          "cellCount": 37724,
+          "fixedCellCount": 16876,
+          "areaViolationCount": 8,
+          "angleViolationCount": 0,
+          "maximumAreaExcessM2": 10.15191168405255,
+          "minimumAngleDegree": 30.000000002921624
+        },
+        {
+          "iteration": 4,
+          "cellCount": 37724,
+          "fixedCellCount": 16876,
+          "areaViolationCount": 8,
+          "angleViolationCount": 0,
+          "maximumAreaExcessM2": 10.15191168405255,
+          "minimumAngleDegree": 30.000000002921624
+        }
+      ]
+    },
+    "qualityRepair": {
+      "needed": true,
+      "initialViolationCellIds": [
+        7030,
+        7870,
+        12765,
+        12950,
+        15656,
+        22176,
+        22784,
+        24422
+      ],
+      "initialAreaViolationCount": 8,
+      "initialAngleViolationCount": 0,
+      "ringDepth": 1,
+      "ringCellCount": 113,
+      "movableVertexCount": 45,
+      "affectedCellCount": 171,
+      "optimizer": {
+        "name": "scipy_SLSQP",
+        "successFlag": false,
+        "status": 8,
+        "message": "Positive directional derivative for linesearch",
+        "iterationCount": 898,
+        "objective": 1.0785353834621088,
+        "minimumScaledConstraintResidual": -1.1154385344982982e-10,
+        "acceptance": "accepted_by_recomputed_mesh_constraints"
+      },
+      "movedVertexCount": 12,
+      "maximumDisplacementM": 2.087422019054059,
+      "rmsDisplacementOverMovedVerticesM": 0.8993895360724281,
+      "fixedVertexDisplacementM": 0.0,
+      "constraintVertexDisplacementM": 0.0,
+      "movedVertices": [
+        {
+          "vertexId": 11972,
+          "beforeM": [
+            654715.0729926166,
+            3751757.195390219
+          ],
+          "afterM": [
+            654715.1694987437,
+            3751757.245545897
+          ],
+          "displacementM": 0.10876131961444875
+        },
+        {
+          "vertexId": 12206,
+          "beforeM": [
+            654854.229905745,
+            3751491.902937434
+          ],
+          "afterM": [
+            654854.1292033761,
+            3751491.654823298
+          ],
+          "displacementM": 0.26777152874448634
+        },
+        {
+          "vertexId": 12207,
+          "beforeM": [
+            655116.8888385795,
+            3750914.0618577204
+          ],
+          "afterM": [
+            655116.461838503,
+            3750916.105139791
+          ],
+          "displacementM": 2.087422019054059
+        },
+        {
+          "vertexId": 12208,
+          "beforeM": [
+            655152.4670925124,
+            3750918.67979462
+          ],
+          "afterM": [
+            655152.5723208785,
+            3750919.6773349163
+          ],
+          "displacementM": 1.003075097993573
+        },
+        {
+          "vertexId": 12270,
+          "beforeM": [
+            654954.5117315421,
+            3751315.7735864553
+          ],
+          "afterM": [
+            654954.4357628204,
+            3751314.5387584316
+          ],
+          "displacementM": 1.2371626791969155
+        },
+        {
+          "vertexId": 12273,
+          "beforeM": [
+            655253.5711306251,
+            3750928.9908803627
+          ],
+          "afterM": [
+            655253.3430137249,
+            3750930.187686566
+          ],
+          "displacementM": 1.218352333257001
+        },
+        {
+          "vertexId": 12301,
+          "beforeM": [
+            654728.0694912755,
+            3751245.7662144057
+          ],
+          "afterM": [
+            654727.7613712797,
+            3751246.707610182
+          ],
+          "displacementM": 0.9905371974363858
+        },
+        {
+          "vertexId": 13120,
+          "beforeM": [
+            655064.1183092828,
+            3750906.9026165023
+          ],
+          "afterM": [
+            655064.0984098634,
+            3750907.2009905684
+          ],
+          "displacementM": 0.29903690446281855
+        },
+        {
+          "vertexId": 13350,
+          "beforeM": [
+            655119.4239434226,
+            3750907.523205775
+          ],
+          "afterM": [
+            655119.2706319868,
+            3750907.6126687275
+          ],
+          "displacementM": 0.1775049753119508
+        },
+        {
+          "vertexId": 13356,
+          "beforeM": [
+            654961.8336214968,
+            3751318.8210258437
+          ],
+          "afterM": [
+            654961.5892329307,
+            3751318.8518051477
+          ],
+          "displacementM": 0.24631917668679645
+        },
+        {
+          "vertexId": 13654,
+          "beforeM": [
+            655111.7840597065,
+            3750908.3219111883
+          ],
+          "afterM": [
+            655111.9525478858,
+            3750908.377636846
+          ],
+          "displacementM": 0.17746440633990973
+        },
+        {
+          "vertexId": 13658,
+          "beforeM": [
+            654955.4628029849,
+            3751323.8081479687
+          ],
+          "afterM": [
+            654955.5789298875,
+            3751323.615543819
+          ],
+          "displacementM": 0.22490401506846688
+        }
+      ]
+    }
+  },
+  "bindings": {
+    "approval": {
+      "path": "config/stage20_barrage_candidate_C_R1C_review_mesh_generation_approval_v1.json",
+      "sha256": "cac5fff2176580f2b6b2a626506422547e63f6809af9d055e6fb9b5e079a5f8b",
+      "byteLength": 5309
+    },
+    "formalR20Mesh": {
+      "path": "docs/results/stage20-barrage-H2-R20-approved-review-mesh-v1/review-mesh.npz",
+      "sha256": "315636cb6844b4348863e92e33a342b599a2e27f70983651e81a92490d9b920e",
+      "byteLength": 547265
+    },
+    "candidateCReviewMesh": {
+      "path": "docs/results/stage20-R20-multizone-candidate-C-review-mesh-v1/review-mesh.npz",
+      "sha256": "f26acaa13fd7989974ea9462d69270c08298eb56f15da4794b1de8b595980e31",
+      "byteLength": 483736
+    },
+    "C2bS1DiagnosticFields": {
+      "path": "docs/results/stage20-barrage-candidate-C-C2b-S1-all-closed-settling-v1/diagnostic-fields.npz",
+      "sha256": "5d1cd38bf473d6c7c63a8eca6d2b7f4555bc79ec65e27a996fea5a2e1dc38ee4",
+      "byteLength": 2243182
+    },
+    "R1CReviewMesh": {
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-review-mesh-v1/review-mesh.npz",
+      "sha256": "7f3e84b73fab3bff1ba4699dbf9b1299159c40e91d042376046a6fe99fc03164",
+      "byteLength": 564856
+    },
+    "staticValidation": {
+      "path": "docs/results/stage20-barrage-candidate-C-R1C-review-mesh-v1/static-validation.json",
+      "sha256": "4af0d0ef06bf30f23dcfaef816893f147bed68dc335f4ac0570237d591f9cbf8",
+      "byteLength": 4606
+    }
+  },
+  "safeguards": {
+    "reviewOnly": true,
+    "solverRun": false,
+    "precomputationRun": false,
+    "approvedMeshChanged": false,
+    "guiChanged": false,
+    "responsePackChanged": false,
+    "publicRuntimeChanged": false,
+    "mainMerged": false
+  }
+}

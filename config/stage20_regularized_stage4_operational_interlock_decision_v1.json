@@ -1,0 +1,100 @@
+{
+  "schema": "onga-stage20-regularized-stage4-operational-interlock-decision-v1",
+  "status": "HOLD_FIXED_DURATION_STAGE4_REJECTED_LOCAL_GATE_NET_INTERLOCK_DIAGNOSTIC_SELECTED",
+  "classification": "LOCAL_CONTROL_DESIGN_DECISION_NOT_PHYSICAL_VALIDATION_NOT_OPERATION_AUTHORITY",
+  "evidenceCommit": "5d4cd38",
+  "question": "Can A3-A6 be ramped open for 300 seconds while preventing upstream-directed barrage flow under the supplied diagnostic forcing?",
+  "answer": "No. The fixed hold is incompatible with the supplied state and forcing. A fail-closed controller must end the opening when a gate approaches net reverse flow.",
+  "numericalEvidence": {
+    "fixedStage4YodaCanary": {
+      "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
+      "authorizationId": "stage20-regularized-stage4-ramp-hold-600s-yoda-20260828-01",
+      "terminalStatus": "FAILED_NO_RETRY",
+      "failure": "adverse barrage discharge detected; result rejected without clipping",
+      "retryCount": 0,
+      "physicalValidation": false
+    },
+    "localAnyFaceInterlock": {
+      "report": "docs/results/stage20-regularized-stage4-per-gate-interlock-probe-v1/report.json",
+      "interpretation": "An any-face zero-tolerance rule is over-sensitive because it closes gates while each affected gate still has outward net discharge.",
+      "closureOrder": [6, 5, 3, 4]
+    },
+    "localGateNetInterlock": {
+      "report": "docs/results/stage20-regularized-stage4-gate-net-flux-probe-v1/report.json",
+      "interpretation": "Gate-integrated net-flow interlocks preserve outward net flow at every accepted active-gate step, but all A3-A6 gates still reach the closure boundary before 600 seconds.",
+      "closureOrder": [6, 5, 4, 3],
+      "closureModelSecondsByGateId": {
+        "3": 362.4430230314317,
+        "4": 348.2223031576733,
+        "5": 346.2073826951465,
+        "6": 337.7967284313792
+      },
+      "allAcceptedActiveGateNetFluxOutward": true,
+      "stage4HeldThroughRequestedHold": false
+    }
+  },
+  "publicOperationalBasis": [
+    {
+      "authority": "Ministry of Land, Infrastructure, Transport and Tourism",
+      "url": "https://www.mlit.go.jp/sogoseisaku/region/infratourism/infralist/fukuoka/index03.html",
+      "supportedFact": "The barrage serves flood control, salt-damage prevention, and water supply.",
+      "exactControlThresholdProvided": false
+    },
+    {
+      "authority": "Onga River Office, Kyushu Regional Development Bureau",
+      "url": "https://www.qsr.mlit.go.jp/onga/river_info/facility/kakouzeki.html",
+      "supportedFact": "The official facility description includes flood control, water use, and salt-damage prevention.",
+      "exactControlThresholdProvided": false
+    },
+    {
+      "authority": "Onga River Office, Kyushu Regional Development Bureau",
+      "url": "https://www.qsr.mlit.go.jp/onga/pdf/river_info/kakouzeki_pamphlet.pdf",
+      "supportedFact": "The public pamphlet describes operation while checking upstream and downstream water levels.",
+      "exactControlThresholdProvided": false
+    }
+  ],
+  "decision": {
+    "fixedThreeHundredSecondFullStage4HoldAccepted": false,
+    "anySingleFaceReverseHardRejectAccepted": false,
+    "gateIntegratedNetFlowInterlockAcceptedForDiagnostics": true,
+    "gateOpeningMustBeWaterLevelAndFlowConditionDriven": true,
+    "predictiveClosureRequiredBeforeNetFlowCrossesZero": true,
+    "predictiveClosureLeadTimeSeconds": null,
+    "closureHeadMarginM": null,
+    "localAdverseFaceFlowMustBeRecorded": true,
+    "localAdverseFaceFlowMayBeClipped": false,
+    "fishwayMustRemainSeparate": true,
+    "fishwayDischargeForThisDiagnosticM3S": 0.0
+  },
+  "meaningBoundary": {
+    "localReverseFaceEqualsGateNetReverse": false,
+    "gateNetOutwardProvesNoSaltIntrusion": false,
+    "salinityTransportEvaluated": false,
+    "physicalActuatorClosureTimeKnown": false,
+    "officialOperatingMarginKnown": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "releaseAuthorized": false
+  },
+  "nextGate": {
+    "status": "LOCAL_PARAMETER_BRACKET_REQUIRED_NO_YODA_LAUNCH",
+    "requiredInputs": [
+      "A defensible gate closing-time range",
+      "A defensible upstream-downstream head or net-flow safety margin",
+      "A cumulative adverse-volume limit or a salinity-transport criterion"
+    ],
+    "permittedWork": [
+      "Local parameterized sensitivity runs",
+      "Fail-closed target tests",
+      "Evidence and provenance updates"
+    ],
+    "prohibitedUntilNextAuthority": [
+      "YODA solver launch",
+      "Forecast or GUI promotion",
+      "Fishing recommendation",
+      "Push or release"
+    ]
+  }
+}

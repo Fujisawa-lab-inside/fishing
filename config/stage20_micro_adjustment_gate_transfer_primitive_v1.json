@@ -1,0 +1,38 @@
+{
+  "schema": "onga-stage20-micro-adjustment-gate-transfer-primitive-v1",
+  "status": "PASS_LOCAL_PURE_NUMERICAL_PRIMITIVE_NOT_SOLVER_CONNECTED_NOT_PHYSICAL_Q_LAW",
+  "purpose": "Apply an externally authorised micro-gate discharge conservatively without selecting a physical discharge law.",
+  "safetyParameters": {
+    "reserveDepthM": 0.05,
+    "maximumAvailableVolumeFractionPerStep": 0.02,
+    "adverseHeadShutdownM": 0.02,
+    "classification": "inherited_local_diagnostic_numerical_safeguards_not_micro_gate_calibration"
+  },
+  "semantics": {
+    "requestedOutwardDischargeMustBeExternal": true,
+    "gateWidthMayInferDischarge": false,
+    "reverseFlowAllowed": false,
+    "massSourceAndSinkEqualAndOpposite": true,
+    "donorMomentumRemovedWithMass": true,
+    "receiverHorizontalMomentumAdded": false,
+    "donorAndReceiverSupportMustBeDisjoint": true,
+    "fishwayAndMicroTelemetryMustRemainSeparate": true
+  },
+  "binding": {
+    "readiness": {
+      "path": "config/stage20_micro_adjustment_gate_readiness_v1.json",
+      "sha256": "39163c939b79bc78132e3a560ce270bfca568e9dfcf46c61ad43a083715508b1"
+    }
+  },
+  "decisionBoundary": {
+    "pureNumericalPrimitiveReady": true,
+    "physicalDischargeLawApproved": false,
+    "meshGeometryAdopted": false,
+    "solverConnected": false,
+    "durationRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

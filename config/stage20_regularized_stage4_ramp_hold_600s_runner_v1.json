@@ -1,0 +1,75 @@
+{
+  "schema": "onga-stage20-regularized-stage4-ramp-hold-600s-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-08-28T19:00:00+09:00",
+  "status": "DIAGNOSTIC_RUNNER_READY_EXTERNAL_ACTIVATION_REQUIRED",
+  "classification": "PRESCRIBED_STAGE4_GATE_MOTION_DIAGNOSTIC_NOT_OPERATIONAL_CONTROL_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_RELEASE",
+  "scope": {
+    "meshId": "regularized_multizone_5p5m_ring_v1",
+    "cellCount": 28746,
+    "initialState": "SHA_BOUND_ALL_CLOSED_900S_FINAL_STATE",
+    "forcingContinuationPolicy": "HOLD_FINAL_900S_FORCING_VALUE_DURING_600S_DIAGNOSTIC",
+    "durationModelSeconds": 600,
+    "rampDurationModelSeconds": 300,
+    "holdDurationModelSeconds": 300,
+    "targetMainGateCapacityByGateId1To8": [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0],
+    "rampFunction": "SMOOTHSTEP_3X2_MINUS_2X3",
+    "fishwayMode": "DISABLED",
+    "fishwayDischargeM3S": 0.0,
+    "reverseFluxPolicy": "HARD_REJECT_BEFORE_EACH_NUMERICAL_STEP_WITHOUT_CLIPPING",
+    "reverseFluxToleranceM3S": 1e-10,
+    "nearDryPolicy": "FAIL_CLOSED_ONLY_THE_AFFECTED_GATE"
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "maximumWallSeconds": 1200,
+    "maximumAcceptedStepCount": 250000,
+    "outputBase": ".stage20-local-only/stage20-regularized-stage4-ramp-hold-600s-canary-20260828",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_regularized_stage4_ramp_hold_600s_activation_20260828_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "localOneStepTestPermitted": true,
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "acceptance": {
+    "numericalSafety": {
+      "simulatedSecondsExactly": 600.0,
+      "maximumCfl": 0.120000000001,
+      "maximumRelativeMassBalanceError": 1e-10,
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "effectiveFishwayDischargeM3S": 0.0,
+      "fishwaySourceResidualM3S": 0.0
+    },
+    "gateSafety": {
+      "capacityScheduleEvaluatedBeforeEveryStep": true,
+      "perGateWetnessEvaluatedBeforeEveryStep": true,
+      "activeFaceSignedOutwardFluxEvaluatedBeforeEveryStep": true,
+      "adverseActiveFaceCount": 0,
+      "finalMainGateCapacityByGateId1To8": [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]
+    }
+  },
+  "bindings": [
+    {"role": "all_closed_runner", "path": "tools/stage20_regularized_multizone_900s_runner_v1.py", "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"},
+    {"role": "all_closed_runner_contract", "path": "config/stage20_regularized_multizone_900s_runner_v1.json", "sha256": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"},
+    {"role": "diagnostic_forcing", "path": "config/stage20_continuous_all_closed_forcing_manifest_20260828_v1.json", "sha256": "138d12f04549dbcde83eb03b64d155c960213bef4f30f9484d0f76bd3f123967"},
+    {"role": "gate_observation", "path": "tools/stage20_regularized_multizone_gate_observation_v1.py", "sha256": "b04e191af794cc209f2c9a3e8eb1a7cd61fea5e933469ad1395214e60c333115"},
+    {"role": "gate_observation_contract", "path": "config/stage20_regularized_multizone_gate_observation_v1.json", "sha256": "3eb66db2e93dcdf9da7fc709366a52e367b1091649079c4876177fd5a78058a8"},
+    {"role": "gate_flux_guard", "path": "tools/stage20_regularized_multizone_gate_flux_guard_v1.py", "sha256": "8dca57abde64e895f6a7387d317e82842ef3eac89cc80f502620eb18c779203b"},
+    {"role": "mapping_runtime", "path": "tools/run_stage20_barrage_C1_local_transition_600s_v1.py", "sha256": "82e8157cc7133522605611a6fcacc13871f32eeb75a15cdca6a09d1bb2a65597"},
+    {"role": "fractional_flux_guard", "path": "tools/stage20_barrage_fractional_motion_r1c_adapter_v1.py", "sha256": "22c761b139eb60253877c41fa2b9cb31b94ec95fd009545c571a77c40135ef3d"},
+    {"role": "signed_flux_adapter", "path": "tools/stage20_barrage_operational_control_r1c_adapter_v1.py", "sha256": "45e93573df6e464782f2d46645ab9249e0f54e930071e6da27c80b5712a4cf74"},
+    {"role": "same_pass_limiter_kernel", "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py", "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"},
+    {"role": "bounded_telemetry", "path": "tools/stage20_dynamic_mesh_comparison_telemetry_v1.py", "sha256": "993ca6e04a672b22db374208f0cb0891657fb0633dca09d776579028212c18ca"},
+    {"role": "initial_all_closed_state", "path": "docs/results/stage20-regularized-multizone-900s-yoda-canary-20260828-v1/final-state.npy", "sha256": "9582bda64348dbcbc52467d6a1932884eb4233eef4870da464618f6909d07419"},
+    {"role": "candidate_mesh", "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz", "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6"},
+    {"role": "candidate_fields", "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz", "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"}
+  ],
+  "forbidden": [
+    "self_issued_runtime_motion_authority",
+    "reverse_flux_clipping_or_silent_capacity_reduction",
+    "positive_fishway_flow",
+    "automatic_retry_or_gpu_switch",
+    "operational_physical_forecast_gui_fishing_or_release_claim"
+  ]
+}

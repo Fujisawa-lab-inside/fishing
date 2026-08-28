@@ -1,0 +1,55 @@
+{
+  "schema": "onga-stage20-regularized-multizone-gate-observation-v1-contract",
+  "version": 1,
+  "status": "LOCAL_SHA_BOUND_OBSERVATION_READY_RUNTIME_MOTION_BLOCKED",
+  "classification": "NUMERICAL_GATE_OBSERVATION_NOT_OPERATIONAL_CALIBRATION_NOT_RUNTIME_AUTHORITY",
+  "mesh": {
+    "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz",
+    "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6",
+    "cellCount": 28746,
+    "internalFaceCount": 42215
+  },
+  "fields": {
+    "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+    "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+  },
+  "comparisonState": {
+    "path": "docs/results/stage20-regularized-multizone-900s-yoda-canary-20260828-v1/final-state.npy",
+    "sha256": "9582bda64348dbcbc52467d6a1932884eb4233eef4870da464618f6909d07419"
+  },
+  "semantics": {
+    "fixedMarker": 200,
+    "gateMarkerBase": 100,
+    "gateIds": [1, 2, 3, 4, 5, 6, 7, 8],
+    "faceCountByGateId1To8": [8, 7, 8, 6, 7, 8, 8, 9],
+    "structureFaceCount": 74,
+    "fixedFaceCount": 13,
+    "mainGateFaceCount": 61,
+    "minimumTrustedSelectedFaceDepthM": 0.0001,
+    "nearDryPolicy": "FAIL_CLOSED_ONLY_THE_AFFECTED_GATE",
+    "upstreamOrientationBasis": "SHA_BOUND_ALL_CLOSED_COMPONENT_CONTAINING_APPROVED_P2_UPSTREAM_FOOTPRINT",
+    "fishwayRepresentation": "SEPARATE_P2_TRANSFER_ARRAYS_NOT_A_MAIN_GATE_FACE"
+  },
+  "arraySha256": {
+    "structureFaceId": "3ff71857342ef999fc11253330639583641b297657f0b91a647d90984f3ae458",
+    "structureMarker": "0f29a647ae36f13a2782175500b382ec64f661978c3289906779b5e0a8e09c3f",
+    "mainGateFaceId": "1d08bdacfd439c140f5cf8f6e9070c7c5280d54857086c776b65ecbdf2a37186",
+    "mainGateIdBySelectedFace": "74534c58eb9f14392dcc0f8b9fe1e6112a0a38da9fed8c22ee2725fec43a32d1",
+    "mainGateUpstreamCellId": "1f41211afabb0e1657743d0f7d2608eb311c1ad3d46857ba1a26c57742d898bf",
+    "mainGateDownstreamCellId": "ee7c3a7ed787b156b1bb5c0390b3769bf76a992e66af3311f363ccf9ab0db20f",
+    "mainGateLeftCellId": "52663c12780248ad28d297bb14fdf58a03857158be80d8fbcc417bf387355ee6",
+    "mainGateRightCellId": "513adb3dbefdc0741195c8ada5a2df4ff6e0e0f9fe1f5252e3cb9b8329f2fd3c",
+    "mainGateBaseFaceLengthM": "4eecee093955a3d4d55db9bd0a88b2b7d18d299e800a27d655d8815f7111802b",
+    "mainGateInternalNormalXY": "a710be6961abb359ba904c5cf7ea8d10174b5275d09c9eb289ffa10f7a018b1f",
+    "upstreamComponentMask": "3cf15e830d427712d209f78962fa2f874e9e4ff798fb669c64eb9b635204395c",
+    "p2DonorOverlapAreaM2": "60325971c793dfe6462f3a5721937ede7e02d97e65d673362ad315aa8b50137d",
+    "p2ReceiverOverlapAreaM2": "6b6dd78b6a317f28fd927e9aed69deb7963acbc27fdb366275c37639e6cf8f93"
+  },
+  "forbidden": [
+    "self_issued_runtime_motion_authority",
+    "positive_gate_motion_without_fresh_per_gate_head_and_forecast",
+    "treating_fishway_as_main_gate",
+    "global_all_gate_shutdown_from_one_near_dry_gate",
+    "physical_forecast_gui_fishing_or_release_claim"
+  ]
+}

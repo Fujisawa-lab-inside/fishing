@@ -1,0 +1,254 @@
+{
+  "schema": "onga-stage20-regularized-multizone-gate-observation-v1",
+  "version": 1,
+  "status": "PASS_SHA_BOUND_OBSERVATION_STAGE4_WET_GATE8_NEAR_DRY_RUNTIME_MOTION_BLOCKED",
+  "classification": "NUMERICAL_GATE_OBSERVATION_NOT_OPERATIONAL_CALIBRATION_NOT_RUNTIME_AUTHORITY",
+  "contractSha256": "3eb66db2e93dcdf9da7fc709366a52e367b1091649079c4876177fd5a78058a8",
+  "initialObservation": {
+    "minimumTrustedSelectedFaceDepthM": 0.0001,
+    "perGate": [
+      {
+        "gateId": 1,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 2.775557561570746e-17,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 2.220446049250313e-16,
+        "minimumSelectedFaceSideDepthM": 1.1521156659986809,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 2,
+        "faceCount": 7,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 3.4284663059337994,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 3,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 4.743662486689019,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 4,
+        "faceCount": 6,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 5.699948056417912,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 5,
+        "faceCount": 7,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 5.542844208820466,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 6,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 4.460166050156821,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 7,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.0,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 0.0,
+        "minimumSelectedFaceSideDepthM": 2.690729368701177,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 8,
+        "faceCount": 9,
+        "weightedMeanHeadDifferenceM": 2.775557561563119e-17,
+        "minimumLocalHeadDifferenceM": 0.0,
+        "maximumLocalHeadDifferenceM": 2.220446049250313e-16,
+        "minimumSelectedFaceSideDepthM": 0.19779905301590098,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      }
+    ],
+    "trustedForPositiveMotionByGateId1To8": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "trustedGateIds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "failClosedGateIds": [],
+    "globalAllGateShutdownRequired": false
+  },
+  "allClosed900sObservation": {
+    "minimumTrustedSelectedFaceDepthM": 0.0001,
+    "perGate": [
+      {
+        "gateId": 1,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.24623726769242993,
+        "minimumLocalHeadDifferenceM": 0.24600935660872247,
+        "maximumLocalHeadDifferenceM": 0.24640316627157377,
+        "minimumSelectedFaceSideDepthM": 0.9054506374248072,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 2,
+        "faceCount": 7,
+        "weightedMeanHeadDifferenceM": 0.2466698645774109,
+        "minimumLocalHeadDifferenceM": 0.24652584324091142,
+        "maximumLocalHeadDifferenceM": 0.24681939984020307,
+        "minimumSelectedFaceSideDepthM": 3.208620697614616,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 3,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.24697818223954432,
+        "minimumLocalHeadDifferenceM": 0.24688547279003004,
+        "maximumLocalHeadDifferenceM": 0.24707038871499254,
+        "minimumSelectedFaceSideDepthM": 4.564328139086374,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 4,
+        "faceCount": 6,
+        "weightedMeanHeadDifferenceM": 0.24714764544544077,
+        "minimumLocalHeadDifferenceM": 0.24708882065902404,
+        "maximumLocalHeadDifferenceM": 0.2472217965832204,
+        "minimumSelectedFaceSideDepthM": 5.471738277765088,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 5,
+        "faceCount": 7,
+        "weightedMeanHeadDifferenceM": 0.2472500665169417,
+        "minimumLocalHeadDifferenceM": 0.2472275181113739,
+        "maximumLocalHeadDifferenceM": 0.24727893160341807,
+        "minimumSelectedFaceSideDepthM": 5.29491252040823,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 6,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.2472517996203473,
+        "minimumLocalHeadDifferenceM": 0.2472195359888847,
+        "maximumLocalHeadDifferenceM": 0.24727598170623022,
+        "minimumSelectedFaceSideDepthM": 4.212294508845804,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 7,
+        "faceCount": 8,
+        "weightedMeanHeadDifferenceM": 0.24713622700978854,
+        "minimumLocalHeadDifferenceM": 0.24705569896955115,
+        "maximumLocalHeadDifferenceM": 0.24718631567656102,
+        "minimumSelectedFaceSideDepthM": 2.4430295474631465,
+        "trustedForPositiveMotionObservation": true,
+        "failClosedReason": null
+      },
+      {
+        "gateId": 8,
+        "faceCount": 9,
+        "weightedMeanHeadDifferenceM": 0.24378230361839004,
+        "minimumLocalHeadDifferenceM": 0.19713354818583467,
+        "maximumLocalHeadDifferenceM": 0.24700202667500837,
+        "minimumSelectedFaceSideDepthM": 1.4988578775561456e-05,
+        "trustedForPositiveMotionObservation": false,
+        "failClosedReason": "DRY_OR_NEAR_DRY_SELECTED_FACE_SIDE"
+      }
+    ],
+    "trustedForPositiveMotionByGateId1To8": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "trustedGateIds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "failClosedGateIds": [
+      8
+    ],
+    "globalAllGateShutdownRequired": false
+  },
+  "stage4DiagnosticRequest": {
+    "requestedCapacityByGateId1To8": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "nearDryFilteredCapacityByGateId1To8": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "allRequestedGatesHaveTrustedHeadObservation": true
+  },
+  "decision": {
+    "observationBindingPass": true,
+    "stage4RequestedGateObservationReady": true,
+    "allEightGateObservationReady": false,
+    "runtimeMotionAuthorized": false,
+    "forecastEvidenceAvailable": false,
+    "meshOperationallyAdopted": false,
+    "next": "freeze an external runtime orientation activation and bounded stage4 outward/adverse-head canaries; keep gate 8 fail closed while near-dry"
+  }
+}

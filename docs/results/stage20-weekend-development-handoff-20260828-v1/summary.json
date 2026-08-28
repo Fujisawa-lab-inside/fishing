@@ -1,0 +1,100 @@
+{
+  "schema": "onga-stage20-weekend-development-handoff-20260828-v1",
+  "status": "LOCAL_NUMERICAL_COMPONENTS_READY_PHYSICAL_LOW_FLOW_SCENARIO_BLOCKED_NO_RELEASE",
+  "branch": "codex/stage19-public-inference-inputs",
+  "baselineCommitBeforeHandoffRecord": "ee4a0c5",
+  "executiveConclusion": "Do not rerun the fixed A3-A6 stage4 schedule. For the bound 38 m3/s diagnostic, use A8 only as a local regulating-main-gate sensitivity and keep the separate micro-adjustment-gate effect disconnected until a defensible tilting-gate discharge command is supplied.",
+  "remoteYodaReceipt": {
+    "evidenceClass": "conversation_receipt_not_copied_into_repository",
+    "runId": "canary-stage20-regularized-stage4-ramp-hold-600s-20260828-v2",
+    "authorizationId": "stage20-regularized-stage4-ramp-hold-600s-yoda-20260828-01",
+    "terminalStatus": "FAILED_NO_RETRY",
+    "failure": "adverse barrage discharge detected; result rejected without clipping",
+    "failureStage": "first_prepare_gate_step_before_first_numerical_advance",
+    "modelSeconds": 0,
+    "acceptedSteps": 0,
+    "retryCount": 0,
+    "failureReceiptSha256": "6604351d33691ed02a9f4e4ce051da96c27acbf7c64e0f23578e13c337e39cc9",
+    "physicalValidation": false
+  },
+  "mainFindings": [
+    {
+      "id": "fixed_stage4_rejected",
+      "finding": "A3-A6 fixed ramp/hold is both fail-closed numerically and outside the published 24-270 m3/s regulating-gate operation for the bound 38 m3/s forcing."
+    },
+    {
+      "id": "a8_local_sensitivity_pass",
+      "finding": "A8-only 25, 50, 75, and 100 percent local cases each held 600 s with zero negative/nonfinite states, no interlock, and no local adverse volume under gate-weighted head and gate-net outward-flux checks."
+    },
+    {
+      "id": "micro_gate_missing_from_complete_scenario",
+      "finding": "The official micro-adjustment gate is a separate 10 m by 2.8 m oil-hydraulic tilting gate and should be fully open in the bound operation band, but its physical discharge law is not available in the reviewed public sources."
+    },
+    {
+      "id": "numerical_transfer_primitive_ready",
+      "finding": "A pure equal-and-opposite transfer primitive is ready for an externally authorised outward discharge; it does not infer discharge from width and is not connected to the solver."
+    }
+  ],
+  "trackedBindings": [
+    {
+      "role": "stage4_operational_decision",
+      "path": "config/stage20_regularized_stage4_operational_interlock_decision_v1.json",
+      "sha256": "21f34fa8dcdfbb0a2709e067458f82bfc5e182e32052280be8e21540792ce5e9"
+    },
+    {
+      "role": "a8_gate_weighted_sweep",
+      "path": "docs/results/stage20-regularized-a8-gate-weighted-capacity-sweep-v3/report.json",
+      "sha256": "00ac5cf5f6a3cb85d4a42936ed65ecf9c6f1bc587c80ecae58c46af5521e90e0"
+    },
+    {
+      "role": "micro_gate_readiness",
+      "path": "config/stage20_micro_adjustment_gate_readiness_v1.json",
+      "sha256": "c6e8c5e30deaacfd43fbeab3cc8022daf4a68961d7aae4d61ba0cd2e4458933e"
+    },
+    {
+      "role": "micro_gate_transfer_contract",
+      "path": "config/stage20_micro_adjustment_gate_transfer_primitive_v1.json",
+      "sha256": "2441164ccc7ef3a44c69e463c1edc8aaaa9a7e87c9d8fe5a4803f2f8d8c0910c"
+    },
+    {
+      "role": "micro_gate_transfer_implementation",
+      "path": "tools/stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+      "sha256": "e8538b76a5569a586cb8ecbdb46f4b0079949422fc0c61beeaed1f377d786b84"
+    }
+  ],
+  "latestCleanArchiveVerification": {
+    "testFiles": [
+      "tests/test_stage20_regularized_stage4_operational_interlock_decision_v1.py",
+      "tests/test_stage20_barrage_regulating_main_gate_resolution_v1.py",
+      "tests/test_stage20_micro_adjustment_gate_readiness_v1.py",
+      "tests/test_stage20_micro_adjustment_gate_transfer_primitive_v1.py",
+      "tests/test_stage20_weekend_development_handoff_20260828_v1.py"
+    ],
+    "passed": 32,
+    "failed": 0,
+    "untrackedOfficialPdfsRequired": false,
+    "untrackedLegacyGate5CandidateRequired": false
+  },
+  "recommendedNextDecision": {
+    "question": "May the next phase connect the pure transfer primitive only for a local, explicitly uncalibrated micro-gate discharge sensitivity grid, while retaining no physical/forecast/GUI meaning?",
+    "recommendedAnswer": "YES_LOCAL_DIAGNOSTIC_ONLY",
+    "proposedExternalDischargeGridM3S": [0.0, 6.0, 12.0, 18.0, 24.0],
+    "gridMeaning": "Numerical coupling sensitivity across the published low-flow operating range, not a claim that gate discharge equals river inflow or that 24 m3/s is the gate rating.",
+    "requiredAlongsideApproval": [
+      "Keep fishway and micro-gate discharge telemetry separate.",
+      "Do not change the mesh or adopt the legacy 9.5 m interface as physical geometry.",
+      "Use only local one-step and short-duration tests before any YODA request.",
+      "Continue to require outward head, equal-and-opposite mass, donor-volume limiting, and zero reverse flow."
+    ]
+  },
+  "releaseBoundary": {
+    "pushPerformed": false,
+    "yodaFollowOnLaunchPermitted": false,
+    "physicalValidation": false,
+    "meshAdopted": false,
+    "forecastAuthorized": false,
+    "guiAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

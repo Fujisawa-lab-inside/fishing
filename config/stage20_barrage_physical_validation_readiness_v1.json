@@ -47,6 +47,8 @@
   },
   "availableEvidence": {
     "distinctOperatingStates": 1,
+    "official12hPointFlowHistoryPresent": true,
+    "timeAlignedLevelReleaseAndGateHistoryPresent": false,
     "gateByGateOpeningAndTimestampPresent": false,
     "commonVerticalDatumConfirmed": false,
     "actuatorClosureTimingPresent": false,
@@ -70,6 +72,16 @@
       "role": "official_observation_parser",
       "path": "deploy/stage20-static-review-site/scripts/serve-local-viewer.py",
       "sha256": "476c7ac50a35a6f78b651def0335cf388b7b498cb41869198e0e9ec586216da5"
+    },
+    {
+      "role": "official_12h_flow_history_parser",
+      "path": "tools/stage20_barrage_official_flow_history_v1.py",
+      "sha256": "00c941e4377dc5a2a46936aae1247cf83dded1b60a9a0b4cd5002f80d352f3fb"
+    },
+    {
+      "role": "official_12h_flow_history_snapshot",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-12h-flow-history.json",
+      "sha256": "534562b2f134cfdcdfb4d12c38e3fb7cf183409a2d437382cbf3918cb68eacee"
     }
   ],
   "decisionBoundary": {

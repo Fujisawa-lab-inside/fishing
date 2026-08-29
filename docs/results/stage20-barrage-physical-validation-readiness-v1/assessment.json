@@ -9,6 +9,16 @@
     "barrageReleaseM3S": 0.0,
     "interpretation": "A positive outward head with zero reported release cannot identify a head-only law without time-aligned gate state, datum, and actuator evidence."
   },
+  "official12hFlowHistory": {
+    "updatedAt": "2026-08-29T12:50+09:00",
+    "rowCount": 12,
+    "distinctReleaseM3S": [
+      0.0,
+      0.3
+    ],
+    "releaseTransitionCount": 1,
+    "interpretation": "The public history proves that reported release changed, but it lacks time-aligned upstream/downstream levels and gate openings, so the transition cannot identify a gate law."
+  },
   "numericalModelDependence": {
     "oneWayBranchBlockedStepFraction": 0.9532947535076705,
     "blockedPotentialReverseVolumeM3": 7415.119056269594,
@@ -17,6 +27,8 @@
   },
   "checks": {
     "officialPointObservationFresh": true,
+    "official12hPointFlowHistoryPresent": true,
+    "timeAlignedLevelReleaseAndGateHistoryPresent": false,
     "distinctOperatingStatesSufficient": false,
     "gateByGateOpeningAndTimestampPresent": false,
     "commonVerticalDatumConfirmed": false,
@@ -26,8 +38,8 @@
     "independentValidationPeriodPresent": false,
     "saltIntrusionOrConservativeAdverseVolumeCriterionPresent": false
   },
-  "passedCheckCount": 1,
-  "requiredCheckCount": 9,
+  "passedCheckCount": 2,
+  "requiredCheckCount": 11,
   "physicalValidationEvidenceReady": false,
   "headOnlyDischargeLawIdentifiable": false,
   "additionalNumericalExpansionRecommended": false,

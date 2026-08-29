@@ -14,6 +14,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "config/stage20_barrage_physical_validation_readiness_v1.json"
 OUTPUT = ROOT / "docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json"
+HISTORY = ROOT / "docs/results/stage20-barrage-physical-validation-readiness-v1/official-12h-flow-history.json"
 
 
 class PhysicalValidationReadinessError(RuntimeError):
@@ -71,8 +72,14 @@ def assess(contract: dict[str, Any]) -> dict[str, Any]:
 
     available = contract["availableEvidence"]
     required = contract["requiredEvidence"]
+    history = json.loads(HISTORY.read_text())
+    require(history.get("schema") == "onga-official-barrage-flow-history-v1", "history schema changed")
+    require(history["summary"]["rowCount"] == 12, "history row count changed")
+    require(history["classification"]["gateByGateOpeningObserved"] is False, "history gate classification changed")
     checks = {
         "officialPointObservationFresh": freshness_pass,
+        "official12hPointFlowHistoryPresent": available["official12hPointFlowHistoryPresent"],
+        "timeAlignedLevelReleaseAndGateHistoryPresent": available["timeAlignedLevelReleaseAndGateHistoryPresent"],
         "distinctOperatingStatesSufficient": (
             available["distinctOperatingStates"] >= required["minimumDistinctOperatingStates"]
         ),
@@ -107,6 +114,16 @@ def assess(contract: dict[str, Any]) -> dict[str, Any]:
             "interpretation": (
                 "A positive outward head with zero reported release cannot identify a head-only law "
                 "without time-aligned gate state, datum, and actuator evidence."
+            ),
+        },
+        "official12hFlowHistory": {
+            "updatedAt": history["updatedAt"],
+            "rowCount": history["summary"]["rowCount"],
+            "distinctReleaseM3S": history["summary"]["distinctReleaseM3S"],
+            "releaseTransitionCount": history["summary"]["releaseTransitionCount"],
+            "interpretation": (
+                "The public history proves that reported release changed, but it lacks time-aligned "
+                "upstream/downstream levels and gate openings, so the transition cannot identify a gate law."
             ),
         },
         "numericalModelDependence": {

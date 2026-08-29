@@ -1,0 +1,13 @@
+{
+  "schema": "onga-stage20-barrage-minimum-calibration-validation-plan-v1-static-validation",
+  "status": "PASS_PREPARE_ONLY_PLAN_NO_OBSERVATIONS_NO_FIT_NO_SOLVER",
+  "candidateCount": 3,
+  "minimumIndependentEventCount": 18,
+  "stageCount": 5,
+  "numericFitThresholdInvented": false,
+  "solverRunCount": 0,
+  "yodaConnectionCount": 0,
+  "parameterFitCount": 0,
+  "physicalValidation": false,
+  "releaseAuthorized": false
+}

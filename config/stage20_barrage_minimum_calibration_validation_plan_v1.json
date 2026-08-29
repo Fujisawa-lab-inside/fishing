@@ -1,0 +1,147 @@
+{
+  "schema": "onga-stage20-barrage-minimum-calibration-validation-plan-v1",
+  "status": "PREPARE_ONLY_OBSERVATION_DEPENDENT_NO_PARAMETER_FIT_NO_SOLVER_RUN",
+  "purpose": "Pre-register the minimum comparison, event split, and acceptance logic for selecting a barrage law after physical observations become available.",
+  "modelCandidates": [
+    {
+      "id": "M0_zero_release_or_closed_gate_baseline",
+      "role": "negative_control",
+      "fitParameters": []
+    },
+    {
+      "id": "M1_observed_monotone_rating_by_gate_configuration",
+      "role": "empirical_baseline",
+      "constraints": [
+        "nonnegative outward discharge",
+        "zero reverse discharge",
+        "monotone in outward head for each fixed gate configuration",
+        "no extrapolation outside observed head and opening envelope"
+      ]
+    },
+    {
+      "id": "M2_geometry_and_regime_aware_gate_law",
+      "role": "physics_informed_candidate",
+      "prerequisites": [
+        "gate sill or crest elevation in the common datum",
+        "effective opening geometry or tilting angle",
+        "submergence regime classification",
+        "coefficient provenance or calibration bounds",
+        "explicit momentum reaction law"
+      ]
+    }
+  ],
+  "forbiddenCandidates": [
+    "unconditional one_way_wall_clamp promoted as a calibrated gate law",
+    "generic vertical sluice formula substituted for the tilting micro-adjustment gate",
+    "width-only discharge inference",
+    "model-generated release relabelled as observation"
+  ],
+  "eventDesign": {
+    "operatingStates": [
+      "closed_positive_outward_head",
+      "open_measured_outward_discharge",
+      "near_zero_or_adverse_head_closure_response"
+    ],
+    "splitRoles": [
+      "calibration",
+      "independent_validation"
+    ],
+    "minimumIndependentEventsPerStatePerSplit": 3,
+    "minimumTotalIndependentEvents": 18,
+    "wholeEventSplit": true,
+    "splitFrozenBeforeParameterSearch": true,
+    "postResultReassignmentForbidden": true,
+    "validationRunOnceAfterModelFreeze": true
+  },
+  "acceptanceMetrics": {
+    "directionalSafety": {
+      "adverseHeadReverseDischargeCount": 0,
+      "gateClosureResponseMustPrecedeForbiddenReverseTransfer": true
+    },
+    "massAndStateSafety": {
+      "negativeDepthCount": 0,
+      "nonFiniteValueCount": 0,
+      "massBalanceToleranceMustBePreRegistered": true
+    },
+    "releaseFit": {
+      "metrics": [
+        "MAE_m3s",
+        "RMSE_m3s",
+        "signed_bias_m3s",
+        "transition_timing_error_s"
+      ],
+      "numericThresholds": null,
+      "thresholdRule": "Fix thresholds before fitting from instrument uncertainty and operational tolerance; do not derive them from achieved model error."
+    },
+    "generalization": {
+      "validationHeadEnvelopeMustOverlapCalibration": true,
+      "validationMustContainAllOperatingStates": true,
+      "parameterRefitAfterValidationForbidden": true
+    },
+    "saltSafety": {
+      "criterionMustBeDeclaredBeforeSolverConnection": true,
+      "hydrodynamicOutwardNetFlowAloneIsInsufficient": true
+    }
+  },
+  "stagedExecution": [
+    {
+      "stage": "P0_observation_pack",
+      "work": "validate physical observation pack and freeze event split",
+      "solverSeconds": 0,
+      "yodaRequired": false
+    },
+    {
+      "stage": "P1_offline_law_comparison",
+      "work": "compare M0/M1/M2 on calibration events without a two-dimensional solver",
+      "solverSeconds": 0,
+      "yodaRequired": false
+    },
+    {
+      "stage": "P2_one_step_conservative_connection",
+      "work": "verify equal-and-opposite mass, momentum reaction, limiter coverage, and fail-closed bounds",
+      "authorizationRequired": true
+    },
+    {
+      "stage": "P3_bounded_duration_canary",
+      "work": "run a SHA-fixed short diagnostic only after P0-P2 pass",
+      "authorizationRequired": true,
+      "automaticRetry": false
+    },
+    {
+      "stage": "P4_independent_validation",
+      "work": "evaluate the frozen model once on the independent event split",
+      "authorizationRequired": true,
+      "parameterRefitPermitted": false
+    }
+  ],
+  "bindings": [
+    {
+      "role": "observation_pack_contract",
+      "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
+      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+    },
+    {
+      "role": "public_summary_bridge_block",
+      "path": "docs/results/stage20-barrage-public-observation-pack-bridge-v1/report.json",
+      "sha256": "5121b708b57a34c394ea0ea29c107c118423d7c278738a5aa2a9a78fc4f1acc2"
+    },
+    {
+      "role": "physical_validation_readiness",
+      "path": "config/stage20_barrage_physical_validation_readiness_v1.json",
+      "sha256": "d9185cd44ec241a883ae52e2724161db5f32ae66526e159fa9e289a88376d2a5"
+    }
+  ],
+  "decisionBoundary": {
+    "planAndStaticValidationPermitted": true,
+    "observationsPresent": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

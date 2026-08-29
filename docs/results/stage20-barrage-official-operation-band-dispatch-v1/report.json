@@ -1,0 +1,17 @@
+{
+  "schema": "onga-stage20-barrage-official-operation-band-dispatch-v1-result",
+  "status": "PASS_PUBLISHED_CONTROL_BAND_CLASSIFIED_NO_GATE_STATE_INFERENCE",
+  "observedInflowM3S": 9.6,
+  "controlClass": "MICRO_ADJUSTMENT_GATE_CONTROL_BAND",
+  "mainGateImplication": "NO_MAIN_GATE_OPENING_INFERRED",
+  "gateByGateOpening": null,
+  "predictedReleaseM3S": null,
+  "hydraulicLaw": null,
+  "physicalValidation": false,
+  "forecast": false,
+  "observationTimestamp": "2026-08-29T12:50:00+09:00",
+  "reportedReleaseM3S": 0.0,
+  "upstreamLevelM": 1.46,
+  "downstreamLevelM": 0.93,
+  "interpretation": "The current observation lies in the published micro-adjustment-gate control band. It must not be displayed or simulated as an A3-A6 Stage-4 opening. Actual gate state remains unknown."
+}

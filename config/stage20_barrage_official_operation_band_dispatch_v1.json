@@ -1,0 +1,77 @@
+{
+  "schema": "onga-stage20-barrage-official-operation-band-dispatch-v1",
+  "status": "LOCAL_PUBLISHED_BAND_CLASSIFIER_READY_NOT_GATE_STATE_INFERENCE",
+  "purpose": "Classify an observed barrage inflow into the published operating-control band without inventing gate openings, release, or hydraulic physics.",
+  "bands": [
+    {
+      "minimumInclusiveM3S": 2.0,
+      "maximumExclusiveM3S": 24.0,
+      "controlClass": "MICRO_ADJUSTMENT_GATE_CONTROL_BAND",
+      "mainGateImplication": "NO_MAIN_GATE_OPENING_INFERRED"
+    },
+    {
+      "minimumInclusiveM3S": 24.0,
+      "maximumExclusiveM3S": 270.0,
+      "controlClass": "REGULATING_MAIN_GATE_CONTROL_BAND",
+      "mainGateImplication": "LOCAL_A8_ROLE_IS_DIAGNOSTIC_INFERENCE_NOT_PHYSICAL_AUTHORITY"
+    },
+    {
+      "minimumInclusiveM3S": 270.0,
+      "maximumExclusiveM3S": 1800.0,
+      "controlClass": "STAGED_CONTROL_MAIN_GATE_DRIVE_BAND",
+      "mainGateImplication": "NUMBERED_SEQUENCE_AND_OPENINGS_NOT_INFERRED"
+    },
+    {
+      "minimumInclusiveM3S": 1800.0,
+      "maximumExclusiveM3S": 2100.0,
+      "controlClass": "FULL_OPENING_DRIVE_BAND",
+      "mainGateImplication": "TRANSIENT_GATE_STATE_NOT_INFERRED"
+    },
+    {
+      "minimumInclusiveM3S": 2100.0,
+      "maximumExclusiveM3S": null,
+      "controlClass": "ALL_MAIN_GATES_FULLY_OPEN_PUBLISHED_BAND",
+      "mainGateImplication": "PUBLIC_BAND_ONLY_NOT_TIMESTAMPED_OPERATION_EVIDENCE"
+    }
+  ],
+  "belowPublishedMinimum": {
+    "maximumExclusiveM3S": 2.0,
+    "controlClass": "BELOW_PUBLISHED_TABLE_RANGE_NO_INFERENCE"
+  },
+  "bindings": [
+    {
+      "role": "micro_adjustment_gate_official_facts",
+      "path": "config/stage20_micro_adjustment_gate_readiness_v1.json",
+      "sha256": "c6e8c5e30deaacfd43fbeab3cc8022daf4a68961d7aae4d61ba0cd2e4458933e"
+    },
+    {
+      "role": "regulating_main_gate_local_role_resolution",
+      "path": "config/stage20_barrage_regulating_main_gate_resolution_v1.json",
+      "sha256": "32957946fd23fc3fe22f5bfd2117f706e0f0dd88c86e4853675627aad07865d8"
+    },
+    {
+      "role": "physical_validation_readiness",
+      "path": "config/stage20_barrage_physical_validation_readiness_v1.json",
+      "sha256": "4605404764b13814dda21055192e721d343f32f1723dbfe045da565c623175b1"
+    },
+    {
+      "role": "official_12h_point_flow_history",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-12h-flow-history.json",
+      "sha256": "534562b2f134cfdcdfb4d12c38e3fb7cf183409a2d437382cbf3918cb68eacee"
+    }
+  ],
+  "decisionBoundary": {
+    "localBandClassificationPermitted": true,
+    "gateOpeningInferred": false,
+    "releasePredicted": false,
+    "hydraulicLawSelected": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

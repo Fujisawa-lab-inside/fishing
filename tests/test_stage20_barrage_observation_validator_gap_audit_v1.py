@@ -28,15 +28,19 @@ class Stage20BarrageObservationValidatorGapAuditV1Tests(unittest.TestCase):
     def test_event_threshold_mismatch_is_recorded(self) -> None:
         report = json.loads(REPORT.read_text())
         finding = next(item for item in report["findings"] if item["id"] == "EVENT_DESIGN_THRESHOLD_MISMATCH")
-        self.assertEqual(finding["validatorMinimumDistinctEvents"], 3)
+        self.assertEqual(finding["validatorMinimumDistinctEvents"], 18)
         self.assertEqual(finding["registeredPlanMinimumIndependentEvents"], 18)
+        self.assertTrue(finding["resolved"])
 
     def test_relabel_gap_is_reproducible_but_never_authorized(self) -> None:
         synthetic = json.loads(FIXTURE.read_text())
         self.assertFalse(VALIDATOR.assess(synthetic)["physicalObservationReady"])
         relabelled = copy.deepcopy(synthetic)
         relabelled["classification"] = "physical_observation"
-        self.assertTrue(VALIDATOR.assess(relabelled)["physicalObservationReady"])
+        relabelled_result = VALIDATOR.assess(relabelled)
+        self.assertFalse(relabelled_result["structuralPass"])
+        self.assertIn("SOURCE_CLASS_CLASSIFICATION_MISMATCH", relabelled_result["issues"])
+        self.assertFalse(relabelled_result["physicalObservationReady"])
         report = json.loads(REPORT.read_text())
         self.assertFalse(report["decisionBoundary"]["physicalObservationReady"])
         self.assertFalse(report["decisionBoundary"]["parameterFitPermitted"])

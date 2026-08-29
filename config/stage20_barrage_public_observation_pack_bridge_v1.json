@@ -6,12 +6,12 @@
     {
       "role": "observation_pack_contract",
       "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
-      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+      "sha256": "fd30059ec87d2abf2b1ced374877244e82d0f9a42b6e59905581547e1252aa3f"
     },
     {
       "role": "observation_pack_validator",
       "path": "tools/stage20_barrage_gate_physics_observation_pack_v1.py",
-      "sha256": "f11b1bf8d254b2a57c7b9df6600623ca0d4d8dd71b36c714f8cf666eb21f2a13"
+      "sha256": "afa08a19836cca29d32d89129757ff3de50daca83dd089952ccf73bd1f935408"
     },
     {
       "role": "official_point_observation",

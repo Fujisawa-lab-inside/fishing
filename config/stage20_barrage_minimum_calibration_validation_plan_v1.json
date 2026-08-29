@@ -118,7 +118,7 @@
     {
       "role": "observation_pack_contract",
       "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
-      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+      "sha256": "fd30059ec87d2abf2b1ced374877244e82d0f9a42b6e59905581547e1252aa3f"
     },
     {
       "role": "public_summary_bridge_block",

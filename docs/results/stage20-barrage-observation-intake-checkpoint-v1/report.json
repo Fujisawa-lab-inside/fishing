@@ -9,7 +9,7 @@
     "physicalReadinessRequiredChecks": 11,
     "publicObservationRowsEmitted": 0,
     "inventedValueCount": 0,
-    "staticClosureBindingCount": 16,
+    "staticClosureBindingCount": 17,
     "oneWayAssumptionNegligible": false,
     "blockedPotentialReverseVolumeM3": 7415.119056269594
   },
@@ -42,11 +42,11 @@
     },
     {
       "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json",
-      "sha256": "abba4c4c9ae8589c7b053fa1102de9ea2746a8e9dc115b378f55895454251779"
+      "sha256": "4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"
     },
     {
       "path": "config/stage20_barrage_observation_intake_prepare_only_package_v1.json",
-      "sha256": "872ad69d14aed0e4d48f38ebaa14666bf0b9e54cdd96dd96ffb4e68f63b296ba"
+      "sha256": "0f02e6b335c64d6adc77857c792b449047e94482bf38e8e87037fc2be27cbfc6"
     }
   ],
   "decisionBoundary": {

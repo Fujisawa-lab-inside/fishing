@@ -17,13 +17,18 @@
     "duplicateTimestampForbidden": true,
     "commonVerticalDatumRequired": true,
     "sourceSha256Required": true,
+    "sourceClassMustMatchClassification": true,
+    "sourceManifestSha256Required": true,
+    "instrumentIdsRequired": true,
+    "explicitUnitsRequired": true,
     "gate1Through8OpeningFractionsRequired": true,
     "microAdjustmentGateStateRequired": true,
     "actuatorStateRequired": true,
     "totalReleaseMustBeObservedNotModelled": true,
     "wholeEventSplitRequired": true,
     "splitFrozenBeforeCalibration": true,
-    "minimumDistinctEvents": 3
+    "minimumIndependentEventsPerStatePerSplit": 3,
+    "minimumDistinctEvents": 18
   },
   "template": {
     "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
@@ -32,6 +37,10 @@
       "verticalDatumName": null,
       "clockSource": null,
       "sourceSha256": null,
+      "sourceClass": null,
+      "sourceManifestSha256": null,
+      "instrumentIds": [],
+      "units": null,
       "wholeEventSplit": true,
       "splitFrozenBeforeCalibration": true,
       "saltIntrusionOrAdverseVolumeCriterion": null

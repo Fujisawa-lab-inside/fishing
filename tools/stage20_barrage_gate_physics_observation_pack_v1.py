@@ -17,6 +17,13 @@ CONTRACT = ROOT / "config/stage20_barrage_gate_physics_observation_pack_v1.json"
 OUTPUT = ROOT / "docs/results/stage20-barrage-gate-physics-observation-pack-v1/static-validation.json"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 ALLOWED_STATES = {"stable", "opening", "closing"}
+REQUIRED_UNITS = {
+    "upstreamLevelM": "m",
+    "downstreamLevelM": "m",
+    "totalReleaseM3S": "m3/s",
+    "mainGateOpeningFractionById1To8": "fraction",
+    "microAdjustmentGateOpeningFraction": "fraction",
+}
 
 
 class ObservationPackError(RuntimeError):
@@ -68,6 +75,19 @@ def validate_pack(pack: dict[str, Any], contract: dict[str, Any]) -> list[str]:
         issues.append("CLOCK_SOURCE_MISSING")
     if not isinstance(dataset.get("sourceSha256"), str) or SHA256_RE.fullmatch(dataset["sourceSha256"]) is None:
         issues.append("SOURCE_SHA256_INVALID")
+    expected_source_class = {
+        "physical_observation": "instrument_export",
+        "synthetic_fixture": "synthetic_fixture",
+    }.get(pack.get("classification"))
+    if dataset.get("sourceClass") != expected_source_class:
+        issues.append("SOURCE_CLASS_CLASSIFICATION_MISMATCH")
+    if not isinstance(dataset.get("sourceManifestSha256"), str) or SHA256_RE.fullmatch(dataset["sourceManifestSha256"]) is None:
+        issues.append("SOURCE_MANIFEST_SHA256_INVALID")
+    instrument_ids = dataset.get("instrumentIds")
+    if not isinstance(instrument_ids, list) or not instrument_ids or any(not isinstance(value, str) or not value.strip() for value in instrument_ids) or len(set(instrument_ids)) != len(instrument_ids):
+        issues.append("INSTRUMENT_IDS_INVALID")
+    if dataset.get("units") != REQUIRED_UNITS:
+        issues.append("UNITS_INVALID")
     if dataset.get("wholeEventSplit") is not True:
         issues.append("WHOLE_EVENT_SPLIT_REQUIRED")
     if dataset.get("splitFrozenBeforeCalibration") is not True:
@@ -80,6 +100,7 @@ def validate_pack(pack: dict[str, Any], contract: dict[str, Any]) -> list[str]:
         return issues + ["OBSERVATION_ROWS_MISSING"]
     timestamps: set[str] = set()
     event_roles: dict[str, set[str]] = {}
+    event_cells: dict[tuple[str, str], set[str]] = {}
     operating_states: set[str] = set()
     required_states = set(contract["requiredOperatingStates"])
     required_roles = set(contract["requiredSplitRoles"])
@@ -112,6 +133,8 @@ def validate_pack(pack: dict[str, Any], contract: dict[str, Any]) -> list[str]:
             issues.append(f"{prefix}_OPERATING_STATE_INVALID")
         else:
             operating_states.add(state)
+            if isinstance(event_id, str) and event_id and split_role in required_roles:
+                event_cells.setdefault((state, split_role), set()).add(event_id)
         for field in ("upstreamLevelM", "downstreamLevelM", "totalReleaseM3S"):
             if not _finite(row.get(field)):
                 issues.append(f"{prefix}_{field}_INVALID")
@@ -129,6 +152,11 @@ def validate_pack(pack: dict[str, Any], contract: dict[str, Any]) -> list[str]:
             issues.append(f"{prefix}_RELEASE_NOT_DIRECT_OBSERVATION")
     if len(event_roles) < contract["qualityContract"]["minimumDistinctEvents"]:
         issues.append("DISTINCT_EVENT_COUNT_INSUFFICIENT")
+    minimum_per_cell = contract["qualityContract"]["minimumIndependentEventsPerStatePerSplit"]
+    for state in sorted(required_states):
+        for role in sorted(required_roles):
+            if len(event_cells.get((state, role), set())) < minimum_per_cell:
+                issues.append(f"EVENT_CELL_COUNT_INSUFFICIENT_{state}_{role}")
     if set().union(*event_roles.values()) != required_roles if event_roles else True:
         issues.append("CALIBRATION_VALIDATION_SPLITS_INCOMPLETE")
     if any(len(roles) != 1 for roles in event_roles.values()):

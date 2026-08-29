@@ -1,48 +1,48 @@
 {
   "schema": "onga-stage20-barrage-observation-validator-gap-audit-v1",
-  "status": "BLOCKED_VALIDATOR_EVENT_COUNT_AND_PROVENANCE_GAPS",
+  "status": "RESOLVED_STATIC_EVENT_COUNT_AND_RELABEL_HARDENING_EXTERNAL_AUTHENTICITY_REQUIRED",
   "auditScope": "static validator behavior only; no parameter fit, solver, YODA, or observation promotion",
   "findings": [
     {
       "id": "EVENT_DESIGN_THRESHOLD_MISMATCH",
       "severity": "blocking",
-      "validatorMinimumDistinctEvents": 3,
+      "validatorMinimumDistinctEvents": 18,
       "registeredPlanMinimumIndependentEvents": 18,
-      "detail": "The validator checks total distinct events but does not require three independent events for every operating-state and split-role combination."
+      "resolved": true,
+      "detail": "The validator now requires three independent events for every operating-state and split-role combination and eighteen in total."
     },
     {
       "id": "CLASSIFICATION_RELABEL_PROVENANCE_GAP",
       "severity": "blocking",
       "syntheticFixtureStructuralPass": true,
       "syntheticFixturePhysicalReady": false,
-      "sameRowsRelabelledPhysicalStructuralPass": true,
-      "sameRowsRelabelledPhysicalReady": true,
-      "detail": "Classification and a syntactically valid source SHA are not sufficient evidence that rows came from instruments rather than a model or fixture."
+      "sameRowsRelabelledPhysicalStructuralPass": false,
+      "sameRowsRelabelledPhysicalReady": false,
+      "resolved": true,
+      "detail": "A classification-only relabel now conflicts with sourceClass and is rejected; independent authenticity review remains outside this static validator."
     }
   ],
   "requiredHardeningBeforePhysicalObservationReady": [
-    "enforce at least three independent events in each operating-state and split-role cell",
-    "enforce at least eighteen independent events in total",
-    "bind source class and immutable source-manifest provenance",
-    "reject model output, synthetic fixtures, and public summaries regardless of a relabelled classification field",
-    "bind instrument identity, units, clock provenance, and source file SHA inventory"
+    "independently verify the supplied source-manifest identity and authenticity",
+    "verify instrument identity and source-file inventory against the external records",
+    "keep parameter fit, solver connection, and promotion disabled until that review passes"
   ],
   "evidenceBindings": [
     {
       "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
-      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+      "sha256": "fd30059ec87d2abf2b1ced374877244e82d0f9a42b6e59905581547e1252aa3f"
     },
     {
       "path": "tools/stage20_barrage_gate_physics_observation_pack_v1.py",
-      "sha256": "f11b1bf8d254b2a57c7b9df6600623ca0d4d8dd71b36c714f8cf666eb21f2a13"
+      "sha256": "afa08a19836cca29d32d89129757ff3de50daca83dd089952ccf73bd1f935408"
     },
     {
       "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json",
-      "sha256": "abba4c4c9ae8589c7b053fa1102de9ea2746a8e9dc115b378f55895454251779"
+      "sha256": "4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"
     },
     {
       "path": "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1/synthetic-complete-pack.json",
-      "sha256": "d5873d73c77f048ce00a50fb0a2123352e6cea8dac1a7a34384f32c23699ff00"
+      "sha256": "5601aba98a769e5d1c861386264cfd1f776a0d4c211da67fad34c0ec8ab2bdae"
     }
   ],
   "decisionBoundary": {

@@ -23,23 +23,27 @@ def complete_pack(classification: str = "physical_observation"):
         "near_zero_or_adverse_head_closure_response",
     ]
     rows = []
-    for index, state in enumerate(states):
-        rows.append(
-            {
-                "timestampJst": f"2026-08-29T0{index + 1}:00:00+09:00",
-                "eventId": f"event-{index + 1}",
-                "splitRole": "calibration" if index < 2 else "independent_validation",
-                "operatingState": state,
-                "upstreamLevelM": 1.5,
-                "downstreamLevelM": 1.0 + index * 0.25,
-                "totalReleaseM3S": float(index),
-                "verticalDatumName": "synthetic-common-datum",
-                "mainGateOpeningFractionById1To8": [0.0] * 8,
-                "microAdjustmentGate": {"state": "closed", "openingFraction": 0.0},
-                "actuatorState": "stable" if index < 2 else "closing",
-                "releaseSourceClass": "direct_observation",
-            }
-        )
+    index = 0
+    for state in states:
+        for split_role in ("calibration", "independent_validation"):
+            for sample in range(3):
+                index += 1
+                rows.append(
+                    {
+                        "timestampJst": f"2026-08-29T{index:02d}:00:00+09:00",
+                        "eventId": f"event-{index}",
+                        "splitRole": split_role,
+                        "operatingState": state,
+                        "upstreamLevelM": 1.5,
+                        "downstreamLevelM": 1.0 + sample * 0.1,
+                        "totalReleaseM3S": 1.0 if state == "open_measured_outward_discharge" else 0.0,
+                        "verticalDatumName": "synthetic-common-datum",
+                        "mainGateOpeningFractionById1To8": [0.0] * 8,
+                        "microAdjustmentGate": {"state": "closed", "openingFraction": 0.0},
+                        "actuatorState": "closing" if state == "near_zero_or_adverse_head_closure_response" else "stable",
+                        "releaseSourceClass": "direct_observation",
+                    }
+                )
     return {
         "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
         "classification": classification,
@@ -47,6 +51,16 @@ def complete_pack(classification: str = "physical_observation"):
             "verticalDatumName": "synthetic-common-datum",
             "clockSource": "synthetic synchronized clock",
             "sourceSha256": "1" * 64,
+            "sourceClass": "instrument_export" if classification == "physical_observation" else "synthetic_fixture",
+            "sourceManifestSha256": "2" * 64,
+            "instrumentIds": ["instrument-1"],
+            "units": {
+                "upstreamLevelM": "m",
+                "downstreamLevelM": "m",
+                "totalReleaseM3S": "m3/s",
+                "mainGateOpeningFractionById1To8": "fraction",
+                "microAdjustmentGateOpeningFraction": "fraction",
+            },
             "wholeEventSplit": True,
             "splitFrozenBeforeCalibration": True,
             "saltIntrusionOrAdverseVolumeCriterion": "synthetic criterion",
@@ -61,6 +75,7 @@ class Stage20BarrageGatePhysicsObservationPackV1Tests(unittest.TestCase):
         result = PACK.assess(candidate)
         self.assertFalse(result["structuralPass"])
         self.assertFalse(result["physicalObservationReady"])
+        self.assertIn("SOURCE_CLASS_CLASSIFICATION_MISMATCH", result["issues"])
         self.assertIn("VERTICAL_DATUM_MISSING", result["issues"])
         self.assertIn("ROW_0_MAIN_GATE_OPENINGS_INVALID", result["issues"])
         self.assertIn("ROW_0_MICRO_GATE_INVALID", result["issues"])
@@ -109,6 +124,20 @@ class Stage20BarrageGatePhysicsObservationPackV1Tests(unittest.TestCase):
         candidate["rows"][0]["mainGateOpeningFractionById1To8"] = [0.0] * 7
         result = PACK.assess(candidate)
         self.assertIn("ROW_0_MAIN_GATE_OPENINGS_INVALID", result["issues"])
+
+    def test_each_state_and_split_requires_three_independent_events(self) -> None:
+        candidate = complete_pack()
+        candidate["rows"] = candidate["rows"][:-1]
+        result = PACK.assess(candidate)
+        self.assertIn("DISTINCT_EVENT_COUNT_INSUFFICIENT", result["issues"])
+        self.assertTrue(any(issue.startswith("EVENT_CELL_COUNT_INSUFFICIENT_") for issue in result["issues"]))
+
+    def test_relabelled_synthetic_source_class_fails(self) -> None:
+        candidate = complete_pack("synthetic_fixture")
+        candidate["classification"] = "physical_observation"
+        result = PACK.assess(candidate)
+        self.assertIn("SOURCE_CLASS_CLASSIFICATION_MISMATCH", result["issues"])
+        self.assertFalse(result["physicalObservationReady"])
 
 
 if __name__ == "__main__":

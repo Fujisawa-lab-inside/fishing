@@ -1,0 +1,40 @@
+{
+  "schema": "onga-stage20-barrage-public-observation-pack-bridge-v1",
+  "status": "PREPARED_FAIL_CLOSED_PUBLIC_SUMMARIES_NOT_GATE_PHYSICS_PACK",
+  "purpose": "Audit whether the official current point summary and 12-hour flow history can populate the gate-physics observation pack without inventing time-aligned gate state or water levels.",
+  "bindings": [
+    {
+      "role": "observation_pack_contract",
+      "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
+      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+    },
+    {
+      "role": "observation_pack_validator",
+      "path": "tools/stage20_barrage_gate_physics_observation_pack_v1.py",
+      "sha256": "f11b1bf8d254b2a57c7b9df6600623ca0d4d8dd71b36c714f8cf666eb21f2a13"
+    },
+    {
+      "role": "official_point_observation",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-point-observation.json",
+      "sha256": "299e295dd2a34d4347076c79d9a73bc5e0e402b2a7b2a0bd70dea679dcdfa2df"
+    },
+    {
+      "role": "official_12h_flow_history",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-12h-flow-history.json",
+      "sha256": "534562b2f134cfdcdfb4d12c38e3fb7cf183409a2d437382cbf3918cb68eacee"
+    }
+  ],
+  "decisionBoundary": {
+    "readOnlyBridgeAuditPermitted": true,
+    "observationRowsMayBeInvented": false,
+    "publicSummariesAcceptedAsGatePack": false,
+    "parameterCalibrationPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

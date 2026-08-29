@@ -1,0 +1,36 @@
+{
+  "schema": "onga-stage20-barrage-public-observation-pack-bridge-v1-report",
+  "status": "BLOCKED_PUBLIC_SUMMARIES_NOT_GATE_PHYSICS_OBSERVATION_PACK",
+  "pointObservedAt": "2026-08-29T13:00+09:00",
+  "historyUpdatedAt": "2026-08-29T12:50+09:00",
+  "publicPointValueCount": 4,
+  "publicHistoryRowCount": 12,
+  "publicHistoryDistinctReleaseM3S": [
+    0.0,
+    0.3
+  ],
+  "blockingReasons": {
+    "gateByGateOpeningMissingAtPoint": true,
+    "actuatorMotionMissingAtPoint": true,
+    "gateByGateOpeningMissingInHistory": true,
+    "upstreamDownstreamLevelHistoryMissing": true,
+    "actuatorMotionMissingInHistory": true,
+    "commonVerticalDatumUnconfirmed": true,
+    "independentValidationEventsMissing": true,
+    "saltIntrusionOrAdverseVolumeCriterionMissing": true
+  },
+  "observationPackCreated": false,
+  "observationRowsEmitted": 0,
+  "inventedValueCount": 0,
+  "parameterCalibrationPermitted": false,
+  "solverRunCount": 0,
+  "yodaConnectionCount": 0,
+  "physicalValidation": false,
+  "promotion": {
+    "forecast": false,
+    "gui": false,
+    "fishingDecision": false,
+    "release": false
+  },
+  "minimumMissingInput": "time-aligned gate 1..8 openings, micro-gate state, upstream/downstream levels, total release, actuator state, datum, and event split"
+}

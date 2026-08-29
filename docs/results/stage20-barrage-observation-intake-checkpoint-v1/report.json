@@ -1,0 +1,65 @@
+{
+  "schema": "onga-stage20-barrage-observation-intake-checkpoint-v1",
+  "status": "PREPARED_STATIC_INTAKE_BLOCKED_PHYSICAL_EVIDENCE_2_OF_11",
+  "preparedFromCommit": "c145c70",
+  "confirmed": {
+    "officialPointObservationFreshAtAssessment": true,
+    "official12hPointFlowHistoryPresent": true,
+    "physicalReadinessPassedChecks": 2,
+    "physicalReadinessRequiredChecks": 11,
+    "publicObservationRowsEmitted": 0,
+    "inventedValueCount": 0,
+    "staticClosureBindingCount": 16,
+    "oneWayAssumptionNegligible": false,
+    "blockedPotentialReverseVolumeM3": 7415.119056269594
+  },
+  "missingBeforeOfflineCalibration": [
+    "time-aligned upstream and downstream water levels",
+    "total barrage release aligned to the same timestamps",
+    "gate 1..8 openings aligned to the same timestamps",
+    "micro-adjustment gate state aligned to the same timestamps",
+    "actuator motion and closure timing",
+    "common vertical datum and gate geometry",
+    "closed, open-outward, and near-zero or adverse-head independent events",
+    "frozen calibration and independent-validation event split",
+    "salt-intrusion or conservative adverse-volume acceptance criterion"
+  ],
+  "minimumNextInput": {
+    "artifact": "physical observation pack",
+    "classification": "physical_observation",
+    "minimumIndependentEventCount": 18,
+    "wholeEventSplitRequired": true,
+    "parameterThresholdsMayBeChosenAfterFit": false
+  },
+  "evidenceBindings": [
+    {
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json",
+      "sha256": "2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"
+    },
+    {
+      "path": "docs/results/stage20-barrage-public-observation-pack-bridge-v1/report.json",
+      "sha256": "5121b708b57a34c394ea0ea29c107c118423d7c278738a5aa2a9a78fc4f1acc2"
+    },
+    {
+      "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json",
+      "sha256": "abba4c4c9ae8589c7b053fa1102de9ea2746a8e9dc115b378f55895454251779"
+    },
+    {
+      "path": "config/stage20_barrage_observation_intake_prepare_only_package_v1.json",
+      "sha256": "872ad69d14aed0e4d48f38ebaa14666bf0b9e54cdd96dd96ffb4e68f63b296ba"
+    }
+  ],
+  "decisionBoundary": {
+    "observationIntakePrepared": true,
+    "physicalObservationPackPresent": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "meshAdoptionPermitted": false,
+    "forecastPermitted": false,
+    "guiIntegrationPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
+  "classification": "synthetic_fixture",
+  "dataset": {
+    "verticalDatumName": "synthetic-common-datum",
+    "clockSource": "synthetic synchronized clock",
+    "sourceSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "wholeEventSplit": true,
+    "splitFrozenBeforeCalibration": true,
+    "saltIntrusionOrAdverseVolumeCriterion": "synthetic criterion"
+  },
+  "rows": [
+    {
+      "timestampJst": "2026-08-29T01:00:00+09:00",
+      "eventId": "synthetic-event-1",
+      "splitRole": "calibration",
+      "operatingState": "closed_positive_outward_head",
+      "upstreamLevelM": 1.5,
+      "downstreamLevelM": 1.0,
+      "totalReleaseM3S": 0.0,
+      "verticalDatumName": "synthetic-common-datum",
+      "mainGateOpeningFractionById1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "microAdjustmentGate": {"state": "closed", "openingFraction": 0.0},
+      "actuatorState": "stable",
+      "releaseSourceClass": "direct_observation"
+    },
+    {
+      "timestampJst": "2026-08-29T02:00:00+09:00",
+      "eventId": "synthetic-event-2",
+      "splitRole": "calibration",
+      "operatingState": "open_measured_outward_discharge",
+      "upstreamLevelM": 1.5,
+      "downstreamLevelM": 1.25,
+      "totalReleaseM3S": 1.0,
+      "verticalDatumName": "synthetic-common-datum",
+      "mainGateOpeningFractionById1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+      "microAdjustmentGate": {"state": "open", "openingFraction": 1.0},
+      "actuatorState": "stable",
+      "releaseSourceClass": "direct_observation"
+    },
+    {
+      "timestampJst": "2026-08-29T03:00:00+09:00",
+      "eventId": "synthetic-event-3",
+      "splitRole": "independent_validation",
+      "operatingState": "near_zero_or_adverse_head_closure_response",
+      "upstreamLevelM": 1.5,
+      "downstreamLevelM": 1.5,
+      "totalReleaseM3S": 0.0,
+      "verticalDatumName": "synthetic-common-datum",
+      "mainGateOpeningFractionById1To8": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "microAdjustmentGate": {"state": "closed", "openingFraction": 0.0},
+      "actuatorState": "closing",
+      "releaseSourceClass": "direct_observation"
+    }
+  ]
+}

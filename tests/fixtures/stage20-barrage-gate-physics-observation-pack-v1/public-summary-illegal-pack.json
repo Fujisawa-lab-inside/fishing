@@ -1,0 +1,28 @@
+{
+  "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
+  "classification": "physical_observation",
+  "dataset": {
+    "verticalDatumName": null,
+    "clockSource": "official public summary page update time",
+    "sourceSha256": "299e295dd2a34d4347076c79d9a73bc5e0e402b2a7b2a0bd70dea679dcdfa2df",
+    "wholeEventSplit": true,
+    "splitFrozenBeforeCalibration": true,
+    "saltIntrusionOrAdverseVolumeCriterion": null
+  },
+  "rows": [
+    {
+      "timestampJst": "2026-08-29T13:00:00+09:00",
+      "eventId": "public-summary-single-point",
+      "splitRole": "calibration",
+      "operatingState": "closed_positive_outward_head",
+      "upstreamLevelM": 1.47,
+      "downstreamLevelM": 0.88,
+      "totalReleaseM3S": 0.0,
+      "verticalDatumName": null,
+      "mainGateOpeningFractionById1To8": null,
+      "microAdjustmentGate": null,
+      "actuatorState": null,
+      "releaseSourceClass": "direct_observation"
+    }
+  ]
+}

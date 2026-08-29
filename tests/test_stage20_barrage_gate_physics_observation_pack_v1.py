@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import json
 from pathlib import Path
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "tools/stage20_barrage_gate_physics_observation_pack_v1.py"
+FIXTURES = ROOT / "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1"
 SPEC = importlib.util.spec_from_file_location("stage20_barrage_gate_physics_observation_pack_v1", PATH)
 assert SPEC is not None and SPEC.loader is not None
 PACK = importlib.util.module_from_spec(SPEC)
@@ -54,6 +56,23 @@ def complete_pack(classification: str = "physical_observation"):
 
 
 class Stage20BarrageGatePhysicsObservationPackV1Tests(unittest.TestCase):
+    def test_tracked_public_summary_fixture_is_rejected_without_invention(self) -> None:
+        candidate = json.loads((FIXTURES / "public-summary-illegal-pack.json").read_text())
+        result = PACK.assess(candidate)
+        self.assertFalse(result["structuralPass"])
+        self.assertFalse(result["physicalObservationReady"])
+        self.assertIn("VERTICAL_DATUM_MISSING", result["issues"])
+        self.assertIn("ROW_0_MAIN_GATE_OPENINGS_INVALID", result["issues"])
+        self.assertIn("ROW_0_MICRO_GATE_INVALID", result["issues"])
+        self.assertIn("DISTINCT_EVENT_COUNT_INSUFFICIENT", result["issues"])
+
+    def test_tracked_complete_synthetic_fixture_is_never_physical(self) -> None:
+        candidate = json.loads((FIXTURES / "synthetic-complete-pack.json").read_text())
+        result = PACK.assess(candidate)
+        self.assertTrue(result["structuralPass"])
+        self.assertFalse(result["physicalObservationReady"])
+        self.assertFalse(result["solverRunPermitted"])
+
     def test_empty_template_fails_closed(self) -> None:
         contract = PACK.verified_contract()
         result = PACK.assess(contract["template"], contract)

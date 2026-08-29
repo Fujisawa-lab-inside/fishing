@@ -1,0 +1,28 @@
+{
+  "schema": "onga-current-official-barrage-observation-v1",
+  "version": 1,
+  "status": "CURRENT_OFFICIAL_POINT_OBSERVATION_NOT_FLOW_FIELD",
+  "source": {
+    "agencyJa": "国土交通省 九州地方整備局 遠賀川河川事務所",
+    "titleJa": "遠賀川河口堰流量現況表",
+    "url": "https://www.qsr.mlit.go.jp/onga/imode/RealTime.html"
+  },
+  "observedAt": "2026-08-29T13:00+09:00",
+  "fetchedAt": "2026-08-29T13:11:17+09:00",
+  "values": {
+    "barrageInflowM3S": 9.2,
+    "barrageReleaseM3S": 0.0,
+    "barrageUpstreamLevelM": 1.47,
+    "barrageDownstreamLevelM": 0.88
+  },
+  "classification": {
+    "officialObservation": true,
+    "barragePointValuesOnly": true,
+    "gateByGateOpeningObserved": false,
+    "actuatorMotionObserved": false,
+    "salinityObserved": false,
+    "twoDimensionalFlowField": false,
+    "modelPrediction": false,
+    "catchPrediction": false
+  }
+}

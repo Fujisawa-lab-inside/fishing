@@ -62,7 +62,8 @@ def _seconds_between(later: str, earlier: str) -> float:
 
 
 def assess(contract: dict[str, Any]) -> dict[str, Any]:
-    observation = contract["officialPointObservation"]
+    observation = json.loads((ROOT / contract["officialPointObservationPath"]).read_text())
+    require(observation.get("schema") == "onga-current-official-barrage-observation-v1", "point observation schema changed")
     values = observation["values"]
     numbers = [float(value) for value in values.values()]
     require(all(math.isfinite(value) for value in numbers), "observation contains nonfinite values")

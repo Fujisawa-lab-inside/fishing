@@ -1,11 +1,11 @@
 {
   "schema": "onga-stage20-barrage-physical-validation-readiness-v1-assessment",
   "status": "BLOCKED_INSUFFICIENT_GATE_PHYSICS_EVIDENCE_NO_MORE_NUMERICAL_EXPANSION",
-  "assessmentAt": "2026-08-29T13:00:00+09:00",
+  "assessmentAt": "2026-08-29T13:12:00+09:00",
   "officialObservation": {
-    "observedAt": "2026-08-29T12:50:00+09:00",
-    "ageSecondsAtAssessment": 600.0,
-    "upstreamMinusDownstreamHeadM": 0.5299999999999999,
+    "observedAt": "2026-08-29T13:00+09:00",
+    "ageSecondsAtAssessment": 720.0,
+    "upstreamMinusDownstreamHeadM": 0.59,
     "barrageReleaseM3S": 0.0,
     "interpretation": "A positive outward head with zero reported release cannot identify a head-only law without time-aligned gate state, datum, and actuator evidence."
   },

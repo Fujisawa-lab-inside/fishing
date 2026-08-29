@@ -12,7 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "config/stage20_barrage_official_operation_band_dispatch_v1.json"
-READINESS = ROOT / "config/stage20_barrage_physical_validation_readiness_v1.json"
+POINT_OBSERVATION = ROOT / "docs/results/stage20-barrage-physical-validation-readiness-v1/official-point-observation.json"
 OUTPUT = ROOT / "docs/results/stage20-barrage-official-operation-band-dispatch-v1/report.json"
 
 
@@ -74,8 +74,7 @@ def classify_inflow(inflow_m3s: float, contract: dict[str, Any] | None = None) -
 
 
 def current_report() -> dict[str, Any]:
-    readiness = json.loads(READINESS.read_text())
-    observation = readiness["officialPointObservation"]
+    observation = json.loads(POINT_OBSERVATION.read_text())
     result = classify_inflow(observation["values"]["barrageInflowM3S"])
     result.update(
         {

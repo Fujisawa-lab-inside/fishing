@@ -33,7 +33,7 @@ class Stage20BarrageOfficialOperationBandDispatchV1Tests(unittest.TestCase):
 
     def test_current_observation_is_not_stage4(self) -> None:
         report = DISPATCH.current_report()
-        self.assertEqual(report["observedInflowM3S"], 9.6)
+        self.assertEqual(report["observedInflowM3S"], 9.2)
         self.assertEqual(report["controlClass"], "MICRO_ADJUSTMENT_GATE_CONTROL_BAND")
         self.assertNotIn("STAGE4", report["controlClass"])
         self.assertIsNone(report["gateByGateOpening"])

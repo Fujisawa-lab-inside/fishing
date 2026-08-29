@@ -2,33 +2,8 @@
   "schema": "onga-stage20-barrage-physical-validation-readiness-v1",
   "status": "LOCAL_EVIDENCE_GATE_READY_PHYSICAL_VALIDATION_BLOCKED",
   "purpose": "Separate numerical stability of the conservative one-way barrage branch from evidence needed to identify and validate the actual barrage discharge and momentum law.",
-  "assessmentAt": "2026-08-29T13:00:00+09:00",
-  "officialPointObservation": {
-    "schema": "onga-current-official-barrage-observation-v1",
-    "status": "CURRENT_OFFICIAL_POINT_OBSERVATION_NOT_FLOW_FIELD",
-    "source": {
-      "agencyJa": "国土交通省 九州地方整備局 遠賀川河川事務所",
-      "titleJa": "遠賀川河口堰流量現況表",
-      "url": "https://www.qsr.mlit.go.jp/onga/imode/RealTime.html"
-    },
-    "observedAt": "2026-08-29T12:50:00+09:00",
-    "fetchedAt": "2026-08-29T12:59:12+09:00",
-    "values": {
-      "barrageInflowM3S": 9.6,
-      "barrageReleaseM3S": 0.0,
-      "barrageUpstreamLevelM": 1.46,
-      "barrageDownstreamLevelM": 0.93
-    },
-    "classification": {
-      "officialObservation": true,
-      "barragePointValuesOnly": true,
-      "gateByGateOpeningObserved": false,
-      "actuatorMotionObserved": false,
-      "salinityObserved": false,
-      "twoDimensionalFlowField": false,
-      "modelPrediction": false
-    }
-  },
+  "assessmentAt": "2026-08-29T13:12:00+09:00",
+  "officialPointObservationPath": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-point-observation.json",
   "requiredEvidence": {
     "maximumPointObservationAgeSeconds": 10800,
     "minimumDistinctOperatingStates": 3,
@@ -69,9 +44,14 @@
       "sha256": "21f34fa8dcdfbb0a2709e067458f82bfc5e182e32052280be8e21540792ce5e9"
     },
     {
-      "role": "official_observation_parser",
-      "path": "deploy/stage20-static-review-site/scripts/serve-local-viewer.py",
-      "sha256": "476c7ac50a35a6f78b651def0335cf388b7b498cb41869198e0e9ec586216da5"
+      "role": "official_point_observation_parser",
+      "path": "tools/stage20_barrage_official_point_observation_v1.py",
+      "sha256": "eb4d337ae69b3626c83203bacc250b8b5137f0143ebd4ac09e4b5c1d1eff1a2e"
+    },
+    {
+      "role": "official_point_observation_snapshot",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-point-observation.json",
+      "sha256": "299e295dd2a34d4347076c79d9a73bc5e0e402b2a7b2a0bd70dea679dcdfa2df"
     },
     {
       "role": "official_12h_flow_history_parser",

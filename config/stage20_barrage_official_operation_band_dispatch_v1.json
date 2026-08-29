@@ -52,7 +52,12 @@
     {
       "role": "physical_validation_readiness",
       "path": "config/stage20_barrage_physical_validation_readiness_v1.json",
-      "sha256": "4605404764b13814dda21055192e721d343f32f1723dbfe045da565c623175b1"
+      "sha256": "d9185cd44ec241a883ae52e2724161db5f32ae66526e159fa9e289a88376d2a5"
+    },
+    {
+      "role": "official_point_observation",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/official-point-observation.json",
+      "sha256": "299e295dd2a34d4347076c79d9a73bc5e0e402b2a7b2a0bd70dea679dcdfa2df"
     },
     {
       "role": "official_12h_point_flow_history",

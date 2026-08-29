@@ -33,7 +33,7 @@ class Stage20BarragePhysicalValidationReadinessV1Tests(unittest.TestCase):
     def test_current_official_snapshot_is_fresh_at_recorded_assessment(self) -> None:
         result = READINESS.assess(READINESS.verified_contract())
         self.assertTrue(result["checks"]["officialPointObservationFresh"])
-        self.assertAlmostEqual(result["officialObservation"]["upstreamMinusDownstreamHeadM"], 0.53)
+        self.assertAlmostEqual(result["officialObservation"]["upstreamMinusDownstreamHeadM"], 0.59)
         self.assertEqual(result["officialObservation"]["barrageReleaseM3S"], 0.0)
 
     def test_stale_point_observation_is_rejected(self) -> None:

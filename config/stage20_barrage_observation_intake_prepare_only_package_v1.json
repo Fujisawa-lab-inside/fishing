@@ -1,0 +1,44 @@
+{
+  "schema": "onga-stage20-barrage-observation-intake-prepare-only-package-v1",
+  "status": "PREPARE_ONLY_STATIC_OBSERVATION_INTAKE_NO_FIT_NO_SOLVER",
+  "preparedFromCommit": "dc774ea",
+  "purpose": "Freeze the tracked static closure needed to validate a future physical observation pack without fitting parameters or running a solver.",
+  "bindings": [
+    {"role": "observation_contract", "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json", "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"},
+    {"role": "observation_validator", "path": "tools/stage20_barrage_gate_physics_observation_pack_v1.py", "sha256": "f11b1bf8d254b2a57c7b9df6600623ca0d4d8dd71b36c714f8cf666eb21f2a13"},
+    {"role": "bridge_contract", "path": "config/stage20_barrage_public_observation_pack_bridge_v1.json", "sha256": "7b428d5ddb2eb0b4991223c7281d7436c7bd98b5917f044b9d662be18d42b42b"},
+    {"role": "bridge_audit", "path": "tools/stage20_barrage_public_observation_pack_bridge_v1.py", "sha256": "82d80db41876bd55a592a93bce6d2baf6bbff31df8da5758b22f8263e14f494a"},
+    {"role": "calibration_plan", "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json", "sha256": "abba4c4c9ae8589c7b053fa1102de9ea2746a8e9dc115b378f55895454251779"},
+    {"role": "calibration_plan_validator", "path": "tools/stage20_barrage_minimum_calibration_validation_plan_v1.py", "sha256": "07711f57c6a4edf51588b84764bca5bb64f5a8ba648cced4fd03ac3f91cd5e73"},
+    {"role": "readiness_contract", "path": "config/stage20_barrage_physical_validation_readiness_v1.json", "sha256": "d9185cd44ec241a883ae52e2724161db5f32ae66526e159fa9e289a88376d2a5"},
+    {"role": "readiness_validator", "path": "tools/stage20_barrage_physical_validation_readiness_v1.py", "sha256": "8aeccf8795b4ec7e5dded57059af0574bd5420f7f15cf6012b567ea32d861022"},
+    {"role": "illegal_public_summary_fixture", "path": "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1/public-summary-illegal-pack.json", "sha256": "2110a075a38b8d3c4fee29b1ca0e0079223574c552c8368d5a2e70542c88b7b3"},
+    {"role": "complete_synthetic_fixture", "path": "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1/synthetic-complete-pack.json", "sha256": "d5873d73c77f048ce00a50fb0a2123352e6cea8dac1a7a34384f32c23699ff00"},
+    {"role": "observation_validator_test", "path": "tests/test_stage20_barrage_gate_physics_observation_pack_v1.py", "sha256": "d9501de4d73f7faa48a57190e8154cedc776cfee9d07a9c529f04bfc355d09bc"},
+    {"role": "bridge_test", "path": "tests/test_stage20_barrage_public_observation_pack_bridge_v1.py", "sha256": "608fba17a3b97ed76ab934ebf42c7e843be63705b5bbdecbf50f991af04a8e1b"},
+    {"role": "calibration_plan_test", "path": "tests/test_stage20_barrage_minimum_calibration_validation_plan_v1.py", "sha256": "58c6501c17eb1d14537bcaf241406075fad577064505468a11bfc76a7c7a70bb"},
+    {"role": "public_bridge_report", "path": "docs/results/stage20-barrage-public-observation-pack-bridge-v1/report.json", "sha256": "5121b708b57a34c394ea0ea29c107c118423d7c278738a5aa2a9a78fc4f1acc2"},
+    {"role": "physical_readiness_assessment", "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json", "sha256": "2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"},
+    {"role": "calibration_plan_static_validation", "path": "docs/results/stage20-barrage-minimum-calibration-validation-plan-v1/static-validation.json", "sha256": "3ed626045e4d02c9fea13767d067653f49e010e02b831bec1b70c34095806c70"}
+  ],
+  "intakeGate": {
+    "requiredClassification": "physical_observation",
+    "requireAllBindingsTrackedAndHashMatched": true,
+    "rejectMissingValuesRatherThanImpute": true,
+    "syntheticFixtureMayAuthorizePhysics": false,
+    "publicSummaryMaySubstituteGateTelemetry": false
+  },
+  "decisionBoundary": {
+    "staticValidationPermitted": true,
+    "packageTransferPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "meshAdoptionPermitted": false,
+    "guiIntegrationPermitted": false,
+    "forecastPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

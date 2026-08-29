@@ -1,0 +1,86 @@
+{
+  "schema": "onga-stage20-barrage-physical-validation-readiness-v1",
+  "status": "LOCAL_EVIDENCE_GATE_READY_PHYSICAL_VALIDATION_BLOCKED",
+  "purpose": "Separate numerical stability of the conservative one-way barrage branch from evidence needed to identify and validate the actual barrage discharge and momentum law.",
+  "assessmentAt": "2026-08-29T13:00:00+09:00",
+  "officialPointObservation": {
+    "schema": "onga-current-official-barrage-observation-v1",
+    "status": "CURRENT_OFFICIAL_POINT_OBSERVATION_NOT_FLOW_FIELD",
+    "source": {
+      "agencyJa": "国土交通省 九州地方整備局 遠賀川河川事務所",
+      "titleJa": "遠賀川河口堰流量現況表",
+      "url": "https://www.qsr.mlit.go.jp/onga/imode/RealTime.html"
+    },
+    "observedAt": "2026-08-29T12:50:00+09:00",
+    "fetchedAt": "2026-08-29T12:59:12+09:00",
+    "values": {
+      "barrageInflowM3S": 9.6,
+      "barrageReleaseM3S": 0.0,
+      "barrageUpstreamLevelM": 1.46,
+      "barrageDownstreamLevelM": 0.93
+    },
+    "classification": {
+      "officialObservation": true,
+      "barragePointValuesOnly": true,
+      "gateByGateOpeningObserved": false,
+      "actuatorMotionObserved": false,
+      "salinityObserved": false,
+      "twoDimensionalFlowField": false,
+      "modelPrediction": false
+    }
+  },
+  "requiredEvidence": {
+    "maximumPointObservationAgeSeconds": 10800,
+    "minimumDistinctOperatingStates": 3,
+    "requiredOperatingStates": [
+      "closed_or_nearly_closed_with_positive_outward_head",
+      "opening_or_open_with_measured_outward_discharge",
+      "near_zero_or_adverse_head_with_recorded_closure_response"
+    ],
+    "gateByGateOpeningAndTimestampRequired": true,
+    "commonVerticalDatumRequired": true,
+    "actuatorClosureTimingRequired": true,
+    "dischargeLawAndCoefficientProvenanceRequired": true,
+    "momentumReactionLawRequired": true,
+    "independentValidationPeriodRequired": true,
+    "saltIntrusionOrConservativeAdverseVolumeCriterionRequired": true
+  },
+  "availableEvidence": {
+    "distinctOperatingStates": 1,
+    "gateByGateOpeningAndTimestampPresent": false,
+    "commonVerticalDatumConfirmed": false,
+    "actuatorClosureTimingPresent": false,
+    "dischargeLawAndCoefficientProvenancePresent": false,
+    "momentumReactionLawPresent": false,
+    "independentValidationPeriodPresent": false,
+    "saltIntrusionOrConservativeAdverseVolumeCriterionPresent": false
+  },
+  "bindings": [
+    {
+      "role": "one_way_300s_numerical_diagnostic",
+      "path": "docs/results/stage20-barrage-one-way-stage4-hold-300s-canary-v1/report.json",
+      "sha256": "c6658617863a8fbe7e4d89378bf895a4c59b2fbfdf240bcb5ea2030fda6b56a5"
+    },
+    {
+      "role": "operational_interlock_decision",
+      "path": "config/stage20_regularized_stage4_operational_interlock_decision_v1.json",
+      "sha256": "21f34fa8dcdfbb0a2709e067458f82bfc5e182e32052280be8e21540792ce5e9"
+    },
+    {
+      "role": "official_observation_parser",
+      "path": "deploy/stage20-static-review-site/scripts/serve-local-viewer.py",
+      "sha256": "476c7ac50a35a6f78b651def0335cf388b7b498cb41869198e0e9ec586216da5"
+    }
+  ],
+  "decisionBoundary": {
+    "staticReadinessAssessmentPermitted": true,
+    "additionalLocalNumericalRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

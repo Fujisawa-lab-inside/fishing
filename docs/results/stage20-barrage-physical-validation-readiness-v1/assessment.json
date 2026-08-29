@@ -1,0 +1,48 @@
+{
+  "schema": "onga-stage20-barrage-physical-validation-readiness-v1-assessment",
+  "status": "BLOCKED_INSUFFICIENT_GATE_PHYSICS_EVIDENCE_NO_MORE_NUMERICAL_EXPANSION",
+  "assessmentAt": "2026-08-29T13:00:00+09:00",
+  "officialObservation": {
+    "observedAt": "2026-08-29T12:50:00+09:00",
+    "ageSecondsAtAssessment": 600.0,
+    "upstreamMinusDownstreamHeadM": 0.5299999999999999,
+    "barrageReleaseM3S": 0.0,
+    "interpretation": "A positive outward head with zero reported release cannot identify a head-only law without time-aligned gate state, datum, and actuator evidence."
+  },
+  "numericalModelDependence": {
+    "oneWayBranchBlockedStepFraction": 0.9532947535076705,
+    "blockedPotentialReverseVolumeM3": 7415.119056269594,
+    "blockedPotentialReverseVolumeRateM3S": 24.717063520898645,
+    "oneWayAssumptionNegligible": false
+  },
+  "checks": {
+    "officialPointObservationFresh": true,
+    "distinctOperatingStatesSufficient": false,
+    "gateByGateOpeningAndTimestampPresent": false,
+    "commonVerticalDatumConfirmed": false,
+    "actuatorClosureTimingPresent": false,
+    "dischargeLawAndCoefficientProvenancePresent": false,
+    "momentumReactionLawPresent": false,
+    "independentValidationPeriodPresent": false,
+    "saltIntrusionOrConservativeAdverseVolumeCriterionPresent": false
+  },
+  "passedCheckCount": 1,
+  "requiredCheckCount": 9,
+  "physicalValidationEvidenceReady": false,
+  "headOnlyDischargeLawIdentifiable": false,
+  "additionalNumericalExpansionRecommended": false,
+  "nextEvidence": [
+    "time-aligned upstream/downstream levels, total release, and gate-by-gate openings",
+    "at least closed, open-outward, and near-zero/adverse-head operating states",
+    "common vertical datum and gate sill/effective opening geometry",
+    "actuator closure timing plus discharge and momentum-law provenance",
+    "independent validation period and salt-intrusion or adverse-volume criterion"
+  ],
+  "promotion": {
+    "kernelPhysicalAdoption": false,
+    "forecast": false,
+    "gui": false,
+    "fishingDecision": false,
+    "release": false
+  }
+}

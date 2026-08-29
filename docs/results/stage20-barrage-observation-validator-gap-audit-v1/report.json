@@ -1,0 +1,61 @@
+{
+  "schema": "onga-stage20-barrage-observation-validator-gap-audit-v1",
+  "status": "BLOCKED_VALIDATOR_EVENT_COUNT_AND_PROVENANCE_GAPS",
+  "auditScope": "static validator behavior only; no parameter fit, solver, YODA, or observation promotion",
+  "findings": [
+    {
+      "id": "EVENT_DESIGN_THRESHOLD_MISMATCH",
+      "severity": "blocking",
+      "validatorMinimumDistinctEvents": 3,
+      "registeredPlanMinimumIndependentEvents": 18,
+      "detail": "The validator checks total distinct events but does not require three independent events for every operating-state and split-role combination."
+    },
+    {
+      "id": "CLASSIFICATION_RELABEL_PROVENANCE_GAP",
+      "severity": "blocking",
+      "syntheticFixtureStructuralPass": true,
+      "syntheticFixturePhysicalReady": false,
+      "sameRowsRelabelledPhysicalStructuralPass": true,
+      "sameRowsRelabelledPhysicalReady": true,
+      "detail": "Classification and a syntactically valid source SHA are not sufficient evidence that rows came from instruments rather than a model or fixture."
+    }
+  ],
+  "requiredHardeningBeforePhysicalObservationReady": [
+    "enforce at least three independent events in each operating-state and split-role cell",
+    "enforce at least eighteen independent events in total",
+    "bind source class and immutable source-manifest provenance",
+    "reject model output, synthetic fixtures, and public summaries regardless of a relabelled classification field",
+    "bind instrument identity, units, clock provenance, and source file SHA inventory"
+  ],
+  "evidenceBindings": [
+    {
+      "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
+      "sha256": "162f0612d534c551a4652c2519fe65a36ad9bdce832e6ee51b4cd160e2fc31e3"
+    },
+    {
+      "path": "tools/stage20_barrage_gate_physics_observation_pack_v1.py",
+      "sha256": "f11b1bf8d254b2a57c7b9df6600623ca0d4d8dd71b36c714f8cf666eb21f2a13"
+    },
+    {
+      "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json",
+      "sha256": "abba4c4c9ae8589c7b053fa1102de9ea2746a8e9dc115b378f55895454251779"
+    },
+    {
+      "path": "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1/synthetic-complete-pack.json",
+      "sha256": "d5873d73c77f048ce00a50fb0a2123352e6cea8dac1a7a34384f32c23699ff00"
+    }
+  ],
+  "decisionBoundary": {
+    "gapAuditRecorded": true,
+    "physicalObservationReady": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "meshAdoptionPermitted": false,
+    "forecastPermitted": false,
+    "guiIntegrationPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

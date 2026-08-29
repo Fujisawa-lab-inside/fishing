@@ -1,0 +1,77 @@
+{
+  "schema": "onga-stage20-barrage-gate-physics-observation-pack-contract-v1",
+  "status": "EMPTY_TEMPLATE_READY_VALIDATOR_ONLY_NO_PHYSICAL_OBSERVATIONS",
+  "purpose": "Define the minimum time-aligned physical observation pack required to calibrate and independently validate barrage discharge, momentum, and closure behavior without treating public point summaries as gate-state evidence.",
+  "packSchema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
+  "requiredOperatingStates": [
+    "closed_positive_outward_head",
+    "open_measured_outward_discharge",
+    "near_zero_or_adverse_head_closure_response"
+  ],
+  "requiredSplitRoles": [
+    "calibration",
+    "independent_validation"
+  ],
+  "qualityContract": {
+    "explicitJstOffsetRequired": true,
+    "duplicateTimestampForbidden": true,
+    "commonVerticalDatumRequired": true,
+    "sourceSha256Required": true,
+    "gate1Through8OpeningFractionsRequired": true,
+    "microAdjustmentGateStateRequired": true,
+    "actuatorStateRequired": true,
+    "totalReleaseMustBeObservedNotModelled": true,
+    "wholeEventSplitRequired": true,
+    "splitFrozenBeforeCalibration": true,
+    "minimumDistinctEvents": 3
+  },
+  "template": {
+    "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1",
+    "classification": "physical_observation",
+    "dataset": {
+      "verticalDatumName": null,
+      "clockSource": null,
+      "sourceSha256": null,
+      "wholeEventSplit": true,
+      "splitFrozenBeforeCalibration": true,
+      "saltIntrusionOrAdverseVolumeCriterion": null
+    },
+    "rows": []
+  },
+  "bindings": [
+    {
+      "role": "physical_validation_readiness",
+      "path": "config/stage20_barrage_physical_validation_readiness_v1.json",
+      "sha256": "d9185cd44ec241a883ae52e2724161db5f32ae66526e159fa9e289a88376d2a5"
+    },
+    {
+      "role": "current_operation_band_report",
+      "path": "docs/results/stage20-barrage-official-operation-band-dispatch-v1/report.json",
+      "sha256": "507c8df7e9f8b83b6ae060428c237ac85efa9ba630ecef2e7c377787863d2c62"
+    },
+    {
+      "role": "official_point_parser",
+      "path": "tools/stage20_barrage_official_point_observation_v1.py",
+      "sha256": "eb4d337ae69b3626c83203bacc250b8b5137f0143ebd4ac09e4b5c1d1eff1a2e"
+    },
+    {
+      "role": "official_history_parser",
+      "path": "tools/stage20_barrage_official_flow_history_v1.py",
+      "sha256": "00c941e4377dc5a2a46936aae1247cf83dded1b60a9a0b4cd5002f80d352f3fb"
+    }
+  ],
+  "decisionBoundary": {
+    "schemaAndValidatorPermitted": true,
+    "publicPointSummaryAcceptedAsGatePack": false,
+    "syntheticFixtureAcceptedAsPhysicalObservation": false,
+    "parameterCalibrationPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "physicalValidation": false,
+    "forecastAuthorized": false,
+    "guiIntegrationAuthorized": false,
+    "fishingDecisionAuthorized": false,
+    "pushAuthorized": false,
+    "releaseAuthorized": false
+  }
+}

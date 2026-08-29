@@ -1,0 +1,19 @@
+{
+  "schema": "onga-stage20-barrage-gate-physics-observation-pack-v1-assessment",
+  "status": "BLOCKED_OBSERVATION_PACK_INCOMPLETE_OR_NONPHYSICAL",
+  "structuralPass": false,
+  "physicalObservationReady": false,
+  "issues": [
+    "VERTICAL_DATUM_MISSING",
+    "CLOCK_SOURCE_MISSING",
+    "SOURCE_SHA256_INVALID",
+    "ADVERSE_CRITERION_MISSING",
+    "OBSERVATION_ROWS_MISSING"
+  ],
+  "parameterCalibrationPermitted": false,
+  "solverRunPermitted": false,
+  "yodaLaunchPermitted": false,
+  "forecastAuthorized": false,
+  "guiIntegrationAuthorized": false,
+  "releaseAuthorized": false
+}

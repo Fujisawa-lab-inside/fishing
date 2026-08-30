@@ -1,7 +1,7 @@
 {
   "schema": "onga-stage20-barrage-weekend-handoff-v1",
   "status": "WAITING_EXTERNAL_PHYSICAL_OBSERVATION_INPUT_NO_MORE_SOLVER_EXPANSION",
-  "canonicalCommit": "b21f0d8",
+  "preparedFromCommit": "b21f0d8",
   "conclusion": "The local observation-intake control plane is prepared, but physical gate-law calibration is blocked before the first physical observation pack.",
   "confirmed": {
     "observationIntakeGatesPassed": 1,
@@ -57,7 +57,8 @@
     {"path":"docs/results/stage20-barrage-one-way-stage4-hold-300s-canary-v1/report.json","sha256":"c6658617863a8fbe7e4d89378bf895a4c59b2fbfdf240bcb5ea2030fda6b56a5"},
     {"path":"config/stage20_barrage_observation_intake_prepare_only_package_v1.json","sha256":"9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5"},
     {"path":"docs/results/stage20-barrage-observation-intake-checkpoint-v1/report.json","sha256":"35adde040c1616cdbec316fcc564168eb52e789082cc56a3c0c8d7cc74bab546"},
-    {"path":"config/stage20_barrage_minimum_calibration_validation_plan_v1.json","sha256":"4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"}
+    {"path":"config/stage20_barrage_minimum_calibration_validation_plan_v1.json","sha256":"4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"},
+    {"path":"config/stage20_local_observation_intake_validate_only_authority_v1.json","sha256":"5fc51ce7318df4788701e893e174a916f707ebcfd1d67b4ed7fc8937c329a925"}
   ],
   "decisionBoundary": {
     "handoffPrepared": true,

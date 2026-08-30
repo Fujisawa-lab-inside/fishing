@@ -1,0 +1,72 @@
+{
+  "schema": "onga-stage20-local-observation-intake-validate-only-authority-template-v1",
+  "status": "TEMPLATE_ONLY_NOT_AUTHORIZED_NO_INPUT_FILES",
+  "authorityIdCandidate": "stage20-local-observation-intake-validate-only-v1",
+  "purpose": "Permit a future supplied physical observation bundle to be copied into a fresh local quarantine and validated without fitting parameters or running a solver.",
+  "requiredAuthorizationFields": [
+    "authorizationId",
+    "issuedAt",
+    "expiresAt",
+    "singleUse",
+    "sourceBundleInventory",
+    "freshQuarantineRoot",
+    "expectedStaticClosureSha256"
+  ],
+  "permittedActions": [
+    "confirm every supplied source path is an explicit regular file",
+    "copy supplied files into one fresh local quarantine root",
+    "record source and quarantined byte lengths and SHA-256 inventory",
+    "run observation schema and event-split validation",
+    "run source-manifest and custodian-approval linkage validation",
+    "run trusted-registry and external-signature-receipt validation when supplied",
+    "write one fail-closed local intake receipt"
+  ],
+  "forbiddenActions": [
+    "invent or impute missing values",
+    "modify supplied source files",
+    "parameter fitting or coefficient selection",
+    "numerical solver execution",
+    "YODA connection, transfer, activation, or launch",
+    "mesh adoption",
+    "forecast generation",
+    "GUI integration or promotion",
+    "fishing decision",
+    "git push or release"
+  ],
+  "preconditions": {
+    "explicitPhysicalFilesRequired": true,
+    "allFilesMustBeOutsideRepositoryBeforeQuarantine": true,
+    "freshQuarantineRootRequired": true,
+    "sourceInventoryMustContainPathByteLengthAndSha256": true,
+    "trustedCustodianAndSignatureEvidenceMayNotBeSynthesized": true,
+    "automaticRetry": false
+  },
+  "template": {
+    "authorizationId": null,
+    "issuedAt": null,
+    "expiresAt": null,
+    "singleUse": true,
+    "sourceBundleInventory": [],
+    "freshQuarantineRoot": null,
+    "expectedStaticClosureSha256": "9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5",
+    "consumed": false
+  },
+  "bindings": [
+    {"role":"observation_intake_readiness","path":"docs/results/stage20-barrage-observation-intake-readiness-v1/report.json","sha256":"5d43556b02ac683b1f233499e0d18dea8dc0610fa335655132f40d60ad2293d8"},
+    {"role":"prepare_only_static_closure","path":"config/stage20_barrage_observation_intake_prepare_only_package_v1.json","sha256":"9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5"}
+  ],
+  "decisionBoundary": {
+    "templateValidationPermitted": true,
+    "authorityIssued": false,
+    "inputFilesPresent": false,
+    "quarantineCreationPermitted": false,
+    "fileCopyPermitted": false,
+    "intakeValidationPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaConnectionPermitted": false,
+    "guiIntegrationPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

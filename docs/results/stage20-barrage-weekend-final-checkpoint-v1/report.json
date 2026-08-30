@@ -1,0 +1,62 @@
+{
+  "schema": "onga-stage20-barrage-weekend-final-checkpoint-v1",
+  "status": "CHECKPOINT_COMPLETE_WAITING_PHYSICAL_OBSERVATION_INPUT",
+  "baselineCommitBeforeCheckpoint": "e36abe0",
+  "weekendCanonicalCommits": [
+    "dc774ea",
+    "c145c70",
+    "54c80be",
+    "50eb5d0",
+    "787e780",
+    "9972133",
+    "10daf8f",
+    "7ea87a7",
+    "0cd6568",
+    "b21f0d8",
+    "aac126d",
+    "e36abe0"
+  ],
+  "completed": [
+    "tracked positive and negative observation-pack fixtures",
+    "minimum 18-event validator with per-state and per-split coverage",
+    "source-class, manifest-SHA, instrument-ID, and units hardening",
+    "physical source provenance chain validation",
+    "empty trusted-custodian registry with two-reviewer activation requirements",
+    "external signature verification receipt schema",
+    "external verifier activation requirements and negative-test inventory",
+    "eight-stage observation-intake readiness report",
+    "Monday handoff and validate-only local authority template"
+  ],
+  "currentGate": {
+    "passed": 1,
+    "required": 8,
+    "firstBlockingGate": "G1_physical_observation_pack",
+    "physicalEvidenceChecksPassed": 2,
+    "physicalEvidenceChecksRequired": 11
+  },
+  "nextMinimumAction": {
+    "action": "Supply an independently verifiable physical observation bundle, then explicitly issue the local validate-only authority.",
+    "solverRunNeeded": false,
+    "yodaNeeded": false,
+    "authorityTemplatePrepared": true
+  },
+  "evidenceBindings": [
+    {"path":"docs/results/stage20-barrage-weekend-handoff-v1/report.json","sha256":"f4bb060e9a006354b252eb447f51f38823b58ee6c4d9bb73fa32a715028cd9eb"},
+    {"path":"config/stage20_local_observation_intake_validate_only_authority_v1.json","sha256":"5fc51ce7318df4788701e893e174a916f707ebcfd1d67b4ed7fc8937c329a925"},
+    {"path":"docs/results/stage20-barrage-observation-intake-readiness-v1/report.json","sha256":"5d43556b02ac683b1f233499e0d18dea8dc0610fa335655132f40d60ad2293d8"},
+    {"path":"config/stage20_barrage_observation_intake_prepare_only_package_v1.json","sha256":"9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5"}
+  ],
+  "decisionBoundary": {
+    "checkpointComplete": true,
+    "physicalInputAvailable": false,
+    "validateOnlyAuthorityIssued": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "guiPromotionPermitted": false,
+    "forecastPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "onga-stage20-barrage-trusted-custodian-registry-contract-v1",
+  "status": "EMPTY_TEMPLATE_PREPARE_ONLY_NO_TRUSTED_CUSTODIANS",
+  "purpose": "Define the evidence required to trust an external observation-data custodian without inventing identities, keys, or approvals.",
+  "registrySchema": "onga-stage20-barrage-trusted-custodian-registry-v1",
+  "allowedPublicKeyAlgorithms": ["Ed25519"],
+  "requiredEntryFields": [
+    "custodianId",
+    "organizationLegalName",
+    "publicKeyAlgorithm",
+    "publicKeyFingerprintSha256",
+    "keyValidFrom",
+    "keyValidUntil",
+    "approvedDataScopes",
+    "independentOfModelDevelopment",
+    "approvalProcedureDocumentSha256",
+    "reviewEvidence",
+    "revocationStatus"
+  ],
+  "activationRequirements": {
+    "minimumIndependentReviewers": 2,
+    "reviewersMustBeDistinctFromCustodian": true,
+    "identityVerifiedThroughOfficialOutOfBandChannel": true,
+    "keyFingerprintVerifiedOutOfBand": true,
+    "conflictOfInterestReviewRequired": true,
+    "scopeMustBeExplicit": true,
+    "keyExpiryRequired": true,
+    "revocationCheckRequiredAtUse": true,
+    "externalSignatureVerificationReceiptRequired": true,
+    "selfRegistrationForbidden": true
+  },
+  "template": {
+    "schema": "onga-stage20-barrage-trusted-custodian-registry-v1",
+    "classification": "empty_template",
+    "entries": [],
+    "revocations": [],
+    "externalSignatureVerifier": null
+  },
+  "bindings": [
+    {
+      "role": "physical_source_provenance_contract",
+      "path": "config/stage20_barrage_physical_source_provenance_v1.json",
+      "sha256": "1b408bd70d3478d5582ac56e000fbeb7f3250c12307ccd3620148957f6728a56"
+    }
+  ],
+  "decisionBoundary": {
+    "schemaValidationPermitted": true,
+    "trustedCustodianCount": 0,
+    "registryActivationPermitted": false,
+    "physicalSourceAuthenticationPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

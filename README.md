@@ -2,6 +2,13 @@
 
 GitHub Pagesで動作するブラウザ版シミュレータです。
 
+## 開発方針
+
+現在のシミュレータ開発は、独立した探索 A（水理）、B（地形・入力）、C（釣り機能・表示）と、採用後の統合系列に分離します。探索中は短い実装・実行・確認を優先し、詳細回帰、YODA 長時間試験、来歴固定、公開判定は採用候補を選んだ後に行います。
+
+- 方針: [`docs/project/SIMULATOR_EXPLORATION_POLICY.md`](docs/project/SIMULATOR_EXPLORATION_POLICY.md)
+- 手順: [`docs/project/WORKFLOW.md`](docs/project/WORKFLOW.md)
+
 ## 公開URL
 
 - Webサービス: `https://fujisawa-lab-inside.github.io/fishing/`

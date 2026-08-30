@@ -9,7 +9,7 @@
     "physicalReadinessRequiredChecks": 11,
     "publicObservationRowsEmitted": 0,
     "inventedValueCount": 0,
-    "staticClosureBindingCount": 29,
+    "staticClosureBindingCount": 33,
     "trustedCustodianRegistryPresent": false,
     "oneWayAssumptionNegligible": false,
     "blockedPotentialReverseVolumeM3": 7415.119056269594
@@ -48,7 +48,7 @@
     },
     {
       "path": "config/stage20_barrage_observation_intake_prepare_only_package_v1.json",
-      "sha256": "68942fc2d7a7bcd824d31d9006a628623a4a83f01a00a429082b460f9c92bb47"
+      "sha256": "9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5"
     }
   ],
   "decisionBoundary": {

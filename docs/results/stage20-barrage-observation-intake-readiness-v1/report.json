@@ -1,0 +1,56 @@
+{
+  "schema": "onga-stage20-barrage-observation-intake-readiness-v1-report",
+  "status": "BLOCKED_BEFORE_PHYSICAL_OBSERVATION_INTAKE",
+  "passedGateCount": 1,
+  "requiredGateCount": 8,
+  "firstBlockingGate": "G1_physical_observation_pack",
+  "gates": [
+    {
+      "id": "G0_schema_and_static_closure",
+      "pass": true,
+      "reason": "tracked validators and PREPARE_ONLY contracts are present"
+    },
+    {
+      "id": "G1_physical_observation_pack",
+      "pass": false,
+      "reason": "no authenticated physical observation rows"
+    },
+    {
+      "id": "G2_source_manifest_chain",
+      "pass": false,
+      "reason": "no physical source manifest and custodian approval chain"
+    },
+    {
+      "id": "G3_trusted_custodian_registry",
+      "pass": false,
+      "reason": "trusted custodian count is zero"
+    },
+    {
+      "id": "G4_external_verifier_activation",
+      "pass": false,
+      "reason": "external verifier activation is absent"
+    },
+    {
+      "id": "G5_signature_verification_receipt",
+      "pass": false,
+      "reason": "no trusted cryptographic verification receipt"
+    },
+    {
+      "id": "G6_physical_evidence_readiness",
+      "pass": false,
+      "reason": "2/11 physical checks pass"
+    },
+    {
+      "id": "G7_offline_calibration_authority",
+      "pass": false,
+      "reason": "no separately authorized frozen physical dataset"
+    }
+  ],
+  "physicalReadinessPassedChecks": 2,
+  "physicalReadinessRequiredChecks": 11,
+  "offlineCalibrationPermitted": false,
+  "parameterFitPermitted": false,
+  "solverRunPermitted": false,
+  "yodaLaunchPermitted": false,
+  "releasePermitted": false
+}

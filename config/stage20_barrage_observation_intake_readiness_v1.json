@@ -1,0 +1,38 @@
+{
+  "schema": "onga-stage20-barrage-observation-intake-readiness-contract-v1",
+  "status": "PREPARE_ONLY_AGGREGATED_READINESS_NO_PHYSICAL_INPUT",
+  "purpose": "Aggregate observation structure, provenance, custodian trust, signature verification, and physical-evidence readiness into one fail-closed decision.",
+  "bindings": [
+    {"role":"observation_pack_contract","path":"config/stage20_barrage_gate_physics_observation_pack_v1.json","sha256":"fd30059ec87d2abf2b1ced374877244e82d0f9a42b6e59905581547e1252aa3f"},
+    {"role":"physical_source_provenance","path":"config/stage20_barrage_physical_source_provenance_v1.json","sha256":"1b408bd70d3478d5582ac56e000fbeb7f3250c12307ccd3620148957f6728a56"},
+    {"role":"trusted_custodian_registry","path":"config/stage20_barrage_trusted_custodian_registry_v1.json","sha256":"73220021f09289be6dfd4355683e672483438cc48ee4ab38a6893657c114445e"},
+    {"role":"signature_receipt","path":"config/stage20_barrage_external_signature_verification_receipt_v1.json","sha256":"96f9429c01dd41d4f2782faf8651ca58d4bdbefcdc8f8df757a7c51b6ba87b80"},
+    {"role":"verifier_activation","path":"config/stage20_barrage_external_verifier_activation_requirements_v1.json","sha256":"4d9fffd18b20c731a076956bf1ad22225be152e806aa42c11c3c46d9e0d660b9"},
+    {"role":"physical_readiness_assessment","path":"docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json","sha256":"2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"}
+  ],
+  "requiredGateOrder": [
+    "G0_schema_and_static_closure",
+    "G1_physical_observation_pack",
+    "G2_source_manifest_chain",
+    "G3_trusted_custodian_registry",
+    "G4_external_verifier_activation",
+    "G5_signature_verification_receipt",
+    "G6_physical_evidence_readiness",
+    "G7_offline_calibration_authority"
+  ],
+  "decisionBoundary": {
+    "readinessAuditPermitted": true,
+    "physicalObservationPackPresent": false,
+    "physicalSourceAuthenticated": false,
+    "offlineCalibrationPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "meshAdoptionPermitted": false,
+    "forecastPermitted": false,
+    "guiIntegrationPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

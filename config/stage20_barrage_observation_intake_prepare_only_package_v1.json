@@ -18,6 +18,8 @@
     {"role": "external_signature_receipt_validator", "path": "tools/stage20_barrage_external_signature_verification_receipt_v1.py", "sha256": "82ea819750a4bfe06049b18b7dd1787f011c50d32b57bcca32bd355ceb36a94e"},
     {"role": "external_verifier_activation_contract", "path": "config/stage20_barrage_external_verifier_activation_requirements_v1.json", "sha256": "4d9fffd18b20c731a076956bf1ad22225be152e806aa42c11c3c46d9e0d660b9"},
     {"role": "external_verifier_activation_validator", "path": "tools/stage20_barrage_external_verifier_activation_requirements_v1.py", "sha256": "2dbf09b81a3d6644ad1a09cd58ff01fe17736f413486941b61fee549e1e49564"},
+    {"role": "observation_intake_readiness_contract", "path": "config/stage20_barrage_observation_intake_readiness_v1.json", "sha256": "b2492b32e3c393be11af180e2abd47222ed924032ee9ab177aa18026077aee73"},
+    {"role": "observation_intake_readiness_validator", "path": "tools/stage20_barrage_observation_intake_readiness_v1.py", "sha256": "14c2fa4a505ea0d6588fbd32e4390042fec8cda24ef9ef9675fc1b62b81d5f87"},
     {"role": "readiness_contract", "path": "config/stage20_barrage_physical_validation_readiness_v1.json", "sha256": "d9185cd44ec241a883ae52e2724161db5f32ae66526e159fa9e289a88376d2a5"},
     {"role": "readiness_validator", "path": "tools/stage20_barrage_physical_validation_readiness_v1.py", "sha256": "8aeccf8795b4ec7e5dded57059af0574bd5420f7f15cf6012b567ea32d861022"},
     {"role": "illegal_public_summary_fixture", "path": "tests/fixtures/stage20-barrage-gate-physics-observation-pack-v1/public-summary-illegal-pack.json", "sha256": "2110a075a38b8d3c4fee29b1ca0e0079223574c552c8368d5a2e70542c88b7b3"},
@@ -29,7 +31,9 @@
     {"role": "trusted_custodian_registry_test", "path": "tests/test_stage20_barrage_trusted_custodian_registry_v1.py", "sha256": "3e438d8c81c9d58a1b5fb0d1130277a5a8826c15697c48a66e5822a4c964b5fc"},
     {"role": "external_signature_receipt_test", "path": "tests/test_stage20_barrage_external_signature_verification_receipt_v1.py", "sha256": "9173e7ae3fc795baeb3754abd5d43d6570d28f089d998155275abf65c67ec119"},
     {"role": "external_verifier_activation_test", "path": "tests/test_stage20_barrage_external_verifier_activation_requirements_v1.py", "sha256": "c6bc093caf474fb9b1b35a93db5af4b13c54f638ca176e81c0a498e4cb11feb0"},
+    {"role": "observation_intake_readiness_test", "path": "tests/test_stage20_barrage_observation_intake_readiness_v1.py", "sha256": "70b8afe7c8d636a5a32b43c77492f16e6ea28056967f096180484f3c87148306"},
     {"role": "observation_static_validation", "path": "docs/results/stage20-barrage-gate-physics-observation-pack-v1/static-validation.json", "sha256": "268f7b4af7d8f706be915e9389ed524256f02f61f3ef42979e539594878e4704"},
+    {"role": "observation_intake_readiness_report", "path": "docs/results/stage20-barrage-observation-intake-readiness-v1/report.json", "sha256": "5d43556b02ac683b1f233499e0d18dea8dc0610fa335655132f40d60ad2293d8"},
     {"role": "public_bridge_report", "path": "docs/results/stage20-barrage-public-observation-pack-bridge-v1/report.json", "sha256": "5121b708b57a34c394ea0ea29c107c118423d7c278738a5aa2a9a78fc4f1acc2"},
     {"role": "physical_readiness_assessment", "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json", "sha256": "2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"},
     {"role": "calibration_plan_static_validation", "path": "docs/results/stage20-barrage-minimum-calibration-validation-plan-v1/static-validation.json", "sha256": "3ed626045e4d02c9fea13767d067653f49e010e02b831bec1b70c34095806c70"}

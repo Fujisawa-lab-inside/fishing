@@ -1,0 +1,74 @@
+{
+  "schema": "onga-stage20-barrage-weekend-handoff-v1",
+  "status": "WAITING_EXTERNAL_PHYSICAL_OBSERVATION_INPUT_NO_MORE_SOLVER_EXPANSION",
+  "canonicalCommit": "b21f0d8",
+  "conclusion": "The local observation-intake control plane is prepared, but physical gate-law calibration is blocked before the first physical observation pack.",
+  "confirmed": {
+    "observationIntakeGatesPassed": 1,
+    "observationIntakeGatesRequired": 8,
+    "firstBlockingGate": "G1_physical_observation_pack",
+    "physicalEvidenceChecksPassed": 2,
+    "physicalEvidenceChecksRequired": 11,
+    "physicalObservationRows": 0,
+    "inventedObservationValues": 0,
+    "trustedCustodianCount": 0,
+    "externalVerifierActivationCount": 0,
+    "staticClosureBindingCount": 33
+  },
+  "scientificBoundary": {
+    "oneWayDiagnosticCompleted": true,
+    "oneWayBranchActivationCount": 34923,
+    "blockedPotentialReverseVolumeM3": 7415.119056269594,
+    "oneWayDiagnosticIsPhysicalValidation": false,
+    "additionalSolverExpansionRecommended": false
+  },
+  "recommendedMondayDecision": {
+    "recommendation": "Do not authorize another solver run. First obtain or supply a time-aligned physical observation pack with independently verifiable provenance.",
+    "minimumNextAuthorityIdCandidate": "stage20-local-observation-intake-validate-only-v1",
+    "authorityScope": [
+      "copy supplied observation files into a fresh local quarantine directory",
+      "record byte lengths and SHA-256 inventory",
+      "run schema, event-split, provenance-chain, and signature-receipt validation",
+      "produce a fail-closed intake receipt"
+    ],
+    "explicitlyForbidden": [
+      "imputation of missing gate or water-level values",
+      "parameter fitting",
+      "solver execution",
+      "YODA transfer or launch",
+      "GUI promotion",
+      "forecast or fishing decision",
+      "push or release"
+    ],
+    "authorityUsefulOnlyWhenPhysicalFilesAreAvailable": true
+  },
+  "fallbackWithoutPhysicalData": {
+    "permittedProductDirection": "Continue only as clearly labelled synthetic or diagnostic visualization.",
+    "forbiddenClaims": [
+      "physical gate-law validation",
+      "today's flow forecast",
+      "catch-location prediction",
+      "release readiness"
+    ]
+  },
+  "evidenceInventory": [
+    {"path":"docs/results/stage20-barrage-observation-intake-readiness-v1/report.json","sha256":"5d43556b02ac683b1f233499e0d18dea8dc0610fa335655132f40d60ad2293d8"},
+    {"path":"docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json","sha256":"2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"},
+    {"path":"docs/results/stage20-barrage-one-way-stage4-hold-300s-canary-v1/report.json","sha256":"c6658617863a8fbe7e4d89378bf895a4c59b2fbfdf240bcb5ea2030fda6b56a5"},
+    {"path":"config/stage20_barrage_observation_intake_prepare_only_package_v1.json","sha256":"9f9a484c7340148a89ba05a468ccdce979cd442fca0907f88851a53cbe1668b5"},
+    {"path":"docs/results/stage20-barrage-observation-intake-checkpoint-v1/report.json","sha256":"35adde040c1616cdbec316fcc564168eb52e789082cc56a3c0c8d7cc74bab546"},
+    {"path":"config/stage20_barrage_minimum_calibration_validation_plan_v1.json","sha256":"4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"}
+  ],
+  "decisionBoundary": {
+    "handoffPrepared": true,
+    "physicalInputAvailable": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "guiPromotionPermitted": false,
+    "forecastPermitted": false,
+    "fishingDecisionPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

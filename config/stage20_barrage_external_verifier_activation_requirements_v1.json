@@ -1,0 +1,66 @@
+{
+  "schema": "onga-stage20-barrage-external-verifier-activation-requirements-v1",
+  "status": "PREPARE_ONLY_NO_VERIFIER_ACTIVATION",
+  "purpose": "Prevent an unreviewed executable or self-declared receipt from becoming a trusted signature verifier.",
+  "activationSchema": "onga-stage20-barrage-external-verifier-activation-v1",
+  "allowedAlgorithm": "Ed25519",
+  "requiredIdentity": [
+    "verifierId",
+    "executablePath",
+    "executableSha256",
+    "version",
+    "officialDistributionSource",
+    "distributionArtifactSha256",
+    "dependencyManifestSha256",
+    "runtimeIdentitySha256"
+  ],
+  "requiredReview": {
+    "minimumIndependentReviewers": 2,
+    "reviewersDistinctFromVerifierProvider": true,
+    "officialDistributionProvenanceVerified": true,
+    "dependencyClosureReviewed": true,
+    "networkDisabledDuringVerification": true,
+    "deterministicCanonicalPayloadRequired": true
+  },
+  "requiredTests": [
+    "official_valid_signature_vector_passes",
+    "tampered_payload_fails",
+    "tampered_signature_fails",
+    "wrong_public_key_fails",
+    "expired_key_fails",
+    "revoked_key_fails",
+    "wrong_data_scope_fails",
+    "registry_sha_mismatch_fails"
+  ],
+  "template": {
+    "schema": "onga-stage20-barrage-external-verifier-activation-v1",
+    "classification": "empty_template",
+    "authorizationId": null,
+    "validFrom": null,
+    "validUntil": null,
+    "singleUse": true,
+    "verifierIdentity": null,
+    "reviewEvidence": [],
+    "testReceipts": [],
+    "activated": false
+  },
+  "bindings": [
+    {
+      "role": "signature_verification_receipt_contract",
+      "path": "config/stage20_barrage_external_signature_verification_receipt_v1.json",
+      "sha256": "96f9429c01dd41d4f2782faf8651ca58d4bdbefcdc8f8df757a7c51b6ba87b80"
+    }
+  ],
+  "decisionBoundary": {
+    "requirementsValidationPermitted": true,
+    "activationPresent": false,
+    "verifierExecutionPermitted": false,
+    "cryptographicVerificationPermitted": false,
+    "physicalSourceAuthenticationPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

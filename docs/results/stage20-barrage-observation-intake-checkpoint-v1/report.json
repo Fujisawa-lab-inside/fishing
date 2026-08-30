@@ -9,7 +9,8 @@
     "physicalReadinessRequiredChecks": 11,
     "publicObservationRowsEmitted": 0,
     "inventedValueCount": 0,
-    "staticClosureBindingCount": 17,
+    "staticClosureBindingCount": 20,
+    "trustedCustodianRegistryPresent": false,
     "oneWayAssumptionNegligible": false,
     "blockedPotentialReverseVolumeM3": 7415.119056269594
   },
@@ -22,7 +23,8 @@
     "common vertical datum and gate geometry",
     "closed, open-outward, and near-zero or adverse-head independent events",
     "frozen calibration and independent-validation event split",
-    "salt-intrusion or conservative adverse-volume acceptance criterion"
+    "salt-intrusion or conservative adverse-volume acceptance criterion",
+    "trusted external data-custodian registry and independently verifiable approval record"
   ],
   "minimumNextInput": {
     "artifact": "physical observation pack",
@@ -46,7 +48,7 @@
     },
     {
       "path": "config/stage20_barrage_observation_intake_prepare_only_package_v1.json",
-      "sha256": "0f02e6b335c64d6adc77857c792b449047e94482bf38e8e87037fc2be27cbfc6"
+      "sha256": "4b3263f155d1ea7bce32d7dc7689c79698a5570b965338a655a6a024519eb5b5"
     }
   ],
   "decisionBoundary": {

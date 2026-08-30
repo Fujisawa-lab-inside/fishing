@@ -17,7 +17,7 @@ class Stage20BarrageObservationIntakePrepareOnlyPackageV1Tests(unittest.TestCase
     def test_static_closure_is_sha_verified(self) -> None:
         result = PACKAGE.validate_package()
         self.assertEqual(result["status"], "PASS_PREPARE_ONLY_STATIC_CLOSURE")
-        self.assertEqual(result["bindingCount"], 17)
+        self.assertEqual(result["bindingCount"], 20)
         self.assertTrue(result["allBindingsVerified"])
 
     def test_package_grants_no_execution_or_release_authority(self) -> None:

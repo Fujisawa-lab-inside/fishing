@@ -1,0 +1,48 @@
+{
+  "schema": "onga-stage20-barrage-physical-source-provenance-contract-v1",
+  "status": "PREPARE_ONLY_STATIC_CHAIN_VALIDATOR_NO_TRUSTED_CUSTODIAN_REGISTRY",
+  "purpose": "Verify file identity and approval linkage separately from observation-pack contents without treating self-declared provenance as physical authenticity.",
+  "sourceManifestSchema": "onga-stage20-barrage-physical-source-manifest-v1",
+  "approvalSchema": "onga-stage20-barrage-physical-source-approval-v1",
+  "trustedCustodianRegistry": {
+    "present": false,
+    "path": null,
+    "sha256": null
+  },
+  "requiredSourceClasses": ["instrument_export"],
+  "requiredUnits": {
+    "upstreamLevelM": "m",
+    "downstreamLevelM": "m",
+    "totalReleaseM3S": "m3/s",
+    "mainGateOpeningFractionById1To8": "fraction",
+    "microAdjustmentGateOpeningFraction": "fraction"
+  },
+  "bindings": [
+    {
+      "role": "observation_pack_contract",
+      "path": "config/stage20_barrage_gate_physics_observation_pack_v1.json",
+      "sha256": "fd30059ec87d2abf2b1ced374877244e82d0f9a42b6e59905581547e1252aa3f"
+    },
+    {
+      "role": "minimum_calibration_plan",
+      "path": "config/stage20_barrage_minimum_calibration_validation_plan_v1.json",
+      "sha256": "4869f8ad7aebb643cbef6215cb89c4fc6345bedaa6397f1857d32a5f235b3d50"
+    },
+    {
+      "role": "physical_readiness_assessment",
+      "path": "docs/results/stage20-barrage-physical-validation-readiness-v1/assessment.json",
+      "sha256": "2fd80ce7802c88f6d4cbaedf1b8459cbbc268bea898daaf504c2933aedb64675"
+    }
+  ],
+  "decisionBoundary": {
+    "staticChainValidationPermitted": true,
+    "trustedCustodianRegistryPresent": false,
+    "physicalSourceAuthenticationPermitted": false,
+    "observationPackPromotionPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

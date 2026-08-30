@@ -1,0 +1,61 @@
+{
+  "schema": "onga-stage20-barrage-external-signature-verification-receipt-contract-v1",
+  "status": "EMPTY_TEMPLATE_PREPARE_ONLY_NO_EXTERNAL_VERIFIER",
+  "purpose": "Define a receipt that binds an independently executed signature verification to the exact registry, custodian key, source manifest, approval, signature, and verifier identity.",
+  "receiptSchema": "onga-stage20-barrage-external-signature-verification-receipt-v1",
+  "allowedAlgorithms": ["Ed25519"],
+  "requiredFields": [
+    "registrySha256",
+    "custodianId",
+    "custodianKeyFingerprintSha256",
+    "sourceManifestSha256",
+    "sourceApprovalSha256",
+    "signedPayloadSha256",
+    "detachedSignatureSha256",
+    "algorithm",
+    "verifierIdentity",
+    "verifierExecutableSha256",
+    "verifiedAt",
+    "result"
+  ],
+  "template": {
+    "schema": "onga-stage20-barrage-external-signature-verification-receipt-v1",
+    "classification": "empty_template",
+    "registrySha256": null,
+    "custodianId": null,
+    "custodianKeyFingerprintSha256": null,
+    "sourceManifestSha256": null,
+    "sourceApprovalSha256": null,
+    "signedPayloadSha256": null,
+    "detachedSignatureSha256": null,
+    "algorithm": null,
+    "verifierIdentity": null,
+    "verifierExecutableSha256": null,
+    "verifiedAt": null,
+    "result": null
+  },
+  "bindings": [
+    {
+      "role": "trusted_custodian_registry_contract",
+      "path": "config/stage20_barrage_trusted_custodian_registry_v1.json",
+      "sha256": "73220021f09289be6dfd4355683e672483438cc48ee4ab38a6893657c114445e"
+    },
+    {
+      "role": "physical_source_provenance_contract",
+      "path": "config/stage20_barrage_physical_source_provenance_v1.json",
+      "sha256": "1b408bd70d3478d5582ac56e000fbeb7f3250c12307ccd3620148957f6728a56"
+    }
+  ],
+  "decisionBoundary": {
+    "receiptSchemaValidationPermitted": true,
+    "trustedRegistryPresent": false,
+    "externalVerifierPresent": false,
+    "cryptographicVerificationPermitted": false,
+    "physicalSourceAuthenticationPermitted": false,
+    "parameterFitPermitted": false,
+    "solverRunPermitted": false,
+    "yodaLaunchPermitted": false,
+    "pushPermitted": false,
+    "releasePermitted": false
+  }
+}

@@ -32,7 +32,17 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["durationModelSeconds"], 129600)
         self.assertEqual(report["hourlySnapshotCount"], 37)
         self.assertEqual(report["parallelWorkerCount"], 6)
+        self.assertEqual(report["massBalanceGuardPrecision"], "LONG_DOUBLE")
+        self.assertEqual(report["float64MassBalanceErrorTreatment"], "DIAGNOSTIC_ONLY")
         self.assertEqual(report["automaticRetryCount"], 0)
+        self.assertEqual(
+            RUNNER.AUTHORIZED_ID,
+            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-02",
+        )
+        self.assertEqual(
+            RUNNER.AUTHORIZED_RUN_ID,
+            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v2",
+        )
 
     def test_input_matrix_has_exact_six_conditions(self) -> None:
         scenarios = RUNNER.load_scenarios()
@@ -94,6 +104,32 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertTrue(contract["scope"]["consolidatedSnapshotOnly"])
         self.assertEqual(contract["runtime"]["automaticRetryCount"], 0)
         self.assertNotIn("canaryGate", contract["runtime"])
+        self.assertEqual(contract["acceptance"]["massBalanceGuardPrecision"], "LONG_DOUBLE")
+        self.assertEqual(
+            contract["acceptance"]["float64MassBalanceErrorTreatment"],
+            "DIAGNOSTIC_ONLY",
+        )
+
+    def test_float64_diagnostic_crossing_does_not_replace_long_double_guard(self) -> None:
+        state = np.asarray([[1.0, 0.0, 0.0]], dtype=np.float64)
+        areas = np.asarray([1.0], dtype=np.float64)
+        errors = RUNNER.mass_balance_errors(
+            state,
+            areas,
+            areas.astype(np.longdouble),
+            initial_volume_float64=1.0,
+            initial_volume_longdouble=np.longdouble(1.0),
+            expected_volume_float64=1.0 + 2.0e-10,
+            expected_volume_longdouble=np.longdouble(1.0),
+        )
+        self.assertGreater(
+            errors["relativeMassBalanceErrorFloat64Diagnostic"],
+            RUNNER.MASS_BALANCE_THRESHOLD,
+        )
+        self.assertLessEqual(
+            errors["relativeMassBalanceErrorLongDouble"],
+            RUNNER.MASS_BALANCE_THRESHOLD,
+        )
 
     def test_module_uses_external_adapter_and_has_no_remote_control_import(self) -> None:
         tree = ast.parse(RUNNER_PATH.read_text(encoding="utf-8"))
@@ -123,6 +159,8 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             self.assertAlmostEqual(row["effectiveReleaseM3S"], row["releaseM3S"], delta=1.0e-10)
             self.assertFalse(row["upstreamStateChangedBySource"])
             self.assertLessEqual(row["relativeMassBalanceError"], 1.0e-10)
+            self.assertEqual(row["massBalanceGuardPrecision"], "LONG_DOUBLE")
+            self.assertIn("relativeMassBalanceErrorFloat64Diagnostic", row)
 
 
 if __name__ == "__main__":

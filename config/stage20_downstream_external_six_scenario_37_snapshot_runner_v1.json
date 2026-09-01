@@ -115,6 +115,8 @@
     "simulatedSecondsPerScenarioExactly": 129600.0,
     "maximumCfl": 0.120000000001,
     "maximumRelativeMassBalanceError": 1e-10,
+    "massBalanceGuardPrecision": "LONG_DOUBLE",
+    "float64MassBalanceErrorTreatment": "DIAGNOSTIC_ONLY",
     "maximumSourceResidualM3S": 1e-10,
     "maximumInflowVelocityMPS": 5.0,
     "negativeDepthCount": 0,
@@ -126,12 +128,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "9375e7d5f585c3554a148d010328aad25828d19aed617dc10d6d497ad6f514c2"
+      "sha256": "399d3615707f35765a05ad7e4ae6784221eb754d9d299664768eddb895ad1974"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "bd143ca04c17815d1a16cd8c3549eac7766ca65b7fbb3105d4167171de6b97ad"
+      "sha256": "e41a6d44c6ac3beab08098fab0fb99766e42b37c82aa2746a7b4a93b4a084ecf"
     },
     {
       "role": "scenario_input",

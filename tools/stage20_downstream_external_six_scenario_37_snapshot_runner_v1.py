@@ -37,6 +37,8 @@ import stage20_downstream_external_inflow_adapter_v1 as external_adapter
 
 VERSION = "stage20-downstream-external-six-scenario-37-snapshot-runner-v1"
 SCHEMA = "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract"
+AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-02"
+AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v2"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json"
 ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260901_v1.json"
 INPUT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json"
@@ -56,6 +58,7 @@ PARALLEL_WORKER_COUNT = 6
 MAXIMUM_WORKER_WALL_SECONDS = 32_400.0
 MAXIMUM_BATCH_WALL_SECONDS = 36_000.0
 MAXIMUM_ACCEPTED_STEPS_PER_WORKER = 20_000_000
+MASS_BALANCE_THRESHOLD = 1.0e-10
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _ACTIVE_WORKERS: dict[str, subprocess.Popen[Any]] = {}
 
@@ -121,6 +124,19 @@ def validate_contract(contract: dict[str, Any]) -> None:
         runtime.get("executeWithoutActivation")
         == "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION",
         "missing-activation behavior changed",
+    )
+    acceptance = contract.get("acceptance", {})
+    require(
+        acceptance.get("maximumRelativeMassBalanceError") == MASS_BALANCE_THRESHOLD,
+        "mass balance threshold changed",
+    )
+    require(
+        acceptance.get("massBalanceGuardPrecision") == "LONG_DOUBLE",
+        "mass balance guard precision changed",
+    )
+    require(
+        acceptance.get("float64MassBalanceErrorTreatment") == "DIAGNOSTIC_ONLY",
+        "float64 mass error became an acceptance guard",
     )
     bindings = contract.get("bindings")
     require(isinstance(bindings, list) and len(bindings) >= 13, "bindings are incomplete")
@@ -314,26 +330,75 @@ def advance_once(
     return step, external
 
 
+def mass_balance_errors(
+    state: np.ndarray,
+    areas_float64: np.ndarray,
+    areas_longdouble: np.ndarray,
+    *,
+    initial_volume_float64: float,
+    initial_volume_longdouble: np.longdouble,
+    expected_volume_float64: float,
+    expected_volume_longdouble: np.longdouble,
+) -> dict[str, float]:
+    actual_volume_float64 = float(np.sum(state[:, 0] * areas_float64))
+    actual_volume_longdouble = np.sum(
+        state[:, 0].astype(np.longdouble) * areas_longdouble,
+        dtype=np.longdouble,
+    )
+    relative_float64 = abs(actual_volume_float64 - expected_volume_float64) / max(
+        abs(initial_volume_float64),
+        1.0,
+    )
+    relative_longdouble = abs(actual_volume_longdouble - expected_volume_longdouble) / max(
+        abs(initial_volume_longdouble),
+        np.longdouble(1.0),
+    )
+    return {
+        "relativeMassBalanceErrorLongDouble": float(relative_longdouble),
+        "relativeMassBalanceErrorFloat64Diagnostic": float(relative_float64),
+    }
+
+
 def run_local_matrix_one_step() -> dict[str, Any]:
     verified_contract()
     scenarios = load_scenarios()
     context = load_context()
     areas = np.asarray(context["geometry"]["areas"], dtype=np.float64)
+    areas_longdouble = areas.astype(np.longdouble)
     initial_state = np.asarray(context["state"], dtype=np.float64)
-    initial_volume = float(np.sum(initial_state[:, 0] * areas))
+    initial_volume_float64 = float(np.sum(initial_state[:, 0] * areas))
+    initial_volume_longdouble = np.sum(
+        initial_state[:, 0].astype(np.longdouble) * areas_longdouble,
+        dtype=np.longdouble,
+    )
     rows: list[dict[str, Any]] = []
     for scenario_id in SCENARIO_IDS:
         scenario = scenarios[scenario_id]
         step, external = advance_once(initial_state, context, scenario, 0.0, 0.05)
         next_state = np.asarray(external["nextState"], dtype=np.float64)
-        expected_volume = (
-            initial_volume
+        expected_volume_float64 = (
+            initial_volume_float64
             - float(step.accepted_dt_s) * float(step.boundary_outflow_m3_s)
             + float(external["addedVolumeM3"])
         )
-        actual_volume = float(np.sum(next_state[:, 0] * areas))
-        mass_error = abs(actual_volume - expected_volume) / max(abs(initial_volume), 1.0)
-        require(mass_error <= 1.0e-10, f"one-step mass guard failed: {scenario_id}")
+        expected_volume_longdouble = (
+            initial_volume_longdouble
+            - np.longdouble(step.accepted_dt_s) * np.longdouble(step.boundary_outflow_m3_s)
+            + np.longdouble(external["addedVolumeM3"])
+        )
+        mass_errors = mass_balance_errors(
+            next_state,
+            areas,
+            areas_longdouble,
+            initial_volume_float64=initial_volume_float64,
+            initial_volume_longdouble=initial_volume_longdouble,
+            expected_volume_float64=expected_volume_float64,
+            expected_volume_longdouble=expected_volume_longdouble,
+        )
+        require(
+            mass_errors["relativeMassBalanceErrorLongDouble"] <= MASS_BALANCE_THRESHOLD,
+            f"one-step long-double mass guard failed: {scenario_id}",
+        )
         require(bool(np.isfinite(next_state).all()), f"nonfinite one-step state: {scenario_id}")
         require(bool(np.all(next_state[:, 0] >= 0.0)), f"negative one-step depth: {scenario_id}")
         rows.append({
@@ -342,7 +407,11 @@ def run_local_matrix_one_step() -> dict[str, Any]:
             "initialTideM": tide_at(scenario, 0.0),
             "effectiveReleaseM3S": external["effectiveReleaseM3S"],
             "inflowVelocityMPS": external["inflowVelocityMPS"],
-            "relativeMassBalanceError": mass_error,
+            "relativeMassBalanceError": mass_errors["relativeMassBalanceErrorLongDouble"],
+            "relativeMassBalanceErrorFloat64Diagnostic": mass_errors[
+                "relativeMassBalanceErrorFloat64Diagnostic"
+            ],
+            "massBalanceGuardPrecision": "LONG_DOUBLE",
             "upstreamStateChangedBySource": external["upstreamStateChanged"],
         })
     return {
@@ -370,6 +439,10 @@ def build_preflight() -> dict[str, Any]:
         "durationModelSeconds": contract["scope"]["durationModelSeconds"],
         "hourlySnapshotCount": contract["scope"]["hourlySnapshotCount"],
         "parallelWorkerCount": contract["scope"]["parallelWorkerCount"],
+        "massBalanceGuardPrecision": contract["acceptance"]["massBalanceGuardPrecision"],
+        "float64MassBalanceErrorTreatment": contract["acceptance"][
+            "float64MassBalanceErrorTreatment"
+        ],
         "automaticRetryCount": 0,
     }
 
@@ -391,13 +464,11 @@ def validate_activation(activation: dict[str, Any]) -> tuple[dict[str, Any], Pat
     require(activation.get("status") == "AUTHORIZED", "activation is not authorized")
     require(activation.get("mode") == "EXECUTE_DIAGNOSTIC_BATCH_ONCE", "activation mode changed")
     require(
-        activation.get("authorizationId")
-        == "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-01",
+        activation.get("authorizationId") == AUTHORIZED_ID,
         "authorization id changed",
     )
     require(
-        activation.get("runId")
-        == "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v1",
+        activation.get("runId") == AUTHORIZED_RUN_ID,
         "run id changed",
     )
     require(activation.get("requiredHostname") == "yoda", "activation host changed")
@@ -468,12 +539,19 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
     require(len(downstream_ids) == DOWNSTREAM_CELL_COUNT, "worker downstream count changed")
     state = np.asarray(context["state"], dtype=np.float64).copy()
     areas = np.asarray(geometry["areas"], dtype=np.float64)
-    initial_volume = float(np.sum(state[:, 0] * areas))
-    expected_volume = initial_volume
+    areas_longdouble = areas.astype(np.longdouble)
+    initial_volume_float64 = float(np.sum(state[:, 0] * areas))
+    initial_volume_longdouble = np.sum(
+        state[:, 0].astype(np.longdouble) * areas_longdouble,
+        dtype=np.longdouble,
+    )
+    expected_volume_float64 = initial_volume_float64
+    expected_volume_longdouble = initial_volume_longdouble
     model_seconds = 0.0
     accepted_steps = 0
     maximum_cfl = 0.0
-    maximum_mass_error = 0.0
+    maximum_mass_error_longdouble = 0.0
+    maximum_mass_error_float64_diagnostic = 0.0
     maximum_source_residual = 0.0
     minimum_inflow_velocity = math.inf
     maximum_inflow_velocity = -math.inf
@@ -512,8 +590,10 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             state = np.asarray(external["nextState"], dtype=np.float64)
             model_seconds += dt
             accepted_steps += 1
-            expected_volume -= dt * float(step.boundary_outflow_m3_s)
-            expected_volume += float(external["addedVolumeM3"])
+            expected_volume_float64 -= dt * float(step.boundary_outflow_m3_s)
+            expected_volume_float64 += float(external["addedVolumeM3"])
+            expected_volume_longdouble -= np.longdouble(dt) * np.longdouble(step.boundary_outflow_m3_s)
+            expected_volume_longdouble += np.longdouble(external["addedVolumeM3"])
             maximum_cfl = max(maximum_cfl, float(step.maximum_cfl))
             maximum_source_residual = max(
                 maximum_source_residual,
@@ -524,10 +604,27 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             if model_seconds >= next_safety_check - 1.0e-9 or model_seconds >= FULL_SECONDS - 1.0e-9:
                 require(bool(np.isfinite(state).all()), "nonfinite state")
                 require(bool(np.all(state[:, 0] >= 0.0)), "negative depth")
-                actual_volume = float(np.sum(state[:, 0] * areas))
-                mass_error = abs(actual_volume - expected_volume) / max(abs(initial_volume), 1.0)
-                maximum_mass_error = max(maximum_mass_error, mass_error)
-                require(mass_error <= 1.0e-10, "mass balance guard failed")
+                mass_errors = mass_balance_errors(
+                    state,
+                    areas,
+                    areas_longdouble,
+                    initial_volume_float64=initial_volume_float64,
+                    initial_volume_longdouble=initial_volume_longdouble,
+                    expected_volume_float64=expected_volume_float64,
+                    expected_volume_longdouble=expected_volume_longdouble,
+                )
+                maximum_mass_error_longdouble = max(
+                    maximum_mass_error_longdouble,
+                    mass_errors["relativeMassBalanceErrorLongDouble"],
+                )
+                maximum_mass_error_float64_diagnostic = max(
+                    maximum_mass_error_float64_diagnostic,
+                    mass_errors["relativeMassBalanceErrorFloat64Diagnostic"],
+                )
+                require(
+                    mass_errors["relativeMassBalanceErrorLongDouble"] <= MASS_BALANCE_THRESHOLD,
+                    "long-double mass balance guard failed",
+                )
                 next_safety_check += 600.0
             if model_seconds >= next_snapshot - 1.0e-9:
                 snapshot_times.append(model_seconds)
@@ -548,7 +645,11 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             "acceptedSteps": accepted_steps,
             "wallSeconds": time.monotonic() - wall_started,
             "maximumCfl": maximum_cfl,
-            "maximumRelativeMassBalanceError": maximum_mass_error,
+            "maximumRelativeMassBalanceError": maximum_mass_error_longdouble,
+            "maximumRelativeMassBalanceErrorFloat64Diagnostic": (
+                maximum_mass_error_float64_diagnostic
+            ),
+            "massBalanceGuardPrecision": "LONG_DOUBLE",
             "maximumSourceResidualM3S": maximum_source_residual,
             "minimumInflowVelocityMPS": minimum_inflow_velocity,
             "maximumInflowVelocityMPS": maximum_inflow_velocity,
@@ -763,6 +864,11 @@ def execute() -> dict[str, Any]:
             "maximumRelativeMassBalanceError": max(
                 float(item["maximumRelativeMassBalanceError"]) for item in results
             ),
+            "maximumRelativeMassBalanceErrorFloat64Diagnostic": max(
+                float(item["maximumRelativeMassBalanceErrorFloat64Diagnostic"])
+                for item in results
+            ),
+            "massBalanceGuardPrecision": "LONG_DOUBLE",
             "maximumSourceResidualM3S": max(
                 float(item["maximumSourceResidualM3S"]) for item in results
             ),

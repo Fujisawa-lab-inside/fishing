@@ -1,0 +1,109 @@
+{
+  "schema": "onga-stage20-downstream-external-high-large-7200s-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-09-01T00:00:00+09:00",
+  "status": "READY_PREPARE_ONLY_EXTERNAL_ACTIVATION_REQUIRED",
+  "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+  "scope": {
+    "scenarioId": "release-high_tide-large",
+    "durationModelSeconds": 7200,
+    "releaseM3S": 73.0,
+    "tideRangeClass": "large",
+    "cellCount": 28746,
+    "downstreamCellCount": 24250,
+    "sourceMode": "ONE_WAY_EXTERNAL_MASS_AND_DOWNSTREAM_NORMAL_MOMENTUM",
+    "usesUpstreamDonorVolume": false,
+    "reverseFlowPermitted": false,
+    "minimumFlowDepthM": 0.05,
+    "maximumInflowVelocityMPS": 5.0,
+    "mainBarrageHydraulicInterfaces": "CLOSED",
+    "fishwayFlowM3S": 0.0,
+    "ongaUpstreamBoundaryContributionM3S": 0.0,
+    "nishikawaBoundaryContributionM3S": 0.7,
+    "magarigawaBoundaryContributionM3S": 0.5
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "maximumWallSeconds": 1800,
+    "maximumAcceptedStepCount": 2000000,
+    "maximumKernelDtSeconds": 0.05,
+    "cflTarget": 0.12,
+    "outputBase": ".stage20-local-only/stage20-downstream-external-high-large-7200s-canary-20260901",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_downstream_external_high_large_7200s_activation_20260901_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "localOneStepTestPermitted": true,
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "acceptance": {
+    "simulatedSecondsExactly": 7200.0,
+    "maximumCfl": 0.120000000001,
+    "maximumRelativeMassBalanceError": 1e-10,
+    "maximumSourceResidualM3S": 1e-10,
+    "effectiveReleaseM3SExactly": 73.0,
+    "maximumInflowVelocityMPS": 5.0,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "upstreamSourceCellCount": 0,
+    "automaticRetryCount": 0
+  },
+  "bindings": [
+    {
+      "role": "runner",
+      "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
+      "sha256": "987caa408ff62b32d0bcb576be60f325fd5b4b0cd02e61000c1f613cf1c651e5"
+    },
+    {
+      "role": "target_test",
+      "path": "tests/test_stage20_downstream_external_high_large_7200s_runner_v1.py",
+      "sha256": "1f09a2171cf4a7c82958826eb691fe7b63daae939957f3bcade2c55c2fb5cc48"
+    },
+    {
+      "role": "external_inflow_adapter",
+      "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
+      "sha256": "423fb14df1492e8c4efc077e2baaab5aabb1b5b080902b54c74f97abe5c041ac"
+    },
+    {
+      "role": "external_inflow_adapter_test",
+      "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
+      "sha256": "908e55588e265734f7552fdaaad077fc91429b3e9e0ccdb5723cc1b2ed1f896e"
+    },
+    {
+      "role": "matched_runner",
+      "path": "tools/stage20_regularized_multizone_900s_runner_v1.py",
+      "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"
+    },
+    {
+      "role": "matched_contract",
+      "path": "config/stage20_regularized_multizone_900s_runner_v1.json",
+      "sha256": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"
+    },
+    {
+      "role": "same_pass_limiter_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "candidate_mesh",
+      "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz",
+      "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6"
+    },
+    {
+      "role": "candidate_fields",
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+    },
+    {
+      "role": "pilot_inputs",
+      "path": "deploy/stage20-static-review-site/public/fishing-mvp/precomputed-scenario-pilot-inputs-v1.json",
+      "sha256": "0e39ff02863be7f59c223513233930d648c4dccd70540da83025ee7145357c4b"
+    }
+  ],
+  "forbidden": [
+    "upstream_finite_donor_volume",
+    "silent_release_clipping",
+    "reverse_external_discharge_or_momentum",
+    "automatic_retry_restart_or_resume",
+    "physical_validation_forecast_gui_fishing_or_release_promotion"
+  ]
+}

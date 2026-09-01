@@ -273,8 +273,8 @@ def _checkpoint(
         "absoluteErrorLongDoubleM3": float(abs(signed_longdouble)),
         "relativeErrorFloat64": relative_float64,
         "relativeErrorLongDouble": float(relative_longdouble),
-        "float64ThresholdCrossed": relative_float64 > ORIGINAL_RELATIVE_MASS_THRESHOLD,
-        "longDoubleThresholdCrossed": relative_longdouble > ORIGINAL_RELATIVE_MASS_THRESHOLD,
+        "float64ThresholdCrossed": bool(relative_float64 > ORIGINAL_RELATIVE_MASS_THRESHOLD),
+        "longDoubleThresholdCrossed": bool(relative_longdouble > ORIGINAL_RELATIVE_MASS_THRESHOLD),
         "expectedAccumulatorPrecisionDeltaM3": float(
             expected_volume_longdouble - np.longdouble(expected_volume_float64)
         ),

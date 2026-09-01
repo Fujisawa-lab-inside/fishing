@@ -32,9 +32,7 @@ SCHEMA = "onga-stage20-downstream-external-high-large-7200s-runner-v1-contract"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_high_large_7200s_runner_v1.json"
 ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_high_large_7200s_activation_20260901_v1.json"
 PILOT_INPUT_PATH = (
-    ROOT
-    / "deploy/stage20-static-review-site/public/fishing-mvp/"
-    "precomputed-scenario-pilot-inputs-v1.json"
+    ROOT / "config/stage20_downstream_external_high_large_7200s_input_v1.json"
 )
 FIELDS_PATH = (
     ROOT

@@ -51,7 +51,7 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
-      "sha256": "987caa408ff62b32d0bcb576be60f325fd5b4b0cd02e61000c1f613cf1c651e5"
+      "sha256": "1fd88b799a17503508477725d181a3cd0e49d0639fe6d67ce1f55a064ad725a6"
     },
     {
       "role": "target_test",
@@ -95,8 +95,8 @@
     },
     {
       "role": "pilot_inputs",
-      "path": "deploy/stage20-static-review-site/public/fishing-mvp/precomputed-scenario-pilot-inputs-v1.json",
-      "sha256": "0e39ff02863be7f59c223513233930d648c4dccd70540da83025ee7145357c4b"
+      "path": "config/stage20_downstream_external_high_large_7200s_input_v1.json",
+      "sha256": "df1e3906cde79853e0de5544ac90fc2ac7695306885264bec14553b8c7856778"
     }
   ],
   "forbidden": [

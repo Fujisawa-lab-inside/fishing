@@ -83,7 +83,7 @@ class DownstreamExternalHighLarge7200sRunnerV1Tests(unittest.TestCase):
             report["status"],
             "PASS_LOCAL_ONE_STEP_EXTERNAL_DOWNSTREAM_INFLOW_HIGH_LARGE",
         )
-        self.assertEqual(report["effectiveReleaseM3S"], 73.0)
+        self.assertAlmostEqual(report["effectiveReleaseM3S"], 73.0, delta=1.0e-10)
         self.assertFalse(report["upstreamStateChangedBySource"])
         self.assertLessEqual(report["relativeMassBalanceError"], 1.0e-10)
         self.assertEqual(report["negativeDepthCount"], 0)

@@ -56,7 +56,7 @@
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_high_large_7200s_runner_v1.py",
-      "sha256": "1f09a2171cf4a7c82958826eb691fe7b63daae939957f3bcade2c55c2fb5cc48"
+      "sha256": "b8bf9ed7e8a732ddcbfd5e2401dc7df858143651efa61b0211a093c694ead2f0"
     },
     {
       "role": "external_inflow_adapter",

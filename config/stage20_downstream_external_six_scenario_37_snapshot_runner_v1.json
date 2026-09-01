@@ -1,0 +1,200 @@
+{
+  "schema": "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-09-01T00:00:00+09:00",
+  "status": "READY_PREPARE_ONLY_EXTERNAL_BATCH_ACTIVATION_REQUIRED",
+  "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+  "scope": {
+    "scenarioIds": [
+      "release-low_tide-small",
+      "release-low_tide-large",
+      "release-reference_tide-small",
+      "release-reference_tide-large",
+      "release-high_tide-small",
+      "release-high_tide-large"
+    ],
+    "releaseBandsM3S": [
+      0.1,
+      24.5,
+      73.0
+    ],
+    "tideRangeClasses": [
+      "small",
+      "large"
+    ],
+    "durationModelSeconds": 129600,
+    "hourlySnapshotCount": 37,
+    "snapshotOffsetsHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "parallelWorkerCount": 6,
+    "cellCount": 28746,
+    "downstreamCellCount": 24250,
+    "upstreamExcludedCellCount": 4496,
+    "sourceMode": "ONE_WAY_EXTERNAL_MASS_AND_DOWNSTREAM_NORMAL_MOMENTUM",
+    "usesUpstreamDonorVolume": false,
+    "reverseFlowPermitted": false,
+    "minimumFlowDepthM": 0.05,
+    "maximumInflowVelocityMPS": 5.0,
+    "mainBarrageHydraulicInterfaces": "CLOSED",
+    "fishwayFlowM3S": 0.0,
+    "ongaUpstreamBoundaryContributionM3S": 0.0,
+    "nishikawaBoundaryContributionM3S": 0.7,
+    "magarigawaBoundaryContributionM3S": 0.5,
+    "consolidatedSnapshotOnly": true
+  },
+  "provenCanary": {
+    "runId": "canary-stage20-downstream-external-high-large-7200s-20260901-v1",
+    "scenarioId": "release-high_tide-large",
+    "simulatedSeconds": 7200.0,
+    "status": "PASS_NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+    "resultSha256": "7801c6bae6470fcdf90d74b32193de9d38a596c8190467bd7c78719f044c782a",
+    "finalStateSha256": "2f0904d11dc660cd1c1ed05849f1e707b57d38c88d87181384f9ee3c01b27826",
+    "automaticRetryCount": 0
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "maximumWorkerWallSeconds": 32400,
+    "maximumBatchWallSeconds": 36000,
+    "maximumAcceptedStepCountPerWorker": 20000000,
+    "maximumKernelDtSeconds": 0.05,
+    "cflTarget": 0.12,
+    "parallelWorkerCount": 6,
+    "cpuThreadsPerWorker": 1,
+    "outputBase": ".stage20-local-only/stage20-downstream-external-six-scenario-37-snapshot-batch-20260901",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260901_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "localOneStepMatrixPermitted": true,
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "acceptance": {
+    "scenarioCountExactly": 6,
+    "snapshotCountPerScenarioExactly": 37,
+    "snapshotStateShapePerScenario": [
+      37,
+      24250,
+      3
+    ],
+    "simulatedSecondsPerScenarioExactly": 129600.0,
+    "maximumCfl": 0.120000000001,
+    "maximumRelativeMassBalanceError": 1e-10,
+    "maximumSourceResidualM3S": 1e-10,
+    "maximumInflowVelocityMPS": 5.0,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "upstreamSourceCellCount": 0,
+    "automaticRetryCount": 0
+  },
+  "bindings": [
+    {
+      "role": "runner",
+      "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
+      "sha256": "9375e7d5f585c3554a148d010328aad25828d19aed617dc10d6d497ad6f514c2"
+    },
+    {
+      "role": "target_test",
+      "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
+      "sha256": "bd143ca04c17815d1a16cd8c3549eac7766ca65b7fbb3105d4167171de6b97ad"
+    },
+    {
+      "role": "scenario_input",
+      "path": "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json",
+      "sha256": "4ff59333e191eb8958efdaac137b4b4307d5213bacd332c5ba5c3fca0b29663d"
+    },
+    {
+      "role": "external_inflow_adapter",
+      "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
+      "sha256": "423fb14df1492e8c4efc077e2baaab5aabb1b5b080902b54c74f97abe5c041ac"
+    },
+    {
+      "role": "external_inflow_adapter_test",
+      "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
+      "sha256": "908e55588e265734f7552fdaaad077fc91429b3e9e0ccdb5723cc1b2ed1f896e"
+    },
+    {
+      "role": "proven_canary_runner",
+      "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
+      "sha256": "1fd88b799a17503508477725d181a3cd0e49d0639fe6d67ce1f55a064ad725a6"
+    },
+    {
+      "role": "proven_canary_contract",
+      "path": "config/stage20_downstream_external_high_large_7200s_runner_v1.json",
+      "sha256": "f7e718911422de2a93e78d1c50efa11b8125363fe3e6328de177449771ee4e1d"
+    },
+    {
+      "role": "proven_canary_input",
+      "path": "config/stage20_downstream_external_high_large_7200s_input_v1.json",
+      "sha256": "df1e3906cde79853e0de5544ac90fc2ac7695306885264bec14553b8c7856778"
+    },
+    {
+      "role": "matched_runner",
+      "path": "tools/stage20_regularized_multizone_900s_runner_v1.py",
+      "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"
+    },
+    {
+      "role": "matched_contract",
+      "path": "config/stage20_regularized_multizone_900s_runner_v1.json",
+      "sha256": "468e74fa6b34a339ee2ddd624005de32d6a157ce5d4b5c3ccee2eb4f53cdaf2d"
+    },
+    {
+      "role": "same_pass_limiter_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "candidate_mesh",
+      "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz",
+      "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6"
+    },
+    {
+      "role": "candidate_fields",
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+    }
+  ],
+  "forbidden": [
+    "upstream_finite_donor_volume",
+    "silent_release_clipping",
+    "reverse_external_discharge_or_momentum",
+    "per_hour_duplicate_snapshot_files",
+    "automatic_retry_restart_or_resume",
+    "physical_validation_forecast_gui_fishing_or_release_promotion"
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "onga-stage20-downstream-external-six-scenario-37-snapshot-input-v1",
+  "version": 1,
+  "status": "READY_DIAGNOSTIC_PRECOMPUTE_INPUT_NOT_FORECAST",
+  "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_CATCH_PROBABILITY",
+  "recordedAtJst": "2026-09-01T00:00:00+09:00",
+  "currentConditionReferenceAllowed": false,
+  "sourceMode": "ONE_WAY_EXTERNAL_MASS_AND_DOWNSTREAM_NORMAL_MOMENTUM",
+  "usesUpstreamDonorVolume": false,
+  "reverseFlowPermitted": false,
+  "coverage": {
+    "downstreamOfBarrageOnly": true,
+    "snapshotOffsetsHours": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "intervalHours": 1,
+    "snapshotCount": 37,
+    "durationModelSeconds": 129600
+  },
+  "releaseBands": [
+    {
+      "id": "low",
+      "barrageReleaseM3S": 0.1
+    },
+    {
+      "id": "reference",
+      "barrageReleaseM3S": 24.5
+    },
+    {
+      "id": "high",
+      "barrageReleaseM3S": 73.0
+    }
+  ],
+  "tideRanges": [
+    {
+      "id": "small",
+      "tideStationCode": "188205",
+      "tideStationNameJa": "日明",
+      "representativeCenterTimeJst": "2026-06-07T12:00+09:00",
+      "astronomicalTideHeightMByOffset": [
+        0.2,
+        0.27,
+        0.31,
+        0.29,
+        0.22,
+        0.12,
+        0.03,
+        -0.01,
+        0.01,
+        0.09,
+        0.22,
+        0.35,
+        0.46,
+        0.51,
+        0.52,
+        0.46,
+        0.33,
+        0.16,
+        -0.02,
+        -0.14,
+        -0.2,
+        -0.17,
+        -0.08,
+        0.03,
+        0.15,
+        0.23,
+        0.29,
+        0.32,
+        0.3,
+        0.23,
+        0.14,
+        0.05,
+        0.01,
+        0.01,
+        0.07,
+        0.17,
+        0.29
+      ]
+    },
+    {
+      "id": "large",
+      "tideStationCode": "188205",
+      "tideStationNameJa": "日明",
+      "representativeCenterTimeJst": "2026-01-01T12:00+09:00",
+      "astronomicalTideHeightMByOffset": [
+        -0.4,
+        -0.55,
+        -0.6,
+        -0.53,
+        -0.37,
+        -0.18,
+        0.0,
+        0.15,
+        0.25,
+        0.26,
+        0.17,
+        0.04,
+        -0.08,
+        -0.16,
+        -0.16,
+        -0.06,
+        0.12,
+        0.32,
+        0.48,
+        0.58,
+        0.61,
+        0.54,
+        0.35,
+        0.07,
+        -0.22,
+        -0.48,
+        -0.66,
+        -0.71,
+        -0.62,
+        -0.43,
+        -0.21,
+        0.0,
+        0.19,
+        0.31,
+        0.31,
+        0.2,
+        0.03
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "release-low_tide-small",
+      "releaseBand": "low",
+      "tideRangeClass": "small"
+    },
+    {
+      "id": "release-low_tide-large",
+      "releaseBand": "low",
+      "tideRangeClass": "large"
+    },
+    {
+      "id": "release-reference_tide-small",
+      "releaseBand": "reference",
+      "tideRangeClass": "small"
+    },
+    {
+      "id": "release-reference_tide-large",
+      "releaseBand": "reference",
+      "tideRangeClass": "large"
+    },
+    {
+      "id": "release-high_tide-small",
+      "releaseBand": "high",
+      "tideRangeClass": "small"
+    },
+    {
+      "id": "release-high_tide-large",
+      "releaseBand": "high",
+      "tideRangeClass": "large"
+    }
+  ],
+  "expectedOutput": {
+    "scenarioCount": 6,
+    "snapshotCountPerScenario": 37,
+    "intervalHours": 1,
+    "downstreamOfBarrageOnly": true,
+    "consolidatedSnapshotOnly": true
+  }
+}

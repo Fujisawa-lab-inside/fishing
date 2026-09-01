@@ -36,6 +36,8 @@ import stage20_downstream_external_six_scenario_37_snapshot_runner_v1 as full
 
 VERSION = "stage20-downstream-external-large-tide-mass-diagnostic-14400s-runner-v1"
 SCHEMA = "onga-stage20-downstream-external-large-tide-mass-diagnostic-14400s-runner-v1-contract"
+AUTHORIZED_ID = "stage20-downstream-external-large-tide-mass-diagnostic-yoda-20260901-02"
+AUTHORIZED_RUN_ID = "diagnostic-stage20-downstream-external-large-tide-mass-14400s-20260901-v2"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_large_tide_mass_diagnostic_14400s_runner_v1.json"
 ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_large_tide_mass_diagnostic_14400s_activation_20260901_v1.json"
 SCENARIO_IDS = (
@@ -198,13 +200,11 @@ def validate_activation(activation: dict[str, Any]) -> tuple[dict[str, Any], Pat
     require(activation.get("status") == "AUTHORIZED", "activation is not authorized")
     require(activation.get("mode") == "EXECUTE_MASS_DIAGNOSTIC_ONCE", "activation mode changed")
     require(
-        activation.get("authorizationId")
-        == "stage20-downstream-external-large-tide-mass-diagnostic-yoda-20260901-01",
+        activation.get("authorizationId") == AUTHORIZED_ID,
         "authorization id changed",
     )
     require(
-        activation.get("runId")
-        == "diagnostic-stage20-downstream-external-large-tide-mass-14400s-20260901-v1",
+        activation.get("runId") == AUTHORIZED_RUN_ID,
         "run id changed",
     )
     require(activation.get("requiredHostname") == "yoda", "activation host changed")

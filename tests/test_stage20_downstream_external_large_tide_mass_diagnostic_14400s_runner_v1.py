@@ -32,6 +32,14 @@ class LargeTideMassDiagnostic14400sRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["checkIntervalModelSeconds"], 600.0)
         self.assertEqual(report["originalRelativeMassThreshold"], 1.0e-10)
         self.assertEqual(report["automaticRetryCount"], 0)
+        self.assertEqual(
+            RUNNER.AUTHORIZED_ID,
+            "stage20-downstream-external-large-tide-mass-diagnostic-yoda-20260901-02",
+        )
+        self.assertEqual(
+            RUNNER.AUTHORIZED_RUN_ID,
+            "diagnostic-stage20-downstream-external-large-tide-mass-14400s-20260901-v2",
+        )
 
     def test_only_two_large_tide_failure_conditions_are_selected(self) -> None:
         scenarios = RUNNER.load_scenarios()

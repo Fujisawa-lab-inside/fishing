@@ -1,0 +1,146 @@
+{
+  "schema": "onga-stage20-downstream-external-large-tide-mass-diagnostic-14400s-runner-v1-contract",
+  "version": 1,
+  "recordedAtJst": "2026-09-01T00:00:00+09:00",
+  "status": "READY_PREPARE_ONLY_MASS_DIAGNOSTIC_ACTIVATION_REQUIRED",
+  "classification": "DIAGNOSTIC_MASS_ACCOUNTING_NOT_NUMERICAL_ACCEPTANCE_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+  "scope": {
+    "scenarioIds": [
+      "release-reference_tide-large",
+      "release-high_tide-large"
+    ],
+    "releaseBandsM3S": [
+      24.5,
+      73.0
+    ],
+    "tideRangeClass": "large",
+    "durationModelSeconds": 14400,
+    "checkIntervalModelSeconds": 600,
+    "originalRelativeMassThreshold": 1e-10,
+    "stopAtFirstOriginalThresholdCrossing": true,
+    "preserveOriginalHourlyTimeStepClipping": true,
+    "float64AccountingRecorded": true,
+    "longDoubleAccountingRecorded": true,
+    "usesUpstreamDonorVolume": false,
+    "reverseFlowPermitted": false,
+    "automaticRetryCount": 0
+  },
+  "failedBatchEvidence": {
+    "authorizationId": "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-01",
+    "runId": "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v1",
+    "status": "FAILED_NO_RETRY",
+    "firstReportedScenarioId": "release-reference_tide-large",
+    "additionalFailedScenarioId": "release-high_tide-large",
+    "modelSeconds": 13800.001193044864,
+    "failureType": "ORIGINAL_FLOAT64_RELATIVE_MASS_GUARD",
+    "rootFailureReceiptSha256": "e98f98e115bbbf3c44cc1220db7eab71c7d371f463527f1fdd83a46c93d12323",
+    "referenceLargeFailureReceiptSha256": "ade4b7b46bd44eafa7e965c7fcc8ed3fa45d563255a080dc389cddc3e1c93431",
+    "highLargeFailureReceiptSha256": "afcd5818dfdfe62acd7b952e29808b432679933844df3453121566bcaa7cd9fa"
+  },
+  "runtime": {
+    "requiredHostname": "yoda",
+    "parallelWorkerCount": 2,
+    "cpuThreadsPerWorker": 1,
+    "maximumWorkerWallSeconds": 3600,
+    "maximumBatchWallSeconds": 4200,
+    "maximumAcceptedStepCountPerWorker": 2500000,
+    "maximumKernelDtSeconds": 0.05,
+    "outputBase": ".stage20-local-only/stage20-downstream-external-large-tide-mass-diagnostic-20260901",
+    "automaticRetryCount": 0,
+    "requiredActivationPath": "config/stage20_downstream_external_large_tide_mass_diagnostic_14400s_activation_20260901_v1.json",
+    "defaultMode": "READ_ONLY_PREFLIGHT",
+    "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
+  },
+  "telemetry": {
+    "actualAndExpectedVolumeM3": true,
+    "signedAndAbsoluteErrorM3": true,
+    "relativeErrorFloat64AndLongDouble": true,
+    "boundaryOutflowVolumeM3": true,
+    "externalAddedAndRequestedVolumeM3": true,
+    "cumulativeSourceResidualM3": true,
+    "float64AccumulatorPrecisionDeltaM3": true,
+    "longDoubleReductionPrecisionDeltaM3": true,
+    "tideTargetM": true,
+    "depthSafetyCounts": true
+  },
+  "hardSafety": {
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "maximumInflowVelocityMPS": 5.0,
+    "upstreamSourceCellCount": 0,
+    "continuePastOriginalMassThreshold": false,
+    "automaticRetryCount": 0
+  },
+  "promotion": {
+    "numericalAcceptanceGranted": false,
+    "physicalValidationGranted": false,
+    "forecastGranted": false,
+    "guiIntegrationGranted": false,
+    "fishingDecisionGranted": false,
+    "releaseGranted": false
+  },
+  "bindings": [
+    {
+      "role": "runner",
+      "path": "tools/stage20_downstream_external_large_tide_mass_diagnostic_14400s_runner_v1.py",
+      "sha256": "0d9c7d982474575b2ca2b075ffab77e8f6a3cde08a6743377f2d878eea7c33a8"
+    },
+    {
+      "role": "target_test",
+      "path": "tests/test_stage20_downstream_external_large_tide_mass_diagnostic_14400s_runner_v1.py",
+      "sha256": "43b93460d57a9bc596717b6de6a147410f091cda4a2a9431824bc5b13d932eff"
+    },
+    {
+      "role": "full_batch_runner",
+      "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
+      "sha256": "9375e7d5f585c3554a148d010328aad25828d19aed617dc10d6d497ad6f514c2"
+    },
+    {
+      "role": "full_batch_contract",
+      "path": "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json",
+      "sha256": "9b8a671947b178db748d3d667a2b4bb1fd7d6cec94f95659e7d50c9ec34d6712"
+    },
+    {
+      "role": "scenario_input",
+      "path": "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json",
+      "sha256": "4ff59333e191eb8958efdaac137b4b4307d5213bacd332c5ba5c3fca0b29663d"
+    },
+    {
+      "role": "external_inflow_adapter",
+      "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
+      "sha256": "423fb14df1492e8c4efc077e2baaab5aabb1b5b080902b54c74f97abe5c041ac"
+    },
+    {
+      "role": "proven_canary_runner",
+      "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
+      "sha256": "1fd88b799a17503508477725d181a3cd0e49d0639fe6d67ce1f55a064ad725a6"
+    },
+    {
+      "role": "matched_runner",
+      "path": "tools/stage20_regularized_multizone_900s_runner_v1.py",
+      "sha256": "fd3bdf9d32a02e70114b7672e670fad36179a57ede623143400b7cec84290258"
+    },
+    {
+      "role": "same_pass_limiter_kernel",
+      "path": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+      "sha256": "75181a7c2653318df1fa3b42c690de7e235bb13d8419b0a69c5a61e52dd6b829"
+    },
+    {
+      "role": "candidate_mesh",
+      "path": "docs/results/stage20-regularized-multizone-mesh-candidate-v1/regularized-multizone-review-mesh.npz",
+      "sha256": "d42d5bcf2809eb89b358afc02dfe2f338f7006e2f7eae18305e7e9139a610ae6"
+    },
+    {
+      "role": "candidate_fields",
+      "path": "docs/results/stage20-regularized-multizone-continuous-fields-v1/continuous-fields.npz",
+      "sha256": "afc48e005c02a671eb84bc184bdd45b615bcf05a401cd5f0c2ecd6844ba1ec6b"
+    }
+  ],
+  "forbidden": [
+    "continue_past_original_mass_threshold",
+    "automatic_retry_restart_or_resume",
+    "six_scenario_full_rerun",
+    "threshold_relaxation_without_diagnostic_evidence",
+    "physical_validation_forecast_gui_fishing_or_release_promotion"
+  ]
+}

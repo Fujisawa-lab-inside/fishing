@@ -1,0 +1,73 @@
+{
+  "schema": "onga-stage20-downstream-external-river-boundary-dry-diagnosis-v1",
+  "status": "DIAGNOSED_NO_RETRY_NO_SOLVER_RERUN",
+  "classification": "EXPLORATION_A_NUMERICAL_BOUNDARY_DIAGNOSIS_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+  "failedRun": {
+    "authorizationId": "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-02",
+    "runId": "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v2",
+    "scenarioId": "release-high_tide-large",
+    "terminalStatus": "FAILED_NO_RETRY",
+    "errorType": "ValueError",
+    "message": "numerically dry river boundary",
+    "modelSeconds": 18957.809006175565,
+    "acceptedSteps": 1931271,
+    "tideTargetMAtFailure": -0.13210954969122182,
+    "rootFailureReceiptSha256": "b2a5b868c0bb6e3715891df817bb1b5742833e06e33776d3d8b91337f8b6f24f",
+    "scenarioFailureReceiptSha256": "09241c1d00b882dadbc062c80451a6154e771cc3bbf86f04dfc21ba40e3286c2"
+  },
+  "lastExistingDiagnosticState": {
+    "scenarioId": "release-high_tide-large",
+    "modelSeconds": 13800.001193044864,
+    "source": "docs/results/stage20-downstream-external-large-tide-mass-diagnostic-yoda-20260901-v2/scenarios/release-high_tide-large/terminal-state.npy",
+    "sections": [
+      {
+        "boundaryTag": 2,
+        "name": "Nishikawa",
+        "prescribedDischargeM3S": 0.7,
+        "faceCount": 20,
+        "facesBelow1e7M": 2,
+        "facesAtLeast1cm": 16,
+        "minimumFaceDepthM": 2.053134784616282e-08,
+        "maximumFaceDepthM": 1.6573124605962104,
+        "wettedDepthLengthM2": 85.35677996338704,
+        "sectionMeanVelocityMPS": 0.008200871685884334
+      },
+      {
+        "boundaryTag": 4,
+        "name": "Magarigawa",
+        "prescribedDischargeM3S": 0.5,
+        "faceCount": 14,
+        "facesBelow1e7M": 2,
+        "facesAtLeast1cm": 12,
+        "minimumFaceDepthM": 1.9231364098962905e-08,
+        "maximumFaceDepthM": 1.6428594264495713,
+        "wettedDepthLengthM2": 60.33681816756246,
+        "sectionMeanVelocityMPS": 0.008286814173916844
+      }
+    ]
+  },
+  "cause": {
+    "currentKernel": "tools/stage20_depth_weighted_boundary_kernel_candidate_v2.py",
+    "behavior": "The kernel rejects the complete step when any single river-boundary face has interior depth below 1e-8 m.",
+    "finding": "The tributary sections remain broadly wet; only shallow bank-edge faces approach the dry threshold.",
+    "conclusion": "The stop is a per-face wet/dry guard mismatch, not evidence that the Nishikawa or Magarigawa boundary section is fully dry."
+  },
+  "recommendedMinimalChange": {
+    "behavior": "Treat an individually dry river-boundary face as a wall for that step and redistribute the prescribed discharge over the remaining wet faces.",
+    "failClosedCondition": "Stop only when a nonzero-discharge boundary section has no wet faces or no positive wetted depth-length.",
+    "existingPrototypeEvidence": "tools/stage20_depth_weighted_boundary_kernel_candidate_v3.py already implements this dry-face-to-wall rule, but it is currently untracked and was not part of the failed package.",
+    "nextValidation": "Use a targeted boundary unit regression and a short continuation comparison before any full 6-condition rerun."
+  },
+  "actionsPerformed": {
+    "solverRerunCount": 0,
+    "yodaRetryCount": 0,
+    "sourceModificationCount": 0,
+    "guiModificationCount": 0
+  },
+  "promotion": {
+    "physicalValidation": false,
+    "forecast": false,
+    "guiIntegration": false,
+    "release": false
+  }
+}

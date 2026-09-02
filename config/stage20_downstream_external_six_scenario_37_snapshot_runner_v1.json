@@ -101,7 +101,7 @@
     "cpuThreadsPerWorker": 1,
     "outputBase": ".stage20-local-only/stage20-downstream-external-six-scenario-37-snapshot-batch-20260901",
     "automaticRetryCount": 0,
-    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v1.json",
+    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v2.json",
     "defaultMode": "READ_ONLY_PREFLIGHT",
     "localOneStepMatrixPermitted": true,
     "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
@@ -132,12 +132,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "826ec2348723928d920d1e4abc09730de7db5d31e9f31b26484e1f05b233de52"
+      "sha256": "ddc7bb66453c5d8839b48bbf1be0955342c5d95dae777a458cc786cba19ff431"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "7379b3d0ae1bca6c1a6bc1e6f96566e912431648c31ecd9286a15c356ef64d6b"
+      "sha256": "794dc1ce981a469e151e4b112ee5a9a0ec0cd5727b6c50559d9615e4cc31122b"
     },
     {
       "role": "scenario_input",

@@ -40,11 +40,11 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
-            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-03",
+            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-04",
         )
         self.assertEqual(
             RUNNER.AUTHORIZED_RUN_ID,
-            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v3",
+            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v4",
         )
 
     def test_input_matrix_has_exact_six_conditions(self) -> None:

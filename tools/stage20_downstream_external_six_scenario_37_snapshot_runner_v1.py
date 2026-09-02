@@ -38,10 +38,10 @@ import stage20_downstream_external_wet_dry_boundary_adapter_v1 as wet_dry_bounda
 
 VERSION = "stage20-downstream-external-six-scenario-37-snapshot-runner-v1"
 SCHEMA = "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract"
-AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-03"
-AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v3"
+AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-04"
+AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v4"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json"
-ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v1.json"
+ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v2.json"
 INPUT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json"
 SCENARIO_IDS = (
     "release-low_tide-small",

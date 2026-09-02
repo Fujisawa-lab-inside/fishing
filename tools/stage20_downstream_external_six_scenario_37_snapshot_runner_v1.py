@@ -33,14 +33,15 @@ if str(TOOLS) not in sys.path:
 
 import stage20_downstream_external_high_large_7200s_runner_v1 as canary
 import stage20_downstream_external_inflow_adapter_v1 as external_adapter
+import stage20_downstream_external_wet_dry_boundary_adapter_v1 as wet_dry_boundary_adapter
 
 
 VERSION = "stage20-downstream-external-six-scenario-37-snapshot-runner-v1"
 SCHEMA = "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract"
-AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-02"
-AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v2"
+AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-03"
+AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v3"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json"
-ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260901_v1.json"
+ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v1.json"
 INPUT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json"
 SCENARIO_IDS = (
     "release-low_tide-small",
@@ -100,6 +101,11 @@ def validate_contract(contract: dict[str, Any]) -> None:
     require(scope.get("usesUpstreamDonorVolume") is False, "upstream donor was re-enabled")
     require(scope.get("reverseFlowPermitted") is False, "reverse flow was enabled")
     require(scope.get("consolidatedSnapshotOnly") is True, "snapshot storage changed")
+    require(
+        scope.get("riverBoundaryDryFacePolicy")
+        == "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE",
+        "river boundary dry-face policy changed",
+    )
     runtime = contract.get("runtime", {})
     require(runtime.get("requiredHostname") == "yoda", "target host changed")
     require(runtime.get("automaticRetryCount") == 0, "automatic retry enabled")
@@ -139,7 +145,7 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "float64 mass error became an acceptance guard",
     )
     bindings = contract.get("bindings")
-    require(isinstance(bindings, list) and len(bindings) >= 13, "bindings are incomplete")
+    require(isinstance(bindings, list) and len(bindings) >= 15, "bindings are incomplete")
     seen: set[str] = set()
     for item in bindings:
         path = item.get("path")
@@ -156,6 +162,8 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "scenario_input",
         "external_inflow_adapter",
         "external_inflow_adapter_test",
+        "wet_dry_boundary_adapter",
+        "wet_dry_boundary_adapter_test",
         "proven_canary_runner",
         "proven_canary_contract",
         "proven_canary_input",
@@ -289,6 +297,14 @@ def advance_once(
     kernel = context["kernel"]
     zeros = np.zeros(CELL_COUNT, dtype=np.float64)
     release_m3_s = float(scenario["boundaryInputs"]["barrageReleaseM3S"])
+    target_discharge = build_discharge(geometry)
+    river_boundary = wet_dry_boundary_adapter.build_safe_boundary_tags(
+        state,
+        geometry["boundaryCells"],
+        geometry["boundaryLengths"],
+        geometry["boundaryTags"],
+        target_discharge,
+    )
     step = kernel.advance_h2_step_depth_weighted_boundary_with_trace_v1(
         state,
         context["bed"],
@@ -303,9 +319,9 @@ def advance_once(
         geometry["boundaryCells"],
         geometry["boundaryLengths"],
         geometry["boundaryNormals"],
-        geometry["boundaryTags"],
+        river_boundary["boundaryTags"],
         tide_at(scenario, model_seconds),
-        build_discharge(geometry),
+        target_discharge,
         zeros,
         zeros,
         0.0,
@@ -327,6 +343,9 @@ def advance_once(
     )
     require(abs(float(external["sourceResidualM3S"])) <= 1.0e-10, "external source is not conservative")
     require(external["upstreamStateChanged"] is False, "external source changed upstream state")
+    external["riverBoundaryWetFaceCountByTag"] = river_boundary["wetFaceCountByTag"]
+    external["riverBoundaryDryFaceCountByTag"] = river_boundary["dryFaceCountByTag"]
+    external["riverBoundaryWetDepthLengthM2ByTag"] = river_boundary["wetDepthLengthM2ByTag"]
     return step, external
 
 
@@ -413,6 +432,9 @@ def run_local_matrix_one_step() -> dict[str, Any]:
             ],
             "massBalanceGuardPrecision": "LONG_DOUBLE",
             "upstreamStateChangedBySource": external["upstreamStateChanged"],
+            "riverBoundaryDryFaceCountByTag": external[
+                "riverBoundaryDryFaceCountByTag"
+            ].tolist(),
         })
     return {
         "status": "PASS_LOCAL_SIX_SCENARIO_ONE_STEP_EXTERNAL_MATRIX",
@@ -443,6 +465,7 @@ def build_preflight() -> dict[str, Any]:
         "float64MassBalanceErrorTreatment": contract["acceptance"][
             "float64MassBalanceErrorTreatment"
         ],
+        "riverBoundaryDryFacePolicy": contract["scope"]["riverBoundaryDryFacePolicy"],
         "automaticRetryCount": 0,
     }
 
@@ -484,6 +507,11 @@ def validate_activation(activation: dict[str, Any]) -> tuple[dict[str, Any], Pat
         activation.get("externalAdapterSha256")
         == canary.sha256_file(Path(external_adapter.__file__).resolve()),
         "external adapter SHA changed",
+    )
+    require(
+        activation.get("wetDryBoundaryAdapterSha256")
+        == canary.sha256_file(Path(wet_dry_boundary_adapter.__file__).resolve()),
+        "wet/dry boundary adapter SHA changed",
     )
     require(
         activation.get("provenCanaryRunnerSha256")
@@ -555,6 +583,9 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
     maximum_source_residual = 0.0
     minimum_inflow_velocity = math.inf
     maximum_inflow_velocity = -math.inf
+    maximum_dry_river_faces_by_tag = np.zeros(5, dtype=np.int64)
+    minimum_wet_river_faces_by_tag = np.zeros(5, dtype=np.int64)
+    minimum_wet_river_faces_by_tag[2:] = np.iinfo(np.int64).max
     next_safety_check = 600.0
     next_snapshot = 3600.0
     snapshot_times = [0.0]
@@ -601,6 +632,17 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             )
             minimum_inflow_velocity = min(minimum_inflow_velocity, float(external["inflowVelocityMPS"]))
             maximum_inflow_velocity = max(maximum_inflow_velocity, float(external["inflowVelocityMPS"]))
+            dry_faces = np.asarray(external["riverBoundaryDryFaceCountByTag"], dtype=np.int64)
+            wet_faces = np.asarray(external["riverBoundaryWetFaceCountByTag"], dtype=np.int64)
+            maximum_dry_river_faces_by_tag = np.maximum(
+                maximum_dry_river_faces_by_tag,
+                dry_faces,
+            )
+            for tag in (2, 3, 4):
+                minimum_wet_river_faces_by_tag[tag] = min(
+                    minimum_wet_river_faces_by_tag[tag],
+                    wet_faces[tag],
+                )
             if model_seconds >= next_safety_check - 1.0e-9 or model_seconds >= FULL_SECONDS - 1.0e-9:
                 require(bool(np.isfinite(state).all()), "nonfinite state")
                 require(bool(np.all(state[:, 0] >= 0.0)), "negative depth")
@@ -653,6 +695,11 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             "maximumSourceResidualM3S": maximum_source_residual,
             "minimumInflowVelocityMPS": minimum_inflow_velocity,
             "maximumInflowVelocityMPS": maximum_inflow_velocity,
+            "maximumDryRiverBoundaryFaceCountByTag": maximum_dry_river_faces_by_tag.tolist(),
+            "minimumWetRiverBoundaryFaceCountByTag": minimum_wet_river_faces_by_tag.tolist(),
+            "riverBoundaryDryFacePolicy": (
+                "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE"
+            ),
             "requestedReleaseM3S": release_m3_s,
             "effectiveReleaseM3S": release_m3_s,
             "negativeDepthCount": int(np.sum(state[:, 0] < 0.0)),

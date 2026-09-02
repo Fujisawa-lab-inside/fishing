@@ -37,11 +37,11 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
-            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260901-02",
+            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-03",
         )
         self.assertEqual(
             RUNNER.AUTHORIZED_RUN_ID,
-            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260901-v2",
+            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v3",
         )
 
     def test_input_matrix_has_exact_six_conditions(self) -> None:
@@ -109,6 +109,10 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             contract["acceptance"]["float64MassBalanceErrorTreatment"],
             "DIAGNOSTIC_ONLY",
         )
+        self.assertEqual(
+            contract["scope"]["riverBoundaryDryFacePolicy"],
+            "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE",
+        )
 
     def test_float64_diagnostic_crossing_does_not_replace_long_double_guard(self) -> None:
         state = np.asarray([[1.0, 0.0, 0.0]], dtype=np.float64)
@@ -140,6 +144,10 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imported.add(node.module)
         self.assertIn("stage20_downstream_external_inflow_adapter_v1", imported)
+        self.assertIn(
+            "stage20_downstream_external_wet_dry_boundary_adapter_v1",
+            imported,
+        )
         self.assertNotIn("stage20_downstream_prescribed_release_adapter_v1", imported)
         self.assertFalse(
             [name for name in imported if any(token in name.lower() for token in ("paramiko", "fabric", "ssh"))]

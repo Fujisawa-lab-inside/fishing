@@ -1,7 +1,7 @@
 {
   "schema": "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract",
   "version": 1,
-  "recordedAtJst": "2026-09-01T00:00:00+09:00",
+  "recordedAtJst": "2026-09-02T00:00:00+09:00",
   "status": "READY_PREPARE_ONLY_EXTERNAL_BATCH_ACTIVATION_REQUIRED",
   "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
   "scope": {
@@ -77,6 +77,8 @@
     "ongaUpstreamBoundaryContributionM3S": 0.0,
     "nishikawaBoundaryContributionM3S": 0.7,
     "magarigawaBoundaryContributionM3S": 0.5,
+    "riverBoundaryDryFacePolicy": "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE",
+    "riverBoundaryFullyDryPolicy": "FAIL_CLOSED_FOR_NONZERO_DISCHARGE",
     "consolidatedSnapshotOnly": true
   },
   "provenCanary": {
@@ -99,7 +101,7 @@
     "cpuThreadsPerWorker": 1,
     "outputBase": ".stage20-local-only/stage20-downstream-external-six-scenario-37-snapshot-batch-20260901",
     "automaticRetryCount": 0,
-    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260901_v1.json",
+    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260902_v1.json",
     "defaultMode": "READ_ONLY_PREFLIGHT",
     "localOneStepMatrixPermitted": true,
     "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
@@ -128,12 +130,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "399d3615707f35765a05ad7e4ae6784221eb754d9d299664768eddb895ad1974"
+      "sha256": "7260b235d183850a30976156fba182a9afb8870f2293d95a6f11be18ca66268b"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "e41a6d44c6ac3beab08098fab0fb99766e42b37c82aa2746a7b4a93b4a084ecf"
+      "sha256": "ef71511976a1a367d36cfffce5d58fba8b653584db35976acc9b77febebb7f22"
     },
     {
       "role": "scenario_input",
@@ -149,6 +151,16 @@
       "role": "external_inflow_adapter_test",
       "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
       "sha256": "908e55588e265734f7552fdaaad077fc91429b3e9e0ccdb5723cc1b2ed1f896e"
+    },
+    {
+      "role": "wet_dry_boundary_adapter",
+      "path": "tools/stage20_downstream_external_wet_dry_boundary_adapter_v1.py",
+      "sha256": "b548cf4e6eb005d006f4532c2b181df2245cf88112d2ed2b41a447eddb7001a7"
+    },
+    {
+      "role": "wet_dry_boundary_adapter_test",
+      "path": "tests/test_stage20_downstream_external_wet_dry_boundary_adapter_v1.py",
+      "sha256": "1e369669d42cbd14f2beab772b1a1290028c8e5e4c1d47ce95a72860cc67c33e"
     },
     {
       "role": "proven_canary_runner",

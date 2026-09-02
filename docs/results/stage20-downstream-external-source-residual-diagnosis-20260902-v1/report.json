@@ -1,0 +1,99 @@
+{
+  "schema": "onga-stage20-downstream-external-source-residual-diagnosis-v1",
+  "status": "DIAGNOSED_INCONSISTENT_DOUBLE_GUARD_ROUNDOFF_SENSITIVE_FIX_NOT_IMPLEMENTED",
+  "sourceCommit": "9adaf3d8457fac368da30825572933dd0b10bb65",
+  "failedRun": {
+    "authorizationId": "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-03",
+    "runId": "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v3",
+    "scenarioId": "release-reference_tide-small",
+    "releaseM3S": 24.5,
+    "modelSeconds": 39599.99994591658,
+    "acceptedSteps": 4760475,
+    "averageAcceptedDtS": 0.008318497617552151,
+    "error": "external source is not conservative",
+    "retryCount": 0
+  },
+  "rootCause": {
+    "classification": "INCONSISTENT_ABSOLUTE_AND_RELATIVE_SOURCE_RESIDUAL_GUARDS",
+    "adapterGuard": {
+      "expression": "abs(sourceResidualM3S) <= 1e-10 * max(releaseM3S, 1.0)",
+      "thresholdAtFailedReleaseM3S": 2.45e-9
+    },
+    "outerRunnerGuard": {
+      "expression": "abs(sourceResidualM3S) <= 1e-10",
+      "thresholdM3S": 1e-10
+    },
+    "logicalObservedResidualBoundM3S": {
+      "strictlyGreaterThan": 1e-10,
+      "lessThanOrEqualTo": 2.45e-9
+    },
+    "explanation": "The adapter returned successfully, so its relative guard passed. The outer runner then rejected the same residual using a 24.5-times stricter absolute threshold. The residual is reconstructed by subtracting float64 water depths after a very small source increment and dividing the rounded volume difference by dt, which amplifies representation roundoff.",
+    "maximumCumulativeVolumeMismatchAllowedByAdapterBoundThroughFailureM3": 9.702e-5,
+    "maximumCumulativeVolumeMismatchAllowedByAdapterBoundThroughFailureL": 0.09702,
+    "requestedCumulativeReleaseVolumeThroughFailureM3": 970199.9986749563,
+    "relativeBound": 1e-10
+  },
+  "localSweep": {
+    "solverAdvanceCalls": 0,
+    "states": [
+      "initial matched state",
+      "release-reference_tide-large at 13800 seconds",
+      "release-high_tide-large at 13800 seconds"
+    ],
+    "releaseM3S": 24.5,
+    "dtRangeS": [1e-5, 0.05],
+    "sampleCountPerState": 600,
+    "receiverFaceCount": 61,
+    "receiverCellCount": 61,
+    "receiverAreaSumM2": 989.4256492633642,
+    "maximumDtWithAbsoluteGuardCrossingSByState": {
+      "initial": 0.0005919628824121893,
+      "referenceLarge13800": 0.0003304528874526451,
+      "highLarge13800": 0.00045828972338949215
+    },
+    "maximumDtWithAdapterRelativeGuardCrossingSByState": {
+      "initial": 1.7913684670012738e-5,
+      "referenceLarge13800": 2.6297620952033528e-5,
+      "highLarge13800": 2.0359265403260983e-5
+    },
+    "narrowFailureAverageDtSweepS": [0.005, 0.012],
+    "maximumStateDeltaResidualInNarrowSweepM3S": 1.2651213410208584e-11,
+    "maximumCommandedFaceVolumeResidualInNarrowSweepM3S": 1.7763568394002505e-14,
+    "interpretation": "The absolute guard is sensitive to sub-millisecond accepted steps and later-state depth magnitudes. Commanded face-volume conservation remains near machine precision. The exact failing dt and residual were not written to the old failure receipt, so their exact values cannot be recovered without a new diagnostic run."
+  },
+  "separationFromPriorFailure": {
+    "priorDryBoundaryFix": "Not implicated by this receipt",
+    "globalLongDoubleMassGuard": "Did not report a failure before the source-residual guard",
+    "physicalFlowLaw": "Not validated by this diagnosis"
+  },
+  "recommendedMinimalFix": {
+    "implementation": [
+      "Use one normalized source-residual guard: abs(residual) / max(releaseM3S, 1.0) <= 1e-10 in both adapter and runner.",
+      "Add a long-double commanded face-volume residual and keep it as the strict conservation acceptance check.",
+      "Keep the float64 state-delta absolute residual as diagnostic telemetry rather than a second stricter stop condition.",
+      "Retain the existing long-double global mass-balance guard and all negative-depth, nonfinite, reverse-flow and wet-section fail-closed checks."
+    ],
+    "targetTests": [
+      "A small-dt representative state with state-delta residual between the two old thresholds must pass the normalized guard.",
+      "A deliberately nonconservative commanded face-volume source must fail.",
+      "Zero release must remain an exact no-op.",
+      "The six-scenario one-step matrix and the partial-dry-boundary continuation tests must remain passing."
+    ],
+    "yodaRerunBeforeLocalFixAndTests": false
+  },
+  "artifacts": {
+    "claim.json": "c33eb5af37b86fd02c22e8a5c0d1a8318dbcba8230684fab9435d97e026b8ed3",
+    "start-receipt.json": "7f204dd0fd24ac7542186bf885bcf3046ba733fdf4afb9d2c1b96e160f1dc23a",
+    "failure-receipt.json": "806bab8927900e6b1bb6c371139f0135a9016753e71ecb5b39c77a58f60ab9b3",
+    "scenarios/release-reference_tide-small/failure-receipt.json": "ff98157407965a2ed216c0324d6b51677467d73cdb46068f7797b6497dd77bef",
+    "scenarios/release-reference_tide-small.log": "9f351246aec86e76d8ddfe22835bccd281e314d3f467811b8cce9d65e55e82fa"
+  },
+  "boundaries": {
+    "fixImplemented": false,
+    "newSolverRunPerformed": false,
+    "physicalValidation": false,
+    "forecast": false,
+    "guiPromotion": false,
+    "release": false
+  }
+}

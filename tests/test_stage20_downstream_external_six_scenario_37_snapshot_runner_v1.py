@@ -34,6 +34,9 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["parallelWorkerCount"], 6)
         self.assertEqual(report["massBalanceGuardPrecision"], "LONG_DOUBLE")
         self.assertEqual(report["float64MassBalanceErrorTreatment"], "DIAGNOSTIC_ONLY")
+        self.assertEqual(report["maximumSourceResidualRelative"], 1.0e-10)
+        self.assertEqual(report["maximumCommandedSourceResidualRelative"], 1.0e-13)
+        self.assertEqual(report["absoluteSourceResidualTreatment"], "DIAGNOSTIC_ONLY")
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
@@ -110,6 +113,18 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             "DIAGNOSTIC_ONLY",
         )
         self.assertEqual(
+            contract["acceptance"]["maximumSourceResidualRelative"],
+            1.0e-10,
+        )
+        self.assertEqual(
+            contract["acceptance"]["maximumCommandedSourceResidualRelative"],
+            1.0e-13,
+        )
+        self.assertEqual(
+            contract["acceptance"]["absoluteSourceResidualTreatment"],
+            "DIAGNOSTIC_ONLY",
+        )
+        self.assertEqual(
             contract["scope"]["riverBoundaryDryFacePolicy"],
             "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE",
         )
@@ -134,6 +149,50 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             errors["relativeMassBalanceErrorLongDouble"],
             RUNNER.MASS_BALANCE_THRESHOLD,
         )
+
+    def test_external_source_guard_accepts_relative_roundoff_above_absolute_legacy_limit(self) -> None:
+        release = 24.5
+        residual = 5.0e-10
+        external = {
+            "requestedReleaseM3S": release,
+            "effectiveReleaseM3S": release + residual,
+            "sourceResidualM3S": residual,
+            "sourceResidualRelative": residual / release,
+            "commandedSourceResidualM3S": 1.0e-15,
+            "commandedSourceResidualRelative": 1.0e-15 / release,
+        }
+        RUNNER.require_external_source_conservation(external, release)
+
+    def test_external_source_guard_rejects_relative_state_residual(self) -> None:
+        release = 24.5
+        residual = 3.0e-9
+        external = {
+            "requestedReleaseM3S": release,
+            "effectiveReleaseM3S": release + residual,
+            "sourceResidualM3S": residual,
+            "sourceResidualRelative": residual / release,
+            "commandedSourceResidualM3S": 0.0,
+            "commandedSourceResidualRelative": 0.0,
+        }
+        with self.assertRaisesRegex(RUNNER.ExternalBatchStop, "external source is not conservative"):
+            RUNNER.require_external_source_conservation(external, release)
+
+    def test_external_source_guard_rejects_commanded_volume_error(self) -> None:
+        release = 24.5
+        commanded_residual = 3.0e-12
+        external = {
+            "requestedReleaseM3S": release,
+            "effectiveReleaseM3S": release,
+            "sourceResidualM3S": 0.0,
+            "sourceResidualRelative": 0.0,
+            "commandedSourceResidualM3S": commanded_residual,
+            "commandedSourceResidualRelative": commanded_residual / release,
+        }
+        with self.assertRaisesRegex(
+            RUNNER.ExternalBatchStop,
+            "commanded external source is not conservative",
+        ):
+            RUNNER.require_external_source_conservation(external, release)
 
     def test_module_uses_external_adapter_and_has_no_remote_control_import(self) -> None:
         tree = ast.parse(RUNNER_PATH.read_text(encoding="utf-8"))

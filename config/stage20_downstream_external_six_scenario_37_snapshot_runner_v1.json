@@ -119,7 +119,9 @@
     "maximumRelativeMassBalanceError": 1e-10,
     "massBalanceGuardPrecision": "LONG_DOUBLE",
     "float64MassBalanceErrorTreatment": "DIAGNOSTIC_ONLY",
-    "maximumSourceResidualM3S": 1e-10,
+    "maximumSourceResidualRelative": 1e-10,
+    "maximumCommandedSourceResidualRelative": 1e-13,
+    "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
     "maximumInflowVelocityMPS": 5.0,
     "negativeDepthCount": 0,
     "nonFiniteValueCount": 0,
@@ -130,12 +132,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "7260b235d183850a30976156fba182a9afb8870f2293d95a6f11be18ca66268b"
+      "sha256": "826ec2348723928d920d1e4abc09730de7db5d31e9f31b26484e1f05b233de52"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "ef71511976a1a367d36cfffce5d58fba8b653584db35976acc9b77febebb7f22"
+      "sha256": "7379b3d0ae1bca6c1a6bc1e6f96566e912431648c31ecd9286a15c356ef64d6b"
     },
     {
       "role": "scenario_input",
@@ -145,12 +147,12 @@
     {
       "role": "external_inflow_adapter",
       "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "423fb14df1492e8c4efc077e2baaab5aabb1b5b080902b54c74f97abe5c041ac"
+      "sha256": "85aa013559a0f129ec8055a1dd5ced704389614290e214e689411f26fb61f5a6"
     },
     {
       "role": "external_inflow_adapter_test",
       "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "908e55588e265734f7552fdaaad077fc91429b3e9e0ccdb5723cc1b2ed1f896e"
+      "sha256": "fdb1e35a64153df2893e2d6b9c7d37798156ee70375f214c8bbef26e8a5b8c76"
     },
     {
       "role": "wet_dry_boundary_adapter",

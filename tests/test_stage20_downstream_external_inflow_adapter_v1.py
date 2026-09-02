@@ -59,6 +59,9 @@ class DownstreamExternalInflowAdapterV1Tests(unittest.TestCase):
         self.assertAlmostEqual(report["addedVolumeM3"], 3.0)
         self.assertAlmostEqual(report["effectiveReleaseM3S"], 6.0)
         self.assertAlmostEqual(report["sourceResidualM3S"], 0.0)
+        self.assertAlmostEqual(report["sourceResidualRelative"], 0.0)
+        self.assertAlmostEqual(report["commandedSourceResidualM3S"], 0.0)
+        self.assertAlmostEqual(report["commandedSourceResidualRelative"], 0.0)
         np.testing.assert_array_equal(next_state[[0, 2]], state[[0, 2]])
         self.assertGreater(next_state[1, 1], 0.0)
         self.assertLess(next_state[3, 2], 0.0)
@@ -74,6 +77,35 @@ class DownstreamExternalInflowAdapterV1Tests(unittest.TestCase):
         report = ADAPTER.apply_external_inflow(state, areas, layout, 0.0, 0.05)
         np.testing.assert_array_equal(report["nextState"], state)
         self.assertEqual(report["effectiveReleaseM3S"], 0.0)
+        self.assertEqual(report["sourceResidualRelative"], 0.0)
+        self.assertEqual(report["commandedSourceResidualM3S"], 0.0)
+        self.assertEqual(report["commandedSourceResidualRelative"], 0.0)
+
+    def test_small_dt_float64_state_delta_is_checked_relatively(self) -> None:
+        geometry, faces, upstream, component, areas = synthetic_case()
+        layout = ADAPTER.build_external_inflow_layout(
+            geometry, faces, upstream, component, areas
+        )
+        state = np.array(
+            [[2.0, 0.0, 0.0], [4.0, 0.0, 0.0], [3.0, 0.0, 0.0], [6.0, 0.0, 0.0]],
+            dtype=np.float64,
+        )
+        report = ADAPTER.apply_external_inflow(
+            state,
+            areas,
+            layout,
+            release_m3_s=24.5,
+            accepted_dt_s=1.0e-4,
+        )
+        self.assertGreater(abs(report["sourceResidualM3S"]), 1.0e-10)
+        self.assertLessEqual(
+            abs(report["sourceResidualRelative"]),
+            ADAPTER.SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
+        )
+        self.assertLessEqual(
+            abs(report["commandedSourceResidualRelative"]),
+            ADAPTER.COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
+        )
 
     def test_reverse_release_is_rejected(self) -> None:
         geometry, faces, upstream, component, areas = synthetic_case()

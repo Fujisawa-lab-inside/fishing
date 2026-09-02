@@ -19,6 +19,8 @@ import numpy as np
 
 
 ADAPTER_VERSION = "stage20-downstream-external-inflow-adapter-v1"
+SOURCE_RESIDUAL_RELATIVE_TOLERANCE = 1.0e-10
+COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE = 1.0e-13
 
 
 def require(condition: bool, message: str) -> None:
@@ -153,6 +155,9 @@ def apply_external_inflow(
             "requestedReleaseM3S": 0.0,
             "effectiveReleaseM3S": 0.0,
             "sourceResidualM3S": 0.0,
+            "sourceResidualRelative": 0.0,
+            "commandedSourceResidualM3S": 0.0,
+            "commandedSourceResidualRelative": 0.0,
             "addedVolumeM3": 0.0,
             "inflowVelocityMPS": 0.0,
             "wetCrossSectionM2": 0.0,
@@ -189,9 +194,27 @@ def apply_external_inflow(
 
     added_volume = float(np.sum((next_state[:, 0] - state[:, 0]) * areas))
     residual = added_volume / dt - release
+    residual_scale = max(release, 1.0)
+    relative_residual = residual / residual_scale
+    commanded_added_volume = np.sum(
+        np.asarray(face_volume, dtype=np.longdouble),
+        dtype=np.longdouble,
+    )
+    commanded_residual = float(
+        commanded_added_volume / np.longdouble(dt) - np.longdouble(release)
+    )
+    commanded_relative_residual = commanded_residual / residual_scale
     face_downstream_momentum_flux = face_discharge * inflow_velocity
     upstream_changed = not np.array_equal(next_state[~output_mask], state[~output_mask])
-    require(abs(residual) <= 1.0e-10 * max(release, 1.0), "external source mass residual is too large")
+    require(
+        abs(commanded_relative_residual)
+        <= COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
+        "commanded external source mass residual is too large",
+    )
+    require(
+        abs(relative_residual) <= SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
+        "external source mass residual is too large",
+    )
     require(bool(np.all(face_discharge >= 0.0)), "reverse discharge was generated")
     require(bool(np.all(face_downstream_momentum_flux >= 0.0)), "reverse momentum was generated")
     require(not upstream_changed, "external source changed the excluded upstream component")
@@ -202,6 +225,9 @@ def apply_external_inflow(
         "requestedReleaseM3S": release,
         "effectiveReleaseM3S": added_volume / dt,
         "sourceResidualM3S": residual,
+        "sourceResidualRelative": relative_residual,
+        "commandedSourceResidualM3S": commanded_residual,
+        "commandedSourceResidualRelative": commanded_relative_residual,
         "addedVolumeM3": added_volume,
         "inflowVelocityMPS": inflow_velocity,
         "wetCrossSectionM2": wet_cross_section,

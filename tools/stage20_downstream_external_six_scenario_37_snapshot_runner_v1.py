@@ -60,6 +60,8 @@ MAXIMUM_WORKER_WALL_SECONDS = 32_400.0
 MAXIMUM_BATCH_WALL_SECONDS = 36_000.0
 MAXIMUM_ACCEPTED_STEPS_PER_WORKER = 20_000_000
 MASS_BALANCE_THRESHOLD = 1.0e-10
+SOURCE_RESIDUAL_RELATIVE_THRESHOLD = 1.0e-10
+COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD = 1.0e-13
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _ACTIVE_WORKERS: dict[str, subprocess.Popen[Any]] = {}
 
@@ -143,6 +145,20 @@ def validate_contract(contract: dict[str, Any]) -> None:
     require(
         acceptance.get("float64MassBalanceErrorTreatment") == "DIAGNOSTIC_ONLY",
         "float64 mass error became an acceptance guard",
+    )
+    require(
+        acceptance.get("maximumSourceResidualRelative")
+        == SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "source residual relative threshold changed",
+    )
+    require(
+        acceptance.get("maximumCommandedSourceResidualRelative")
+        == COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "commanded source residual relative threshold changed",
+    )
+    require(
+        acceptance.get("absoluteSourceResidualTreatment") == "DIAGNOSTIC_ONLY",
+        "absolute source residual became an acceptance guard",
     )
     bindings = contract.get("bindings")
     require(isinstance(bindings, list) and len(bindings) >= 15, "bindings are incomplete")
@@ -285,6 +301,79 @@ def condition_snapshot(
     }
 
 
+def require_external_source_conservation(
+    external: dict[str, Any],
+    release_m3_s: float,
+) -> None:
+    """Apply one consistent relative guard plus a strict command guard."""
+
+    release = float(release_m3_s)
+    scale = max(release, 1.0)
+    requested = float(external["requestedReleaseM3S"])
+    effective = float(external["effectiveReleaseM3S"])
+    residual = float(external["sourceResidualM3S"])
+    relative_residual = float(external["sourceResidualRelative"])
+    commanded_residual = float(external["commandedSourceResidualM3S"])
+    commanded_relative_residual = float(
+        external["commandedSourceResidualRelative"]
+    )
+    require(
+        all(
+            math.isfinite(value)
+            for value in (
+                release,
+                requested,
+                effective,
+                residual,
+                relative_residual,
+                commanded_residual,
+                commanded_relative_residual,
+            )
+        ),
+        "external source conservation telemetry is nonfinite",
+    )
+    require(
+        math.isclose(requested, release, rel_tol=0.0, abs_tol=0.0),
+        "external release request changed",
+    )
+    require(
+        math.isclose(
+            effective - release,
+            residual,
+            rel_tol=0.0,
+            abs_tol=np.finfo(np.float64).eps * scale,
+        ),
+        "external source residual telemetry is inconsistent",
+    )
+    require(
+        math.isclose(
+            relative_residual,
+            residual / scale,
+            rel_tol=1.0e-12,
+            abs_tol=1.0e-18,
+        ),
+        "external source relative residual telemetry is inconsistent",
+    )
+    require(
+        math.isclose(
+            commanded_relative_residual,
+            commanded_residual / scale,
+            rel_tol=1.0e-12,
+            abs_tol=1.0e-18,
+        ),
+        "commanded source relative residual telemetry is inconsistent",
+    )
+    require(
+        abs(commanded_relative_residual)
+        <= COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "commanded external source is not conservative",
+    )
+    require(
+        abs(relative_residual) <= SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "external source is not conservative",
+    )
+
+
 def advance_once(
     state: np.ndarray,
     context: dict[str, Any],
@@ -337,11 +426,7 @@ def advance_once(
         minimum_flow_depth_m=0.05,
         maximum_inflow_velocity_m_s=5.0,
     )
-    require(
-        math.isclose(external["effectiveReleaseM3S"], release_m3_s, abs_tol=1.0e-10),
-        "external release changed",
-    )
-    require(abs(float(external["sourceResidualM3S"])) <= 1.0e-10, "external source is not conservative")
+    require_external_source_conservation(external, release_m3_s)
     require(external["upstreamStateChanged"] is False, "external source changed upstream state")
     external["riverBoundaryWetFaceCountByTag"] = river_boundary["wetFaceCountByTag"]
     external["riverBoundaryDryFaceCountByTag"] = river_boundary["dryFaceCountByTag"]
@@ -465,6 +550,15 @@ def build_preflight() -> dict[str, Any]:
         "float64MassBalanceErrorTreatment": contract["acceptance"][
             "float64MassBalanceErrorTreatment"
         ],
+        "maximumSourceResidualRelative": contract["acceptance"][
+            "maximumSourceResidualRelative"
+        ],
+        "maximumCommandedSourceResidualRelative": contract["acceptance"][
+            "maximumCommandedSourceResidualRelative"
+        ],
+        "absoluteSourceResidualTreatment": contract["acceptance"][
+            "absoluteSourceResidualTreatment"
+        ],
         "riverBoundaryDryFacePolicy": contract["scope"]["riverBoundaryDryFacePolicy"],
         "automaticRetryCount": 0,
     }
@@ -581,6 +675,8 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
     maximum_mass_error_longdouble = 0.0
     maximum_mass_error_float64_diagnostic = 0.0
     maximum_source_residual = 0.0
+    maximum_source_residual_relative = 0.0
+    maximum_commanded_source_residual_relative = 0.0
     minimum_inflow_velocity = math.inf
     maximum_inflow_velocity = -math.inf
     maximum_dry_river_faces_by_tag = np.zeros(5, dtype=np.int64)
@@ -629,6 +725,14 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             maximum_source_residual = max(
                 maximum_source_residual,
                 abs(float(external["sourceResidualM3S"])),
+            )
+            maximum_source_residual_relative = max(
+                maximum_source_residual_relative,
+                abs(float(external["sourceResidualRelative"])),
+            )
+            maximum_commanded_source_residual_relative = max(
+                maximum_commanded_source_residual_relative,
+                abs(float(external["commandedSourceResidualRelative"])),
             )
             minimum_inflow_velocity = min(minimum_inflow_velocity, float(external["inflowVelocityMPS"]))
             maximum_inflow_velocity = max(maximum_inflow_velocity, float(external["inflowVelocityMPS"]))
@@ -693,6 +797,11 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             ),
             "massBalanceGuardPrecision": "LONG_DOUBLE",
             "maximumSourceResidualM3S": maximum_source_residual,
+            "maximumSourceResidualRelative": maximum_source_residual_relative,
+            "maximumCommandedSourceResidualRelative": (
+                maximum_commanded_source_residual_relative
+            ),
+            "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
             "minimumInflowVelocityMPS": minimum_inflow_velocity,
             "maximumInflowVelocityMPS": maximum_inflow_velocity,
             "maximumDryRiverBoundaryFaceCountByTag": maximum_dry_river_faces_by_tag.tolist(),
@@ -919,6 +1028,14 @@ def execute() -> dict[str, Any]:
             "maximumSourceResidualM3S": max(
                 float(item["maximumSourceResidualM3S"]) for item in results
             ),
+            "maximumSourceResidualRelative": max(
+                float(item["maximumSourceResidualRelative"]) for item in results
+            ),
+            "maximumCommandedSourceResidualRelative": max(
+                float(item["maximumCommandedSourceResidualRelative"])
+                for item in results
+            ),
+            "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
             "results": results,
             "usesUpstreamDonorVolume": False,
             "reverseFlowPermitted": False,

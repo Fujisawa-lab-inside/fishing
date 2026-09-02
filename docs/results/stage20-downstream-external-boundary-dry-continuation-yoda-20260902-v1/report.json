@@ -1,0 +1,71 @@
+{
+  "schema": "onga-stage20-downstream-external-boundary-dry-continuation-validation-report-v1",
+  "status": "FETCHED_AND_VALIDATED_NUMERICAL_EXPLORATION_A_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
+  "source": {
+    "branch": "codex/stage19-public-inference-inputs",
+    "adapterCommit": "4c0eb9b373573eeb65a7aedea0d6ec641959b2b5",
+    "diagnosticCommit": "63e006fc98c7ac6341603b01893e1720afae29b4"
+  },
+  "package": {
+    "remoteRoot": "/home/swarm/work/seabass_sim/packages/stage20-downstream-external-boundary-dry-continuation-20260902-v1",
+    "payloadFileCount": 42,
+    "payloadByteLength": 3348938,
+    "payloadSha256": "c368fa324130e3ba5a5f676601852fe2104d1a22027125d06cd6c3f2ce4bec49",
+    "manifestSha256": "73ed4a79f8583d7c2d40f49e2b851726de13c4ebe93786c7d5d6ceba2f348715"
+  },
+  "run": {
+    "authorizationId": "stage20-downstream-external-boundary-dry-continuation-yoda-20260902-01",
+    "runId": "diagnostic-stage20-downstream-external-boundary-dry-continuation-20260902-v1",
+    "scenarioId": "release-high_tide-large",
+    "automaticRetryCount": 0,
+    "sourceCheckpointModelSeconds": 13800.001193044864,
+    "sourceCheckpointSha256": "37de4a0979bff5179ed9d24e018b5e69b8a28936166b46ed382528075c228987",
+    "continuationSeconds": 6000.0,
+    "endModelSeconds": 19800.001193044864,
+    "priorFailureModelSeconds": 18957.809006175565,
+    "marginBeyondPriorFailureSeconds": 842.192186869299,
+    "acceptedSteps": 624058,
+    "wallSeconds": 1300.0306945387274
+  },
+  "numericalChecks": {
+    "maximumCfl": 0.12000000000000004,
+    "maximumRelativeMassBalanceErrorLongDouble": 3.894917031940881e-15,
+    "maximumRelativeMassBalanceErrorFloat64Diagnostic": 1.4933741904544448e-11,
+    "maximumSourceResidualM3S": 1.3798739928461146e-11,
+    "minimumFinalDepthM": 3.4626690699182713e-10,
+    "maximumFinalDepthM": 6.122002364489109,
+    "negativeDepthCount": 0,
+    "nonFiniteValueCount": 0,
+    "finalStateShape": [28746, 3],
+    "finalStateDtype": "float64"
+  },
+  "riverBoundaryDryFacePolicyEvidence": {
+    "policy": "INDIVIDUAL_DRY_FACE_AS_WALL_WET_SECTION_CARRIES_DISCHARGE",
+    "dryFaceStepCount": 92060,
+    "maximumDryFaceCountByTag": [0, 0, 2, 0, 0],
+    "minimumWetFaceCountByTag": [0, 0, 18, 86, 14],
+    "nonzeroTributarySectionFullyDryCount": 0
+  },
+  "artifacts": {
+    "start-receipt.json": "c6ce972804682a850937e5450877755ef04ae004cf87b78361a8b6f732fe974f",
+    "result.json": "1b66202d78eef7afb074f018f705d53ec063a67d8f79343ba7c488efaca0dede",
+    "final-state.npy": "aa1f63c54169993196bf9359a4360166a4a1107cbffb1c0d6f99150ee1828c8a",
+    "completion-receipt.json": "720c3534f8150c24fed813ee826115ddac72a95e2e0903cdd0d4a402bb315fc9",
+    "manifest.json": "62722c2946437490ac47d5df36574c311cd68a669807dfe6a9c07e4b86e6e06d"
+  },
+  "interpretation": {
+    "validated": [
+      "The previous stop was avoided past its original model time.",
+      "The partial-dry-face policy was exercised rather than merely remaining dormant.",
+      "The Nishikawa and Magarigawa nonzero-discharge sections retained wet faces.",
+      "The fetched artifacts and final state passed independent SHA and numerical checks."
+    ],
+    "notValidated": [
+      "Physical correctness of the wet/dry boundary law",
+      "All six scenario completions",
+      "Hydrodynamic forecast validity",
+      "GUI or fishing-decision promotion",
+      "Release readiness"
+    ]
+  }
+}

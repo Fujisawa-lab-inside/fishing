@@ -1,0 +1,90 @@
+{
+  "schema": "onga-stage20-downstream-external-source-residual-hour-boundary-diagnosis-v1",
+  "status": "DIAGNOSED_HOURLY_ALIGNMENT_MICROSTEP_FLOAT64_STATE_DELTA_GUARD_FIX_NOT_IMPLEMENTED",
+  "sourceCommit": "fbb55cc9f36389837c622c5250c6ae4236e37c8d",
+  "failedRun": {
+    "authorizationId": "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260902-04",
+    "runId": "batch-stage20-downstream-external-six-scenario-37-snapshot-20260902-v4",
+    "scenarioId": "release-reference_tide-large",
+    "releaseM3S": 24.5,
+    "durationModelSeconds": 129600.0,
+    "modelSecondsAtFailure": 68399.9999823215,
+    "acceptedSteps": 7765569,
+    "error": "external source mass residual is too large",
+    "retryCount": 0
+  },
+  "hourBoundaryDiagnosis": {
+    "nextSnapshotSeconds": 68400.0,
+    "remainingToSnapshotSeconds": 0.0000176785,
+    "remainingToSnapshotMicroseconds": 17.6785,
+    "runnerStepLimitExpression": "min(0.05, FULL_SECONDS - modelSeconds, nextSnapshot - modelSeconds)",
+    "requestedSourceVolumeInRemainingStepM3": 0.00043312325,
+    "requestedSourceVolumeInRemainingStepL": 0.43312325,
+    "stateDeltaRelativeResidualTolerance": 1e-10,
+    "allowedRateResidualAtReleaseM3S": 2.45e-9,
+    "equivalentAllowedVolumeMismatchM3": 4.3312325e-14,
+    "equivalentAllowedVolumeMismatchL": 4.3312325e-11,
+    "interpretation": "The failure occurred 17.6785 microseconds before the exact 19-hour snapshot boundary. The runner therefore requested a microstep in the range already demonstrated to make the float64 state-delta reconstruction ill-conditioned. The allowed volume mismatch at this dt is numerically microscopic."
+  },
+  "guardOrderingEvidence": {
+    "firstAcceptanceGuard": "long-double commanded face-volume relative residual <= 1e-13",
+    "secondAcceptanceGuard": "float64 state-delta relative residual <= 1e-10",
+    "observedFailure": "second guard only",
+    "inference": "The commanded source-volume guard completed successfully before the state-delta guard stopped the run. No evidence in this receipt indicates a materially nonconservative source command. The failure identifies an acceptance-metric precision problem, not a demonstrated physical source leak."
+  },
+  "comparisonWithPriorLocalNoSolverSweep": {
+    "solverAdvanceCalls": 0,
+    "priorReport": "docs/results/stage20-downstream-external-source-residual-diagnosis-20260902-v1/report.json",
+    "maximumDtWithAdapterRelativeGuardCrossingSByState": {
+      "initial": 0.000017913684670012738,
+      "referenceLarge13800": 0.000026297620952033528,
+      "highLarge13800": 0.000020359265403260983
+    },
+    "failedBoundaryRemainderIsInsideAllKnownCrossingBands": true,
+    "maximumCommandedFaceVolumeResidualInNormalDtSweepM3S": 1.7763568394002505e-14
+  },
+  "rootCause": {
+    "classification": "FLOAT64_STATE_DELTA_RATE_RECONSTRUCTION_AT_FORCED_HOURLY_MICROSTEP",
+    "explanation": "The adapter computes added volume by subtracting two float64 water-depth arrays, summing the rounded differences, and dividing by dt. For the forced 17.6785-microsecond alignment step, subtraction roundoff is amplified by division by dt. Converting the same reconstructed rate residual from absolute to relative units did not remove this conditioning problem.",
+    "physicalFlowLawImplicated": false,
+    "hourlySnapshotSchedulingImplicatedAsTrigger": true,
+    "exactAcceptedDtAndResidualRecoverableWithoutRerun": false
+  },
+  "recommendedMinimalFix": {
+    "implementation": [
+      "Use the long-double commanded face-volume residual as the external-source conservation acceptance guard.",
+      "Retain float64 state-delta absolute and relative residuals as diagnostic telemetry, not as fail-closed acceptance guards.",
+      "Retain the independent long-double global mass-balance guard and all negative-depth, nonfinite, reverse-flow and wet-section fail-closed checks.",
+      "Record accepted dt and both source-residual forms in future failure receipts."
+    ],
+    "doNotChange": [
+      "physical release law",
+      "six scenario definitions",
+      "hourly snapshot times"
+    ],
+    "lessPreferredAlternative": "Skipping or snapping the final microstep would alter time-integration behavior and is not needed to correct the acceptance metric.",
+    "targetChecksBeforeAnyYodaRun": [
+      "The recorded 17.6785-microsecond boundary case passes when commanded face-volume conservation is valid.",
+      "A deliberately perturbed commanded source volume still fails closed.",
+      "Zero release remains an exact no-op.",
+      "Existing adapter and six-scenario targeted tests remain passing."
+    ]
+  },
+  "artifacts": {
+    "claim.json": "66fca7ec37fbd1ff2d7d5200fbc990301def9737e86111b87b10fc4086a89e84",
+    "start-receipt.json": "f97e0bbbbe3d81984d99fa10ab1f4700ffb395aabb1964d32c0108c9132de574",
+    "root-failure-receipt.json": "2a97385c7cbabc4222544784931a894252d98dc50a22d18014ab96ab163796df",
+    "scenario-failure-receipt.json": "9514af8888e217a7fae33185345fd89005688ced7ba97fd4288a902faa495314",
+    "release-reference_tide-large.log": "78a79f23b96dffe3947fde36e3e734cca7cd95b2e64a31b11849ceebd609e0d8"
+  },
+  "boundaries": {
+    "newSolverRunPerformed": false,
+    "yodaUsed": false,
+    "retryOrRestartPerformed": false,
+    "fixImplemented": false,
+    "physicalValidation": false,
+    "forecast": false,
+    "guiPromotion": false,
+    "release": false
+  }
+}

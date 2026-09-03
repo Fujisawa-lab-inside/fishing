@@ -42,11 +42,17 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
-            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260903-01",
+            "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260904-01",
         )
         self.assertEqual(
             RUNNER.AUTHORIZED_RUN_ID,
-            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260903-v5",
+            "batch-stage20-downstream-external-six-scenario-37-snapshot-20260904-v6",
+        )
+        self.assertEqual(RUNNER.MAXIMUM_WORKER_WALL_SECONDS, 33_600.0)
+        self.assertEqual(RUNNER.MAXIMUM_BATCH_WALL_SECONDS, 36_000.0)
+        self.assertLess(
+            RUNNER.MAXIMUM_WORKER_WALL_SECONDS,
+            RUNNER.MAXIMUM_BATCH_WALL_SECONDS,
         )
 
     def test_input_matrix_has_exact_six_conditions(self) -> None:
@@ -108,6 +114,8 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertFalse(contract["scope"]["reverseFlowPermitted"])
         self.assertTrue(contract["scope"]["consolidatedSnapshotOnly"])
         self.assertEqual(contract["runtime"]["automaticRetryCount"], 0)
+        self.assertEqual(contract["runtime"]["maximumWorkerWallSeconds"], 33_600)
+        self.assertEqual(contract["runtime"]["maximumBatchWallSeconds"], 36_000)
         self.assertNotIn("canaryGate", contract["runtime"])
         self.assertEqual(contract["acceptance"]["massBalanceGuardPrecision"], "LONG_DOUBLE")
         self.assertEqual(

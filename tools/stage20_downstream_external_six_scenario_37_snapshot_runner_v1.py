@@ -38,10 +38,10 @@ import stage20_downstream_external_wet_dry_boundary_adapter_v1 as wet_dry_bounda
 
 VERSION = "stage20-downstream-external-six-scenario-37-snapshot-runner-v1"
 SCHEMA = "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract"
-AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260903-01"
-AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260903-v5"
+AUTHORIZED_ID = "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260904-01"
+AUTHORIZED_RUN_ID = "batch-stage20-downstream-external-six-scenario-37-snapshot-20260904-v6"
 CONTRACT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json"
-ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260903_v3.json"
+ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260904_v4.json"
 INPUT_PATH = ROOT / "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json"
 SCENARIO_IDS = (
     "release-low_tide-small",
@@ -56,7 +56,7 @@ SNAPSHOT_COUNT = 37
 CELL_COUNT = 28746
 DOWNSTREAM_CELL_COUNT = 24250
 PARALLEL_WORKER_COUNT = 6
-MAXIMUM_WORKER_WALL_SECONDS = 32_400.0
+MAXIMUM_WORKER_WALL_SECONDS = 33_600.0
 MAXIMUM_BATCH_WALL_SECONDS = 36_000.0
 MAXIMUM_ACCEPTED_STEPS_PER_WORKER = 20_000_000
 MASS_BALANCE_THRESHOLD = 1.0e-10

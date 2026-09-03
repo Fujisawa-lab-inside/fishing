@@ -1,7 +1,7 @@
 {
   "schema": "onga-stage20-downstream-external-six-scenario-37-snapshot-runner-v1-contract",
   "version": 1,
-  "recordedAtJst": "2026-09-02T00:00:00+09:00",
+  "recordedAtJst": "2026-09-04T00:00:00+09:00",
   "status": "READY_PREPARE_ONLY_EXTERNAL_BATCH_ACTIVATION_REQUIRED",
   "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST",
   "scope": {
@@ -92,7 +92,7 @@
   },
   "runtime": {
     "requiredHostname": "yoda",
-    "maximumWorkerWallSeconds": 32400,
+    "maximumWorkerWallSeconds": 33600,
     "maximumBatchWallSeconds": 36000,
     "maximumAcceptedStepCountPerWorker": 20000000,
     "maximumKernelDtSeconds": 0.05,
@@ -101,7 +101,7 @@
     "cpuThreadsPerWorker": 1,
     "outputBase": ".stage20-local-only/stage20-downstream-external-six-scenario-37-snapshot-batch-20260901",
     "automaticRetryCount": 0,
-    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260903_v3.json",
+    "requiredActivationPath": "config/stage20_downstream_external_six_scenario_37_snapshot_activation_20260904_v4.json",
     "defaultMode": "READ_ONLY_PREFLIGHT",
     "localOneStepMatrixPermitted": true,
     "executeWithoutActivation": "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION"
@@ -131,12 +131,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "ddc767a270ce287b565120ae1701afde45b686a257cd7edd2bfe414095317f91"
+      "sha256": "bdd0001dcfc0e7ab1f7e80b89397d0277dfbb579bd66497efeb908be73d12cfc"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "6223ea4311dc4b326bea9635fc4c0948b54b9eed78545754c1bb4a432dbf53c8"
+      "sha256": "ac6e77f61d78cd2a1b256eaff841ca122dfb539e09d81e9d2805e3a790fdd10b"
     },
     {
       "role": "scenario_input",

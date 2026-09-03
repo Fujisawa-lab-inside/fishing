@@ -1,0 +1,65 @@
+{
+  "schema": "onga-stage20-downstream-external-six-scenario-37-snapshot-fetched-failure-v1",
+  "authorizationId": "stage20-downstream-external-six-scenario-37-snapshot-yoda-20260903-01",
+  "runId": "batch-stage20-downstream-external-six-scenario-37-snapshot-20260903-v5",
+  "terminalStatus": "FAILED_NO_RETRY",
+  "failedAtUtc": "2026-09-03T12:14:10.630669+00:00",
+  "retryCount": 0,
+  "summary": {
+    "completedScenarioCount": 3,
+    "failedScenarioCount": 3,
+    "failureCause": "worker wall-time limit exceeded",
+    "physicalValidationProvided": false,
+    "forecastProvided": false
+  },
+  "completedScenarios": [
+    {
+      "scenarioId": "release-low_tide-large",
+      "modelSeconds": 129600.0,
+      "snapshotCount": 37,
+      "status": "PASS_NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_VALIDATION_NOT_FORECAST"
+    },
+    {
+      "scenarioId": "release-reference_tide-large",
+      "modelSeconds": 129600.0,
+      "snapshotCount": 37,
+      "status": "PASS_NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_VALIDATION_NOT_FORECAST"
+    },
+    {
+      "scenarioId": "release-high_tide-large",
+      "modelSeconds": 129600.0,
+      "snapshotCount": 37,
+      "status": "PASS_NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_VALIDATION_NOT_FORECAST"
+    }
+  ],
+  "failedScenarios": [
+    {
+      "scenarioId": "release-high_tide-small",
+      "modelSeconds": 129203.13372158537,
+      "targetModelSeconds": 129600.0,
+      "remainingModelSeconds": 396.86627841463,
+      "status": "FAILED_NO_RETRY"
+    },
+    {
+      "scenarioId": "release-low_tide-small",
+      "modelSeconds": 129250.89607140256,
+      "targetModelSeconds": 129600.0,
+      "remainingModelSeconds": 349.10392859744,
+      "status": "FAILED_NO_RETRY"
+    },
+    {
+      "scenarioId": "release-reference_tide-small",
+      "modelSeconds": 129402.29778661561,
+      "targetModelSeconds": 129600.0,
+      "remainingModelSeconds": 197.70221338439,
+      "status": "FAILED_NO_RETRY"
+    }
+  ],
+  "fetchedEvidence": {
+    "claimSha256": "497f3487489e26ded71818e19916d1b7e030cc0363380c54602d8a329291ad05",
+    "startReceiptSha256": "1509651b68bacb641fa3640ecc3880b435e0d06d53c71fab186b063b951ac763",
+    "rootFailureReceiptSha256": "bd7820e3af4c96afdb36883c02ac108d59c38095076b99cbdbf0ae351ae87533",
+    "runLogSha256": "6009f783ecf4d77395a22c02b4d0b8fea19bb0857887ec53f085faf6328cbe83",
+    "allFetchedHashesMatchYoda": true
+  }
+}

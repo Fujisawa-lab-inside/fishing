@@ -1,0 +1,1 @@
+{"acceptedSteps":15535957,"durationModelSeconds":129600.0,"errorType":"ExternalBatchStop","message":"[stage20-downstream-external-six-scenario-37-snapshot-runner-v1] worker wall-time limit exceeded","modelSeconds":129402.29778661561,"scenarioId":"release-reference_tide-small","schema":"onga-stage20-downstream-external-scenario-failure-v1","status":"FAILED_NO_RETRY"}

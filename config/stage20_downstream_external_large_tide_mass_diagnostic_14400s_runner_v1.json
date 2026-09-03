@@ -93,12 +93,12 @@
     {
       "role": "full_batch_runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "512148e2359afbfadddfa6c9061f76fe99b75b4ed7ebaed8e93f258bf697c17f"
+      "sha256": "ddc767a270ce287b565120ae1701afde45b686a257cd7edd2bfe414095317f91"
     },
     {
       "role": "full_batch_contract",
       "path": "config/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.json",
-      "sha256": "ede7cb00c9a2d016b63d431ad70e906158f7809ae2e1abe850408fb1f78a4e9c"
+      "sha256": "b8145e5969e1d7df9ae3ce45f9b4381649bf16ac218aa3a0df2f367d98951dca"
     },
     {
       "role": "scenario_input",

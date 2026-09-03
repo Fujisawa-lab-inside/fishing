@@ -119,9 +119,8 @@
     "maximumRelativeMassBalanceError": 1e-10,
     "massBalanceGuardPrecision": "LONG_DOUBLE",
     "float64MassBalanceErrorTreatment": "DIAGNOSTIC_ONLY",
-    "maximumSourceResidualRelative": 1e-10,
+    "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
     "maximumCommandedSourceResidualRelative": 1e-13,
-    "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
     "maximumInflowVelocityMPS": 5.0,
     "negativeDepthCount": 0,
     "nonFiniteValueCount": 0,
@@ -132,12 +131,12 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "ddc7bb66453c5d8839b48bbf1be0955342c5d95dae777a458cc786cba19ff431"
+      "sha256": "512148e2359afbfadddfa6c9061f76fe99b75b4ed7ebaed8e93f258bf697c17f"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_six_scenario_37_snapshot_runner_v1.py",
-      "sha256": "794dc1ce981a469e151e4b112ee5a9a0ec0cd5727b6c50559d9615e4cc31122b"
+      "sha256": "9b014d0eb97813adb88112c7b342adfea86792e2240f8321fb204e71e18e2e30"
     },
     {
       "role": "scenario_input",
@@ -147,12 +146,12 @@
     {
       "role": "external_inflow_adapter",
       "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "85aa013559a0f129ec8055a1dd5ced704389614290e214e689411f26fb61f5a6"
+      "sha256": "224304994f892504ed82e6115535490aba82f1c392948d248071c7d6ce0032b3"
     },
     {
       "role": "external_inflow_adapter_test",
       "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "fdb1e35a64153df2893e2d6b9c7d37798156ee70375f214c8bbef26e8a5b8c76"
+      "sha256": "123e611561822008271a263741902d24d14ed7e7e8cb0adb36aab49e5e06a55d"
     },
     {
       "role": "wet_dry_boundary_adapter",
@@ -167,12 +166,12 @@
     {
       "role": "proven_canary_runner",
       "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
-      "sha256": "1fd88b799a17503508477725d181a3cd0e49d0639fe6d67ce1f55a064ad725a6"
+      "sha256": "50d03859534e1efe5239479120e6ee41740c7ffccb42e7ee459449f54af72141"
     },
     {
       "role": "proven_canary_contract",
       "path": "config/stage20_downstream_external_high_large_7200s_runner_v1.json",
-      "sha256": "f7e718911422de2a93e78d1c50efa11b8125363fe3e6328de177449771ee4e1d"
+      "sha256": "d1541b68672b13a4b0cee94266fd369a8c9a3ae9c0d54b88196b2b21e97250a5"
     },
     {
       "role": "proven_canary_input",

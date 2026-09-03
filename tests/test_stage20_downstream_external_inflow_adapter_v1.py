@@ -60,6 +60,10 @@ class DownstreamExternalInflowAdapterV1Tests(unittest.TestCase):
         self.assertAlmostEqual(report["effectiveReleaseM3S"], 6.0)
         self.assertAlmostEqual(report["sourceResidualM3S"], 0.0)
         self.assertAlmostEqual(report["sourceResidualRelative"], 0.0)
+        self.assertEqual(
+            report["stateDeltaSourceResidualTreatment"],
+            "FLOAT64_DIAGNOSTIC_ONLY",
+        )
         self.assertAlmostEqual(report["commandedSourceResidualM3S"], 0.0)
         self.assertAlmostEqual(report["commandedSourceResidualRelative"], 0.0)
         np.testing.assert_array_equal(next_state[[0, 2]], state[[0, 2]])
@@ -81,13 +85,13 @@ class DownstreamExternalInflowAdapterV1Tests(unittest.TestCase):
         self.assertEqual(report["commandedSourceResidualM3S"], 0.0)
         self.assertEqual(report["commandedSourceResidualRelative"], 0.0)
 
-    def test_small_dt_float64_state_delta_is_checked_relatively(self) -> None:
+    def test_hour_boundary_microstep_state_delta_residual_is_diagnostic(self) -> None:
         geometry, faces, upstream, component, areas = synthetic_case()
         layout = ADAPTER.build_external_inflow_layout(
             geometry, faces, upstream, component, areas
         )
         state = np.array(
-            [[2.0, 0.0, 0.0], [4.0, 0.0, 0.0], [3.0, 0.0, 0.0], [6.0, 0.0, 0.0]],
+            [[2.0, 0.0, 0.0], [50.0, 0.0, 0.0], [3.0, 0.0, 0.0], [75.0, 0.0, 0.0]],
             dtype=np.float64,
         )
         report = ADAPTER.apply_external_inflow(
@@ -95,13 +99,13 @@ class DownstreamExternalInflowAdapterV1Tests(unittest.TestCase):
             areas,
             layout,
             release_m3_s=24.5,
-            accepted_dt_s=1.0e-4,
+            accepted_dt_s=17.6785e-6,
         )
-        self.assertGreater(abs(report["sourceResidualM3S"]), 1.0e-10)
-        self.assertLessEqual(
-            abs(report["sourceResidualRelative"]),
-            ADAPTER.SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
+        self.assertEqual(
+            report["stateDeltaSourceResidualTreatment"],
+            "FLOAT64_DIAGNOSTIC_ONLY",
         )
+        self.assertGreater(abs(report["sourceResidualRelative"]), 1.0e-10)
         self.assertLessEqual(
             abs(report["commandedSourceResidualRelative"]),
             ADAPTER.COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE,

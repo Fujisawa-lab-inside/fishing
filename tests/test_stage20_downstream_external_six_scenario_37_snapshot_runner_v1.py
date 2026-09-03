@@ -34,9 +34,11 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["parallelWorkerCount"], 6)
         self.assertEqual(report["massBalanceGuardPrecision"], "LONG_DOUBLE")
         self.assertEqual(report["float64MassBalanceErrorTreatment"], "DIAGNOSTIC_ONLY")
-        self.assertEqual(report["maximumSourceResidualRelative"], 1.0e-10)
+        self.assertEqual(
+            report["stateDeltaSourceResidualTreatment"],
+            "FLOAT64_DIAGNOSTIC_ONLY",
+        )
         self.assertEqual(report["maximumCommandedSourceResidualRelative"], 1.0e-13)
-        self.assertEqual(report["absoluteSourceResidualTreatment"], "DIAGNOSTIC_ONLY")
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
@@ -113,16 +115,13 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             "DIAGNOSTIC_ONLY",
         )
         self.assertEqual(
-            contract["acceptance"]["maximumSourceResidualRelative"],
-            1.0e-10,
+            contract["acceptance"]["stateDeltaSourceResidualTreatment"],
+            "FLOAT64_DIAGNOSTIC_ONLY",
         )
+        self.assertNotIn("maximumSourceResidualRelative", contract["acceptance"])
         self.assertEqual(
             contract["acceptance"]["maximumCommandedSourceResidualRelative"],
             1.0e-13,
-        )
-        self.assertEqual(
-            contract["acceptance"]["absoluteSourceResidualTreatment"],
-            "DIAGNOSTIC_ONLY",
         )
         self.assertEqual(
             contract["scope"]["riverBoundaryDryFacePolicy"],
@@ -158,12 +157,13 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             "effectiveReleaseM3S": release + residual,
             "sourceResidualM3S": residual,
             "sourceResidualRelative": residual / release,
+            "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
             "commandedSourceResidualM3S": 1.0e-15,
             "commandedSourceResidualRelative": 1.0e-15 / release,
         }
         RUNNER.require_external_source_conservation(external, release)
 
-    def test_external_source_guard_rejects_relative_state_residual(self) -> None:
+    def test_external_source_guard_keeps_state_delta_residual_diagnostic(self) -> None:
         release = 24.5
         residual = 3.0e-9
         external = {
@@ -171,11 +171,11 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             "effectiveReleaseM3S": release + residual,
             "sourceResidualM3S": residual,
             "sourceResidualRelative": residual / release,
+            "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
             "commandedSourceResidualM3S": 0.0,
             "commandedSourceResidualRelative": 0.0,
         }
-        with self.assertRaisesRegex(RUNNER.ExternalBatchStop, "external source is not conservative"):
-            RUNNER.require_external_source_conservation(external, release)
+        RUNNER.require_external_source_conservation(external, release)
 
     def test_external_source_guard_rejects_commanded_volume_error(self) -> None:
         release = 24.5
@@ -185,6 +185,7 @@ class DownstreamExternalSixScenario37SnapshotRunnerV1Tests(unittest.TestCase):
             "effectiveReleaseM3S": release,
             "sourceResidualM3S": 0.0,
             "sourceResidualRelative": 0.0,
+            "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
             "commandedSourceResidualM3S": commanded_residual,
             "commandedSourceResidualRelative": commanded_residual / release,
         }

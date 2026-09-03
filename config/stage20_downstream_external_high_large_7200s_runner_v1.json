@@ -39,7 +39,8 @@
     "simulatedSecondsExactly": 7200.0,
     "maximumCfl": 0.120000000001,
     "maximumRelativeMassBalanceError": 1e-10,
-    "maximumSourceResidualM3S": 1e-10,
+    "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
+    "maximumCommandedSourceResidualRelative": 1e-13,
     "effectiveReleaseM3SExactly": 73.0,
     "maximumInflowVelocityMPS": 5.0,
     "negativeDepthCount": 0,
@@ -51,22 +52,22 @@
     {
       "role": "runner",
       "path": "tools/stage20_downstream_external_high_large_7200s_runner_v1.py",
-      "sha256": "1fd88b799a17503508477725d181a3cd0e49d0639fe6d67ce1f55a064ad725a6"
+      "sha256": "50d03859534e1efe5239479120e6ee41740c7ffccb42e7ee459449f54af72141"
     },
     {
       "role": "target_test",
       "path": "tests/test_stage20_downstream_external_high_large_7200s_runner_v1.py",
-      "sha256": "b8bf9ed7e8a732ddcbfd5e2401dc7df858143651efa61b0211a093c694ead2f0"
+      "sha256": "515bf007b0395a08fcdff09bbd4cc466086c5b57a9a117fc0218c6bf12cbce34"
     },
     {
       "role": "external_inflow_adapter",
       "path": "tools/stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "423fb14df1492e8c4efc077e2baaab5aabb1b5b080902b54c74f97abe5c041ac"
+      "sha256": "224304994f892504ed82e6115535490aba82f1c392948d248071c7d6ce0032b3"
     },
     {
       "role": "external_inflow_adapter_test",
       "path": "tests/test_stage20_downstream_external_inflow_adapter_v1.py",
-      "sha256": "908e55588e265734f7552fdaaad077fc91429b3e9e0ccdb5723cc1b2ed1f896e"
+      "sha256": "123e611561822008271a263741902d24d14ed7e7e8cb0adb36aab49e5e06a55d"
     },
     {
       "role": "matched_runner",

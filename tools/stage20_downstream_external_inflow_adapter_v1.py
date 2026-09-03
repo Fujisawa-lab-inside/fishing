@@ -3,8 +3,10 @@
 
 The prescribed barrage release is applied directly to cells on the downstream
 side of the SHA-bound barrage faces.  It is therefore not limited by the water
-volume in the excluded upstream component.  Added mass is exact and added
-momentum is oriented from the barrage toward the downstream side.
+volume in the excluded upstream component.  Commanded source volume is guarded
+in long-double precision and added momentum is oriented from the barrage toward
+the downstream side.  Residuals reconstructed from float64 state deltas are
+diagnostic because division by a microstep is ill-conditioned.
 
 This remains a diagnostic boundary surrogate.  The gate-by-gate opening,
 actuator response, jet contraction, and physical discharge law are not
@@ -19,8 +21,8 @@ import numpy as np
 
 
 ADAPTER_VERSION = "stage20-downstream-external-inflow-adapter-v1"
-SOURCE_RESIDUAL_RELATIVE_TOLERANCE = 1.0e-10
 COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE = 1.0e-13
+STATE_DELTA_SOURCE_RESIDUAL_TREATMENT = "FLOAT64_DIAGNOSTIC_ONLY"
 
 
 def require(condition: bool, message: str) -> None:
@@ -156,6 +158,7 @@ def apply_external_inflow(
             "effectiveReleaseM3S": 0.0,
             "sourceResidualM3S": 0.0,
             "sourceResidualRelative": 0.0,
+            "stateDeltaSourceResidualTreatment": STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
             "commandedSourceResidualM3S": 0.0,
             "commandedSourceResidualRelative": 0.0,
             "addedVolumeM3": 0.0,
@@ -211,10 +214,6 @@ def apply_external_inflow(
         <= COMMANDED_SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
         "commanded external source mass residual is too large",
     )
-    require(
-        abs(relative_residual) <= SOURCE_RESIDUAL_RELATIVE_TOLERANCE,
-        "external source mass residual is too large",
-    )
     require(bool(np.all(face_discharge >= 0.0)), "reverse discharge was generated")
     require(bool(np.all(face_downstream_momentum_flux >= 0.0)), "reverse momentum was generated")
     require(not upstream_changed, "external source changed the excluded upstream component")
@@ -226,6 +225,7 @@ def apply_external_inflow(
         "effectiveReleaseM3S": added_volume / dt,
         "sourceResidualM3S": residual,
         "sourceResidualRelative": relative_residual,
+        "stateDeltaSourceResidualTreatment": STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
         "commandedSourceResidualM3S": commanded_residual,
         "commandedSourceResidualRelative": commanded_relative_residual,
         "addedVolumeM3": added_volume,

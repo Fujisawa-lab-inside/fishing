@@ -44,6 +44,8 @@ CELL_COUNT = 28746
 DOWNSTREAM_CELL_COUNT = 24250
 MAXIMUM_WALL_SECONDS = 1800.0
 MAXIMUM_ACCEPTED_STEPS = 2_000_000
+COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD = 1.0e-13
+STATE_DELTA_SOURCE_RESIDUAL_TREATMENT = "FLOAT64_DIAGNOSTIC_ONLY"
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 
 
@@ -131,6 +133,21 @@ def validate_contract(contract: dict[str, Any]) -> None:
         == "FAIL_BEFORE_CONTEXT_LOAD_KERNEL_CALL_OR_OUTPUT_CREATION",
         "missing-activation behavior changed",
     )
+    acceptance = contract.get("acceptance", {})
+    require(
+        acceptance.get("stateDeltaSourceResidualTreatment")
+        == STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
+        "state-delta source residual became an acceptance guard",
+    )
+    require(
+        acceptance.get("maximumCommandedSourceResidualRelative")
+        == COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "commanded source residual threshold changed",
+    )
+    require(
+        "maximumSourceResidualM3S" not in acceptance,
+        "state-delta source residual threshold was reintroduced",
+    )
     bindings = contract.get("bindings")
     require(isinstance(bindings, list) and len(bindings) >= 9, "bindings are incomplete")
     seen: set[str] = set()
@@ -187,6 +204,37 @@ def load_scenario() -> dict[str, Any]:
 def tide_at(scenario: dict[str, Any], model_seconds: float) -> float:
     values = np.asarray(scenario["boundaryInputs"]["astronomicalTideHeightMByOffset"], dtype=np.float64)
     return float(np.interp(model_seconds, np.arange(37, dtype=np.float64) * 3600.0, values))
+
+
+def require_external_source_conservation(
+    external: dict[str, Any],
+    release_m3_s: float,
+) -> None:
+    """Use commanded volume for acceptance and state deltas for diagnostics."""
+
+    release = float(release_m3_s)
+    requested = float(external["requestedReleaseM3S"])
+    commanded_relative_residual = float(
+        external["commandedSourceResidualRelative"]
+    )
+    require(
+        math.isfinite(requested) and math.isfinite(commanded_relative_residual),
+        "external source conservation telemetry is nonfinite",
+    )
+    require(
+        math.isclose(requested, release, rel_tol=0.0, abs_tol=0.0),
+        "external release request changed",
+    )
+    require(
+        external.get("stateDeltaSourceResidualTreatment")
+        == STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
+        "state-delta source residual treatment changed",
+    )
+    require(
+        abs(commanded_relative_residual)
+        <= COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
+        "commanded external source is not conservative",
+    )
 
 
 def build_discharge(geometry: dict[str, np.ndarray]) -> np.ndarray:
@@ -298,8 +346,7 @@ def advance_once(
         minimum_flow_depth_m=0.05,
         maximum_inflow_velocity_m_s=5.0,
     )
-    require(math.isclose(external["effectiveReleaseM3S"], 73.0, abs_tol=1.0e-10), "external release changed")
-    require(abs(external["sourceResidualM3S"]) <= 1.0e-10, "external source is not conservative")
+    require_external_source_conservation(external, 73.0)
     require(external["upstreamStateChanged"] is False, "external source changed upstream state")
     return step, external
 
@@ -434,6 +481,7 @@ def execute() -> dict[str, Any]:
     maximum_cfl = 0.0
     maximum_mass_error = 0.0
     maximum_source_residual = 0.0
+    maximum_commanded_source_residual_relative = 0.0
     minimum_inflow_velocity = math.inf
     maximum_inflow_velocity = -math.inf
     next_safety_check = 600.0
@@ -452,6 +500,10 @@ def execute() -> dict[str, Any]:
             expected_volume += float(external["addedVolumeM3"])
             maximum_cfl = max(maximum_cfl, float(step.maximum_cfl))
             maximum_source_residual = max(maximum_source_residual, abs(float(external["sourceResidualM3S"])))
+            maximum_commanded_source_residual_relative = max(
+                maximum_commanded_source_residual_relative,
+                abs(float(external["commandedSourceResidualRelative"])),
+            )
             minimum_inflow_velocity = min(minimum_inflow_velocity, float(external["inflowVelocityMPS"]))
             maximum_inflow_velocity = max(maximum_inflow_velocity, float(external["inflowVelocityMPS"]))
             if model_seconds >= next_safety_check - 1.0e-9 or model_seconds >= DURATION_SECONDS - 1.0e-9:
@@ -474,6 +526,10 @@ def execute() -> dict[str, Any]:
             "maximumCfl": maximum_cfl,
             "maximumRelativeMassBalanceError": maximum_mass_error,
             "maximumSourceResidualM3S": maximum_source_residual,
+            "stateDeltaSourceResidualTreatment": STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
+            "maximumCommandedSourceResidualRelative": (
+                maximum_commanded_source_residual_relative
+            ),
             "minimumInflowVelocityMPS": minimum_inflow_velocity,
             "maximumInflowVelocityMPS": maximum_inflow_velocity,
             "requestedReleaseM3S": 73.0,

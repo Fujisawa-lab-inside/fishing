@@ -60,8 +60,8 @@ MAXIMUM_WORKER_WALL_SECONDS = 32_400.0
 MAXIMUM_BATCH_WALL_SECONDS = 36_000.0
 MAXIMUM_ACCEPTED_STEPS_PER_WORKER = 20_000_000
 MASS_BALANCE_THRESHOLD = 1.0e-10
-SOURCE_RESIDUAL_RELATIVE_THRESHOLD = 1.0e-10
 COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD = 1.0e-13
+STATE_DELTA_SOURCE_RESIDUAL_TREATMENT = "FLOAT64_DIAGNOSTIC_ONLY"
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _ACTIVE_WORKERS: dict[str, subprocess.Popen[Any]] = {}
 
@@ -147,9 +147,9 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "float64 mass error became an acceptance guard",
     )
     require(
-        acceptance.get("maximumSourceResidualRelative")
-        == SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
-        "source residual relative threshold changed",
+        acceptance.get("stateDeltaSourceResidualTreatment")
+        == STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
+        "state-delta source residual became an acceptance guard",
     )
     require(
         acceptance.get("maximumCommandedSourceResidualRelative")
@@ -157,8 +157,8 @@ def validate_contract(contract: dict[str, Any]) -> None:
         "commanded source residual relative threshold changed",
     )
     require(
-        acceptance.get("absoluteSourceResidualTreatment") == "DIAGNOSTIC_ONLY",
-        "absolute source residual became an acceptance guard",
+        "maximumSourceResidualRelative" not in acceptance,
+        "state-delta source residual threshold was reintroduced",
     )
     bindings = contract.get("bindings")
     require(isinstance(bindings, list) and len(bindings) >= 15, "bindings are incomplete")
@@ -305,7 +305,7 @@ def require_external_source_conservation(
     external: dict[str, Any],
     release_m3_s: float,
 ) -> None:
-    """Apply one consistent relative guard plus a strict command guard."""
+    """Validate telemetry and apply the strict commanded-volume guard."""
 
     release = float(release_m3_s)
     scale = max(release, 1.0)
@@ -317,6 +317,7 @@ def require_external_source_conservation(
     commanded_relative_residual = float(
         external["commandedSourceResidualRelative"]
     )
+    state_delta_treatment = external.get("stateDeltaSourceResidualTreatment")
     require(
         all(
             math.isfinite(value)
@@ -364,13 +365,13 @@ def require_external_source_conservation(
         "commanded source relative residual telemetry is inconsistent",
     )
     require(
+        state_delta_treatment == STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
+        "state-delta source residual treatment changed",
+    )
+    require(
         abs(commanded_relative_residual)
         <= COMMANDED_SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
         "commanded external source is not conservative",
-    )
-    require(
-        abs(relative_residual) <= SOURCE_RESIDUAL_RELATIVE_THRESHOLD,
-        "external source is not conservative",
     )
 
 
@@ -550,14 +551,11 @@ def build_preflight() -> dict[str, Any]:
         "float64MassBalanceErrorTreatment": contract["acceptance"][
             "float64MassBalanceErrorTreatment"
         ],
-        "maximumSourceResidualRelative": contract["acceptance"][
-            "maximumSourceResidualRelative"
+        "stateDeltaSourceResidualTreatment": contract["acceptance"][
+            "stateDeltaSourceResidualTreatment"
         ],
         "maximumCommandedSourceResidualRelative": contract["acceptance"][
             "maximumCommandedSourceResidualRelative"
-        ],
-        "absoluteSourceResidualTreatment": contract["acceptance"][
-            "absoluteSourceResidualTreatment"
         ],
         "riverBoundaryDryFacePolicy": contract["scope"]["riverBoundaryDryFacePolicy"],
         "automaticRetryCount": 0,
@@ -798,10 +796,10 @@ def _run_scenario(scenario_id: str, output_text: str) -> int:
             "massBalanceGuardPrecision": "LONG_DOUBLE",
             "maximumSourceResidualM3S": maximum_source_residual,
             "maximumSourceResidualRelative": maximum_source_residual_relative,
+            "stateDeltaSourceResidualTreatment": STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
             "maximumCommandedSourceResidualRelative": (
                 maximum_commanded_source_residual_relative
             ),
-            "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
             "minimumInflowVelocityMPS": minimum_inflow_velocity,
             "maximumInflowVelocityMPS": maximum_inflow_velocity,
             "maximumDryRiverBoundaryFaceCountByTag": maximum_dry_river_faces_by_tag.tolist(),
@@ -1031,11 +1029,11 @@ def execute() -> dict[str, Any]:
             "maximumSourceResidualRelative": max(
                 float(item["maximumSourceResidualRelative"]) for item in results
             ),
+            "stateDeltaSourceResidualTreatment": STATE_DELTA_SOURCE_RESIDUAL_TREATMENT,
             "maximumCommandedSourceResidualRelative": max(
                 float(item["maximumCommandedSourceResidualRelative"])
                 for item in results
             ),
-            "absoluteSourceResidualTreatment": "DIAGNOSTIC_ONLY",
             "results": results,
             "usesUpstreamDonorVolume": False,
             "reverseFlowPermitted": False,

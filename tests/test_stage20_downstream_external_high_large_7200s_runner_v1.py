@@ -63,6 +63,29 @@ class DownstreamExternalHighLarge7200sRunnerV1Tests(unittest.TestCase):
         self.assertFalse(contract["scope"]["usesUpstreamDonorVolume"])
         self.assertFalse(contract["scope"]["reverseFlowPermitted"])
         self.assertEqual(contract["runtime"]["automaticRetryCount"], 0)
+        self.assertEqual(
+            contract["acceptance"]["stateDeltaSourceResidualTreatment"],
+            "FLOAT64_DIAGNOSTIC_ONLY",
+        )
+        self.assertEqual(
+            contract["acceptance"]["maximumCommandedSourceResidualRelative"],
+            1.0e-13,
+        )
+        self.assertNotIn("maximumSourceResidualM3S", contract["acceptance"])
+
+    def test_state_delta_residual_is_diagnostic_but_command_error_fails(self) -> None:
+        external = {
+            "requestedReleaseM3S": 73.0,
+            "stateDeltaSourceResidualTreatment": "FLOAT64_DIAGNOSTIC_ONLY",
+            "commandedSourceResidualRelative": 0.0,
+        }
+        RUNNER.require_external_source_conservation(external, 73.0)
+        external["commandedSourceResidualRelative"] = 2.0e-13
+        with self.assertRaisesRegex(
+            RUNNER.ExternalInflowCanaryStop,
+            "commanded external source is not conservative",
+        ):
+            RUNNER.require_external_source_conservation(external, 73.0)
 
     def test_module_has_no_remote_control_import(self) -> None:
         tree = ast.parse(RUNNER_PATH.read_text(encoding="utf-8"))

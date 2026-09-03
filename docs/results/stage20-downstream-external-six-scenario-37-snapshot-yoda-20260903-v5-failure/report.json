@@ -60,6 +60,15 @@
     "startReceiptSha256": "1509651b68bacb641fa3640ecc3880b435e0d06d53c71fab186b063b951ac763",
     "rootFailureReceiptSha256": "bd7820e3af4c96afdb36883c02ac108d59c38095076b99cbdbf0ae351ae87533",
     "runLogSha256": "6009f783ecf4d77395a22c02b4d0b8fea19bb0857887ec53f085faf6328cbe83",
+    "completedScenarioStateDataFetched": true,
+    "completedScenarioStateDataValidatedAgainstCompletionReceipts": true,
+    "completedScenarioStateDataTrackedInGit": false,
+    "completedScenarioStateDataLocalRoot": ".stage20-local-only/fetched/stage20-downstream-external-six-scenario-37-snapshot-yoda-20260903-v5-partial/scenarios",
+    "completedScenarioSnapshotSha256": {
+      "release-low_tide-large": "544ac2b7f49c97013f64dd38fcb7dbcd8f52d1c96d8d7331160e57aa525ac663",
+      "release-reference_tide-large": "d3d79a74950b1492046efc1867060b3d3715828491cb8e45a9ccf729c42b0cb3",
+      "release-high_tide-large": "f15cbead43578de3ef4d94fa6ad4dbdb8d142be4d0d7ca2d66528dafb0049756"
+    },
     "allFetchedHashesMatchYoda": true
   }
 }

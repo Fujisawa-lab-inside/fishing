@@ -80,6 +80,35 @@ class DownstreamExternalSingleGap37SnapshotRunnerV1Tests(unittest.TestCase):
             [name for name in imports if any(token in name.lower() for token in ("paramiko", "fabric", "ssh"))]
         )
 
+    def test_worker_does_not_reenter_base_contract_after_path_switch(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            activation_path = Path(directory) / "activation.json"
+            activation_path.write_text("{}", encoding="utf-8")
+            authorized_output = Path(directory) / "output"
+            validation_calls = 0
+
+            def validate_once(_activation):
+                nonlocal validation_calls
+                validation_calls += 1
+                if validation_calls > 1:
+                    raise AssertionError("activation validation re-entered after path switch")
+                return authorized_output
+
+            def exercise_base_guard(_scenario_id, _output_text):
+                _, output = RUNNER.base.validate_activation({})
+                self.assertEqual(output, authorized_output)
+                return 0
+
+            with (
+                mock.patch.object(RUNNER, "ACTIVATION_PATH", activation_path),
+                mock.patch.object(RUNNER.socket, "gethostname", return_value="yoda"),
+                mock.patch.object(RUNNER, "validate_activation", side_effect=validate_once),
+                mock.patch.object(RUNNER, "load_scenario", return_value={"id": RUNNER.SCENARIO_ID}),
+                mock.patch.object(RUNNER.base, "_run_scenario", side_effect=exercise_base_guard),
+            ):
+                self.assertEqual(RUNNER._worker(str(authorized_output)), 0)
+            self.assertEqual(validation_calls, 1)
+
 
 if __name__ == "__main__":
     unittest.main()

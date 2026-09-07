@@ -226,7 +226,8 @@ def run_local_one_step() -> dict[str, Any]:
 def _worker(output_text: str) -> int:
     require(socket.gethostname().lower() == "yoda", "worker host is not yoda")
     require(ACTIVATION_PATH.is_file() and not ACTIVATION_PATH.is_symlink(), "activation is missing")
-    validate_activation(base.canary.read_json(ACTIVATION_PATH))
+    activation = base.canary.read_json(ACTIVATION_PATH)
+    authorized_output = validate_activation(activation)
     scenario = load_scenario()
     original_activation_path = base.ACTIVATION_PATH
     original_validate_activation = base.validate_activation
@@ -234,7 +235,11 @@ def _worker(output_text: str) -> int:
     original_version = base.VERSION
     try:
         base.ACTIVATION_PATH = ACTIVATION_PATH
-        base.validate_activation = lambda activation: ({}, validate_activation(activation))
+        def use_prevalidated_activation(candidate: dict[str, Any]) -> tuple[dict[str, Any], Path]:
+            require(candidate == activation, "activation changed after prevalidation")
+            return {}, authorized_output
+
+        base.validate_activation = use_prevalidated_activation
         base.load_scenarios = lambda: {SCENARIO_ID: scenario}
         base.VERSION = VERSION
         return base._run_scenario(SCENARIO_ID, output_text)

@@ -1,0 +1,28 @@
+{
+  "schema": "onga-stage20-downstream-external-single-gap-scenario-input-v1",
+  "version": 1,
+  "status": "READY_DIAGNOSTIC_PRECOMPUTE_INPUT_NOT_FORECAST",
+  "classification": "DIAGNOSTIC_EXTERNAL_DOWNSTREAM_INFLOW_NOT_PHYSICAL_VALIDATION_NOT_FORECAST_NOT_CATCH_PROBABILITY",
+  "recordedAtJst": "2026-09-07T19:00:00+09:00",
+  "scenarioId": "release-6p2_tide-large",
+  "purpose": "ADD_ONE_RELEASE_ANCHOR_AT_THE_CURRENT_LOW_TO_REFERENCE_INTERPOLATION_GAP",
+  "barrageReleaseM3S": 6.2,
+  "tideRangeClass": "large",
+  "sourceTideInputPath": "config/stage20_downstream_external_six_scenario_37_snapshot_input_v1.json",
+  "snapshotOffsetsHours": [
+    -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+  ],
+  "durationModelSeconds": 129600,
+  "snapshotCount": 37,
+  "intervalHours": 1,
+  "currentConditionReferenceAllowed": false,
+  "usesUpstreamDonorVolume": false,
+  "reverseFlowPermitted": false,
+  "notes": [
+    "This is a reusable 6.2 m3/s release anchor using the existing representative large-tide forcing.",
+    "It is not a live forecast and must not be exposed to the GUI until the run and post-run candidate audit pass.",
+    "No existing six-condition result is rerun or overwritten."
+  ]
+}

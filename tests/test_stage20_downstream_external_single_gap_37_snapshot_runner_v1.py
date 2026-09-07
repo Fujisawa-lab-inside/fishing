@@ -33,6 +33,14 @@ class DownstreamExternalSingleGap37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertEqual(report["parallelWorkerCount"], 1)
         self.assertEqual(report["automaticRetryCount"], 0)
         self.assertFalse(report["currentConditionReferenceAllowed"])
+        self.assertEqual(
+            RUNNER.AUTHORIZED_ID,
+            "stage20-downstream-external-release-6p2-large-yoda-20260907-02",
+        )
+        self.assertEqual(
+            RUNNER.AUTHORIZED_RUN_ID,
+            "scenario-stage20-downstream-external-release-6p2-large-20260907-v2",
+        )
 
     def test_scenario_reuses_large_tide_and_adds_only_release_anchor(self) -> None:
         scenario = RUNNER.load_scenario()

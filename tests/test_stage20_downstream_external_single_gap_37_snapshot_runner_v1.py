@@ -35,11 +35,11 @@ class DownstreamExternalSingleGap37SnapshotRunnerV1Tests(unittest.TestCase):
         self.assertFalse(report["currentConditionReferenceAllowed"])
         self.assertEqual(
             RUNNER.AUTHORIZED_ID,
-            "stage20-downstream-external-release-6p2-large-yoda-20260907-02",
+            "stage20-downstream-external-release-6p2-large-yoda-20260907-03",
         )
         self.assertEqual(
             RUNNER.AUTHORIZED_RUN_ID,
-            "scenario-stage20-downstream-external-release-6p2-large-20260907-v2",
+            "scenario-stage20-downstream-external-release-6p2-large-20260907-v3",
         )
 
     def test_scenario_reuses_large_tide_and_adds_only_release_anchor(self) -> None:

@@ -34,10 +34,10 @@ import stage20_downstream_external_six_scenario_37_snapshot_runner_v1 as base
 
 VERSION = "stage20-downstream-external-single-gap-37-snapshot-runner-v1"
 SCENARIO_ID = "release-6p2_tide-large"
-AUTHORIZED_ID = "stage20-downstream-external-release-6p2-large-yoda-20260907-02"
-AUTHORIZED_RUN_ID = "scenario-stage20-downstream-external-release-6p2-large-20260907-v2"
+AUTHORIZED_ID = "stage20-downstream-external-release-6p2-large-yoda-20260907-03"
+AUTHORIZED_RUN_ID = "scenario-stage20-downstream-external-release-6p2-large-20260907-v3"
 INPUT_PATH = ROOT / "config/stage20_downstream_external_release_6p2_tide_large_37_snapshot_input_v1.json"
-ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_release_6p2_tide_large_37_snapshot_activation_20260907_v2.json"
+ACTIVATION_PATH = ROOT / "config/stage20_downstream_external_release_6p2_tide_large_37_snapshot_activation_20260907_v3.json"
 OUTPUT_BASE = Path(
     ".stage20-local-only/stage20-downstream-external-single-gap-37-snapshot-20260907"
 )

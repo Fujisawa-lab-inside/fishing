@@ -8,7 +8,7 @@ import html
 import json
 import re
 import subprocess
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -39,16 +39,21 @@ def plain_text(source: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", source)).replace("\xa0", " ")
 
 
+def _observed_datetime(month: int, day: int, hour: int, minute: int, now: datetime) -> datetime:
+    require(0 <= hour <= 24, "observation hour is outside bounds")
+    year = now.year - 1 if now.month == 1 and month == 12 else now.year
+    if now.month == 12 and month == 1:
+        year += 1
+    observed = datetime(year, month, day, 0 if hour == 24 else hour, minute, tzinfo=TOKYO)
+    return observed + timedelta(days=1) if hour == 24 else observed
+
+
 def parse_official_point_observation(source: str, *, fetched_at: datetime | None = None) -> dict[str, Any]:
     fetched = (fetched_at or datetime.now(TOKYO)).astimezone(TOKYO)
     text = plain_text(source)
     timestamp = re.search(r"(\d{2})/(\d{2})\s+(\d{2}):(\d{2})\s*の更新情報", text)
     require(timestamp is not None, "observation timestamp is missing")
-    month, day, hour, minute = (int(value) for value in timestamp.groups())
-    year = fetched.year - 1 if fetched.month == 1 and month == 12 else fetched.year
-    if fetched.month == 12 and month == 1:
-        year += 1
-    observed = datetime(year, month, day, hour, minute, tzinfo=TOKYO)
+    observed = _observed_datetime(*(int(value) for value in timestamp.groups()), fetched)
     values: dict[str, float] = {}
     for key, (pattern, minimum, maximum) in PATTERNS.items():
         match = re.search(pattern, text)

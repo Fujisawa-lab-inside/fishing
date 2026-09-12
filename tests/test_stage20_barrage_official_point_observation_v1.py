@@ -45,6 +45,13 @@ class Stage20BarrageOfficialPointObservationV1Tests(unittest.TestCase):
                 fetched_at=datetime(2026, 8, 29, 12, 59, tzinfo=ZoneInfo("Asia/Tokyo")),
             )
 
+    def test_official_24_hour_notation_rolls_to_next_midnight(self) -> None:
+        result = POINT.parse_official_point_observation(
+            FIXTURE.replace("08/29 12:50", "09/12 24:00"),
+            fetched_at=datetime(2026, 9, 13, 0, 12, tzinfo=ZoneInfo("Asia/Tokyo")),
+        )
+        self.assertEqual(result["observedAt"], "2026-09-13T00:00+09:00")
+
 
 if __name__ == "__main__":
     unittest.main()

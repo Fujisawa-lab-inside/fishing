@@ -34,12 +34,14 @@ def plain_text(source: str) -> str:
 
 
 def _observed_datetime(month: int, day: int, hour: int, minute: int, now: datetime) -> datetime:
+    require(0 <= hour <= 24, "observation hour is outside bounds")
     year = now.year
     if now.month == 1 and month == 12:
         year -= 1
     elif now.month == 12 and month == 1:
         year += 1
-    return datetime(year, month, day, hour, minute, tzinfo=TOKYO)
+    observed = datetime(year, month, day, 0 if hour == 24 else hour, minute, tzinfo=TOKYO)
+    return observed + timedelta(days=1) if hour == 24 else observed
 
 
 def parse_official_flow_history(source: str, *, fetched_at: datetime | None = None) -> dict[str, Any]:
@@ -58,7 +60,8 @@ def parse_official_flow_history(source: str, *, fetched_at: datetime | None = No
     rows: list[dict[str, Any]] = []
     for hour_text, inflow_text, release_text in matches:
         hour = int(hour_text)
-        timestamp_jst = updated.replace(hour=hour, minute=0, second=0, microsecond=0)
+        require(0 <= hour <= 24, "hour is outside bounds")
+        timestamp_jst = updated.replace(hour=0 if hour == 24 else hour, minute=0, second=0, microsecond=0)
         if timestamp_jst > updated:
             timestamp_jst -= timedelta(days=1)
         inflow = float(inflow_text)

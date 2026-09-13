@@ -177,7 +177,8 @@ def render_contact_sheet(paths: Sequence[Path], output_path: Path, fps: float, m
         frame_index = paths.index(path)
         with Image.open(path) as source:
             thumb = source.convert("RGB")
-            thumb.thumbnail((tile_width, image_height), Image.Resampling.LANCZOS)
+            resampling = getattr(Image, "Resampling", Image)
+            thumb.thumbnail((tile_width, image_height), resampling.LANCZOS)
         x = (tile_index % columns) * tile_width
         y = (tile_index // columns) * (image_height + label_height)
         sheet.paste(thumb, (x + (tile_width - thumb.width) // 2, y))

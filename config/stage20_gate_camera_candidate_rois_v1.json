@@ -1,0 +1,35 @@
+{
+  "schema": "onga-stage20-gate-camera-candidate-rois-v1",
+  "status": "CANDIDATE_REQUIRES_HUMAN_CONFIRMATION",
+  "cameraImageSizePx": [640, 480],
+  "numberingHypothesis": {
+    "nearToFar": ["A8", "A7", "A6", "A5", "A4", "A3", "A2", "A1"],
+    "basis": "A8 is the near right-bank / management-office-side span and A1 is the far span.",
+    "confirmedFromCameraAlone": false
+  },
+  "fieldObservedStateCue": {
+    "cue": "The rotating lamps at both the west and east ends of an operating gate illuminate.",
+    "exampleSuppliedByUser": "When gate number 5 is open, the lamps on both sides of gate 5 are lit.",
+    "candidateUse": "paired-end lamp evidence before inspecting gate leaf or downstream water appearance",
+    "gateNumber5MappedToA5InThisConfig": true,
+    "verifiedInArchivedCameraFrames": false,
+    "trainingLabelApproved": false
+  },
+  "candidateRoisNearToFar": [
+    {"gateId": "A8", "bboxPx": [145, 125, 300, 285]},
+    {"gateId": "A7", "bboxPx": [285, 120, 390, 235]},
+    {"gateId": "A6", "bboxPx": [365, 112, 440, 210]},
+    {"gateId": "A5", "bboxPx": [415, 105, 478, 194]},
+    {"gateId": "A4", "bboxPx": [452, 100, 512, 183]},
+    {"gateId": "A3", "bboxPx": [486, 96, 540, 173]},
+    {"gateId": "A2", "bboxPx": [516, 92, 566, 163]},
+    {"gateId": "A1", "bboxPx": [542, 88, 596, 155]}
+  ],
+  "boundary": {
+    "gateStateInferred": false,
+    "trainingLabelGenerated": false,
+    "physicalGateGeometryConfirmed": false,
+    "rotatingLampCoordinatesConfirmed": false,
+    "humanNumberingAndSpanConfirmationRequired": true
+  }
+}

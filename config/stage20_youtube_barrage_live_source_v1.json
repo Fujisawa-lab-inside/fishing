@@ -1,0 +1,45 @@
+{
+  "schema": "onga-stage20-youtube-barrage-live-source-v1",
+  "status": "PUBLIC_LIVE_SOURCE_CONFIRMED_CAPTURE_CANDIDATE_NOT_GATE_LABEL",
+  "provider": "国土交通省 九州地方整備局 遠賀川河川事務所",
+  "channelUrl": "https://www.youtube.com/channel/UCVsaJK99sGmHic5i9K2TKQw/live?app=desktop",
+  "watchUrl": "https://www.youtube.com/watch?v=8_77np7-EDU",
+  "videoId": "8_77np7-EDU",
+  "title": "【試験配信中】九州地方整備局　遠賀川映像【Live動画】",
+  "targetView": {
+    "overlayTokens": ["遠賀川水系遠賀川", "右岸", "2k000"],
+    "description": "河口堰屋上カメラからA8（手前）〜A1（奥）を含む全8門が見える画角",
+    "observedViewDurationSecondsCandidate": [15, 20],
+    "viewDurationConfirmedByArchive": false
+  },
+  "capture": {
+    "purpose": "回転灯の時間方向の明滅を確認するための短時間校正取得",
+    "framesPerSecond": 2.0,
+    "maximumCaptureSeconds": 900,
+    "maximumFrameHeightPx": 720,
+    "wholeDayVideoRetentionPermitted": false,
+    "signedMediaUrlRetentionPermitted": false,
+    "retainOnlyTargetViewAfterCalibration": true
+  },
+  "fieldCue": {
+    "color": "orange",
+    "meaning": "同一門の西側・東側の回転灯が動画内で確認できれば、その門が作動中である正の手掛かり",
+    "absenceMeaning": "UNKNOWN_NOT_CLOSED",
+    "singleFrameSufficient": false,
+    "pairedTemporalEvidenceRequired": true
+  },
+  "usageNoticeObservedOnWatchPage": {
+    "summaryJa": "当公式YouTubeで公開している情報は複製、公衆送信、翻訳等、自由に利用できる旨の説明を確認",
+    "checkedDateJst": "2026-09-13",
+    "legalReviewCompleted": false
+  },
+  "boundary": {
+    "gateStateInferred": false,
+    "trainingLabelGenerated": false,
+    "lampCoordinatesConfirmed": false,
+    "lampAbsenceInterpretedAsClosed": false,
+    "hydraulicSolverExecuted": false,
+    "forecastAuthorized": false,
+    "fishingDecisionAuthorized": false
+  }
+}

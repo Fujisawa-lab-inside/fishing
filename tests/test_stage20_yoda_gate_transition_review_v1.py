@@ -66,7 +66,8 @@ def write_roi_config(path: Path) -> None:
                 "candidateRoisNearToFar": rois,
                 "fieldObservedStateCue": {
                     "cue": "paired rotating lamps",
-                    "evidenceSemantics": "VISIBLE_PAIRED_LAMPS_SUPPORT_OPEN_BUT_ABSENT_LAMPS_MEAN_UNKNOWN_NOT_CLOSED",
+                    "observedLampColor": "orange",
+                    "evidenceSemantics": "VISIBLE_PAIRED_ORANGE_LAMPS_SUPPORT_OPEN_BUT_ABSENT_LAMPS_MEAN_UNKNOWN_NOT_CLOSED",
                     "trainingLabelApproved": False,
                 },
                 "boundary": {"gateStateInferred": False, "trainingLabelGenerated": False},
@@ -133,6 +134,8 @@ class TransitionReviewTests(unittest.TestCase):
             self.assertFalse(report["boundary"]["rotatingLampCoordinatesConfirmed"])
             self.assertFalse(report["boundary"]["lampAbsenceInterpretedAsClosed"])
             self.assertEqual(report["roiConfig"]["fieldObservedStateCue"]["cue"], "paired rotating lamps")
+            self.assertEqual(report["roiConfig"]["fieldObservedStateCue"]["observedLampColor"], "orange")
+            self.assertIn("PAIRED_ORANGE_LAMPS", report["roiConfig"]["fieldObservedStateCue"]["evidenceSemantics"])
             self.assertIn("UNKNOWN_NOT_CLOSED", report["roiConfig"]["fieldObservedStateCue"]["evidenceSemantics"])
             self.assertTrue((output / "gate-transition-review.png").is_file())
             self.assertTrue((output / "rotating-lamp-sequence-review.png").is_file())

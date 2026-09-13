@@ -4,7 +4,7 @@
 
 Use an official total-release transition to choose a low-cost pair of fixed-camera frames and present candidate A8 through A1 spans for human review. The output is a visual inspection aid, not a per-gate opening label.
 
-One candidate state cue is the field observation supplied by the user: an operating gate illuminates rotating lamps at both its west and east ends. The official camera publishes one static frame every 10 minutes, so it can miss the visible phase of a rotating lamp. A visible pair is positive evidence for an operating gate; absence is `UNKNOWN`, never a closed-gate label. Gate-leaf position, downstream plume/texture, total release, water levels, rain, and tide context remain separate inputs. The gate-5 example is recorded as a hypothesis to verify against archived images; lamp pixel coordinates and A-number correspondence are not yet confirmed.
+One candidate state cue is the field observation supplied by the user: an operating gate illuminates orange rotating lamps at both its west and east ends. Red or pink facility lights must not be substituted for this cue. The official camera publishes one static frame every 10 minutes, so it can miss the visible phase of a rotating lamp. A visible orange pair is positive evidence for an operating gate; absence is `UNKNOWN`, never a closed-gate label. Gate-leaf position, downstream plume/texture, total release, water levels, rain, and tide context remain separate inputs. The gate-5 example is recorded as a hypothesis to verify against archived images; lamp pixel coordinates and A-number correspondence are not yet confirmed.
 
 ## Current candidate event
 
@@ -32,6 +32,6 @@ The output contains a direct high/low comparison, a whole-barrage time-sequence 
 - Raw camera frames and observation files are never changed.
 - Total barrage release is not apportioned to A1 through A8.
 - Candidate ROIs require human confirmation of gate numbering and physical span.
-- Paired rotating-lamp locations must be confirmed before they are used as a feature or label.
+- Paired orange rotating-lamp locations must be confirmed before they are used as a feature or label; red or pink facility lights are not equivalent evidence.
 - Lamp absence in a 10-minute frame must never be interpreted as a closed gate.
 - No gate state, actuator motion, training label, model fit, or hydraulic result is produced.

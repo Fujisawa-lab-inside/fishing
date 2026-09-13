@@ -25,7 +25,7 @@ python3 tools/stage20_yoda_gate_transition_review_v1.py \
 
 Omitting both run IDs selects the largest adjacent total-release transition and then the clearest high/low plateau frames within one hour of it.
 
-The output contains a direct high/low comparison and a second time-sequence sheet. The sequence sheet keeps up to 12 high-release and 12 low-release frames so an intermittent rotating lamp is not missed merely because it faced away from the camera in one frame.
+The output contains a direct high/low comparison, a whole-barrage time-sequence sheet, and an enlarged per-gate time strip. The sequence views keep up to 12 high-release and 12 low-release frames so an intermittent rotating lamp is not missed merely because it faced away from the camera in one frame.
 
 ## Hard boundary
 

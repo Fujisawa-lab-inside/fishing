@@ -407,6 +407,62 @@ def render_lamp_sequence_review(
     return displayed_high, displayed_low
 
 
+def render_per_gate_lamp_review(
+    high_records: Sequence[dict[str, Any]],
+    low_records: Sequence[dict[str, Any]],
+    rois: Sequence[dict[str, Any]],
+    output_path: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Render enlarged per-gate time strips for paired lamp inspection."""
+    displayed_high = _bounded_sequence(high_records)
+    displayed_low = _bounded_sequence(low_records)
+    require(bool(displayed_high) and bool(displayed_low), "per-gate lamp review needs high and low frames")
+    all_records = displayed_high + displayed_low
+    cell_width, cell_height = 98, 132
+    label_width = 155
+    gap = 7
+    header_height = 112
+    row_height = 180
+    canvas_width = label_width + len(all_records) * (cell_width + gap) + gap
+    canvas_height = header_height + len(rois) * row_height + 20
+    background = (15, 24, 31)
+    canvas = Image.new("RGB", (canvas_width, canvas_height), background)
+    draw = ImageDraw.Draw(canvas)
+    title_font = _font(27)
+    label_font = _font(18)
+    tiny_font = _font(12)
+    draw.text((18, 14), "PER-GATE ROTATING-LAMP REVIEW / ENLARGED RAW CROPS", fill=(242, 247, 250), font=title_font)
+    draw.text((18, 52), "HIGH release frames first, LOW release frames after blue divider; verify BOTH end-lamps", fill=(255, 196, 95), font=label_font)
+    draw.text((18, 80), "Pixel enlargement only - no inferred gate state or training label", fill=(190, 203, 212), font=label_font)
+    low_start_x = label_width + len(displayed_high) * (cell_width + gap)
+    draw.line((low_start_x - 3, header_height - 8, low_start_x - 3, canvas_height - 16), fill=(68, 176, 255), width=4)
+
+    loaded: dict[str, Image.Image] = {}
+    for record in all_records:
+        with Image.open(record["imagePath"]) as source:
+            loaded[record["runId"]] = source.convert("RGB")
+
+    for row_index, roi in enumerate(rois):
+        top = header_height + row_index * row_height
+        draw.text((18, top + 48), roi["gateId"], fill=(240, 244, 247), font=title_font)
+        draw.text((18, top + 82), "candidate span", fill=(164, 181, 191), font=tiny_font)
+        for column, record in enumerate(all_records):
+            left = label_width + column * (cell_width + gap)
+            crop = loaded[record["runId"]].crop(tuple(roi["bboxPx"]))
+            enlarged = _contain(crop, (cell_width, cell_height), background)
+            canvas.paste(enlarged, (left, top))
+            kind_color = (255, 135, 92) if column < len(displayed_high) else (88, 184, 255)
+            draw.rectangle((left, top, left + cell_width, top + cell_height), outline=kind_color, width=2)
+            draw.text((left + 2, top + cell_height + 3), record["pointObservedAtJst"].strftime("%H:%M"), fill=kind_color, font=tiny_font)
+            draw.text((left + 2, top + cell_height + 20), f"Q{record['releaseM3S']:.1f}", fill=(202, 212, 219), font=tiny_font)
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output_path.with_name(f".{output_path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+    canvas.save(temporary, format="PNG", optimize=True)
+    os.replace(temporary, output_path)
+    return displayed_high, displayed_low
+
+
 def _record_for_report(record: dict[str, Any]) -> dict[str, Any]:
     image_path = Path(record["imagePath"])
     observation_path = Path(record["observationPath"])
@@ -452,9 +508,16 @@ def generate_review(
     output_root.mkdir(parents=True, mode=0o700)
     review_path = output_root / "gate-transition-review.png"
     lamp_sequence_path = output_root / "rotating-lamp-sequence-review.png"
+    per_gate_lamp_path = output_root / "per-gate-rotating-lamp-review.png"
     report_path = output_root / "report.json"
     render_review(pair["high"], pair["low"], rois, review_path)
     displayed_high, displayed_low = render_lamp_sequence_review(pair["_highPool"], pair["_lowPool"], rois, lamp_sequence_path)
+    per_gate_high, per_gate_low = render_per_gate_lamp_review(pair["_highPool"], pair["_lowPool"], rois, per_gate_lamp_path)
+    require(
+        [row["runId"] for row in per_gate_high] == [row["runId"] for row in displayed_high]
+        and [row["runId"] for row in per_gate_low] == [row["runId"] for row in displayed_low],
+        "lamp review frame selections diverged",
+    )
     report: dict[str, Any] = {
         "schema": SCHEMA,
         "status": STATUS,
@@ -487,6 +550,13 @@ def generate_review(
             "highDisplayedRunIds": [row["runId"] for row in displayed_high],
             "lowDisplayedRunIds": [row["runId"] for row in displayed_low],
             "interpretation": "human cue-location review only; paired rotating lamps are not yet mapped to pixels or converted into gate labels",
+        },
+        "perGateRotatingLampReview": {
+            "path": str(per_gate_lamp_path.resolve()),
+            "byteLength": per_gate_lamp_path.stat().st_size,
+            "sha256": sha256_file(per_gate_lamp_path),
+            "gateOrderNearToFar": [row["gateId"] for row in rois],
+            "interpretation": "enlarged raw crops only; inspect both ends across time before defining lamp coordinates",
         },
         "boundary": {
             "rawImagesModified": False,

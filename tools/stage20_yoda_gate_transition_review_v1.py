@@ -287,7 +287,7 @@ def render_review(high: dict[str, Any], low: dict[str, Any], rois: Sequence[dict
     small_font = _font(16)
     tiny_font = _font(14)
     draw.text((24, 18), "ONGA BARRAGE RELEASE TRANSITION / CANDIDATE GATE ROIs", fill=(242, 247, 250), font=title_font)
-    draw.text((24, 58), "VERIFY A8..A1 SPANS AND BOTH END-LAMPS - NO GATE STATE INFERENCE OR TRAINING LABEL", fill=(255, 196, 95), font=small_font)
+    draw.text((24, 58), "PAIRED LAMPS ARE POSITIVE-ONLY CUES; ABSENCE MEANS UNKNOWN, NOT CLOSED", fill=(255, 196, 95), font=small_font)
 
     full_display_size = (full_width, full_height - 48)
     colors = [(255, 98, 85), (255, 166, 68), (255, 218, 82), (138, 224, 101), (73, 211, 191), (64, 177, 255), (131, 133, 255), (221, 108, 255)]
@@ -367,7 +367,7 @@ def render_lamp_sequence_review(
     label_font = _font(17)
     tiny_font = _font(13)
     draw.text((20, 16), "ROTATING-LAMP CUE REVIEW / HIGH AND LOW RELEASE SEQUENCES", fill=(242, 247, 250), font=title_font)
-    draw.text((20, 57), "Look for BOTH end-lamps of one span in HIGH frames; candidate evidence only, no state label", fill=(255, 196, 95), font=label_font)
+    draw.text((20, 57), "Paired lamps support OPEN; an unlit 10-minute frame means UNKNOWN, never CLOSED", fill=(255, 196, 95), font=label_font)
     colors = [(255, 98, 85), (255, 166, 68), (255, 218, 82), (138, 224, 101), (73, 211, 191), (64, 177, 255), (131, 133, 255), (221, 108, 255)]
     source_crop = (100, 72, 620, 309)
 
@@ -432,8 +432,8 @@ def render_per_gate_lamp_review(
     label_font = _font(18)
     tiny_font = _font(12)
     draw.text((18, 14), "PER-GATE ROTATING-LAMP REVIEW / ENLARGED RAW CROPS", fill=(242, 247, 250), font=title_font)
-    draw.text((18, 52), "HIGH release frames first, LOW release frames after blue divider; verify BOTH end-lamps", fill=(255, 196, 95), font=label_font)
-    draw.text((18, 80), "Pixel enlargement only - no inferred gate state or training label", fill=(190, 203, 212), font=label_font)
+    draw.text((18, 52), "HIGH first, LOW after blue divider; paired lamps are positive-only evidence", fill=(255, 196, 95), font=label_font)
+    draw.text((18, 80), "No visible lamp means UNKNOWN, not CLOSED; no inferred state or training label", fill=(190, 203, 212), font=label_font)
     low_start_x = label_width + len(displayed_high) * (cell_width + gap)
     draw.line((low_start_x - 3, header_height - 8, low_start_x - 3, canvas_height - 16), fill=(68, 176, 255), width=4)
 
@@ -565,6 +565,7 @@ def generate_review(
             "totalReleaseAssignedToIndividualGates": False,
             "candidateRoisRequireHumanConfirmation": True,
             "rotatingLampCoordinatesConfirmed": False,
+            "lampAbsenceInterpretedAsClosed": False,
             "reviewImageIsVisualAidOnly": True,
             "modelFitPerformed": False,
         },

@@ -10,7 +10,10 @@
   "fieldObservedStateCue": {
     "cue": "The rotating lamps at both the west and east ends of an operating gate illuminate.",
     "exampleSuppliedByUser": "When gate number 5 is open, the lamps on both sides of gate 5 are lit.",
-    "candidateUse": "paired-end lamp evidence before inspecting gate leaf or downstream water appearance",
+    "candidateUse": "optional positive evidence combined with gate leaf, downstream plume, and hydrological context",
+    "evidenceSemantics": "VISIBLE_PAIRED_LAMPS_SUPPORT_OPEN_BUT_ABSENT_LAMPS_MEAN_UNKNOWN_NOT_CLOSED",
+    "sourceFrameIntervalMinutes": 10,
+    "sourceFrameMayMissRotatingLampPhase": true,
     "gateNumber5MappedToA5InThisConfig": true,
     "verifiedInArchivedCameraFrames": false,
     "trainingLabelApproved": false
@@ -30,6 +33,7 @@
     "trainingLabelGenerated": false,
     "physicalGateGeometryConfirmed": false,
     "rotatingLampCoordinatesConfirmed": false,
+    "lampAbsenceInterpretedAsClosed": false,
     "humanNumberingAndSpanConfirmationRequired": true
   }
 }

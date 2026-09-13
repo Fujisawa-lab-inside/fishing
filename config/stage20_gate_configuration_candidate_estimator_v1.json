@@ -1,0 +1,76 @@
+{
+  "schema": "onga-stage20-gate-configuration-candidate-estimator-v1",
+  "status": "DIAGNOSTIC_CANDIDATE_NOT_PHYSICAL_GATE_STATE",
+  "gateIds": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"],
+  "regulatingMainGateCandidate": {
+    "gateId": "A8",
+    "confirmedFromDirectOfficialNumbering": false,
+    "use": "weak local diagnostic prior only"
+  },
+  "weakOpeningOrder": {
+    "gateIds": ["A5", "A4", "A6", "A3", "A7", "A2", "A8", "A1"],
+    "confirmedAsActualOperationOrder": false,
+    "logScoreBonusMaximum": 0.18
+  },
+  "bandModel": {
+    "BELOW_PUBLISHED_TABLE_RANGE_NO_INFERENCE": {
+      "expectedOpenMainGateCount": 0.0,
+      "countSigma": 1.5,
+      "baseOpenSupport": 0.03
+    },
+    "MICRO_ADJUSTMENT_GATE_CONTROL_BAND": {
+      "expectedOpenMainGateCount": 0.0,
+      "countSigma": 1.5,
+      "baseOpenSupport": 0.04
+    },
+    "REGULATING_MAIN_GATE_CONTROL_BAND": {
+      "expectedOpenMainGateCount": 1.0,
+      "countSigma": 1.5,
+      "baseOpenSupport": 0.12,
+      "a8OpenSupport": 0.62
+    },
+    "STAGED_CONTROL_MAIN_GATE_DRIVE_BAND": {
+      "minimumExpectedOpenMainGateCount": 1.0,
+      "maximumExpectedOpenMainGateCount": 7.0,
+      "countSigma": 1.75,
+      "baseOpenSupport": "expected count divided by eight"
+    },
+    "FULL_OPENING_DRIVE_BAND": {
+      "expectedOpenMainGateCount": 7.5,
+      "countSigma": 1.25,
+      "baseOpenSupport": 0.88
+    },
+    "ALL_MAIN_GATES_FULLY_OPEN_PUBLISHED_BAND": {
+      "expectedOpenMainGateCount": 8.0,
+      "countSigma": 0.8,
+      "baseOpenSupport": 0.985
+    }
+  },
+  "evidenceWeights": {
+    "pairedOrangeLampsVisibleOpenLogBonus": 8.0,
+    "pairedOrangeLampsContradictedClosedPenalty": 12.0,
+    "gateLeafOpeningSupportLogWeight": 2.0,
+    "downstreamPlumeSupportLogWeight": 1.2,
+    "previousGateSupportLogWeight": 1.5
+  },
+  "semantics": {
+    "officialControlBandUses": "barrageInflowM3S",
+    "officialReleaseUses": "aggregate equivalent Cd-times-area constraint only",
+    "pairedOrangeLampTrue": "positive evidence that the corresponding gate is open",
+    "pairedOrangeLampFalseOrAbsent": "unknown; never evidence that the gate is closed",
+    "imageSupportNeutralValue": 0.5,
+    "candidateWeight": "relative diagnostic weight across the 256 main-gate subsets, not a calibrated probability"
+  },
+  "boundary": {
+    "perGateOpeningDeclared": false,
+    "candidateRankingPermitted": true,
+    "trainingLabelGenerated": false,
+    "openingFractionInferred": false,
+    "microGateDischargeResolved": false,
+    "fishwayDischargeResolved": false,
+    "physicalValidation": false,
+    "hydraulicSolverExecuted": false,
+    "forecastAuthorized": false,
+    "fishingDecisionAuthorized": false
+  }
+}

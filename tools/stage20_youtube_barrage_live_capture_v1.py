@@ -100,7 +100,7 @@ def resolve_media_url(watch_url: str, yt_dlp: str, maximum_height_px: int) -> st
         "--no-warnings",
         "--get-url",
         "--format",
-        f"best[height<={maximum_height_px}]/best",
+        f"bestvideo[height<={maximum_height_px}]/bestvideo",
         watch_url,
     ]
     try:

@@ -189,6 +189,8 @@ def select_transition_pair(
         "releaseDeltaM3S": high["releaseM3S"] - low["releaseM3S"],
         "highCandidateCount": len(high_pool),
         "lowCandidateCount": len(low_pool),
+        "_highPool": high_pool,
+        "_lowPool": low_pool,
     }
 
 
@@ -199,6 +201,19 @@ def select_explicit_pair(records: Sequence[dict[str, Any]], high_run_id: str, lo
     high = by_id[high_run_id]
     low = by_id[low_run_id]
     require(high["releaseM3S"] > low["releaseM3S"], "explicit high release must exceed explicit low release")
+    high_floor = high["releaseM3S"] - max(5.0, 0.15 * abs(high["releaseM3S"]))
+    low_ceiling = low["releaseM3S"] + max(1.0, 0.15 * abs(high["releaseM3S"] - low["releaseM3S"]))
+    window = timedelta(minutes=60.0)
+    high_pool = [
+        row for row in records
+        if abs(row["pointObservedAtJst"] - high["pointObservedAtJst"]) <= window
+        and row["releaseM3S"] >= high_floor
+    ]
+    low_pool = [
+        row for row in records
+        if abs(row["pointObservedAtJst"] - low["pointObservedAtJst"]) <= window
+        and row["releaseM3S"] <= low_ceiling
+    ]
     return {
         "transitionDirection": "explicit_high_low_review",
         "boundaryBefore": None,
@@ -206,8 +221,10 @@ def select_explicit_pair(records: Sequence[dict[str, Any]], high_run_id: str, lo
         "high": high,
         "low": low,
         "releaseDeltaM3S": high["releaseM3S"] - low["releaseM3S"],
-        "highCandidateCount": 1,
-        "lowCandidateCount": 1,
+        "highCandidateCount": len(high_pool),
+        "lowCandidateCount": len(low_pool),
+        "_highPool": high_pool,
+        "_lowPool": low_pool,
     }
 
 
@@ -315,6 +332,81 @@ def render_review(high: dict[str, Any], low: dict[str, Any], rois: Sequence[dict
     os.replace(temporary, output_path)
 
 
+def _bounded_sequence(records: Sequence[dict[str, Any]], limit: int = 12) -> list[dict[str, Any]]:
+    ordered = sorted(records, key=lambda row: (row["pointObservedAtJst"], row["captureStartedAtJst"], row["runId"]))
+    if len(ordered) <= limit:
+        return ordered
+    indexes = np.linspace(0, len(ordered) - 1, num=limit, dtype=int)
+    return [ordered[int(index)] for index in indexes]
+
+
+def render_lamp_sequence_review(
+    high_records: Sequence[dict[str, Any]],
+    low_records: Sequence[dict[str, Any]],
+    rois: Sequence[dict[str, Any]],
+    output_path: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Render time sequences so intermittent paired end-lamps can be located."""
+    displayed_high = _bounded_sequence(high_records)
+    displayed_low = _bounded_sequence(low_records)
+    require(bool(displayed_high) and bool(displayed_low), "lamp sequence needs high and low evidence frames")
+    columns = 4
+    thumb_size = (365, 166)
+    card_height = 205
+    gap = 14
+    header_height = 100
+    section_label_height = 36
+    high_rows = (len(displayed_high) + columns - 1) // columns
+    low_rows = (len(displayed_low) + columns - 1) // columns
+    canvas_width = 4 * thumb_size[0] + 5 * gap
+    canvas_height = header_height + 2 * section_label_height + (high_rows + low_rows) * (card_height + gap) + 20
+    background = (15, 24, 31)
+    canvas = Image.new("RGB", (canvas_width, canvas_height), background)
+    draw = ImageDraw.Draw(canvas)
+    title_font = _font(27)
+    label_font = _font(17)
+    tiny_font = _font(13)
+    draw.text((20, 16), "ROTATING-LAMP CUE REVIEW / HIGH AND LOW RELEASE SEQUENCES", fill=(242, 247, 250), font=title_font)
+    draw.text((20, 57), "Look for BOTH end-lamps of one span in HIGH frames; candidate evidence only, no state label", fill=(255, 196, 95), font=label_font)
+    colors = [(255, 98, 85), (255, 166, 68), (255, 218, 82), (138, 224, 101), (73, 211, 191), (64, 177, 255), (131, 133, 255), (221, 108, 255)]
+    source_crop = (100, 72, 620, 309)
+
+    def section(records: Sequence[dict[str, Any]], title: str, top: int) -> int:
+        draw.text((20, top), title, fill=(232, 238, 242), font=label_font)
+        top += section_label_height
+        for index, record in enumerate(records):
+            row, column = divmod(index, columns)
+            left = gap + column * (thumb_size[0] + gap)
+            card_top = top + row * (card_height + gap)
+            with Image.open(record["imagePath"]) as source:
+                source_rgb = source.convert("RGB")
+            crop = source_rgb.crop(source_crop).resize(thumb_size, Image.Resampling.BICUBIC)
+            overlay = ImageDraw.Draw(crop)
+            scale_x = thumb_size[0] / (source_crop[2] - source_crop[0])
+            scale_y = thumb_size[1] / (source_crop[3] - source_crop[1])
+            for color, roi in zip(colors, rois):
+                x0, y0, x1, y1 = roi["bboxPx"]
+                box = (
+                    round((x0 - source_crop[0]) * scale_x),
+                    round((y0 - source_crop[1]) * scale_y),
+                    round((x1 - source_crop[0]) * scale_x),
+                    round((y1 - source_crop[1]) * scale_y),
+                )
+                overlay.rectangle(box, outline=color, width=2)
+            canvas.paste(crop, (left, card_top))
+            label = f"{record['pointObservedAtJst'].strftime('%H:%M')}  Q={record['releaseM3S']:.1f}  {record['runId']}"
+            draw.text((left, card_top + thumb_size[1] + 5), label, fill=(225, 232, 237), font=tiny_font)
+        return top + ((len(records) + columns - 1) // columns) * (card_height + gap)
+
+    next_top = section(displayed_high, f"HIGH RELEASE SEQUENCE ({len(high_records)} available; {len(displayed_high)} shown)", header_height)
+    section(displayed_low, f"LOW RELEASE SEQUENCE ({len(low_records)} available; {len(displayed_low)} shown)", next_top)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output_path.with_name(f".{output_path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+    canvas.save(temporary, format="PNG", optimize=True)
+    os.replace(temporary, output_path)
+    return displayed_high, displayed_low
+
+
 def _record_for_report(record: dict[str, Any]) -> dict[str, Any]:
     image_path = Path(record["imagePath"])
     observation_path = Path(record["observationPath"])
@@ -359,8 +451,10 @@ def generate_review(
     roi_config, rois = load_rois(roi_config_path, image_size)
     output_root.mkdir(parents=True, mode=0o700)
     review_path = output_root / "gate-transition-review.png"
+    lamp_sequence_path = output_root / "rotating-lamp-sequence-review.png"
     report_path = output_root / "report.json"
     render_review(pair["high"], pair["low"], rois, review_path)
+    displayed_high, displayed_low = render_lamp_sequence_review(pair["_highPool"], pair["_lowPool"], rois, lamp_sequence_path)
     report: dict[str, Any] = {
         "schema": SCHEMA,
         "status": STATUS,
@@ -383,6 +477,16 @@ def generate_review(
             "path": str(review_path.resolve()),
             "byteLength": review_path.stat().st_size,
             "sha256": sha256_file(review_path),
+        },
+        "rotatingLampSequenceReview": {
+            "path": str(lamp_sequence_path.resolve()),
+            "byteLength": lamp_sequence_path.stat().st_size,
+            "sha256": sha256_file(lamp_sequence_path),
+            "highAvailableFrameCount": len(pair["_highPool"]),
+            "lowAvailableFrameCount": len(pair["_lowPool"]),
+            "highDisplayedRunIds": [row["runId"] for row in displayed_high],
+            "lowDisplayedRunIds": [row["runId"] for row in displayed_low],
+            "interpretation": "human cue-location review only; paired rotating lamps are not yet mapped to pixels or converted into gate labels",
         },
         "boundary": {
             "rawImagesModified": False,
